@@ -37,6 +37,30 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    // Each product flavor maps 1:1 to a Dart entry point (lib/main_<flavor>.dart)
+    // and an iOS scheme of the same name. `app_name` is exposed as a string
+    // resource and referenced from AndroidManifest.xml via @string/app_name.
+    flavorDimensions += "env"
+
+    productFlavors {
+        create("staging") {
+            dimension = "env"
+            applicationIdSuffix = ".stg"
+            versionNameSuffix = "-stg"
+            resValue("string", "app_name", "Pet Project Staging")
+        }
+        create("uat") {
+            dimension = "env"
+            applicationIdSuffix = ".uat"
+            versionNameSuffix = "-uat"
+            resValue("string", "app_name", "Pet Project UAT")
+        }
+        create("prod") {
+            dimension = "env"
+            resValue("string", "app_name", "Pet Project")
+        }
+    }
 }
 
 flutter {
