@@ -1,0 +1,55 @@
+{
+  "app": {
+    "name": "Pet Project"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "close": "Close",
+    "empty": "No data available"
+  },
+  "auth": {
+    "welcome": "Welcome back!",
+    "login": "Login",
+    "logout": "Logout",
+    "phone": "Phone number",
+    "password": "Password",
+    "forgot_password": "Forgot password?",
+    "login_button": "Login"
+  },
+  "home": {
+    "title": "Dashboard",
+    "greeting": "Hello, {name}!",
+    "active_loans": "Active Loans",
+    "apply_loan": "Apply for a Loan",
+    "total_balance": "Total Balance"
+  },
+  "loan": {
+    "title": "My Loans",
+    "amount": "Amount",
+    "term": "{months} months",
+    "interest_rate": "{rate}% per year",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "repaying": "Repaying",
+      "closed": "Closed"
+    },
+    "apply": {
+      "title": "Loan Application",
+      "submit": "Submit Application"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "loans": "Loans",
+    "apply": "Apply",
+    "profile": "Profile"
+  }
+}

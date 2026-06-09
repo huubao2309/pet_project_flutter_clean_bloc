@@ -1,39 +1,40 @@
-import 'package:flutter/material.dart';
-import 'package:pet_project_flutter_clean_bloc/main.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
+
+import '../core/di/injection.dart';
+import '../main.dart';
 import 'env_type.dart';
 
 abstract class Env {
   abstract final String baseUrl;
   abstract final EnvType envType;
 
-
   Env() {
-    _widgetsBinding();
-    _init();
+    _bootstrap();
   }
 
-  _widgetsBinding() {
+  Future<void> _bootstrap() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  }
+    await EasyLocalization.ensureInitialized();
 
-  Future _init() async {
+    await configureDependencies(this);
+
     _initStyle();
     _initProvider();
     _initServices();
     _initRepoAndUseCase();
     await _initLocalStorage();
 
-    runApp(MyApp(baseUrl: baseUrl, envType: envType));
+    runApp(MyApp(envType: envType));
   }
 
-  _initProvider() {}
+  void _initProvider() {}
 
-  _initServices() {}
+  void _initServices() {}
 
-  _initRepoAndUseCase() {}
+  void _initRepoAndUseCase() {}
 
-  _initStyle() {}
+  void _initStyle() {}
 
-  Future _initLocalStorage() async {}
+  Future<void> _initLocalStorage() async {}
 }

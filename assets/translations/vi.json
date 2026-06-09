@@ -1,0 +1,55 @@
+{
+  "app": {
+    "name": "Pet Project"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Có lỗi xảy ra",
+    "retry": "Thử lại",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "save": "Lưu",
+    "close": "Đóng",
+    "empty": "Không có dữ liệu"
+  },
+  "auth": {
+    "welcome": "Chào mừng trở lại!",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "phone": "Số điện thoại",
+    "password": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?",
+    "login_button": "Đăng nhập"
+  },
+  "home": {
+    "title": "Tổng quan",
+    "greeting": "Xin chào, {name}!",
+    "active_loans": "Khoản vay đang hoạt động",
+    "apply_loan": "Đăng ký vay",
+    "total_balance": "Tổng dư nợ"
+  },
+  "loan": {
+    "title": "Khoản vay",
+    "amount": "Số tiền",
+    "term": "{months} tháng",
+    "interest_rate": "{rate}%/năm",
+    "status": {
+      "pending": "Đang xử lý",
+      "approved": "Đã duyệt",
+      "rejected": "Từ chối",
+      "disbursed": "Đã giải ngân",
+      "repaying": "Đang trả nợ",
+      "closed": "Đã tất toán"
+    },
+    "apply": {
+      "title": "Đăng ký khoản vay",
+      "submit": "Nộp đơn"
+    }
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "loans": "Khoản vay",
+    "apply": "Đăng ký",
+    "profile": "Hồ sơ"
+  }
+}

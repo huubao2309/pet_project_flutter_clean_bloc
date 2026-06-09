@@ -1,37 +1,44 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'base/app_constants.dart';
+import 'core/di/injection.dart';
+import 'core/router/app_router.dart';
 import 'environments/env_type.dart';
-import 'features/home_page.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.envType, required this.baseUrl});
+  const MyApp({super.key, required this.envType});
 
   final EnvType envType;
-  final String baseUrl;
-
-  void onInit() {
-    // TODO: init LocalizationService and Deeplink
-  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: envType.displayAapName,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      // A corner banner makes the active flavor obvious for non-prod builds.
-      builder: (context, child) {
-        if (envType.isProduction || child == null) {
-          return child ?? const SizedBox.shrink();
-        }
-        return Banner(
-          location: BannerLocation.topEnd,
-          message: envType.name.toUpperCase(),
-          color: envType.isStaging ? Colors.green : Colors.orange,
-          child: child,
-        );
-      },
-      home: HomePage(baseUrl: baseUrl, envType: envType),
+    return EasyLocalization(
+      supportedLocales: AppConstants.supportedLocales,
+      path: AppConstants.translationsPath,
+      fallbackLocale: AppConstants.fallbackLocale,
+      child: Builder(
+        builder: (ctx) => MaterialApp.router(
+          localizationsDelegates: ctx.localizationDelegates,
+          supportedLocales: ctx.supportedLocales,
+          locale: ctx.locale,
+          title: envType.displayAppName,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
+          routerConfig: getIt<AppRouter>().router,
+          builder: (context, child) {
+            if (envType.isProduction || child == null) {
+              return child ?? const SizedBox.shrink();
+            }
+            return Banner(
+              location: BannerLocation.topEnd,
+              message: envType.name.toUpperCase(),
+              color: envType.isStaging ? Colors.green : Colors.orange,
+              child: child,
+            );
+          },
+        ),
+      ),
     );
   }
 }
