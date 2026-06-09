@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../storage/secure_storage.dart';
+import '../../storage/secure_storage/secure_storage.dart';
 
 /// Attaches the Bearer token to every outgoing request and handles 401 errors.
 class AuthInterceptor extends Interceptor {

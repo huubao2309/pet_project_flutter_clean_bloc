@@ -5,7 +5,7 @@ import '../error/app_exception.dart';
 import 'api_response.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
-import '../storage/secure_storage.dart';
+import '../storage/secure_storage/secure_storage.dart';
 
 class DioClient {
   DioClient({

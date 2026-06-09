@@ -8,7 +8,7 @@ import '../../features/loan/presentation/pages/loan_detail_page.dart';
 import '../../features/loan/presentation/pages/loan_list_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
-import '../storage/secure_storage.dart';
+import '../storage/secure_storage/secure_storage.dart';
 import 'app_routes.dart';
 
 class AppRouter {

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../core/di/injection.dart';
 import '../main.dart';
@@ -14,7 +15,9 @@ abstract class Env {
   }
 
   Future<void> _bootstrap() async {
-    WidgetsFlutterBinding.ensureInitialized();
+    final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
     await EasyLocalization.ensureInitialized();
 
     await configureDependencies(this);
@@ -26,6 +29,7 @@ abstract class Env {
     await _initLocalStorage();
 
     runApp(MyApp(envType: envType));
+    FlutterNativeSplash.remove();
   }
 
   void _initProvider() {}
