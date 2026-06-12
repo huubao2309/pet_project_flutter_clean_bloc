@@ -13,7 +13,6 @@ final GetIt getIt = GetIt.instance;
 Future<void> configureDependencies(Env env) async {
   // --- Storage ---
   getIt.registerSingleton<LocalStorage>(await LocalStorageImpl.create());
-
   getIt.registerSingleton<SecureStorage>(await SecureStorageImpl.create());
 
   // --- Network ---
@@ -22,5 +21,5 @@ Future<void> configureDependencies(Env env) async {
   );
 
   // --- Router ---
-  getIt.registerSingleton<AppRouter>(AppRouter(secureStorage: getIt<SecureStorage>()));
+  getIt.registerSingleton<AppRouter>(await AppRouter.create(getIt<SecureStorage>()));
 }
