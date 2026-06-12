@@ -31,35 +31,40 @@ class RouterGuard extends ChangeNotifier {
 
   bool get isLoggedIn => _isLoggedIn;
 
-  /// Call after a successful login. GoRouter re-runs [redirect] automatically.
+  /// Notifies the router that the user has logged in.
   void onLogin() {
     _isLoggedIn = true;
     notifyListeners();
   }
 
-  /// Call after logout. GoRouter re-runs [redirect] automatically.
+  /// Notifies the router that the user has logged out.
   void onLogout() {
     _isLoggedIn = false;
     notifyListeners();
   }
 
+  /// Marks the user as logged in.
+  void setLoggedIn({required bool value}) {
+    _isLoggedIn = value;
+  }
+
   /// Returns the redirect target for a navigation, or null to allow it through.
   ///
   /// Rules:
-  /// - Splash always redirects: home if logged in, login if not.
+  /// - Splash always redirects: main if logged in, login if not.
   /// - Any protected route redirects to login when not logged in.
-  /// - Login redirects to home when already logged in.
+  /// - Login redirects to main when already logged in.
   String? redirect(BuildContext context, GoRouterState state) {
     final path = state.uri.path;
 
     if (path == AppRoutes.splash) {
-      return _isLoggedIn ? AppRoutes.home : AppRoutes.login;
+      return _isLoggedIn ? AppRoutes.main : AppRoutes.login;
     }
     if (!_isLoggedIn && path != AppRoutes.login) {
       return AppRoutes.login;
     }
     if (_isLoggedIn && path == AppRoutes.login) {
-      return AppRoutes.home;
+      return AppRoutes.main;
     }
     return null;
   }

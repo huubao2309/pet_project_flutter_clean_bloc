@@ -1,11 +1,10 @@
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/loan/presentation/pages/loan_apply_page.dart';
 import '../../features/loan/presentation/pages/loan_detail_page.dart';
 import '../../features/loan/presentation/pages/loan_list_page.dart';
-import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/main/presentation/pages/main_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../storage/secure_storage/secure_storage.dart';
 import 'app_routes.dart';
@@ -41,20 +40,27 @@ class AppRouter {
     routes: [
       GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashPage()),
       GoRoute(path: AppRoutes.login, builder: (_, __) => const LoginPage()),
-      GoRoute(path: AppRoutes.home, builder: (_, __) => const HomePage()),
+      // MainPage hosts tabs: Home, Loan History, QR, Promotion, Profile.
+      GoRoute(path: AppRoutes.main, builder: (_, __) => const MainPage()),
+      // Full-screen routes pushed on top of MainPage (not part of tab bar).
       GoRoute(path: AppRoutes.loans, builder: (_, __) => const LoanListPage()),
       GoRoute(
         path: AppRoutes.loanDetail,
         builder: (_, state) => LoanDetailPage(loanId: state.pathParameters['loanId']!),
       ),
       GoRoute(path: AppRoutes.apply, builder: (_, __) => const LoanApplyPage()),
-      GoRoute(path: AppRoutes.profile, builder: (_, __) => const ProfilePage()),
     ],
   );
 
-  /// Call after a successful login. GoRouter re-evaluates redirect automatically.
+  /// Notifies the router that the user has logged in.
   void onLogin() => _guard.onLogin();
 
-  /// Call after logout. GoRouter re-evaluates redirect automatically.
+  /// Notifies the router that the user has logged out.
   void onLogout() => _guard.onLogout();
+
+  /// Marks the user as logged in.
+  void setLoggedIn({required bool value}) => _guard.setLoggedIn(value: value);
+
+  /// Checks the user as logged in.
+  bool get isLoggedIn => _guard.isLoggedIn;
 }

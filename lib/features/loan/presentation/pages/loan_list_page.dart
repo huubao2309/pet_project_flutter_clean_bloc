@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../domain/entities/loan_entity.dart';
 import '../../domain/repositories/loan_repository.dart';
+import '../../domain/use_cases/apply_loan_use_case.dart';
+import '../../domain/use_cases/get_loan_detail_use_case.dart';
+import '../../domain/use_cases/get_loans_use_case.dart';
 import '../bloc/loan_bloc.dart';
 import '../bloc/loan_event.dart';
 import '../bloc/loan_state.dart';
@@ -15,10 +18,13 @@ class LoanListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: replace _StubLoanRepository with real impl from GetIt
+    // TODO: replace _StubLoanRepository with GetIt-registered LoanRepository
+    final stub = _StubLoanRepository();
     return BlocProvider(
       create: (_) => LoanBloc(
-        loanRepository: _StubLoanRepository(),
+        getLoansUseCase: GetLoansUseCase(loanRepository: stub),
+        getLoanDetailUseCase: GetLoanDetailUseCase(loanRepository: stub),
+        applyLoanUseCase: ApplyLoanUseCase(loanRepository: stub),
       )..add(const LoanListRequested()),
       child: const _LoanListView(),
     );
