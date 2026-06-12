@@ -8,8 +8,4 @@ abstract class LocalStorage {
 
   Future<void> setPhoneNumber({required String? value});
   String getPhoneNumber();
-
-  Future<void> remove(String key);
-  Future<void> clear();
-  bool containsKey(String key);
 }

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LoanDetailPage extends StatelessWidget {
-  const LoanDetailPage({super.key, required this.loanId});
+  const LoanDetailPage({required this.loanId, super.key});
 
   final String loanId;
 

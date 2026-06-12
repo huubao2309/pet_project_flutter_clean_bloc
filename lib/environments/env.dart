@@ -26,11 +26,12 @@ abstract class Env {
     _initProvider();
     _initServices();
     _initRepoAndUseCase();
-    await _initLocalStorage();
 
     runApp(MyApp(envType: envType));
     FlutterNativeSplash.remove();
   }
+
+  Future<void> prepareForAppInitiation() async {}
 
   void _initProvider() {}
 
@@ -39,6 +40,4 @@ abstract class Env {
   void _initRepoAndUseCase() {}
 
   void _initStyle() {}
-
-  Future<void> _initLocalStorage() async {}
 }

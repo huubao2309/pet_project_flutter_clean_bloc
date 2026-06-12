@@ -20,36 +20,16 @@ class AppRouter {
     initialLocation: AppRoutes.splash,
     redirect: _redirect,
     routes: [
-      GoRoute(
-        path: AppRoutes.splash,
-        builder: (_, __) => const SplashPage(),
-      ),
-      GoRoute(
-        path: AppRoutes.login,
-        builder: (_, __) => const LoginPage(),
-      ),
-      GoRoute(
-        path: AppRoutes.home,
-        builder: (_, __) => const HomePage(),
-      ),
-      GoRoute(
-        path: AppRoutes.loans,
-        builder: (_, __) => const LoanListPage(),
-      ),
+      GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashPage()),
+      GoRoute(path: AppRoutes.login, builder: (_, __) => const LoginPage()),
+      GoRoute(path: AppRoutes.home, builder: (_, __) => const HomePage()),
+      GoRoute(path: AppRoutes.loans, builder: (_, __) => const LoanListPage()),
       GoRoute(
         path: AppRoutes.loanDetail,
-        builder: (_, state) => LoanDetailPage(
-          loanId: state.pathParameters['loanId']!,
-        ),
+        builder: (_, state) => LoanDetailPage(loanId: state.pathParameters['loanId']!),
       ),
-      GoRoute(
-        path: AppRoutes.apply,
-        builder: (_, __) => const LoanApplyPage(),
-      ),
-      GoRoute(
-        path: AppRoutes.profile,
-        builder: (_, __) => const ProfilePage(),
-      ),
+      GoRoute(path: AppRoutes.apply, builder: (_, __) => const LoanApplyPage()),
+      GoRoute(path: AppRoutes.profile, builder: (_, __) => const ProfilePage()),
     ],
   );
 

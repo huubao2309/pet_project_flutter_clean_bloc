@@ -7,7 +7,7 @@ import 'core/router/app_router.dart';
 import 'environments/env_type.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.envType});
+  const MyApp({required this.envType, super.key});
 
   final EnvType envType;
 
