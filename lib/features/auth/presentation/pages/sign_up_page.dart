@@ -124,7 +124,8 @@ class _FormContent extends StatelessWidget {
         BennyPrimaryButton(
           title: 'auth.register.button'.tr(),
           isWrapContent: false,
-          onPressed: state.canSubmit ? viewModel.signUp : null,
+          onPressed:
+              (state.canSubmit && !state.isLoading) ? viewModel.signUp : null,
           widget: state.isLoading ? const BennySpinner() : null,
         ),
         SizedBox(height: theme.spacing.spacing16),
@@ -139,7 +140,9 @@ class _PasswordChecklist extends StatelessWidget {
   final SignUpState state;
 
   ValidIconState _ruleState(bool passed) {
-    if (state.password.isEmpty) return ValidIconState.unknown;
+    if (state.password.isEmpty) {
+      return ValidIconState.unknown;
+    }
     return passed ? ValidIconState.valid : ValidIconState.invalid;
   }
 

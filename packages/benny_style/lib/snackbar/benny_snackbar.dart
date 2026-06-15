@@ -120,6 +120,7 @@ class _BennySnackBarOverlay extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             BennyInfoBar(
               type: type.infoType,

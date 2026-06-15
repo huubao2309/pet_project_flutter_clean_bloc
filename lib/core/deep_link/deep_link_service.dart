@@ -22,14 +22,18 @@ class DeepLinkService {
   Future<void> init() async {
     // Cold start: handle the link that launched the app, if any.
     final initial = await _appLinks.getInitialLink();
-    if (initial != null) _handle(initial);
+    if (initial != null) {
+      _handle(initial);
+    }
 
     // Warm links while the app is running.
     _subscription = _appLinks.uriLinkStream.listen(_handle);
   }
 
   void _handle(Uri uri) {
-    if (uri.pathSegments.isEmpty) return;
+    if (uri.pathSegments.isEmpty) {
+      return;
+    }
     final action = uri.pathSegments.last;
 
     switch (action) {

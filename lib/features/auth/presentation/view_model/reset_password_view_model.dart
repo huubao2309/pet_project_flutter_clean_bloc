@@ -32,7 +32,9 @@ class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
   }
 
   Future<void> resetPassword() async {
-    if (!currentState.canSubmit) return;
+    if (!currentState.canSubmit) {
+      return;
+    }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
       await _resetPasswordUseCase.execute(

@@ -109,7 +109,9 @@ class _FormContent extends StatelessWidget {
         BennyPrimaryButton(
           title: 'auth.forgot.send'.tr(),
           isWrapContent: false,
-          onPressed: state.canSubmit ? viewModel.forgotPassword : null,
+          onPressed: (state.canSubmit && !state.isLoading)
+              ? viewModel.forgotPassword
+              : null,
           widget: state.isLoading ? const BennySpinner() : null,
         ),
       ],

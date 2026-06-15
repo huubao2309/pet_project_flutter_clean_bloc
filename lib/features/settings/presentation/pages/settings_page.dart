@@ -1,4 +1,7 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
+import 'package:benny_style/loading/spinner/benny_spinner.dart';
+import 'package:benny_style/snackbar/base_snackbar_type.dart';
+import 'package:benny_style/snackbar/benny_snackbar.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -41,28 +44,40 @@ class _SettingsView extends StatelessWidget {
         title: Text('settings.title'.tr()),
         actions: const [LanguageSwitcher()],
       ),
-      body: ViewModelListener<AuthViewModel, AuthState>(
-        listenWhen: (_, c) => c is AuthUnauthenticated,
+      body: ViewModelConsumer<AuthViewModel, AuthState>(
+        listenWhen: (_, c) => c is AuthUnauthenticated || c is AuthFailure,
         listener: (context, state) {
-          getIt<AppRouter>().setLoggedIn(value: false);
-          context.go(AppRoutes.welcome);
+          if (state is AuthUnauthenticated) {
+            getIt<AppRouter>().setLoggedIn(value: false);
+            context.go(AppRoutes.welcome);
+          } else if (state is AuthFailure) {
+            BennySnackBar.show(
+              message: state.message,
+              type: BaseSnackBarType.error,
+            );
+          }
         },
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(theme.spacing.spacing16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                BennyPrimaryButton(
-                  title: 'settings.logout'.tr(),
-                  isWrapContent: false,
-                  onPressed: () =>
-                      context.viewModel<AuthViewModel>().logout(),
-                ),
-              ],
+        builder: (context, state) {
+          final isLoading = state is AuthLoading;
+          return SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(theme.spacing.spacing16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BennyPrimaryButton(
+                    title: 'settings.logout'.tr(),
+                    isWrapContent: false,
+                    onPressed: isLoading
+                        ? null
+                        : () => context.viewModel<AuthViewModel>().logout(),
+                    widget: isLoading ? const BennySpinner() : null,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

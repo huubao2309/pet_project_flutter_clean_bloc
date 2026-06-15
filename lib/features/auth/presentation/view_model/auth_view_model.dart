@@ -47,7 +47,13 @@ class AuthViewModel extends ViewModel<AuthState> {
   }
 
   Future<void> logout() async {
-    await _logoutUseCase.execute(const NoParams());
-    setState(const AuthUnauthenticated());
+    setState(const AuthLoading());
+    try {
+      await _logoutUseCase.execute(const NoParams());
+      setState(const AuthUnauthenticated());
+    } on AppException catch (e) {
+      // Logout failed → keep the session and surface the error to the UI.
+      setState(AuthFailure(e.message));
+    }
   }
 }

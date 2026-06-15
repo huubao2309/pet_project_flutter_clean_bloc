@@ -12,4 +12,7 @@ abstract class SecureStorage {
   Future<void> saveRefreshToken(String token);
 
   Future<String?> getRefreshToken();
+
+  /// Removes both the access and refresh tokens (used on logout).
+  Future<void> clearTokens();
 }

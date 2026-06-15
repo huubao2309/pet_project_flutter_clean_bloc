@@ -43,7 +43,9 @@ class SignUpViewModel extends ViewModel<SignUpState> {
   }
 
   Future<void> signUp() async {
-    if (!currentState.canSubmit) return;
+    if (!currentState.canSubmit) {
+      return;
+    }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
       await _signUpUseCase.execute(

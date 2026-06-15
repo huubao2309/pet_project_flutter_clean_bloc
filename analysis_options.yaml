@@ -17,6 +17,9 @@ linter:
   rules:
     # ── Formatting & Style ────────────────────────────────────────────────────
     curly_braces_in_flow_control_structures: true   # if/for/while always use {}
+    # Forces the body onto its own line so single-line `if (x) return;` is not
+    # allowed — combined with the rule above, every flow control body must use {}.
+    always_put_control_body_on_new_line: true
     prefer_single_quotes: true
     require_trailing_commas: true
     eol_at_end_of_file: true

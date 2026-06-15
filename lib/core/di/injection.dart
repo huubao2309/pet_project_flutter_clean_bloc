@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 
 import '../../environments/env.dart';
-import '../../features/auth/data/repositories/stub_auth_repository_impl.dart';
+import '../../features/auth/data/datasources/auth_mock_data_source.dart';
+import '../../features/auth/data/datasources/auth_remote_data_source.dart';
+import '../../features/auth/data/repositories/auth_repository_imp.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart';
 import '../../features/auth/domain/use_cases/get_current_user_use_case.dart';
@@ -80,8 +82,18 @@ void _registerOnboardingFeature() {
 /// registration with `AuthRepositoryImpl(authService: ..., secureStorage: ...)`.
 /// Use cases, view models and pages stay untouched.
 void _registerAuthFeature() {
-  // Repository (stub for now — see stub_auth_repository_impl.dart).
-  getIt.registerLazySingleton<AuthRepository>(StubAuthRepositoryImpl.new);
+  // Data source — ONE line to switch between fake data and the real backend:
+  //   • Fake : AuthMockDataSource()            (serves assets/mock/*.json)
+  //   • Real : AuthApiDataSource(dioClient: getIt<DioClient>())
+  getIt.registerLazySingleton<AuthRemoteDataSource>(AuthMockDataSource.new);
+
+  // Repository — same impl for both data sources.
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      remoteDataSource: getIt<AuthRemoteDataSource>(),
+      secureStorage: getIt<SecureStorage>(),
+    ),
+  );
 
   // Use cases.
   getIt.registerLazySingleton(
@@ -119,6 +131,4 @@ void _registerAuthFeature() {
       forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     ),
   );
-  // ResetPasswordViewModel is built directly in ResetPasswordPage because it
-  // needs the runtime reset token from the deep link.
 }

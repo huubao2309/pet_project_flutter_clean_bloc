@@ -14,7 +14,9 @@ class MainViewModel extends ViewModel<int> {
   ];
 
   void changeTab(int index) {
-    if (index < 0 || index >= tabs.length) return;
+    if (index < 0 || index >= tabs.length) {
+      return;
+    }
     setState(index);
   }
 }

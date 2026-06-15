@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_single_quotes, prefer_final_locals, eol_at_end_of_file
+// ignore_for_file: prefer_single_quotes, prefer_final_locals, eol_at_end_of_file, always_put_control_body_on_new_line
 // Vendored country utilities ported from the source app — kept verbatim.
 part of '../country_phone_validator.dart';
 

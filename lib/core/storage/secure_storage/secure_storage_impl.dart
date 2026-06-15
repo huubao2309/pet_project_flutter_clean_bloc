@@ -47,4 +47,10 @@ class SecureStorageImpl implements SecureStorage {
 
   @override
   Future<String?> getRefreshToken() => store.read(key: _kRefreshToken);
+
+  @override
+  Future<void> clearTokens() async {
+    await store.delete(key: _kAccessToken);
+    await store.delete(key: _kRefreshToken);
+  }
 }

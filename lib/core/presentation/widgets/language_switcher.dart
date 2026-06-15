@@ -51,7 +51,9 @@ class _LanguageSheet extends StatelessWidget {
     // MaterialApp.router is keyed by locale, so the whole app rebuilds with the
     // new language automatically.
     await context.setLocale(locale);
-    if (context.mounted) Navigator.of(context).pop();
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override

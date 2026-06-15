@@ -15,7 +15,9 @@ class ForgotPasswordViewModel extends ViewModel<ForgotPasswordState> {
   }
 
   Future<void> forgotPassword() async {
-    if (!currentState.canSubmit) return;
+    if (!currentState.canSubmit) {
+      return;
+    }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
       await _forgotPasswordUseCase.execute(currentState.email.trim());

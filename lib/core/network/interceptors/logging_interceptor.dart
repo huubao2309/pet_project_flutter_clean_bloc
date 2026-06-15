@@ -6,7 +6,9 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     debugPrint('[DIO →] ${options.method} ${options.uri}');
-    if (options.data != null) debugPrint('[DIO →] body: ${options.data}');
+    if (options.data != null) {
+      debugPrint('[DIO →] body: ${options.data}');
+    }
     handler.next(options);
   }
 

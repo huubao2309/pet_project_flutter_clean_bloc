@@ -12,6 +12,20 @@
     "close": "Đóng",
     "empty": "Không có dữ liệu"
   },
+  "errors": {
+    "network": "Lỗi kết nối mạng",
+    "network_timeout": "Kết nối quá thời gian",
+    "auth": "Phiên đăng nhập hết hạn",
+    "server": "Lỗi máy chủ",
+    "cache": "Lỗi bộ nhớ cục bộ",
+    "validation": "Dữ liệu không hợp lệ",
+    "unknown": "Lỗi không xác định",
+    "login_failed": "Đăng nhập thất bại",
+    "signup_failed": "Đăng ký thất bại",
+    "logout_failed": "Đăng xuất thất bại",
+    "forgot_failed": "Gửi email thất bại",
+    "reset_failed": "Đặt lại mật khẩu thất bại"
+  },
   "welcome": {
     "title": "Chào mừng đến với Benny",
     "caption": "Benny, công cụ kiểm định bất động sản giúp ghi nhận nhanh chóng và hiệu quả tình trạng của bất động sản cho thuê.",

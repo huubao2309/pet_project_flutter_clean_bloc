@@ -41,7 +41,9 @@ class _LoginViewState extends State<_LoginView> {
   }
 
   void _submit() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     context.viewModel<AuthViewModel>().login(
           phone: _phoneController.text.trim(),
           password: _passwordController.text,

@@ -12,6 +12,20 @@
     "close": "Close",
     "empty": "No data available"
   },
+  "errors": {
+    "network": "Network connection error",
+    "network_timeout": "Connection timed out",
+    "auth": "Your session has expired",
+    "server": "Server error",
+    "cache": "Local storage error",
+    "validation": "Invalid data",
+    "unknown": "An unknown error occurred",
+    "login_failed": "Login failed",
+    "signup_failed": "Sign up failed",
+    "logout_failed": "Logout failed",
+    "forgot_failed": "Failed to send email",
+    "reset_failed": "Failed to reset password"
+  },
   "welcome": {
     "title": "Welcome to Benny",
     "caption": "Benny, the property inspection tool to quickly and efficiently register the condition of a rented property.",

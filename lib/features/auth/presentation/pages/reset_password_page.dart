@@ -95,7 +95,9 @@ class _FormContent extends StatelessWidget {
   final ResetPasswordState state;
 
   ValidIconState _ruleState(bool passed) {
-    if (state.password.isEmpty) return ValidIconState.unknown;
+    if (state.password.isEmpty) {
+      return ValidIconState.unknown;
+    }
     return passed ? ValidIconState.valid : ValidIconState.invalid;
   }
 
@@ -162,7 +164,9 @@ class _FormContent extends StatelessWidget {
         BennyPrimaryButton(
           title: 'auth.reset.submit'.tr(),
           isWrapContent: false,
-          onPressed: state.canSubmit ? viewModel.resetPassword : null,
+          onPressed: (state.canSubmit && !state.isLoading)
+              ? viewModel.resetPassword
+              : null,
           widget: state.isLoading ? const BennySpinner() : null,
         ),
       ],

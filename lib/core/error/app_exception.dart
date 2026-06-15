@@ -1,3 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
+
+/// Base type for all app errors.
+///
+/// Default messages are resolved from the current app locale via
+/// easy_localization's context-free `.tr()` (the global controller reflects the
+/// active locale). Call sites may still pass an explicit, already-localized
+/// message (e.g. one returned by the API).
 sealed class AppException implements Exception {
   const AppException(this.message);
   final String message;
@@ -7,27 +15,31 @@ sealed class AppException implements Exception {
 }
 
 final class NetworkException extends AppException {
-  const NetworkException([super.message = 'Lỗi kết nối mạng']);
+  NetworkException([String? message]) : super(message ?? 'errors.network'.tr());
 }
 
 final class AuthException extends AppException {
-  const AuthException([super.message = 'Phiên đăng nhập hết hạn']);
+  AuthException([String? message]) : super(message ?? 'errors.auth'.tr());
 }
 
 final class ServerException extends AppException {
-  const ServerException({this.statusCode, String message = 'Lỗi máy chủ'})
-      : super(message);
+  ServerException({this.statusCode, String? message})
+      : super(message ?? 'errors.server'.tr());
 
   final int? statusCode;
 
-  static ServerException withCode(int code, [String message = 'Lỗi máy chủ']) =>
-      ServerException(statusCode: code, message: message);
+  static ServerException withCode(int code, [String? message]) =>
+      ServerException(
+        statusCode: code,
+        message: message ?? 'errors.server'.tr(),
+      );
 }
 
 final class CacheException extends AppException {
-  const CacheException([super.message = 'Lỗi bộ nhớ cục bộ']);
+  CacheException([String? message]) : super(message ?? 'errors.cache'.tr());
 }
 
 final class ValidationException extends AppException {
-  const ValidationException(super.message);
+  ValidationException([String? message])
+      : super(message ?? 'errors.validation'.tr());
 }

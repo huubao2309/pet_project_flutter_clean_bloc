@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../environments/env_type.dart';
 import '../error/app_exception.dart';
@@ -104,17 +105,19 @@ class DioClient {
   }
 
   AppException _mapDioError(DioException e) {
-    if (e.response?.statusCode == 401) return const AuthException();
+    if (e.response?.statusCode == 401) {
+      return AuthException();
+    }
     if (e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout) {
-      return const NetworkException('Kết nối quá thời gian');
+      return NetworkException('errors.network_timeout'.tr());
     }
     if (e.type == DioExceptionType.connectionError) {
-      return const NetworkException();
+      return NetworkException();
     }
     return ServerException.withCode(
       e.response?.statusCode ?? 500,
-      e.message ?? 'Lỗi không xác định',
+      e.message ?? 'errors.unknown'.tr(),
     );
   }
 }

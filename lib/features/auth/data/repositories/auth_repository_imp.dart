@@ -1,26 +1,27 @@
 import '../../../../core/storage/secure_storage/secure_storage.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_remote_data_source.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
-import '../services/auth_service.dart';
 
-/// Real [AuthRepository] backed by [AuthService] (network) and
-/// [SecureStorage] (token persistence).
+/// The single [AuthRepository] implementation, backed by an
+/// [AuthRemoteDataSource] (real API or fake mock — chosen in DI) and
+/// [SecureStorage] for token persistence.
 ///
 /// The data layer owns DTO construction/serialization: the domain passes plain
-/// values, and this class maps them to [LoginRequestDto] before hitting the API
-/// and maps the response DTO back to a [UserEntity].
+/// values, this class maps them to request DTOs and maps response DTOs back to
+/// domain entities. It also owns session persistence (saving/clearing tokens).
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({
-    required AuthService authService,
+    required AuthRemoteDataSource remoteDataSource,
     required SecureStorage secureStorage,
-  })  : _authService = authService,
+  })  : _remoteDataSource = remoteDataSource,
         _secureStorage = secureStorage;
 
-  final AuthService _authService;
+  final AuthRemoteDataSource _remoteDataSource;
   final SecureStorage _secureStorage;
 
   @override
@@ -28,9 +29,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phone,
     required String password,
   }) async {
-    final data = await _authService.login(
+    final data = await _remoteDataSource.login(
       LoginRequestDto(phone: phone, password: password),
     );
+    // Persist tokens so the user stays logged in after restarting the app.
     await _secureStorage.saveAccessToken(data.accessToken);
     await _secureStorage.saveRefreshToken(data.refreshToken);
     return data.userInfo.toEntity();
@@ -42,7 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     bool? receiveUpdates,
   }) async {
-    return _authService.signUp(
+    return _remoteDataSource.signUp(
       SignUpRequestDto(
         email: email,
         password: password,
@@ -55,7 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> forgotPassword({required String email}) {
-    return _authService.forgotPassword(
+    return _remoteDataSource.forgotPassword(
       ForgotPasswordRequestDto(email: email),
     );
   }
@@ -65,14 +67,16 @@ class AuthRepositoryImpl implements AuthRepository {
     required String newPassword,
     required String token,
   }) {
-    return _authService.resetPassword(
+    return _remoteDataSource.resetPassword(
       ResetPasswordRequestDto(newPassword: newPassword, token: token),
     );
   }
 
   @override
   Future<void> logout() async {
-    await _authService.logout();
+    // The data source throws on failure; tokens are only cleared on success.
+    await _remoteDataSource.logout();
+    await _secureStorage.clearTokens();
   }
 
   static const _defaultLanguage = 'en';
@@ -85,7 +89,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<UserEntity?> getCurrentUser() async {
-    // TODO: fetch the current user from /me endpoint or cached profile.
+    // TODO: fetch the current user from a /me endpoint or cached profile.
     return null;
   }
 }
