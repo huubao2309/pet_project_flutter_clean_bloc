@@ -1,0 +1,16 @@
+{
+  "message": "login successfully",
+  "time": "2022-10-26T02:35:54Z",
+  "verdict": "success",
+  "user_message": "",
+  "data": {
+    "access_token": "etwrqrqwerqwerqwr",
+    "refresh_token": "refesh_adddd",
+    "user_info": {
+      "id": "1",
+      "fullName": "Harry",
+      "phone": "0911223344",
+      "email": "abc@gmail.com"
+    }
+  }
+}

@@ -1,4 +1,11 @@
-import '../entities/user_entity.dart';
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
+
+import '../../../../core/constants/mock_assets.dart';
+import '../../domain/entities/user_entity.dart';
+import '../models/request/login_request_dto.dart';
+import '../models/response/login_response_dto.dart';
 import 'auth_repository.dart';
 
 /// Hardcoded implementation of [AuthRepository] for UI development.
@@ -13,12 +20,13 @@ class StubAuthRepositoryImpl implements AuthRepository {
   const StubAuthRepositoryImpl();
 
   @override
-  Future<UserEntity> login({
-    required String phone,
-    required String password,
-  }) async {
+  Future<UserEntity> login(LoginRequestDto request) async {
     await Future<void>.delayed(const Duration(seconds: 1));
-    return UserEntity(id: '1', fullName: 'Nguyen Van A', phone: phone);
+    final raw = await rootBundle.loadString(MockAssets.loginSuccess);
+    final response = LoginResponseDto.fromJson(
+      jsonDecode(raw) as Map<String, dynamic>,
+    );
+    return response.data.userInfo.toEntity();
   }
 
   @override

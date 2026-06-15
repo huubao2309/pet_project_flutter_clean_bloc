@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
-import '../../domain/repositories/stub_auth_repository_impl.dart';
+import '../../data/repositories/stub_auth_repository_impl.dart';
 import '../../domain/use_cases/get_current_user_use_case.dart';
 import '../../domain/use_cases/login_use_case.dart';
 import '../../domain/use_cases/logout_use_case.dart';
