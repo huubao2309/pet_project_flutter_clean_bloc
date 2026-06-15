@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Pet Project"
+    "name": "Benny"
   },
   "common": {
     "loading": "Loading...",
@@ -12,6 +12,17 @@
     "close": "Close",
     "empty": "No data available"
   },
+  "welcome": {
+    "title": "Welcome to Benny",
+    "caption": "Benny, the property inspection tool to quickly and efficiently register the condition of a rented property.",
+    "login": "Login",
+    "register": "Create account"
+  },
+  "language": {
+    "title": "Language",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
   "auth": {
     "welcome": "Welcome back!",
     "login": "Login",
@@ -19,7 +30,76 @@
     "phone": "Phone number",
     "password": "Password",
     "forgot_password": "Forgot password?",
-    "login_button": "Login"
+    "login_button": "Login",
+    "register": {
+      "title": "Sign up to Benny",
+      "caption": "Welcome to Benny, the property inspection tool to quickly and efficiently register the condition of a rented property. Sign up now and easily create your first digital property inspection.",
+      "email": "Email",
+      "password": "Password",
+      "password_strength": "Your password must:",
+      "password_length": "Be at least 8 characters long",
+      "password_special": "Contain at least one special character (#,&,$,@,...)",
+      "password_number": "Contain at least one number",
+      "password_capital": "Contain at least one capital letter",
+      "updates_caption": "I would like to receive updates about Benny",
+      "button": "Register and create a property inspection",
+      "terms_prefix": "By clicking \"Register\" you agree to our ",
+      "terms": "Terms & Conditions",
+      "terms_and": " and ",
+      "privacy": "Privacy Policy",
+      "success": "Sign up successful",
+      "email_confirmation": "We sent a confirmation email to {user_email}. Click the link inside to verify your signup & to get started with Benny.",
+      "login_go": "Go to log in"
+    },
+    "forgot": {
+      "title": "Forgot password",
+      "caption": "No problem just enter the email you used when signing up for Benny and we will send you a password reset link!",
+      "email": "Email",
+      "send": "Send password reset email",
+      "sent": "Password reset link sent",
+      "message": "We sent an email to {user_email} to reset your Benny password. Please also check the SPAM folder of your email client. Email delivery could take up to 30 minutes.",
+      "back": "Back to log in"
+    },
+    "reset": {
+      "title": "Reset password",
+      "caption": "Choose a new password for your Benny account.",
+      "new_password": "New password",
+      "submit": "Reset password",
+      "success": "Your password was reset",
+      "success_message": "You can now use your new password to log into Benny.",
+      "login_go": "Go to log in"
+    }
+  },
+  "onboarding": {
+    "personal_info": "Personal info",
+    "first_name": "First name",
+    "first_name_placeholder": "Eg. Jane",
+    "last_name": "Last name",
+    "last_name_placeholder": "Eg. Doe",
+    "phone_number": "Phone number",
+    "phone_number_placeholder": "+32 000 00 00 00",
+    "address": "Address",
+    "address_placeholder": "Eg. Kipdorp 1, 2000 Antwerp",
+    "box": "Box",
+    "address_min_input": "Please fill the street and number",
+    "contact_create_myself": "Create myself as a contact",
+    "use_plan": "How you are planning to use Benny",
+    "personal_plan": "Personally",
+    "personal_plan_caption": "For individual use",
+    "professional_plan": "Professionally",
+    "professional_plan_caption": "For real estate agencies",
+    "first_step": "Next step - Billing",
+    "billing_info": "Billing info",
+    "billing_title": "Benny is free until you are ready",
+    "billing_caption": "This means that you can use all Benny features free of charge until you finalize one of your inspections. You can however already add your card details to ensure a smooth experience. You will not get billed until you finish an inspection.",
+    "payment_cardholder": "Name on card",
+    "card_name_placeholder": "Eg. Jane Doe",
+    "card_number": "Card number",
+    "card_cvc": "CVC",
+    "card_expire_date": "Expiration date",
+    "card_expire_month": "Month",
+    "card_expire_year": "Year",
+    "second_step": "Finish without billing"
   },
   "home": {
     "title": "Dashboard",
@@ -48,8 +128,16 @@
   },
   "nav": {
     "home": "Home",
+    "history": "History",
+    "qr": "Scan QR",
+    "promotion": "Promotion",
+    "settings": "Settings",
     "loans": "Loans",
     "apply": "Apply",
     "profile": "Profile"
+  },
+  "settings": {
+    "title": "Settings",
+    "logout": "Logout"
   }
 }

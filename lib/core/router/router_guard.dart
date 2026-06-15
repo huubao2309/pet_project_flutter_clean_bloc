@@ -48,22 +48,31 @@ class RouterGuard extends ChangeNotifier {
     _isLoggedIn = value;
   }
 
+  /// Routes reachable without being logged in (the welcome/auth flow).
+  static const _publicRoutes = <String>{
+    AppRoutes.welcome,
+    AppRoutes.login,
+    AppRoutes.signUp,
+    AppRoutes.forgotPassword,
+    AppRoutes.resetPassword,
+  };
+
   /// Returns the redirect target for a navigation, or null to allow it through.
   ///
   /// Rules:
   /// - Splash always redirects: main if logged in, login if not.
   /// - Any protected route redirects to login when not logged in.
-  /// - Login redirects to main when already logged in.
+  /// - Public auth routes redirect to main when already logged in.
   String? redirect(BuildContext context, GoRouterState state) {
     final path = state.uri.path;
 
     if (path == AppRoutes.splash) {
-      return _isLoggedIn ? AppRoutes.main : AppRoutes.login;
+      return _isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
     }
-    if (!_isLoggedIn && path != AppRoutes.login) {
-      return AppRoutes.login;
+    if (!_isLoggedIn && !_publicRoutes.contains(path)) {
+      return AppRoutes.welcome;
     }
-    if (_isLoggedIn && path == AppRoutes.login) {
+    if (_isLoggedIn && _publicRoutes.contains(path)) {
       return AppRoutes.main;
     }
     return null;

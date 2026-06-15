@@ -1,0 +1,61 @@
+import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/view_model.dart';
+import '../../../../core/utils/validators.dart';
+import '../../domain/use_cases/sign_up_use_case.dart';
+import 'sign_up_state.dart';
+
+/// View model (MVVM) for the sign-up screen.
+///
+/// Holds form state and live validation (email + 4 password rules) and submits
+/// via [SignUpUseCase]. The View calls these plain methods.
+class SignUpViewModel extends ViewModel<SignUpState> {
+  SignUpViewModel({required SignUpUseCase signUpUseCase})
+      : _signUpUseCase = signUpUseCase,
+        super(const SignUpState());
+
+  final SignUpUseCase _signUpUseCase;
+
+  void onEmailChanged(String value) {
+    setState(
+      currentState.copyWith(
+        email: value,
+        isEmailValid: Validators.isEmailValid(value),
+      ),
+    );
+  }
+
+  void onPasswordChanged(String value) {
+    setState(
+      currentState.copyWith(
+        password: value,
+        strength: PasswordStrength(
+          hasMinLength: Validators.hasMinLength(value),
+          hasSpecialChar: Validators.hasSpecialChar(value),
+          hasNumber: Validators.hasNumber(value),
+          hasCapital: Validators.hasCapital(value),
+        ),
+      ),
+    );
+  }
+
+  void onReceiveUpdatesChanged({required bool value}) {
+    setState(currentState.copyWith(receiveUpdates: value));
+  }
+
+  Future<void> signUp() async {
+    if (!currentState.canSubmit) return;
+    setState(currentState.copyWith(isLoading: true, clearError: true));
+    try {
+      await _signUpUseCase.execute(
+        SignUpParams(
+          email: currentState.email,
+          password: currentState.password,
+          receiveUpdates: currentState.receiveUpdates,
+        ),
+      );
+      setState(currentState.copyWith(isLoading: false, isSuccess: true));
+    } on AppException catch (e) {
+      setState(currentState.copyWith(isLoading: false, errorMessage: e.message));
+    }
+  }
+}

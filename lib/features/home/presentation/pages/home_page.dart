@@ -1,20 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
+import '../../../../core/presentation/presentation.dart';
 import '../../../../core/router/app_routes.dart';
-import '../bloc/home_bloc.dart';
-import '../bloc/home_event.dart';
-import '../bloc/home_state.dart';
+import '../view_model/home_state.dart';
+import '../view_model/home_view_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc()..add(const HomeInitialized()),
+    return ViewModelProvider<HomeViewModel>(
+      create: (_) => getIt<HomeViewModel>()..initialize(),
       child: const _HomeView(),
     );
   }
@@ -30,7 +30,7 @@ class _HomeView extends StatelessWidget {
         title: Text('home.title'.tr()),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: BlocBuilder<HomeBloc, HomeState>(
+      body: ViewModelBuilder<HomeViewModel, HomeState>(
         builder: (context, state) => switch (state) {
           HomeLoading() => const Center(child: CircularProgressIndicator()),
           HomeLoaded(:final userName, :final totalBalance, :final activeLoans) =>
@@ -42,11 +42,6 @@ class _HomeView extends StatelessWidget {
           HomeFailure(:final message) => Center(child: Text(message)),
           _ => const SizedBox.shrink(),
         },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push(AppRoutes.apply),
-        icon: const Icon(Icons.add),
-        label: Text('home.apply_loan'.tr()),
       ),
     );
   }
@@ -68,8 +63,7 @@ class _LoadedBody extends StatelessWidget {
     final numberFormat = NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
 
     return RefreshIndicator(
-      onRefresh: () async =>
-          context.read<HomeBloc>().add(const HomeRefreshed()),
+      onRefresh: () => context.viewModel<HomeViewModel>().refresh(),
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -84,8 +78,10 @@ class _LoadedBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('home.total_balance'.tr(),
-                      style: Theme.of(context).textTheme.labelLarge),
+                  Text(
+                    'home.total_balance'.tr(),
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     numberFormat.format(totalBalance),
@@ -105,7 +101,12 @@ class _LoadedBody extends StatelessWidget {
               '$activeLoans',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            onTap: () => context.push(AppRoutes.loans),
+          ),
+          ListTile(
+            leading: const Icon(Icons.assignment_ind_outlined),
+            title: Text('onboarding.personal_info'.tr()),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(AppRoutes.personalInfo),
           ),
         ],
       ),

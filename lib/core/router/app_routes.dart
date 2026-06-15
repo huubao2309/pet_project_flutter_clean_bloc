@@ -1,10 +1,11 @@
 abstract final class AppRoutes {
   static const splash = '/';
+  static const welcome = '/welcome';
   static const login = '/login';
+  static const signUp = '/sign-up';
+  static const forgotPassword = '/forgot-password';
+  static const resetPassword = '/reset-password';
+  static const personalInfo = '/onboarding/personal-info';
+  static const billingInfo = '/onboarding/billing-info';
   static const main = '/main';
-  static const loans = '/loans';
-  static const loanDetail = '/loans/:loanId';
-  static const apply = '/apply';
-
-  static String loanDetailPath(String loanId) => '/loans/$loanId';
 }

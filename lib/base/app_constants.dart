@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-const String kAppName = 'Pet Project';
+const String kAppName = 'Benny';
 
 abstract final class AppConstants {
   static const List<Locale> supportedLocales = [Locale('vi'), Locale('en')];

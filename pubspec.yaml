@@ -34,6 +34,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 1.0.9
+  benny_style:
+    path: packages/benny_style
+  flutter_svg: 2.0.17
+  app_links: ^6.4.0
   flutter_bloc: 9.1.1
   get_it: 9.2.1
   easy_localization: 3.0.8
@@ -71,6 +75,7 @@ flutter:
     - assets/translations/
     - assets/images/
     - assets/mock/
+    - assets/mock/auth_mock/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

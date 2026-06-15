@@ -1,0 +1,1 @@
+enum BaseTagStyleType { saturated, unSaturated }

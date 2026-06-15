@@ -1,5 +1,5 @@
 import '../../../../core/use_case/use_case.dart';
-import '../../data/repositories/auth_repository.dart';
+import '../repositories/auth_repository.dart';
 
 /// Clears the current session.
 ///

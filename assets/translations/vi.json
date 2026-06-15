@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Pet Project"
+    "name": "Benny"
   },
   "common": {
     "loading": "Đang tải...",
@@ -12,6 +12,17 @@
     "close": "Đóng",
     "empty": "Không có dữ liệu"
   },
+  "welcome": {
+    "title": "Chào mừng đến với Benny",
+    "caption": "Benny, công cụ kiểm định bất động sản giúp ghi nhận nhanh chóng và hiệu quả tình trạng của bất động sản cho thuê.",
+    "login": "Đăng nhập",
+    "register": "Tạo tài khoản"
+  },
+  "language": {
+    "title": "Ngôn ngữ",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
   "auth": {
     "welcome": "Chào mừng trở lại!",
     "login": "Đăng nhập",
@@ -19,7 +30,76 @@
     "phone": "Số điện thoại",
     "password": "Mật khẩu",
     "forgot_password": "Quên mật khẩu?",
-    "login_button": "Đăng nhập"
+    "login_button": "Đăng nhập",
+    "register": {
+      "title": "Đăng ký Benny",
+      "caption": "Chào mừng đến với Benny, công cụ kiểm định bất động sản giúp ghi nhận nhanh chóng và hiệu quả tình trạng của bất động sản cho thuê. Đăng ký ngay để dễ dàng tạo bản kiểm định số đầu tiên.",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "password_strength": "Mật khẩu của bạn phải:",
+      "password_length": "Có ít nhất 8 ký tự",
+      "password_special": "Chứa ít nhất một ký tự đặc biệt (#,&,$,@,...)",
+      "password_number": "Chứa ít nhất một chữ số",
+      "password_capital": "Chứa ít nhất một chữ in hoa",
+      "updates_caption": "Tôi muốn nhận thông tin cập nhật về Benny",
+      "button": "Đăng ký và tạo bản kiểm định",
+      "terms_prefix": "Khi nhấn \"Đăng ký\", bạn đồng ý với ",
+      "terms": "Điều khoản & Điều kiện",
+      "terms_and": " và ",
+      "privacy": "Chính sách bảo mật",
+      "success": "Đăng ký thành công",
+      "email_confirmation": "Chúng tôi đã gửi email xác nhận tới {user_email}. Nhấn vào liên kết trong email để xác minh đăng ký và bắt đầu với Benny.",
+      "login_go": "Đến trang đăng nhập"
+    },
+    "forgot": {
+      "title": "Quên mật khẩu",
+      "caption": "Đừng lo, chỉ cần nhập email bạn đã dùng khi đăng ký Benny, chúng tôi sẽ gửi cho bạn liên kết đặt lại mật khẩu!",
+      "email": "Email",
+      "send": "Gửi email đặt lại mật khẩu",
+      "sent": "Đã gửi liên kết đặt lại mật khẩu",
+      "message": "Chúng tôi đã gửi email tới {user_email} để đặt lại mật khẩu Benny của bạn. Vui lòng kiểm tra cả thư mục SPAM. Email có thể mất tới 30 phút để được gửi đến.",
+      "back": "Quay lại đăng nhập"
+    },
+    "reset": {
+      "title": "Đặt lại mật khẩu",
+      "caption": "Chọn mật khẩu mới cho tài khoản Benny của bạn.",
+      "new_password": "Mật khẩu mới",
+      "submit": "Đặt lại mật khẩu",
+      "success": "Mật khẩu của bạn đã được đặt lại",
+      "success_message": "Bây giờ bạn có thể dùng mật khẩu mới để đăng nhập Benny.",
+      "login_go": "Đến trang đăng nhập"
+    }
+  },
+  "onboarding": {
+    "personal_info": "Thông tin cá nhân",
+    "first_name": "Tên",
+    "first_name_placeholder": "Vd. Jane",
+    "last_name": "Họ",
+    "last_name_placeholder": "Vd. Doe",
+    "phone_number": "Số điện thoại",
+    "phone_number_placeholder": "+32 000 00 00 00",
+    "address": "Địa chỉ",
+    "address_placeholder": "Vd. Kipdorp 1, 2000 Antwerp",
+    "box": "Hộp",
+    "address_min_input": "Vui lòng điền đường và số nhà",
+    "contact_create_myself": "Tạo tôi làm người liên hệ",
+    "use_plan": "Bạn dự định sử dụng Benny như thế nào",
+    "personal_plan": "Cá nhân",
+    "personal_plan_caption": "Dùng cho cá nhân",
+    "professional_plan": "Chuyên nghiệp",
+    "professional_plan_caption": "Dùng cho công ty bất động sản",
+    "first_step": "Bước tiếp theo - Thanh toán",
+    "billing_info": "Thông tin thanh toán",
+    "billing_title": "Benny miễn phí cho đến khi bạn sẵn sàng",
+    "billing_caption": "Điều này nghĩa là bạn có thể dùng mọi tính năng của Benny miễn phí cho đến khi hoàn tất một bản kiểm định. Bạn vẫn có thể thêm thẻ trước để trải nghiệm mượt mà hơn. Bạn sẽ không bị tính phí cho đến khi hoàn tất một bản kiểm định.",
+    "payment_cardholder": "Tên trên thẻ",
+    "card_name_placeholder": "Vd. Jane Doe",
+    "card_number": "Số thẻ",
+    "card_cvc": "CVC",
+    "card_expire_date": "Ngày hết hạn",
+    "card_expire_month": "Tháng",
+    "card_expire_year": "Năm",
+    "second_step": "Hoàn tất không cần thanh toán"
   },
   "home": {
     "title": "Tổng quan",
@@ -48,8 +128,16 @@
   },
   "nav": {
     "home": "Trang chủ",
+    "history": "Lịch sử",
+    "qr": "Quét QR",
+    "promotion": "Khuyến mãi",
+    "settings": "Cài đặt",
     "loans": "Khoản vay",
     "apply": "Đăng ký",
     "profile": "Hồ sơ"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "logout": "Đăng xuất"
   }
 }

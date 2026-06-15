@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget {
       fallbackLocale: AppConstants.fallbackLocale,
       child: Builder(
         builder: (ctx) => MaterialApp.router(
+          // Rebuild the whole app subtree when the locale changes so every
+          // visible page re-runs `.tr()`. Without this, go_router caches the
+          // current page and text would not update on a language switch.
+          key: ValueKey(ctx.locale),
           localizationsDelegates: ctx.localizationDelegates,
           supportedLocales: ctx.supportedLocales,
           locale: ctx.locale,
