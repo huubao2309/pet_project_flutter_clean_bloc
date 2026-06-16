@@ -29,7 +29,7 @@ class AuthMockDataSource implements AuthRemoteDataSource {
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
   static const _loginScenario = MockAssets.loginSuccess; // ↔ loginFailed
-  static const _logoutScenario = MockAssets.logoutFailed; // ↔ logoutFailed
+  static const _logoutScenario = MockAssets.logoutSuccess; // ↔ logoutFailed
 
   static const _latency = Duration(seconds: 1);
 

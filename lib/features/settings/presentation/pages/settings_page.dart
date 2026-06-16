@@ -49,6 +49,8 @@ class _SettingsView extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthUnauthenticated) {
             getIt<AppRouter>().setLoggedIn(value: false);
+            // BennySnackBar defaults to the green success style.
+            BennySnackBar.show(message: 'settings.logout_success'.tr());
             context.go(AppRoutes.welcome);
           } else if (state is AuthFailure) {
             BennySnackBar.show(

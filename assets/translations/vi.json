@@ -152,6 +152,7 @@
   },
   "settings": {
     "title": "Cài đặt",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "logout_success": "Đăng xuất thành công"
   }
 }

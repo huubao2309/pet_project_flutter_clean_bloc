@@ -152,6 +152,7 @@
   },
   "settings": {
     "title": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "logout_success": "Logged out successfully"
   }
 }
