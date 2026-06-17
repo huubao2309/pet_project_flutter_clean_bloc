@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../base/app_constants.dart';
 import '../../di/injection.dart';
+import '../../localization/domain/use_cases/change_language_use_case.dart';
 
 /// A compact language picker shown in the welcome/auth app bar.
 ///
@@ -51,6 +52,8 @@ class _LanguageSheet extends StatelessWidget {
     // MaterialApp.router is keyed by locale, so the whole app rebuilds with the
     // new language automatically.
     await context.setLocale(locale);
+    // Remember the choice so it survives app restarts.
+    await getIt<ChangeLanguageUseCase>().execute(locale);
     if (context.mounted) {
       Navigator.of(context).pop();
     }

@@ -40,13 +40,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> signUp({
-    required String email,
+    required String phone,
     required String password,
     bool? receiveUpdates,
   }) async {
     return _remoteDataSource.signUp(
       SignUpRequestDto(
-        email: email,
+        phone: phone,
         password: password,
         // The data layer owns transport concerns like the API language code.
         language: _defaultLanguage,

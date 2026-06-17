@@ -174,8 +174,10 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
         validator: widget.validator,
         cursorColor: widget.cursorColor ?? theme.colors.brand700,
         keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
+        // Obscured (password) fields must be single-line — Flutter asserts
+        // `!obscureText || maxLines == 1`.
+        maxLines: widget.obscureText ? 1 : widget.maxLines,
+        minLines: widget.obscureText ? null : widget.minLines,
         maxLength: widget.maxLength,
         inputFormatters: widget.inputFormatters,
         decoration: widget.decoration ??

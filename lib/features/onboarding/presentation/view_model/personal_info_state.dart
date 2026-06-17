@@ -1,3 +1,4 @@
+import '../../../../core/utils/validators.dart';
 import '../../domain/entities/plan_type.dart';
 
 /// Immutable form state for the personal-info onboarding step.
@@ -25,7 +26,7 @@ class PersonalInfoState {
   bool get canSubmit =>
       firstName.isNotEmpty &&
       lastName.isNotEmpty &&
-      phoneNumber.isNotEmpty &&
+      Validators.isPhoneValid(phoneNumber) &&
       address.isNotEmpty;
 
   PersonalInfoState copyWith({

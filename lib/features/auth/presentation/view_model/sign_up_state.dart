@@ -25,46 +25,46 @@ class PasswordStrength {
 /// Immutable UI state for the sign-up screen. Library-agnostic.
 class SignUpState {
   const SignUpState({
-    this.email = '',
+    this.phone = '',
     this.password = '',
     this.receiveUpdates = false,
     this.strength = const PasswordStrength.empty(),
-    this.isEmailValid = false,
+    this.isPhoneValid = false,
     this.isLoading = false,
     this.isSuccess = false,
     this.errorMessage,
   });
 
-  final String email;
+  final String phone;
   final String password;
   final bool receiveUpdates;
   final PasswordStrength strength;
-  final bool isEmailValid;
+  final bool isPhoneValid;
   final bool isLoading;
   final bool isSuccess;
   final String? errorMessage;
 
-  /// The submit button is enabled only when the email and every password rule
+  /// The submit button is enabled only when the phone and every password rule
   /// pass validation.
-  bool get canSubmit => isEmailValid && strength.isAllValid;
+  bool get canSubmit => isPhoneValid && strength.isAllValid;
 
   SignUpState copyWith({
-    String? email,
+    String? phone,
     String? password,
     bool? receiveUpdates,
     PasswordStrength? strength,
-    bool? isEmailValid,
+    bool? isPhoneValid,
     bool? isLoading,
     bool? isSuccess,
     String? errorMessage,
     bool clearError = false,
   }) {
     return SignUpState(
-      email: email ?? this.email,
+      phone: phone ?? this.phone,
       password: password ?? this.password,
       receiveUpdates: receiveUpdates ?? this.receiveUpdates,
       strength: strength ?? this.strength,
-      isEmailValid: isEmailValid ?? this.isEmailValid,
+      isPhoneValid: isPhoneValid ?? this.isPhoneValid,
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),

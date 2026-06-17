@@ -17,6 +17,10 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppConstants.supportedLocales,
       path: AppConstants.translationsPath,
       fallbackLocale: AppConstants.fallbackLocale,
+      // LocalStorage is our single source of truth for the language; disable
+      // easy_localization's own persistence. The saved language is loaded and
+      // applied on the splash screen (SplashViewModel + GetLanguageUseCase).
+      saveLocale: false,
       child: Builder(
         builder: (ctx) => MaterialApp.router(
           // Rebuild the whole app subtree when the locale changes so every

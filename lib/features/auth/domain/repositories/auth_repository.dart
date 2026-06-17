@@ -8,10 +8,9 @@ import '../entities/user_entity.dart';
 abstract class AuthRepository {
   Future<UserEntity> login({required String phone, required String password});
 
-  /// Registers a new account. Returns true when the sign-up succeeded
-  /// (e.g. a confirmation email was sent).
+  /// Registers a new account. Returns true when the sign-up succeeded.
   Future<bool> signUp({
-    required String email,
+    required String phone,
     required String password,
     bool? receiveUpdates,
   });

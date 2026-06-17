@@ -66,8 +66,10 @@ class RouterGuard extends ChangeNotifier {
   String? redirect(BuildContext context, GoRouterState state) {
     final path = state.uri.path;
 
+    // Splash is the bootstrap screen: let it render so it can resolve the
+    // saved language and then navigate to main/welcome itself.
     if (path == AppRoutes.splash) {
-      return _isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
+      return null;
     }
     if (!_isLoggedIn && !_publicRoutes.contains(path)) {
       return AppRoutes.welcome;

@@ -20,10 +20,16 @@ import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
 import '../../features/onboarding/presentation/view_model/billing_info_view_model.dart';
 import '../../features/onboarding/presentation/view_model/personal_info_view_model.dart';
+import '../../features/splash/presentation/view_model/splash_view_model.dart';
 import '../deep_link/deep_link_service.dart';
+import '../localization/data/repositories/language_repository_impl.dart';
+import '../localization/domain/repositories/language_repository.dart';
+import '../localization/domain/use_cases/change_language_use_case.dart';
+import '../localization/domain/use_cases/get_language_use_case.dart';
 import '../network/dio_client.dart';
 import '../router/app_router.dart';
 import '../theme/benny_style_initializer.dart';
+import '../utils/device_info_util.dart';
 import '../storage/local_storage/local_storage.dart';
 import '../storage/local_storage/local_storage_impl.dart';
 import '../storage/secure_storage/secure_storage.dart';
@@ -34,6 +40,9 @@ final GetIt getIt = GetIt.instance;
 Future<void> configureDependencies(Env env) async {
   // --- Design system (must be ready before any widget builds) ---
   BennyStyleInitializer.ensureInitialized();
+
+  // --- Device info (populates request headers) ---
+  await DeviceInfoUtil.instance.setup();
 
   // --- Storage ---
   getIt.registerSingleton<LocalStorage>(await LocalStorageImpl.create());
@@ -54,10 +63,32 @@ Future<void> configureDependencies(Env env) async {
   unawaited(getIt<DeepLinkService>().init());
 
   // --- Features ---
+  _registerLocalizationFeature();
+  _registerSplashFeature();
   _registerAuthFeature();
   _registerHomeFeature();
   _registerMainFeature();
   _registerOnboardingFeature();
+}
+
+/// Localization wiring (language preference get/set behind use cases).
+void _registerLocalizationFeature() {
+  getIt.registerLazySingleton<LanguageRepository>(
+    () => LanguageRepositoryImpl(localStorage: getIt<LocalStorage>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
+  );
+}
+
+/// Splash bootstrap wiring.
+void _registerSplashFeature() {
+  getIt.registerFactory(
+    () => SplashViewModel(getLanguageUseCase: getIt<GetLanguageUseCase>()),
+  );
 }
 
 /// Main shell wiring.

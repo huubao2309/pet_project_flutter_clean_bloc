@@ -7,7 +7,12 @@ abstract final class Validators {
   static final _capital = RegExp(r'[A-Z]');
   static final _number = RegExp(r'\d');
 
+  /// A valid phone number: exactly 10 digits starting with 0.
+  static final _phone = RegExp(r'^0\d{9}$');
+
   static bool isEmailValid(String value) => _email.hasMatch(value);
+
+  static bool isPhoneValid(String value) => _phone.hasMatch(value);
 
   static bool hasMinLength(String value, [int min = 8]) => value.length >= min;
   static bool hasSpecialChar(String value) => _specialChar.hasMatch(value);

@@ -1,8 +1,5 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
-import 'package:benny_style/buttons/benny_secondary_button.dart';
 import 'package:benny_style/loading/spinner/benny_spinner.dart';
-import 'package:benny_style/messages/base_message_type.dart';
-import 'package:benny_style/messages/snqd_message.dart';
 import 'package:benny_style/selectors/checkbox/benny_check_box.dart';
 import 'package:benny_style/snackbar/base_snackbar_type.dart';
 import 'package:benny_style/snackbar/benny_snackbar.dart';
@@ -42,7 +39,9 @@ class _SignUpView extends StatelessWidget {
       backgroundColor: theme.colors.neutral25,
       body: SafeArea(
         child: ViewModelConsumer<SignUpViewModel, SignUpState>(
-          listenWhen: (p, c) => p.errorMessage != c.errorMessage,
+          listenWhen: (p, c) =>
+              p.errorMessage != c.errorMessage ||
+              (!p.isSuccess && c.isSuccess),
           listener: (context, state) {
             final message = state.errorMessage;
             if (message != null) {
@@ -50,6 +49,11 @@ class _SignUpView extends StatelessWidget {
                 message: message,
                 type: BaseSnackBarType.error,
               );
+            }
+            if (state.isSuccess) {
+              BennySnackBar.show(message: 'auth.register.success'.tr());
+              // Replace sign-up with login in the navigation stack.
+              context.pushReplacement(AppRoutes.login);
             }
           },
           builder: (context, state) {
@@ -69,10 +73,7 @@ class _SignUpView extends StatelessWidget {
                         .copyWith(color: theme.colors.neutral700),
                   ),
                   SizedBox(height: theme.spacing.spacing40),
-                  if (state.isSuccess)
-                    _SuccessContent(state: state)
-                  else
-                    _FormContent(state: state),
+                  _FormContent(state: state),
                 ],
               ),
             );
@@ -98,9 +99,9 @@ class _FormContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         BennyTextField<String>(
-          hintText: 'auth.register.email'.tr(),
-          keyboardType: TextInputType.emailAddress,
-          onTextChanged: viewModel.onEmailChanged,
+          hintText: 'auth.register.phone'.tr(),
+          keyboardType: TextInputType.phone,
+          onTextChanged: viewModel.onPhoneChanged,
         ),
         SizedBox(height: theme.spacing.spacing12),
         BennyTextField<String>(
@@ -122,7 +123,7 @@ class _FormContent extends StatelessWidget {
         ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(
-          title: 'auth.register.button'.tr(),
+          title: 'auth.register.submit'.tr(),
           isWrapContent: false,
           onPressed:
               (state.canSubmit && !state.isLoading) ? viewModel.signUp : null,
@@ -192,34 +193,6 @@ class _PasswordChecklist extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _SuccessContent extends StatelessWidget {
-  const _SuccessContent({required this.state});
-
-  final SignUpState state;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = getIt<ThemeState>();
-
-    return Column(
-      children: [
-        BennyMessage(
-          type: BaseMessageType.success,
-          title: 'auth.register.success'.tr(),
-          message: 'auth.register.email_confirmation'
-              .tr(namedArgs: {'user_email': state.email}),
-        ),
-        SizedBox(height: theme.spacing.spacing40),
-        BennySecondaryButton(
-          title: 'auth.register.login_go'.tr(),
-          isWrapContent: false,
-          onPressed: () => context.go(AppRoutes.login),
-        ),
-      ],
     );
   }
 }

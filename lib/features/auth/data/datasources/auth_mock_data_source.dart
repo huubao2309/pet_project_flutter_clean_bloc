@@ -29,6 +29,7 @@ class AuthMockDataSource implements AuthRemoteDataSource {
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
   static const _loginScenario = MockAssets.loginSuccess; // ↔ loginFailed
+  static const _signUpScenario = MockAssets.signupSuccess; // ↔ signupFailed
   static const _logoutScenario = MockAssets.logoutSuccess; // ↔ logoutFailed
 
   static const _latency = Duration(seconds: 1);
@@ -42,7 +43,8 @@ class AuthMockDataSource implements AuthRemoteDataSource {
 
   @override
   Future<bool> signUp(SignUpRequestDto request) async {
-    await Future<void>.delayed(_latency);
+    final json = await _read(_signUpScenario);
+    _ensureSuccess(json);
     return true;
   }
 

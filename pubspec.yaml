@@ -37,7 +37,10 @@ dependencies:
   benny_style:
     path: packages/benny_style
   flutter_svg: 2.0.17
-  app_links: ^6.4.0
+  app_links: 6.4.1
+  device_info_plus: 12.4.0
+  package_info_plus: 9.0.1
+  logger: 2.7.0
   flutter_bloc: 9.1.1
   get_it: 9.2.1
   easy_localization: 3.0.8
@@ -50,15 +53,15 @@ dependencies:
     sdk: flutter
   flutter_native_splash: 2.4.7
   hive_flutter: 1.1.0
-  json_annotation: ^4.9.0
+  json_annotation: 4.12.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: 5.0.0
-  build_runner: ^2.4.15
-  json_serializable: ^6.9.5
+  build_runner: 2.15.0
+  json_serializable: 6.14.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

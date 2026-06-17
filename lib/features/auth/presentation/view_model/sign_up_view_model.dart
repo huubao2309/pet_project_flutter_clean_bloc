@@ -6,7 +6,7 @@ import 'sign_up_state.dart';
 
 /// View model (MVVM) for the sign-up screen.
 ///
-/// Holds form state and live validation (email + 4 password rules) and submits
+/// Holds form state and live validation (phone + 4 password rules) and submits
 /// via [SignUpUseCase]. The View calls these plain methods.
 class SignUpViewModel extends ViewModel<SignUpState> {
   SignUpViewModel({required SignUpUseCase signUpUseCase})
@@ -15,11 +15,11 @@ class SignUpViewModel extends ViewModel<SignUpState> {
 
   final SignUpUseCase _signUpUseCase;
 
-  void onEmailChanged(String value) {
+  void onPhoneChanged(String value) {
     setState(
       currentState.copyWith(
-        email: value,
-        isEmailValid: Validators.isEmailValid(value),
+        phone: value,
+        isPhoneValid: Validators.isPhoneValid(value),
       ),
     );
   }
@@ -50,7 +50,7 @@ class SignUpViewModel extends ViewModel<SignUpState> {
     try {
       await _signUpUseCase.execute(
         SignUpParams(
-          email: currentState.email,
+          phone: currentState.phone,
           password: currentState.password,
           receiveUpdates: currentState.receiveUpdates,
         ),

@@ -1,3 +1,5 @@
+import 'dart:ui' show Locale;
+
 import 'local_storage.dart';
 import 'local_storage_wrapper/local_storage.dart';
 import 'local_storage_wrapper/shared_preferences_storage_impl.dart';
@@ -29,4 +31,17 @@ class LocalStorageImpl implements LocalStorage {
 
   @override
   String getPhoneNumber() => _store.getString(LocalStorage.kPhoneNumberKey) ?? '';
+
+  @override
+  Future<void> setDeviceLanguage({required Locale value}) =>
+      _store.setString(LocalStorage.kDeviceLanguageKey, value.languageCode);
+
+  @override
+  Locale? getDeviceLanguage() {
+    final code = _store.getString(LocalStorage.kDeviceLanguageKey);
+    if (code == null || code.isEmpty) {
+      return null;
+    }
+    return Locale(code);
+  }
 }

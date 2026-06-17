@@ -6,6 +6,7 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/utils/validators.dart';
 import '../view_model/auth_state.dart';
 import '../view_model/auth_view_model.dart';
 
@@ -50,6 +51,37 @@ class _LoginViewState extends State<_LoginView> {
         );
   }
 
+  String? _validatePhone(String? value) {
+    final phone = (value ?? '').trim();
+    if (!Validators.isPhoneValid(phone)) {
+      return 'auth.phone_invalid'.tr();
+    }
+    return null;
+  }
+
+  /// Reuses the sign-up password rules, but reports each failing condition as
+  /// an error line under the field (instead of a checklist box).
+  String? _validatePassword(String? value) {
+    final password = value ?? '';
+    final failed = <String>[];
+    if (!Validators.hasMinLength(password)) {
+      failed.add('auth.register.password_length'.tr());
+    }
+    if (!Validators.hasSpecialChar(password)) {
+      failed.add('auth.register.password_special'.tr());
+    }
+    if (!Validators.hasNumber(password)) {
+      failed.add('auth.register.password_number'.tr());
+    }
+    if (!Validators.hasCapital(password)) {
+      failed.add('auth.register.password_capital'.tr());
+    }
+    if (failed.isEmpty) {
+      return null;
+    }
+    return failed.join('\n');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +119,7 @@ class _LoginViewState extends State<_LoginView> {
                       labelText: 'auth.phone'.tr(),
                       border: const OutlineInputBorder(),
                     ),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'auth.phone'.tr() : null,
+                    validator: _validatePhone,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
@@ -97,9 +128,10 @@ class _LoginViewState extends State<_LoginView> {
                     decoration: InputDecoration(
                       labelText: 'auth.password'.tr(),
                       border: const OutlineInputBorder(),
+                      // Show every failing password rule (one per line).
+                      errorMaxLines: 5,
                     ),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'auth.password'.tr() : null,
+                    validator: _validatePassword,
                   ),
                   const SizedBox(height: 24),
                   ViewModelBuilder<AuthViewModel, AuthState>(
