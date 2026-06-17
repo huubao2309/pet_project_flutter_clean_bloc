@@ -15,8 +15,8 @@ abstract class AuthRepository {
     bool? receiveUpdates,
   });
 
-  /// Sends a password-reset email to [email].
-  Future<void> forgotPassword({required String email});
+  /// Sends a password-reset code to [phone].
+  Future<void> forgotPassword({required String phone});
 
   /// Sets a new password using the reset [token] from the email link.
   Future<void> resetPassword({

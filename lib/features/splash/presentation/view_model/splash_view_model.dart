@@ -1,26 +1,42 @@
 import 'dart:ui' show Locale;
 
 import '../../../../base/app_constants.dart';
-import '../../../../core/presentation/view_model.dart';
-import '../../../../core/use_case/use_case.dart';
 import '../../../../core/localization/domain/use_cases/get_language_use_case.dart';
+import '../../../../core/presentation/view_model.dart';
+import '../../../../core/security/domain/use_cases/clear_stale_secure_storage_use_case.dart';
+import '../../../../core/use_case/use_case.dart';
+import '../../../auth/domain/use_cases/is_logged_in_use_case.dart';
 import 'splash_state.dart';
 
-/// Bootstraps the app on the splash screen: resolves the saved language.
+/// Bootstraps the app on the splash screen, in order:
+///  1. Drop stale keychain data left over from a previous iOS install.
+///  2. Resolve the auth state (token) — now reliable after step 1.
+///  3. Resolve the saved language.
 ///
-/// It only reads the language (via [GetLanguageUseCase]) and exposes the
-/// resolved [Locale] through state. Applying it (`context.setLocale`) and
-/// navigating is done by the View — the view model stays free of BuildContext.
+/// Keeping this here (instead of in DI) lets dependency injection stay pure
+/// wiring with no awaited I/O. The View applies the locale, sets the auth flag
+/// and navigates — this view model never touches BuildContext.
 class SplashViewModel extends ViewModel<SplashState> {
-  SplashViewModel({required GetLanguageUseCase getLanguageUseCase})
-      : _getLanguageUseCase = getLanguageUseCase,
+  SplashViewModel({
+    required ClearStaleSecureStorageUseCase clearStaleSecureStorageUseCase,
+    required IsLoggedInUseCase isLoggedInUseCase,
+    required GetLanguageUseCase getLanguageUseCase,
+  })  : _clearStaleSecureStorageUseCase = clearStaleSecureStorageUseCase,
+        _isLoggedInUseCase = isLoggedInUseCase,
+        _getLanguageUseCase = getLanguageUseCase,
         super(const SplashLoading());
 
+  final ClearStaleSecureStorageUseCase _clearStaleSecureStorageUseCase;
+  final IsLoggedInUseCase _isLoggedInUseCase;
   final GetLanguageUseCase _getLanguageUseCase;
 
   Future<void> bootstrap() async {
+    await _clearStaleSecureStorageUseCase.execute(const NoParams());
+    final isLoggedIn = await _isLoggedInUseCase.execute(const NoParams());
     final saved = await _getLanguageUseCase.execute(const NoParams());
-    setState(SplashReady(_resolveSupported(saved)));
+    setState(
+      SplashReady(locale: _resolveSupported(saved), isLoggedIn: isLoggedIn),
+    );
   }
 
   /// Falls back to [AppConstants.fallbackLocale] if there is no saved language

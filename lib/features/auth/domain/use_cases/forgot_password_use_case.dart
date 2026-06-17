@@ -6,8 +6,8 @@ class ForgotPasswordUseCase implements UseCase<void, String> {
 
   final AuthRepository authRepository;
 
-  /// [params] is the email address to send the reset link to.
+  /// [params] is the phone number to send the reset code to.
   @override
   Future<void> execute(String params) =>
-      authRepository.forgotPassword(email: params);
+      authRepository.forgotPassword(phone: params);
 }

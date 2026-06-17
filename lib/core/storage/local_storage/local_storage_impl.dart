@@ -44,4 +44,11 @@ class LocalStorageImpl implements LocalStorage {
     }
     return Locale(code);
   }
+
+  @override
+  Future<void> setVendorId({required String value}) =>
+      _store.setString(LocalStorage.kVendorIdKey, value);
+
+  @override
+  String? getVendorId() => _store.getString(LocalStorage.kVendorIdKey);
 }

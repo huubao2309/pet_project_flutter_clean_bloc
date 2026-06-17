@@ -15,4 +15,8 @@ abstract class SecureStorage {
 
   /// Removes both the access and refresh tokens (used on logout).
   Future<void> clearTokens();
+
+  /// Wipes ALL secure data from the keychain/keystore. Used to drop stale
+  /// credentials that survive an iOS app reinstall (Keychain persists).
+  Future<void> clearAll();
 }

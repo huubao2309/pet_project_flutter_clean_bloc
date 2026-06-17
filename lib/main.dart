@@ -6,6 +6,23 @@ import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
 import 'environments/env_type.dart';
 
+/// App-wide scroll behavior that removes the overscroll indicator (Android's
+/// Material stretch / glow). The stretch indicator is known to schedule a
+/// rebuild during layout, crashing scroll views with "Build scheduled during
+/// frame".
+class _AppScrollBehavior extends MaterialScrollBehavior {
+  const _AppScrollBehavior();
+
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child;
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({required this.envType, super.key});
 
@@ -33,6 +50,10 @@ class MyApp extends StatelessWidget {
           title: envType.displayAppName,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
+          // Disable Android's stretch overscroll indicator: it schedules a
+          // rebuild during layout at scroll-end, throwing "Build scheduled
+          // during frame" inside scroll views.
+          scrollBehavior: const _AppScrollBehavior(),
           routerConfig: getIt<AppRouter>().router,
           builder: (context, child) {
             if (envType.isProduction || child == null) {

@@ -8,6 +8,7 @@ import 'dart:ui' show Locale;
 abstract class LocalStorage {
   static const kPhoneNumberKey = 'benny_phone_number';
   static const kDeviceLanguageKey = 'benny_device_language';
+  static const kVendorIdKey = 'benny_vendor_id';
 
   Future<void> setPhoneNumber({required String? value});
   String getPhoneNumber();
@@ -17,4 +18,11 @@ abstract class LocalStorage {
 
   /// Returns the saved language, or null if the user has not chosen one.
   Locale? getDeviceLanguage();
+
+  /// Persists the iOS vendor id from the last known install (wiped on
+  /// uninstall, unlike the keychain).
+  Future<void> setVendorId({required String value});
+
+  /// Returns the vendor id saved on the last install, or null.
+  String? getVendorId();
 }

@@ -52,6 +52,8 @@ class BennyTextField<T> extends StatefulWidget {
     this.onTap,
     this.readOnly = false,
     this.inputFormatters,
+    this.errorText,
+    this.errorMaxLines,
   });
 
   final FocusNode? focusNode;
@@ -100,6 +102,12 @@ class BennyTextField<T> extends StatefulWidget {
   final GestureTapCallback? onTap;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+
+  /// Inline error message shown under the field (for live validation).
+  final String? errorText;
+
+  /// Max number of lines for [errorText] (e.g. listing several failed rules).
+  final int? errorMaxLines;
 
   @override
   State<BennyTextField> createState() => _BennyTextFieldState();
@@ -257,6 +265,8 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
                   ? (widget.enableBackgroundColor ?? Colors.white)
                   : (widget.disableBorderColor ?? theme.colors.neutral200),
               counterText: widget.counterText,
+              errorText: widget.errorText,
+              errorMaxLines: widget.errorMaxLines,
             ),
         onChanged: widget.onTextChanged,
       ),

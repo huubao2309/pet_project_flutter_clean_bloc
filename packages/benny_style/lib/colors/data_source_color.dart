@@ -38,6 +38,22 @@ class DataSourceColor {
     "800": "#654A00",
     "900": "#403500"
   };
+
+  /// Amber accent ramp — the brand's secondary colour (#E8A020 at 500).
+  /// Used for highlights, the prominent center action and money figures.
+  static Map<String, String> secondary = {
+    "25": "#FEFBF4",
+    "50": "#FDF4E1",
+    "100": "#FBE9C3",
+    "200": "#F6D78F",
+    "300": "#F1C45B",
+    "400": "#ECB237",
+    "500": "#E8A020",
+    "600": "#C9831A",
+    "700": "#A06314",
+    "800": "#6E430D",
+    "900": "#3D2507"
+  };
   static Map<String, String> error = {
     "25": "#FFF7F5",
     "50": "#FDEEEB",

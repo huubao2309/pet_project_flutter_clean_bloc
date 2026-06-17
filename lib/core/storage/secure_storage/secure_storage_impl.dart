@@ -53,4 +53,7 @@ class SecureStorageImpl implements SecureStorage {
     await store.delete(key: _kAccessToken);
     await store.delete(key: _kRefreshToken);
   }
+
+  @override
+  Future<void> clearAll() => store.deleteAll();
 }

@@ -19,15 +19,19 @@ class MainPage extends StatelessWidget {
     MainTab.home: HomePage(),
     MainTab.history: PlaceholderTabPage(
       titleKey: 'nav.history',
-      icon: Icons.receipt_long_outlined,
+      subtitleKey: 'placeholder.history',
+      icon: Icons.history_outlined,
     ),
     MainTab.qr: PlaceholderTabPage(
       titleKey: 'nav.qr',
-      icon: Icons.qr_code_scanner,
+      subtitleKey: 'placeholder.qr',
+      icon: Icons.qr_code_scanner_rounded,
+      accent: true,
     ),
-    MainTab.promotion: PlaceholderTabPage(
-      titleKey: 'nav.promotion',
-      icon: Icons.local_offer_outlined,
+    MainTab.commission: PlaceholderTabPage(
+      titleKey: 'nav.commission',
+      subtitleKey: 'placeholder.commission',
+      icon: Icons.payments_outlined,
     ),
     MainTab.profile: SettingsPage(),
   };

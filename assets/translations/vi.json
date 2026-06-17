@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Benny"
+    "name": "Benny",
+    "tagline": "Cộng tác viên bất động sản"
   },
   "common": {
     "loading": "Đang tải...",
@@ -69,11 +70,30 @@
     },
     "forgot": {
       "title": "Quên mật khẩu",
-      "caption": "Đừng lo, chỉ cần nhập email bạn đã dùng khi đăng ký Benny, chúng tôi sẽ gửi cho bạn liên kết đặt lại mật khẩu!",
-      "email": "Email",
-      "send": "Gửi email đặt lại mật khẩu",
-      "sent": "Đã gửi liên kết đặt lại mật khẩu",
-      "message": "Chúng tôi đã gửi email tới {user_email} để đặt lại mật khẩu Benny của bạn. Vui lòng kiểm tra cả thư mục SPAM. Email có thể mất tới 30 phút để được gửi đến.",
+      "caption": "Đừng lo — chỉ cần nhập số điện thoại bạn đã dùng khi đăng ký Benny, chúng tôi sẽ gửi mã đặt lại qua SMS.",
+      "phone": "Số điện thoại",
+      "send": "Gửi mã đặt lại",
+      "sent": "Đã gửi mã đặt lại",
+      "message": "Chúng tôi đã gửi mã đặt lại tới {phone} để đặt lại mật khẩu Benny của bạn. Có thể mất vài phút để nhận được.",
+      "enter_code": "Nhập mã OTP",
+      "back": "Quay lại đăng nhập"
+    },
+    "otp": {
+      "title": "Xác thực OTP",
+      "caption": "Nhập mã gồm 6 số chúng tôi đã gửi tới {phone}.",
+      "verify": "Xác nhận",
+      "expires_in": "Mã hết hạn sau {time}",
+      "expired_label": "Mã đã hết hạn",
+      "error_invalid": "Mã OTP không đúng. Vui lòng thử lại.",
+      "error_expired": "Mã OTP đã hết hạn. Vui lòng gửi lại mã.",
+      "no_code": "Không nhận được mã?",
+      "resend": "Gửi lại",
+      "resend_in": "Gửi lại sau {seconds}s"
+    },
+    "lock": {
+      "title": "Tài khoản tạm khoá",
+      "login_message": "Bạn đã đăng nhập sai quá nhiều lần. Vui lòng thử lại sau 30 phút.",
+      "otp_message": "Bạn đã nhập sai mã OTP quá nhiều lần. Vui lòng thử lại sau 30 phút.",
       "back": "Quay lại đăng nhập"
     },
     "reset": {
@@ -119,10 +139,43 @@
   },
   "home": {
     "title": "Tổng quan",
-    "greeting": "Xin chào, {name}!",
-    "active_loans": "Khoản vay đang hoạt động",
-    "apply_loan": "Đăng ký vay",
-    "total_balance": "Tổng dư nợ"
+    "greeting": "Xin chào,",
+    "role": "Cộng tác viên",
+    "commission_month": "Hoa hồng tháng này",
+    "commission_pending": "Hoa hồng chờ nhận",
+    "deals_closed": "Giao dịch đã chốt",
+    "active_listings": "Tin đang đăng",
+    "potential_customers": "Khách tiềm năng",
+    "see_all": "Xem tất cả",
+    "featured_listings": "Bất động sản nổi bật",
+    "recent_history": "Giao dịch gần đây",
+    "deal_subtitle": "{customer} • {date}",
+    "action": {
+      "scan": "Quét QR",
+      "post": "Đăng tin",
+      "customers": "Khách hàng",
+      "reports": "Báo cáo"
+    }
+  },
+  "placeholder": {
+    "coming_soon": "Sắp ra mắt",
+    "history": "Lịch sử mua bán nhà của bạn sẽ hiển thị ở đây.",
+    "qr": "Quét mã QR để xem nhanh thông tin bất động sản.",
+    "commission": "Theo dõi hoa hồng và thanh toán của bạn tại đây."
+  },
+  "property": {
+    "status": {
+      "available": "Đang bán",
+      "deposited": "Đã cọc",
+      "sold": "Đã bán"
+    }
+  },
+  "deal": {
+    "status": {
+      "completed": "Hoàn tất",
+      "deposited": "Đã cọc",
+      "cancelled": "Đã hủy"
+    }
   },
   "loan": {
     "title": "Khoản vay",
@@ -146,7 +199,7 @@
     "home": "Trang chủ",
     "history": "Lịch sử",
     "qr": "Quét QR",
-    "promotion": "Khuyến mãi",
+    "commission": "Hoa hồng",
     "settings": "Cài đặt",
     "loans": "Khoản vay",
     "apply": "Đăng ký",

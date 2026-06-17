@@ -9,8 +9,11 @@ final class SplashLoading extends SplashState {
   const SplashLoading();
 }
 
-/// Bootstrap finished: the View should apply [locale] and navigate onward.
+/// Bootstrap finished: the View should apply [locale] then route based on
+/// [isLoggedIn].
 final class SplashReady extends SplashState {
-  const SplashReady(this.locale);
+  const SplashReady({required this.locale, required this.isLoggedIn});
+
   final Locale locale;
+  final bool isLoggedIn;
 }

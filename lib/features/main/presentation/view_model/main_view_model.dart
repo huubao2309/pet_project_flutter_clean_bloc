@@ -9,7 +9,7 @@ class MainViewModel extends ViewModel<int> {
     MainTab.home,
     MainTab.history,
     MainTab.qr,
-    MainTab.promotion,
+    MainTab.commission,
     MainTab.profile,
   ];
 

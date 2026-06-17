@@ -11,9 +11,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/sign_up_state.dart';
 import '../view_model/sign_up_view_model.dart';
+import '../widgets/auth_card.dart';
+import '../widgets/auth_header.dart';
+import '../widgets/auth_password_field.dart';
 import '../widgets/validate_icon_widget.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -36,7 +40,8 @@ class _SignUpView extends StatelessWidget {
     final theme = getIt<ThemeState>();
 
     return Scaffold(
-      backgroundColor: theme.colors.neutral25,
+      backgroundColor: theme.colors.surfaceBackground,
+      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
       body: SafeArea(
         child: ViewModelConsumer<SignUpViewModel, SignUpState>(
           listenWhen: (p, c) =>
@@ -52,28 +57,28 @@ class _SignUpView extends StatelessWidget {
             }
             if (state.isSuccess) {
               BennySnackBar.show(message: 'auth.register.success'.tr());
-              // Replace sign-up with login in the navigation stack.
-              context.pushReplacement(AppRoutes.login);
+              // Replace sign-up with login, carrying the phone so the user only
+              // needs to type the password.
+              context.pushReplacement(
+                Uri(
+                  path: AppRoutes.login,
+                  queryParameters: {'phone': state.phone},
+                ).toString(),
+              );
             }
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.spacing16),
+              padding: EdgeInsets.all(theme.spacing.spacing24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'auth.register.title'.tr(),
-                    style: theme.textStyle.heading
-                        .copyWith(color: theme.colors.neutral900),
+                  const AuthHeader(
+                    titleKey: 'auth.register.title',
+                    captionKey: 'auth.register.caption',
                   ),
-                  Text(
-                    'auth.register.caption'.tr(),
-                    style: theme.textStyle.paragraphDefault
-                        .copyWith(color: theme.colors.neutral700),
-                  ),
-                  SizedBox(height: theme.spacing.spacing40),
-                  _FormContent(state: state),
+                  SizedBox(height: theme.spacing.spacing24),
+                  AuthCard(child: _FormContent(state: state)),
                 ],
               ),
             );
@@ -102,11 +107,13 @@ class _FormContent extends StatelessWidget {
           hintText: 'auth.register.phone'.tr(),
           keyboardType: TextInputType.phone,
           onTextChanged: viewModel.onPhoneChanged,
+          errorText: (state.phone.isNotEmpty && !state.isPhoneValid)
+              ? 'auth.phone_invalid'.tr()
+              : null,
         ),
         SizedBox(height: theme.spacing.spacing12),
-        BennyTextField<String>(
+        AuthPasswordField(
           hintText: 'auth.register.password'.tr(),
-          obscureText: true,
           onTextChanged: viewModel.onPasswordChanged,
         ),
         SizedBox(height: theme.spacing.spacing12),

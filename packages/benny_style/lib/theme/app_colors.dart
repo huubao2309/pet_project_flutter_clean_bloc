@@ -45,6 +45,18 @@ class AppColors {
   Color get warning800 => _bennyColor.warning.color800;
   Color get warning900 => _bennyColor.warning.color900;
 
+  Color get secondary25 => _bennyColor.secondary.color25;
+  Color get secondary50 => _bennyColor.secondary.color50;
+  Color get secondary100 => _bennyColor.secondary.color100;
+  Color get secondary200 => _bennyColor.secondary.color200;
+  Color get secondary300 => _bennyColor.secondary.color300;
+  Color get secondary400 => _bennyColor.secondary.color400;
+  Color get secondary500 => _bennyColor.secondary.color500;
+  Color get secondary600 => _bennyColor.secondary.color600;
+  Color get secondary700 => _bennyColor.secondary.color700;
+  Color get secondary800 => _bennyColor.secondary.color800;
+  Color get secondary900 => _bennyColor.secondary.color900;
+
   Color get error25 => _bennyColor.error.color25;
   Color get error50 => _bennyColor.error.color50;
   Color get error100 => _bennyColor.error.color100;
@@ -71,4 +83,7 @@ class AppColors {
   Color get neutral900 => _bennyColor.neutral.color900;
 
   Color get generalBorder => neutral100;
+
+  /// App-wide screen background — cool light gray (#F2F4F7).
+  Color get surfaceBackground => const Color(0xFFF2F4F7);
 }

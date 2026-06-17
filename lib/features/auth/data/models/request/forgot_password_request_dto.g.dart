@@ -9,11 +9,11 @@ part of 'forgot_password_request_dto.dart';
 ForgotPasswordRequestDto _$ForgotPasswordRequestDtoFromJson(
         Map<String, dynamic> json) =>
     ForgotPasswordRequestDto(
-      email: json['email'] as String,
+      phone: json['phone'] as String,
     );
 
 Map<String, dynamic> _$ForgotPasswordRequestDtoToJson(
         ForgotPasswordRequestDto instance) =>
     <String, dynamic>{
-      'email': instance.email,
+      'phone': instance.phone,
     };

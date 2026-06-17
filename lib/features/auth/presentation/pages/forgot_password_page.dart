@@ -13,9 +13,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/forgot_password_state.dart';
 import '../view_model/forgot_password_view_model.dart';
+import '../widgets/auth_card.dart';
+import '../widgets/auth_header.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
@@ -37,12 +40,8 @@ class _ForgotPasswordView extends StatelessWidget {
     final theme = getIt<ThemeState>();
 
     return Scaffold(
-      backgroundColor: theme.colors.neutral25,
-      appBar: AppBar(
-        backgroundColor: theme.colors.neutral25,
-        elevation: 0,
-        leading: BackButton(onPressed: () => context.go(AppRoutes.login)),
-      ),
+      backgroundColor: theme.colors.surfaceBackground,
+      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
       body: SafeArea(
         child: ViewModelConsumer<ForgotPasswordViewModel, ForgotPasswordState>(
           listenWhen: (p, c) => p.errorMessage != c.errorMessage,
@@ -57,25 +56,19 @@ class _ForgotPasswordView extends StatelessWidget {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.spacing16),
+              padding: EdgeInsets.all(theme.spacing.spacing24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'auth.forgot.title'.tr(),
-                    style: theme.textStyle.heading
-                        .copyWith(color: theme.colors.neutral900),
+                  const AuthHeader(
+                    titleKey: 'auth.forgot.title',
+                    captionKey: 'auth.forgot.caption',
                   ),
-                  Text(
-                    'auth.forgot.caption'.tr(),
-                    style: theme.textStyle.paragraphDefault
-                        .copyWith(color: theme.colors.neutral700),
-                  ),
-                  SizedBox(height: theme.spacing.spacing40),
-                  if (state.isEmailSent)
+                  SizedBox(height: theme.spacing.spacing24),
+                  if (state.isSent)
                     _SentContent(state: state)
                   else
-                    _FormContent(state: state),
+                    AuthCard(child: _FormContent(state: state)),
                 ],
               ),
             );
@@ -101,9 +94,12 @@ class _FormContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         BennyTextField<String>(
-          hintText: 'auth.forgot.email'.tr(),
-          keyboardType: TextInputType.emailAddress,
-          onTextChanged: viewModel.onEmailChanged,
+          hintText: 'auth.forgot.phone'.tr(),
+          keyboardType: TextInputType.phone,
+          onTextChanged: viewModel.onPhoneChanged,
+          errorText: (state.phone.isNotEmpty && !state.isPhoneValid)
+              ? 'auth.phone_invalid'.tr()
+              : null,
         ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(
@@ -134,9 +130,20 @@ class _SentContent extends StatelessWidget {
           type: BaseMessageType.success,
           title: 'auth.forgot.sent'.tr(),
           message: 'auth.forgot.message'
-              .tr(namedArgs: {'user_email': state.email.trim()}),
+              .tr(namedArgs: {'phone': state.phone.trim()}),
         ),
         SizedBox(height: theme.spacing.spacing40),
+        BennyPrimaryButton(
+          title: 'auth.forgot.enter_code'.tr(),
+          isWrapContent: false,
+          onPressed: () => context.push(
+            Uri(
+              path: AppRoutes.otp,
+              queryParameters: {'phone': state.phone.trim()},
+            ).toString(),
+          ),
+        ),
+        SizedBox(height: theme.spacing.spacing12),
         BennySecondaryButton(
           title: 'auth.forgot.back'.tr(),
           isWrapContent: false,

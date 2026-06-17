@@ -9,12 +9,14 @@ import '../../features/auth/data/repositories/auth_repository_imp.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart';
 import '../../features/auth/domain/use_cases/get_current_user_use_case.dart';
+import '../../features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import '../../features/auth/domain/use_cases/login_use_case.dart';
 import '../../features/auth/domain/use_cases/logout_use_case.dart';
 import '../../features/auth/domain/use_cases/reset_password_use_case.dart';
 import '../../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../features/auth/presentation/view_model/auth_view_model.dart';
 import '../../features/auth/presentation/view_model/forgot_password_view_model.dart';
+import '../../features/auth/presentation/view_model/otp_view_model.dart';
 import '../../features/auth/presentation/view_model/sign_up_view_model.dart';
 import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
@@ -28,6 +30,9 @@ import '../localization/domain/use_cases/change_language_use_case.dart';
 import '../localization/domain/use_cases/get_language_use_case.dart';
 import '../network/dio_client.dart';
 import '../router/app_router.dart';
+import '../security/data/repositories/device_session_repository_impl.dart';
+import '../security/domain/repositories/device_session_repository.dart';
+import '../security/domain/use_cases/clear_stale_secure_storage_use_case.dart';
 import '../theme/benny_style_initializer.dart';
 import '../utils/device_info_util.dart';
 import '../storage/local_storage/local_storage.dart';
@@ -48,13 +53,30 @@ Future<void> configureDependencies(Env env) async {
   getIt.registerSingleton<LocalStorage>(await LocalStorageImpl.create());
   getIt.registerSingleton<SecureStorage>(await SecureStorageImpl.create());
 
+  // --- Security ---
+  // Drops stale keychain data left over from an iOS reinstall. Registered here
+  // but EXECUTED on the splash screen (SplashViewModel), so DI stays pure
+  // wiring with no awaited I/O.
+  getIt.registerLazySingleton<DeviceSessionRepository>(
+    () => DeviceSessionRepositoryImpl(
+      deviceInfo: DeviceInfoUtil.instance,
+      localStorage: getIt<LocalStorage>(),
+      secureStorage: getIt<SecureStorage>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => ClearStaleSecureStorageUseCase(
+      repository: getIt<DeviceSessionRepository>(),
+    ),
+  );
+
   // --- Network ---
   getIt.registerSingleton<DioClient>(
     DioClient(baseUrl: env.baseUrl, secureStorage: getIt<SecureStorage>(), envType: env.envType),
   );
 
   // --- Router ---
-  getIt.registerSingleton<AppRouter>(await AppRouter.create(getIt<SecureStorage>()));
+  getIt.registerSingleton<AppRouter>(AppRouter());
 
   // --- Deep links ---
   getIt.registerSingleton<DeepLinkService>(
@@ -87,7 +109,11 @@ void _registerLocalizationFeature() {
 /// Splash bootstrap wiring.
 void _registerSplashFeature() {
   getIt.registerFactory(
-    () => SplashViewModel(getLanguageUseCase: getIt<GetLanguageUseCase>()),
+    () => SplashViewModel(
+      clearStaleSecureStorageUseCase: getIt<ClearStaleSecureStorageUseCase>(),
+      isLoggedInUseCase: getIt<IsLoggedInUseCase>(),
+      getLanguageUseCase: getIt<GetLanguageUseCase>(),
+    ),
   );
 }
 
@@ -137,6 +163,9 @@ void _registerAuthFeature() {
     () => GetCurrentUserUseCase(authRepository: getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton(
+    () => IsLoggedInUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
     () => SignUpUseCase(authRepository: getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton(
@@ -162,4 +191,5 @@ void _registerAuthFeature() {
       forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     ),
   );
+  getIt.registerFactory(OtpViewModel.new);
 }

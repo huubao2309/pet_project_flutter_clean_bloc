@@ -7,6 +7,7 @@ class BennyColor {
   late final BaseColorItem success;
   late final BaseColorItem warning;
   late final BaseColorItem error;
+  late final BaseColorItem secondary;
   late final BaseColorItem brand;
   late final Map<String, String> brandSourceColor;
 
@@ -15,6 +16,7 @@ class BennyColor {
     success = BaseColorItem(dataSource: DataSourceColor.success);
     warning = BaseColorItem(dataSource: DataSourceColor.warning);
     error = BaseColorItem(dataSource: DataSourceColor.error);
+    secondary = BaseColorItem(dataSource: DataSourceColor.secondary);
     brand = BaseColorItem(dataSource: brandSourceColor);
   }
 }

@@ -6,7 +6,8 @@ import '../../../../core/di/injection.dart';
 import '../main_tab.dart';
 
 /// Custom 5-item bottom navigation with a prominent circular center action
-/// (QR), following the original fintech layout. Themed via [ThemeState].
+/// (QR scan) that floats above the bar in the brand's amber accent. Side items
+/// switch between navy (active) and neutral (inactive). Themed via [ThemeState].
 class MainBottomNav extends StatelessWidget {
   const MainBottomNav({
     required this.tabs,
@@ -28,15 +29,16 @@ class MainBottomNav extends StatelessWidget {
         color: theme.colors.white,
         boxShadow: [
           BoxShadow(
-            color: theme.colors.neutral900.withAlpha((255.0 * 0.08).round()),
-            blurRadius: 12,
+            color: theme.colors.neutral900.withAlpha((255 * 0.08).round()),
+            blurRadius: 16,
             offset: const Offset(0, -2),
           ),
         ],
       ),
       child: SafeArea(
+        top: false,
         child: SizedBox(
-          height: 64,
+          height: 68,
           child: Row(
             children: [
               for (var i = 0; i < tabs.length; i++)
@@ -76,18 +78,33 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? theme.colors.brand400 : theme.colors.neutral400;
+    final color = isActive ? theme.colors.brand600 : theme.colors.neutral400;
 
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(isActive ? tab.activeIcon : tab.icon, color: color, size: 24),
-            const SizedBox(height: 2),
-            Text(tab.labelKey.tr(), style: TextStyle(fontSize: 11, color: color)),
-          ],
+        borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isActive ? tab.activeIcon : tab.icon,
+                color: color,
+                size: 24,
+              ),
+              const SizedBox(height: 3),
+              Text(
+                tab.labelKey.tr(),
+                style: theme.textStyle.captionDefault.copyWith(
+                  color: color,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -107,36 +124,49 @@ class _CenterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = theme.colors.brand400;
+    final accent = theme.colors.secondary500;
 
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: primary,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: primary.withAlpha((255.0 * 0.35).round()),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [theme.colors.secondary400, accent],
                   ),
-                ],
+                  shape: BoxShape.circle,
+                  border: Border.all(color: theme.colors.white, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: accent.withAlpha((255 * 0.45).round()),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Icon(tab.icon, color: theme.colors.white, size: 28),
               ),
-              child: Icon(tab.icon, color: theme.colors.white, size: 22),
-            ),
-            Text(
-              tab.labelKey.tr(),
-              style: TextStyle(fontSize: 11, color: primary),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                tab.labelKey.tr(),
+                style: theme.textStyle.captionDefault.copyWith(
+                  color: theme.colors.secondary700,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

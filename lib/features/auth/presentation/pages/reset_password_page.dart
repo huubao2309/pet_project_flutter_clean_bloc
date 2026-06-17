@@ -5,7 +5,6 @@ import 'package:benny_style/messages/base_message_type.dart';
 import 'package:benny_style/messages/snqd_message.dart';
 import 'package:benny_style/snackbar/base_snackbar_type.dart';
 import 'package:benny_style/snackbar/benny_snackbar.dart';
-import 'package:benny_style/textfields/benny_textfield.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +12,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../domain/use_cases/reset_password_use_case.dart';
 import '../view_model/reset_password_state.dart';
 import '../view_model/reset_password_view_model.dart';
+import '../widgets/auth_card.dart';
+import '../widgets/auth_header.dart';
+import '../widgets/auth_password_field.dart';
 import '../widgets/validate_icon_widget.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -45,7 +48,8 @@ class _ResetPasswordView extends StatelessWidget {
     final theme = getIt<ThemeState>();
 
     return Scaffold(
-      backgroundColor: theme.colors.neutral25,
+      backgroundColor: theme.colors.surfaceBackground,
+      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
       body: SafeArea(
         child: ViewModelConsumer<ResetPasswordViewModel, ResetPasswordState>(
           listenWhen: (p, c) => p.errorMessage != c.errorMessage,
@@ -60,25 +64,19 @@ class _ResetPasswordView extends StatelessWidget {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.spacing16),
+              padding: EdgeInsets.all(theme.spacing.spacing24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'auth.reset.title'.tr(),
-                    style: theme.textStyle.heading
-                        .copyWith(color: theme.colors.neutral900),
+                  const AuthHeader(
+                    titleKey: 'auth.reset.title',
+                    captionKey: 'auth.reset.caption',
                   ),
-                  Text(
-                    'auth.reset.caption'.tr(),
-                    style: theme.textStyle.paragraphDefault
-                        .copyWith(color: theme.colors.neutral700),
-                  ),
-                  SizedBox(height: theme.spacing.spacing40),
+                  SizedBox(height: theme.spacing.spacing24),
                   if (state.isResetSuccess)
                     _SuccessContent(theme: theme)
                   else
-                    _FormContent(state: state),
+                    AuthCard(child: _FormContent(state: state)),
                 ],
               ),
             );
@@ -111,9 +109,8 @@ class _FormContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        BennyTextField<String>(
+        AuthPasswordField(
           hintText: 'auth.reset.new_password'.tr(),
-          obscureText: true,
           onTextChanged: viewModel.onPasswordChanged,
         ),
         SizedBox(height: theme.spacing.spacing12),

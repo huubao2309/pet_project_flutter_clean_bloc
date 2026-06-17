@@ -1,0 +1,18 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Benny app-icon tile — navy squircle holding the house-mark. For light backgrounds / launcher. -->
+  <defs>
+    <linearGradient id="navyTile" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A3C5E"/>
+      <stop offset="1" stop-color="#142F49"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="208" height="208" rx="52" fill="url(#navyTile)"/>
+  <g transform="translate(36 36) scale(0.7)">
+    <path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/>
+    <rect x="60" y="104" width="120" height="104" rx="14" fill="#FFFFFF"/>
+    <rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+    <rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+    <path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/>
+    <circle cx="129" cy="189" r="3" fill="#E8A020"/>
+  </g>
+</svg>

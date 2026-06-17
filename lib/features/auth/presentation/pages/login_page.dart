@@ -1,38 +1,55 @@
+import 'package:benny_style/buttons/benny_primary_button.dart';
+import 'package:benny_style/loading/spinner/benny_spinner.dart';
+import 'package:benny_style/textfields/benny_textfield.dart';
+import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/validators.dart';
 import '../view_model/auth_state.dart';
 import '../view_model/auth_view_model.dart';
+import '../widgets/auth_card.dart';
+import '../widgets/auth_header.dart';
+import '../widgets/auth_password_field.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  const LoginPage({this.prefilledPhone, super.key});
+
+  /// Phone number carried over from a successful sign-up, so the user only
+  /// needs to type the password.
+  final String? prefilledPhone;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<AuthViewModel>(
       create: (_) => getIt<AuthViewModel>(),
-      child: const _LoginView(),
+      child: _LoginView(prefilledPhone: prefilledPhone),
     );
   }
 }
 
 class _LoginView extends StatefulWidget {
-  const _LoginView();
+  const _LoginView({this.prefilledPhone});
+
+  final String? prefilledPhone;
 
   @override
   State<_LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<_LoginView> {
-  final _phoneController = TextEditingController();
+  late final TextEditingController _phoneController =
+      TextEditingController(text: widget.prefilledPhone ?? '');
   final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
+  String? _phoneError;
+  String? _passwordError;
 
   @override
   void dispose() {
@@ -41,39 +58,33 @@ class _LoginViewState extends State<_LoginView> {
     super.dispose();
   }
 
-  void _submit() {
-    if (!_formKey.currentState!.validate()) {
-      return;
+  /// Phone rule (10 digits, starts with 0). [force] also flags an empty field
+  /// (used on submit); while typing, an empty field shows no error.
+  String? _phoneErrorFor(String value, {bool force = false}) {
+    final phone = value.trim();
+    if (phone.isEmpty && !force) {
+      return null;
     }
-    context.viewModel<AuthViewModel>().login(
-          phone: _phoneController.text.trim(),
-          password: _passwordController.text,
-        );
+    return Validators.isPhoneValid(phone) ? null : 'auth.phone_invalid'.tr();
   }
 
-  String? _validatePhone(String? value) {
-    final phone = (value ?? '').trim();
-    if (!Validators.isPhoneValid(phone)) {
-      return 'auth.phone_invalid'.tr();
+  /// Same password rules as sign-up, reported as one error line per failing
+  /// condition below the field.
+  String? _passwordErrorFor(String value, {bool force = false}) {
+    if (value.isEmpty && !force) {
+      return null;
     }
-    return null;
-  }
-
-  /// Reuses the sign-up password rules, but reports each failing condition as
-  /// an error line under the field (instead of a checklist box).
-  String? _validatePassword(String? value) {
-    final password = value ?? '';
     final failed = <String>[];
-    if (!Validators.hasMinLength(password)) {
+    if (!Validators.hasMinLength(value)) {
       failed.add('auth.register.password_length'.tr());
     }
-    if (!Validators.hasSpecialChar(password)) {
+    if (!Validators.hasSpecialChar(value)) {
       failed.add('auth.register.password_special'.tr());
     }
-    if (!Validators.hasNumber(password)) {
+    if (!Validators.hasNumber(value)) {
       failed.add('auth.register.password_number'.tr());
     }
-    if (!Validators.hasCapital(password)) {
+    if (!Validators.hasCapital(value)) {
       failed.add('auth.register.password_capital'.tr());
     }
     if (failed.isEmpty) {
@@ -82,9 +93,29 @@ class _LoginViewState extends State<_LoginView> {
     return failed.join('\n');
   }
 
+  void _submit() {
+    final phoneError = _phoneErrorFor(_phoneController.text, force: true);
+    final passwordError = _passwordErrorFor(_passwordController.text, force: true);
+    setState(() {
+      _phoneError = phoneError;
+      _passwordError = passwordError;
+    });
+    if (phoneError != null || passwordError != null) {
+      return;
+    }
+    context.viewModel<AuthViewModel>().login(
+          phone: _phoneController.text.trim(),
+          password: _passwordController.text,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = getIt<ThemeState>();
+
     return Scaffold(
+      backgroundColor: theme.colors.surfaceBackground,
+      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
       body: ViewModelListener<AuthViewModel, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
@@ -98,65 +129,73 @@ class _LoginViewState extends State<_LoginView> {
           }
         },
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'auth.welcome'.tr(),
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(theme.spacing.spacing24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const AuthHeader(titleKey: 'auth.welcome'),
+                SizedBox(height: theme.spacing.spacing24),
+                AuthCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      BennyTextField<String>(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        hintText: 'auth.phone'.tr(),
+                        errorText: _phoneError,
+                        onTextChanged: (v) =>
+                            setState(() => _phoneError = _phoneErrorFor(v)),
+                      ),
+                      SizedBox(height: theme.spacing.spacing16),
+                      AuthPasswordField(
+                        controller: _passwordController,
+                        hintText: 'auth.password'.tr(),
+                        errorText: _passwordError,
+                        errorMaxLines: 5,
+                        onTextChanged: (v) => setState(
+                          () => _passwordError = _passwordErrorFor(v),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () =>
+                              context.push(AppRoutes.forgotPassword),
+                          child: Text(
+                            'auth.forgot_password'.tr(),
+                            style: theme.textStyle.captionInlineLink
+                                .copyWith(color: theme.colors.secondary600),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: theme.spacing.spacing8),
+                      ViewModelBuilder<AuthViewModel, AuthState>(
+                        builder: (context, state) => BennyPrimaryButton(
+                          title: 'auth.login_button'.tr(),
+                          isWrapContent: false,
+                          onPressed: state is AuthLoading ? null : _submit,
+                          widget: state is AuthLoading
+                              ? const BennySpinner()
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 40),
-                  TextFormField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: 'auth.phone'.tr(),
-                      border: const OutlineInputBorder(),
-                    ),
-                    validator: _validatePhone,
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'auth.password'.tr(),
-                      border: const OutlineInputBorder(),
-                      // Show every failing password rule (one per line).
-                      errorMaxLines: 5,
-                    ),
-                    validator: _validatePassword,
-                  ),
-                  const SizedBox(height: 24),
-                  ViewModelBuilder<AuthViewModel, AuthState>(
-                    builder: (context, state) => FilledButton(
-                      onPressed: state is AuthLoading ? null : _submit,
-                      child: state is AuthLoading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text('auth.login_button'.tr()),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: () => context.push(AppRoutes.forgotPassword),
-                    child: Text('auth.forgot_password'.tr()),
-                  ),
-                  TextButton(
+                ),
+                SizedBox(height: theme.spacing.spacing20),
+                Center(
+                  child: TextButton(
                     onPressed: () => context.push(AppRoutes.signUp),
-                    child: Text('auth.register.button'.tr()),
+                    child: Text(
+                      'auth.register.submit'.tr(),
+                      style: theme.textStyle.paragraphLabel
+                          .copyWith(color: theme.colors.brand600),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

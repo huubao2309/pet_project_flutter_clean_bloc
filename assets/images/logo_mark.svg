@@ -1,0 +1,9 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Benny house-mark (light) — white walls, amber roof. For navy backgrounds. -->
+  <path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/>
+  <rect x="60" y="104" width="120" height="104" rx="14" fill="#FFFFFF"/>
+  <rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+  <rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+  <path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/>
+  <circle cx="129" cy="189" r="3" fill="#E8A020"/>
+</svg>

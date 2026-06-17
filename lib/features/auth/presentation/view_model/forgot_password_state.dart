@@ -1,30 +1,34 @@
 /// Immutable UI state for the forgot-password screen. Library-agnostic.
 class ForgotPasswordState {
   const ForgotPasswordState({
-    this.email = '',
+    this.phone = '',
+    this.isPhoneValid = false,
     this.isLoading = false,
-    this.isEmailSent = false,
+    this.isSent = false,
     this.errorMessage,
   });
 
-  final String email;
+  final String phone;
+  final bool isPhoneValid;
   final bool isLoading;
-  final bool isEmailSent;
+  final bool isSent;
   final String? errorMessage;
 
-  bool get canSubmit => email.trim().isNotEmpty;
+  bool get canSubmit => isPhoneValid;
 
   ForgotPasswordState copyWith({
-    String? email,
+    String? phone,
+    bool? isPhoneValid,
     bool? isLoading,
-    bool? isEmailSent,
+    bool? isSent,
     String? errorMessage,
     bool clearError = false,
   }) {
     return ForgotPasswordState(
-      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      isPhoneValid: isPhoneValid ?? this.isPhoneValid,
       isLoading: isLoading ?? this.isLoading,
-      isEmailSent: isEmailSent ?? this.isEmailSent,
+      isSent: isSent ?? this.isSent,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }

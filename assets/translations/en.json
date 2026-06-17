@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Benny"
+    "name": "Benny",
+    "tagline": "Real estate sales collaborator"
   },
   "common": {
     "loading": "Loading...",
@@ -69,11 +70,30 @@
     },
     "forgot": {
       "title": "Forgot password",
-      "caption": "No problem just enter the email you used when signing up for Benny and we will send you a password reset link!",
-      "email": "Email",
-      "send": "Send password reset email",
-      "sent": "Password reset link sent",
-      "message": "We sent an email to {user_email} to reset your Benny password. Please also check the SPAM folder of your email client. Email delivery could take up to 30 minutes.",
+      "caption": "No problem — just enter the phone number you used to sign up for Benny and we will send you a reset code via SMS.",
+      "phone": "Phone number",
+      "send": "Send reset code",
+      "sent": "Reset code sent",
+      "message": "We sent a reset code to {phone} to reset your Benny password. Delivery may take a few minutes.",
+      "enter_code": "Enter OTP code",
+      "back": "Back to log in"
+    },
+    "otp": {
+      "title": "OTP verification",
+      "caption": "Enter the 6-digit code we sent to {phone}.",
+      "verify": "Verify",
+      "expires_in": "Code expires in {time}",
+      "expired_label": "Code has expired",
+      "error_invalid": "Incorrect OTP. Please try again.",
+      "error_expired": "The OTP has expired. Please resend the code.",
+      "no_code": "Didn't receive the code?",
+      "resend": "Resend",
+      "resend_in": "Resend in {seconds}s"
+    },
+    "lock": {
+      "title": "Account temporarily locked",
+      "login_message": "Too many failed login attempts. Please try again in 30 minutes.",
+      "otp_message": "You've entered the wrong OTP too many times. Please try again in 30 minutes.",
       "back": "Back to log in"
     },
     "reset": {
@@ -119,10 +139,43 @@
   },
   "home": {
     "title": "Dashboard",
-    "greeting": "Hello, {name}!",
-    "active_loans": "Active Loans",
-    "apply_loan": "Apply for a Loan",
-    "total_balance": "Total Balance"
+    "greeting": "Hello,",
+    "role": "Collaborator",
+    "commission_month": "Commission this month",
+    "commission_pending": "Pending commission",
+    "deals_closed": "Deals closed",
+    "active_listings": "Active listings",
+    "potential_customers": "Potential leads",
+    "see_all": "See all",
+    "featured_listings": "Featured properties",
+    "recent_history": "Recent transactions",
+    "deal_subtitle": "{customer} • {date}",
+    "action": {
+      "scan": "Scan QR",
+      "post": "Post listing",
+      "customers": "Customers",
+      "reports": "Reports"
+    }
+  },
+  "placeholder": {
+    "coming_soon": "Coming soon",
+    "history": "Your home buy/sell history will appear here.",
+    "qr": "Scan a QR code to quickly view property details.",
+    "commission": "Track your commission and payouts here."
+  },
+  "property": {
+    "status": {
+      "available": "For sale",
+      "deposited": "Reserved",
+      "sold": "Sold"
+    }
+  },
+  "deal": {
+    "status": {
+      "completed": "Completed",
+      "deposited": "Reserved",
+      "cancelled": "Cancelled"
+    }
   },
   "loan": {
     "title": "My Loans",
@@ -146,7 +199,7 @@
     "home": "Home",
     "history": "History",
     "qr": "Scan QR",
-    "promotion": "Promotion",
+    "commission": "Commission",
     "settings": "Settings",
     "loans": "Loans",
     "apply": "Apply",

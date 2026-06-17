@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 /// The bottom-navigation tabs hosted by `MainPage`.
 ///
-/// Mirrors the original 5-tab fintech layout: Home, History, a prominent
-/// center QR action, Promotion and Profile.
+/// Real-estate sales (CTV) layout: Home, History, a prominent center QR-scan
+/// action, Commission (Hoa hồng) and Profile.
 enum MainTab {
   home(
     labelKey: 'nav.home',
@@ -12,19 +12,19 @@ enum MainTab {
   ),
   history(
     labelKey: 'nav.history',
-    icon: Icons.receipt_long_outlined,
-    activeIcon: Icons.receipt_long,
+    icon: Icons.history_outlined,
+    activeIcon: Icons.history,
   ),
   qr(
     labelKey: 'nav.qr',
-    icon: Icons.qr_code_scanner,
-    activeIcon: Icons.qr_code_scanner,
+    icon: Icons.qr_code_scanner_rounded,
+    activeIcon: Icons.qr_code_scanner_rounded,
     isCenter: true,
   ),
-  promotion(
-    labelKey: 'nav.promotion',
-    icon: Icons.local_offer_outlined,
-    activeIcon: Icons.local_offer,
+  commission(
+    labelKey: 'nav.commission',
+    icon: Icons.payments_outlined,
+    activeIcon: Icons.payments,
   ),
   profile(
     labelKey: 'nav.profile',

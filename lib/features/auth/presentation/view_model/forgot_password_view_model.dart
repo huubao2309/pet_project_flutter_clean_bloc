@@ -1,5 +1,6 @@
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
+import '../../../../core/utils/validators.dart';
 import '../../domain/use_cases/forgot_password_use_case.dart';
 import 'forgot_password_state.dart';
 
@@ -10,8 +11,13 @@ class ForgotPasswordViewModel extends ViewModel<ForgotPasswordState> {
 
   final ForgotPasswordUseCase _forgotPasswordUseCase;
 
-  void onEmailChanged(String value) {
-    setState(currentState.copyWith(email: value));
+  void onPhoneChanged(String value) {
+    setState(
+      currentState.copyWith(
+        phone: value,
+        isPhoneValid: Validators.isPhoneValid(value.trim()),
+      ),
+    );
   }
 
   Future<void> forgotPassword() async {
@@ -20,8 +26,8 @@ class ForgotPasswordViewModel extends ViewModel<ForgotPasswordState> {
     }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
-      await _forgotPasswordUseCase.execute(currentState.email.trim());
-      setState(currentState.copyWith(isLoading: false, isEmailSent: true));
+      await _forgotPasswordUseCase.execute(currentState.phone.trim());
+      setState(currentState.copyWith(isLoading: false, isSent: true));
     } on AppException catch (e) {
       setState(
         currentState.copyWith(isLoading: false, errorMessage: e.message),

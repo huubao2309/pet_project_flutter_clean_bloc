@@ -12,18 +12,21 @@ import 'package:benny_style/style/data_source_text_style.dart';
 /// This is the single place that defines Benny's palette and typography for
 /// the `benny_style` design system.
 class BennyDesignData {
+  /// Navy primary ramp. The signature brand colour `#1A3C5E` sits at `600`
+  /// (the resting fill of primary buttons / headers); `400` is the medium
+  /// navy used for active nav items and field labels.
   static final Map<String, String> brandColor = {
-    '25': '#F9F5FF',
-    '50': '#F5EEFF',
-    '100': '#F1E6FF',
-    '200': '#E4D2FD',
-    '300': '#D8BEFC',
-    '400': '#AD7AF0',
-    '500': '#782ADE',
-    '600': '#5803C4',
-    '700': '#460299',
-    '800': '#35016B',
-    '900': '#250040',
+    '25': '#F3F6F9',
+    '50': '#E9EFF4',
+    '100': '#D2DFEA',
+    '200': '#A6BFD3',
+    '300': '#7A9EBD',
+    '400': '#3E6B92',
+    '500': '#27557D',
+    '600': '#1A3C5E',
+    '700': '#142F49',
+    '800': '#0E2234',
+    '900': '#081521',
   };
 
   static final DataSourceTextStyle dataSourceHeading = _getDataSourceHeading();

@@ -61,4 +61,9 @@ class DeviceInfoUtil {
   bool get isIOS => Platform.isIOS;
 
   int? get androidSdkVersion => _androidInfo?.version.sdkInt;
+
+  /// iOS `identifierForVendor`. Changes when the user deletes all of this
+  /// vendor's apps and reinstalls — used to detect a fresh install. Null on
+  /// non-iOS platforms.
+  String? get iosVendorId => _iosInfo?.identifierForVendor;
 }

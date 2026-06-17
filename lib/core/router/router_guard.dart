@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../storage/secure_storage/secure_storage.dart';
 import 'app_routes.dart';
 
 /// Owns auth state and decides whether a navigation is allowed.
@@ -16,18 +15,11 @@ import 'app_routes.dart';
 /// getIt<RouterGuard>().onLogout();
 /// ```
 class RouterGuard extends ChangeNotifier {
-  RouterGuard._({required bool isLoggedIn}) : _isLoggedIn = isLoggedIn;
+  /// Starts logged-out; the splash screen resolves the real auth state (after
+  /// clearing any stale keychain data) and calls [setLoggedIn] before routing.
+  RouterGuard();
 
-  /// Reads the stored access token to determine the initial auth state.
-  ///
-  /// Call this during app bootstrap while the native splash is still visible,
-  /// so [redirect] can run synchronously — no black screen on first navigation.
-  static Future<RouterGuard> create(SecureStorage secureStorage) async {
-    final isLoggedIn = (await secureStorage.getAccessToken()) != null;
-    return RouterGuard._(isLoggedIn: isLoggedIn);
-  }
-
-  bool _isLoggedIn;
+  bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
 

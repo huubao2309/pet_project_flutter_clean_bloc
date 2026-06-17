@@ -15,7 +15,8 @@ class BaseColorItem {
   late final Color color800;
   late final Color color900;
 
-  BaseColorItem({required Map<String, String> dataSource}) : _dataSource = dataSource {
+  BaseColorItem({required Map<String, String> dataSource})
+      : _dataSource = dataSource {
     _init();
   }
 
