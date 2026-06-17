@@ -262,7 +262,7 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
                   theme.textStyle.paragraphDefault.apply(color: theme.colors.neutral500),
               filled: true,
               fillColor: widget.enabled
-                  ? (widget.enableBackgroundColor ?? Colors.white)
+                  ? (widget.enableBackgroundColor ?? theme.colors.white)
                   : (widget.disableBorderColor ?? theme.colors.neutral200),
               counterText: widget.counterText,
               errorText: widget.errorText,

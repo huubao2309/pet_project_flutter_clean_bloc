@@ -209,5 +209,25 @@
     "title": "Settings",
     "logout": "Logout",
     "logout_success": "Logged out successfully"
+  },
+  "profile": {
+    "account": "Account",
+    "support": "Support & more",
+    "edit_info": "Edit information",
+    "language": "Language",
+    "fingerprint": "Fingerprint login",
+    "dark_mode": "Dark Mode",
+    "feedback": "Send feedback",
+    "support_item": "Support",
+    "policy": "Terms & policy",
+    "rate": "Rate the app",
+    "version": "App version",
+    "logout": "Log out",
+    "delete": "Delete account",
+    "logout_confirm_title": "Log out",
+    "logout_confirm_message": "Are you sure you want to log out of Benny?",
+    "delete_confirm_title": "Delete account?",
+    "delete_confirm_message": "This action can't be undone. All your data will be permanently deleted.",
+    "coming_soon": "Coming soon"
   }
 }

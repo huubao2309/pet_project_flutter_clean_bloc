@@ -52,7 +52,7 @@ class _SplashView extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [theme.colors.brand600, theme.colors.brand800],
+              colors: [theme.colors.heroTop, theme.colors.heroBottom],
             ),
           ),
           child: SafeArea(
@@ -64,7 +64,7 @@ class _SplashView extends StatelessWidget {
                 Text(
                   kAppName,
                   style: theme.textStyle.heading.copyWith(
-                    color: theme.colors.white,
+                    color: theme.colors.onColor,
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,

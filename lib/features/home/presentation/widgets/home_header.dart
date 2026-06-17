@@ -30,7 +30,7 @@ class HomeHeader extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [theme.colors.brand600, theme.colors.brand800],
+          colors: [theme.colors.heroTop, theme.colors.heroBottom],
         ),
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(28)),
       ),
@@ -84,7 +84,7 @@ class _GreetingRow extends StatelessWidget {
           child: Text(
             initials.toUpperCase(),
             style: theme.textStyle.paragraphLabel.copyWith(
-              color: theme.colors.white,
+              color: theme.colors.onColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -97,7 +97,7 @@ class _GreetingRow extends StatelessWidget {
               Text(
                 'home.greeting'.tr(),
                 style: theme.textStyle.captionDefault.copyWith(
-                  color: theme.colors.brand100,
+                  color: theme.colors.onColor.withAlpha((255 * 0.75).round()),
                 ),
               ),
               const SizedBox(height: 2),
@@ -108,7 +108,7 @@ class _GreetingRow extends StatelessWidget {
                       agentName,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textStyle.paragraphLabel.copyWith(
-                        color: theme.colors.white,
+                        color: theme.colors.onColor,
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
@@ -165,14 +165,14 @@ class _NotificationButton extends StatelessWidget {
       width: 42,
       height: 42,
       decoration: BoxDecoration(
-        color: theme.colors.white.withAlpha((255 * 0.12).round()),
+        color: theme.colors.onColor.withAlpha((255 * 0.12).round()),
         borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Icon(Icons.notifications_none_rounded,
-              color: theme.colors.white, size: 22,),
+              color: theme.colors.onColor, size: 22,),
           Positioned(
             top: 10,
             right: 12,

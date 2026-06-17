@@ -41,7 +41,7 @@ class ValidateIconWidget extends StatelessWidget {
           child: SvgPicture.asset(
             _iconName,
             colorFilter:
-                ColorFilter.mode(_theme.colors.white, BlendMode.srcIn),
+                ColorFilter.mode(_theme.colors.onColor, BlendMode.srcIn),
           ),
         ),
         if (title != null)

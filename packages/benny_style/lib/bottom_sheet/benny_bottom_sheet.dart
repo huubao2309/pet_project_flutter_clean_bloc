@@ -6,7 +6,7 @@ class BennyBottomSheet {
   static Future<void> show({
     required Widget content,
     double? maxHeight,
-    Color backgroundColor = Colors.white,
+    Color? backgroundColor,
     bool isDismissible = true,
     bool enableDrag = true,
   }) {
@@ -14,6 +14,7 @@ class BennyBottomSheet {
     final context = bennyNavigatorKey.currentContext;
     if (context == null) return Future<void>.value();
 
+    final sheetColor = backgroundColor ?? theme.colors.white;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return showModalBottomSheet<void>(
@@ -25,7 +26,7 @@ class BennyBottomSheet {
       barrierColor: theme.colors.neutral900.withAlpha((255.0 * 0.25).round()),
       builder: (_) => Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: sheetColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(theme.borderRadius.borderRadius8),
             topRight: Radius.circular(theme.borderRadius.borderRadius8),

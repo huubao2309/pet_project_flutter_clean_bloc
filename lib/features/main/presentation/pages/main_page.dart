@@ -4,7 +4,7 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/lazy_load_indexed_stack.dart';
 import '../../../home/presentation/pages/home_page.dart';
-import '../../../settings/presentation/pages/settings_page.dart';
+import '../../../profile/presentation/pages/profile_page.dart';
 import '../main_tab.dart';
 import '../view_model/main_view_model.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -33,7 +33,7 @@ class MainPage extends StatelessWidget {
       subtitleKey: 'placeholder.commission',
       icon: Icons.payments_outlined,
     ),
-    MainTab.profile: SettingsPage(),
+    MainTab.profile: ProfilePage(),
   };
 
   @override

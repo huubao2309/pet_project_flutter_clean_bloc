@@ -209,5 +209,25 @@
     "title": "Cài đặt",
     "logout": "Đăng xuất",
     "logout_success": "Đăng xuất thành công"
+  },
+  "profile": {
+    "account": "Tài khoản",
+    "support": "Hỗ trợ & khác",
+    "edit_info": "Thay đổi thông tin",
+    "language": "Thay đổi ngôn ngữ",
+    "fingerprint": "Đăng nhập bằng vân tay",
+    "dark_mode": "Chuyển sang Dark Mode",
+    "feedback": "Góp ý ứng dụng",
+    "support_item": "Hỗ trợ",
+    "policy": "Chính sách và điều khoản",
+    "rate": "Đánh giá ứng dụng",
+    "version": "Phiên bản ứng dụng",
+    "logout": "Đăng xuất",
+    "delete": "Xoá tài khoản",
+    "logout_confirm_title": "Đăng xuất",
+    "logout_confirm_message": "Bạn có chắc muốn đăng xuất khỏi Benny?",
+    "delete_confirm_title": "Xoá tài khoản?",
+    "delete_confirm_message": "Hành động này không thể hoàn tác. Toàn bộ dữ liệu của bạn sẽ bị xoá vĩnh viễn.",
+    "coming_soon": "Tính năng đang phát triển"
   }
 }

@@ -125,7 +125,7 @@ class _Banner extends StatelessWidget {
               ),
               child: Icon(Icons.apartment_rounded,
                   size: 48,
-                  color: theme.colors.white.withAlpha((255 * 0.35).round()),),
+                  color: theme.colors.onColor.withAlpha((255 * 0.35).round()),),
             ),
           ),
           Positioned(
@@ -137,7 +137,7 @@ class _Banner extends StatelessWidget {
                 vertical: theme.spacing.spacing2,
               ),
               decoration: BoxDecoration(
-                color: theme.colors.white.withAlpha((255 * 0.9).round()),
+                color: theme.colors.onColor.withAlpha((255 * 0.9).round()),
                 borderRadius:
                     BorderRadius.circular(theme.borderRadius.borderRadius16),
               ),

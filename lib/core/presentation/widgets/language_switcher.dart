@@ -17,8 +17,6 @@ import '../../localization/domain/use_cases/change_language_use_case.dart';
 class LanguageSwitcher extends StatelessWidget {
   const LanguageSwitcher({super.key});
 
-  List<Locale> get _locales => AppConstants.supportedLocales;
-
   @override
   Widget build(BuildContext context) {
     final current = context.locale;
@@ -29,10 +27,14 @@ class LanguageSwitcher extends StatelessWidget {
     );
   }
 
-  void _showPicker(BuildContext context) {
+  void _showPicker(BuildContext context) => showPicker(context);
+
+  /// Opens the language bottom sheet. Reusable from anywhere (e.g. the Profile
+  /// tab's "Thay đổi ngôn ngữ" row).
+  static void showPicker(BuildContext context) {
     BennyBottomSheet.show(
       content: _LanguageSheet(
-        locales: _locales,
+        locales: AppConstants.supportedLocales,
         current: context.locale,
       ),
     );

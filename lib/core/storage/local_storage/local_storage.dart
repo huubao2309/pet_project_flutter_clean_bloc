@@ -9,6 +9,7 @@ abstract class LocalStorage {
   static const kPhoneNumberKey = 'benny_phone_number';
   static const kDeviceLanguageKey = 'benny_device_language';
   static const kVendorIdKey = 'benny_vendor_id';
+  static const kThemeModeKey = 'benny_theme_mode';
 
   Future<void> setPhoneNumber({required String? value});
   String getPhoneNumber();
@@ -25,4 +26,11 @@ abstract class LocalStorage {
 
   /// Returns the vendor id saved on the last install, or null.
   String? getVendorId();
+
+  /// Persists the chosen theme mode (`'light'` / `'dark'`).
+  Future<void> setThemeMode({required String value});
+
+  /// Returns the saved theme mode, or null if the user/system hasn't set one
+  /// (i.e. first launch — fall back to the system brightness).
+  String? getThemeMode();
 }

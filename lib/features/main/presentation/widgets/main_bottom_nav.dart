@@ -155,7 +155,7 @@ class _CenterItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(tab.icon, color: theme.colors.white, size: 28),
+                child: Icon(tab.icon, color: theme.colors.onColor, size: 28),
               ),
               const SizedBox(height: 2),
               Text(
