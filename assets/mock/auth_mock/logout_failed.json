@@ -2,6 +2,7 @@
   "message": "record_not_found",
   "time": "2022-10-26T02:35:54Z",
   "verdict": "login_failed",
+  "status_code": 400,
   "data": {
     "user_message": "Logout fail"
   }

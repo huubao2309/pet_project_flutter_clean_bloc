@@ -1,10 +1,9 @@
 import 'package:benny_style/theme/theme_state.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../base/app_constants.dart';
+import '../../../../core/constants/benny_image.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/router/app_router.dart';
@@ -39,15 +38,18 @@ class _SplashView extends StatelessWidget {
         if (state is! SplashReady) {
           return;
         }
-        // Apply the saved language (async; the keyed MaterialApp rebuilds), then
-        // route to the right entry point based on auth.
-        context.setLocale(state.locale);
+        // Language is already applied at boot (env.dart → MyApp.startLocale), so
+        // the splash only routes — calling setLocale here would recreate the
+        // locale-keyed MaterialApp and flash black during the transition.
         final target =
             getIt<AppRouter>().isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
         context.go(target);
       },
       child: Scaffold(
-        body: DecoratedBox(
+        backgroundColor: theme.colors.heroTop,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -60,24 +62,13 @@ class _SplashView extends StatelessWidget {
               children: [
                 const Spacer(flex: 3),
                 const _LogoBadge(),
-                SizedBox(height: theme.spacing.spacing24),
-                Text(
-                  kAppName,
-                  style: theme.textStyle.heading.copyWith(
-                    color: theme.colors.onColor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                  ),
-                ),
                 const Spacer(flex: 4),
                 SizedBox(
                   width: 28,
                   height: 28,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor:
-                        AlwaysStoppedAnimation(theme.colors.secondary500),
+                    valueColor: AlwaysStoppedAnimation(theme.colors.secondary500),
                   ),
                 ),
                 SizedBox(height: theme.spacing.spacing32),
@@ -98,7 +89,7 @@ class _LogoBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      'assets/images/logo_mark.svg',
+      BennyImage.logo,
       width: 116,
       height: 116,
     );

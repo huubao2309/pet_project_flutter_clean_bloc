@@ -29,7 +29,7 @@
   },
   "welcome": {
     "title": "Welcome to Benny",
-    "caption": "Benny, the property inspection tool to quickly and efficiently register the condition of a rented property.",
+    "caption": "Your companion for real-estate sales collaborators.",
     "login": "Login",
     "register": "Create account"
   },
@@ -43,13 +43,14 @@
     "login": "Login",
     "logout": "Logout",
     "phone": "Phone number",
-    "phone_invalid": "Phone number must be 10 digits and start with 0",
+    "phone_invalid": "Invalid phone number",
     "password": "Password",
     "forgot_password": "Forgot password?",
     "login_button": "Login",
+    "password_required": "Please enter your password",
     "register": {
       "title": "Sign up to Benny",
-      "caption": "Welcome to Benny, the property inspection tool to quickly and efficiently register the condition of a rented property. Sign up now and easily create your first digital property inspection.",
+      "caption": "Create an account to get started with Benny.",
       "phone": "Phone number",
       "submit": "Register",
       "password": "Password",
@@ -58,6 +59,9 @@
       "password_special": "Contain at least one special character (#,&,$,@,...)",
       "password_number": "Contain at least one number",
       "password_capital": "Contain at least one capital letter",
+      "password_requirements": "Password requirements",
+      "password_valid": "Password is valid",
+      "password_must": "Password must have:",
       "updates_caption": "I would like to receive updates about Benny",
       "button": "Register and create a property inspection",
       "terms_prefix": "By clicking \"Register\" you agree to our ",
@@ -70,7 +74,7 @@
     },
     "forgot": {
       "title": "Forgot password",
-      "caption": "No problem — just enter the phone number you used to sign up for Benny and we will send you a reset code via SMS.",
+      "caption": "Enter your registered phone number and we'll send a reset code via SMS.",
       "phone": "Phone number",
       "send": "Send reset code",
       "sent": "Reset code sent",
@@ -95,6 +99,10 @@
       "login_message": "Too many failed login attempts. Please try again in 30 minutes.",
       "otp_message": "You've entered the wrong OTP too many times. Please try again in 30 minutes.",
       "back": "Back to log in"
+    },
+    "deleted": {
+      "title": "Account deleted",
+      "message": "This account has been deleted and can no longer be used."
     },
     "reset": {
       "title": "Reset password",

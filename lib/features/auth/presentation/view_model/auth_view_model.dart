@@ -41,10 +41,19 @@ class AuthViewModel extends ViewModel<AuthState> {
         LoginParams(phone: phone, password: password),
       );
       setState(AuthAuthenticated(user));
+    } on AccountBlockedException catch (e) {
+      // Hard stop (too many wrong OTP entries, deleted account, …): the View
+      // shows a full-screen error, not a snackbar. The reason drives which
+      // message. Must be caught before AppException.
+      setState(AuthBlocked(e.reason, e.message));
     } on AppException catch (e) {
       setState(AuthFailure(e.message));
     }
   }
+
+  /// Returns the screen to the login form after a hard stop (e.g. the user
+  /// taps "Back to log in" on the locked screen).
+  void reset() => setState(const AuthInitial());
 
   Future<void> logout() async {
     setState(const AuthLoading());

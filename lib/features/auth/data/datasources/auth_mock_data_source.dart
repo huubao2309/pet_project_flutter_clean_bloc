@@ -10,6 +10,7 @@ import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
 import '../models/response/login_data_dto.dart';
+import 'auth_block_verdict.dart';
 import 'auth_remote_data_source.dart';
 
 /// Fake [AuthRemoteDataSource] that serves the JSON files in `assets/mock/`.
@@ -28,15 +29,22 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   const AuthMockDataSource();
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
-  static const _loginScenario = MockAssets.loginSuccess; // ↔ loginFailed
-  static const _signUpScenario = MockAssets.signupSuccess; // ↔ signupFailed
-  static const _logoutScenario = MockAssets.logoutSuccess; // ↔ logoutFailed
+  static const _loginScenario = MockAssets.loginAccountIsDeleted;
+  static const _signUpScenario = MockAssets.signupSuccess;
+  static const _logoutScenario = MockAssets.logoutSuccess;
 
   static const _latency = Duration(seconds: 1);
 
   @override
   Future<LoginDataDto> login(LoginRequestDto request) async {
     final json = await _read(_loginScenario);
+    // Login-only hard stops (account blocked): the verdict maps to a
+    // BlockReason. These are meaningful for login only, so they stay here
+    // rather than in the shared _ensureSuccess.
+    final blockReason = blockReasonFromVerdict(json['verdict'] as String?);
+    if (blockReason != null) {
+      throw AccountBlockedException(blockReason, _messageOf(json));
+    }
     _ensureSuccess(json);
     return LoginDataDto.fromJson(json['data'] as Map<String, dynamic>);
   }
@@ -71,16 +79,22 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     return jsonDecode(raw) as Map<String, dynamic>;
   }
 
-  /// Throws a [ServerException] when the mock response is not a success,
-  /// mirroring how the real API failures surface.
+  /// Throws a [ServerException] on any non-success response, mirroring how the
+  /// real API failures surface. Verdict-specific handling (e.g. the login-only
+  /// `otp_limit_exceeded` lock) belongs in the calling method, not here.
   void _ensureSuccess(Map<String, dynamic> json) {
     if (json['verdict'] == 'success') {
       return;
     }
+    throw ServerException(message: _messageOf(json));
+  }
+
+  /// The user-facing message for a response: the nested `user_message`, then
+  /// the top-level `message`, then a generic fallback.
+  String _messageOf(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>?;
-    final message = (data?['user_message'] as String?) ??
+    return (data?['user_message'] as String?) ??
         (json['message'] as String?) ??
         'errors.unknown'.tr();
-    throw ServerException(message: message);
   }
 }

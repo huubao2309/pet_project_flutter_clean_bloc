@@ -1,7 +1,6 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
 import 'package:benny_style/selectors/radio/benny_radio.dart';
 import 'package:benny_style/selectors/switch/benny_label_switch.dart';
-import 'package:benny_style/textfields/benny_textfield.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/phone/country_code_picker.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_text_field.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../domain/entities/plan_type.dart';
 import '../view_model/personal_info_state.dart';
@@ -57,19 +57,19 @@ class _PersonalInfoView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _label(theme, 'onboarding.first_name'.tr()),
-                BennyTextField<String>(
+                AppTextField(
                   hintText: 'onboarding.first_name_placeholder'.tr(),
-                  onTextChanged: viewModel.onFirstNameChanged,
+                  onChanged: viewModel.onFirstNameChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.last_name'.tr()),
-                BennyTextField<String>(
+                AppTextField(
                   hintText: 'onboarding.last_name_placeholder'.tr(),
-                  onTextChanged: viewModel.onLastNameChanged,
+                  onChanged: viewModel.onLastNameChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.phone_number'.tr()),
-                BennyTextField<String>(
+                AppTextField(
                   hintText: 'onboarding.phone_number_placeholder'.tr(),
                   keyboardType: TextInputType.phone,
                   prefixIcon: _DialCodePrefix(
@@ -80,13 +80,13 @@ class _PersonalInfoView extends StatelessWidget {
                           viewModel.onDialCodeChanged(country.dialCode),
                     ),
                   ),
-                  onTextChanged: viewModel.onPhoneChanged,
+                  onChanged: viewModel.onPhoneChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.address'.tr()),
-                BennyTextField<String>(
+                AppTextField(
                   hintText: 'onboarding.address_placeholder'.tr(),
-                  onTextChanged: viewModel.onAddressChanged,
+                  onChanged: viewModel.onAddressChanged,
                 ),
                 const SizedBox(height: 4),
                 Text(

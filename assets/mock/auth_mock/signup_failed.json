@@ -2,7 +2,8 @@
   "message": "phone_already_registered",
   "time": "2022-10-26T02:35:54Z",
   "verdict": "signup_failed",
+  "status_code": 400,
   "data": {
-    "user_message": "Sign up fail"
+    "user_message": "Phone already registered"
   }
 }

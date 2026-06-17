@@ -7,12 +7,13 @@ class BrandDataSourceStyle {
   static AppColors get _color => bennyLocator<ThemeState>().colors;
 
   static final Map<String, Color> brandPrimary = {
-    "borderDisableColor": _color.neutral700,
+    // Disabled = design `.cta.off`: light gray fill + gray-400 label, no border.
+    "borderDisableColor": _color.neutral100,
     "borderActiveColor": _color.brand800,
     "foregroundActiveColor": _color.brand25,
-    "foregroundDisableColor": _color.neutral200,
+    "foregroundDisableColor": _color.neutral400,
     "backgroundActiveColor": _color.brand700,
-    "backgroundDisableColor": _color.neutral600,
+    "backgroundDisableColor": _color.neutral100,
     "overlayActiveColor": _color.brand900,
   };
 

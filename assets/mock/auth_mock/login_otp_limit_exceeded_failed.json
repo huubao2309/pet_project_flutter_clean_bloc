@@ -1,0 +1,9 @@
+{
+  "message": "otp_limit_exceeded_failed",
+  "time": "2022-10-26T02:35:54Z",
+  "verdict": "otp_limit_exceeded",
+  "status_code": 400,
+  "data": {
+    "user_message": "You have exceeded the OTP entry limit."
+  }
+}

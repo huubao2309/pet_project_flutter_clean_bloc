@@ -28,9 +28,14 @@ class _AppScrollBehavior extends MaterialScrollBehavior {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({required this.envType, super.key});
+  const MyApp({required this.envType, required this.startLocale, super.key});
 
   final EnvType envType;
+
+  /// Language resolved at boot (saved language or fallback). Passed to
+  /// EasyLocalization so the app starts in the right language — avoids applying
+  /// it later on the splash, which would recreate the locale-keyed MaterialApp.
+  final Locale startLocale;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +47,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: AppConstants.supportedLocales,
         path: AppConstants.translationsPath,
         fallbackLocale: AppConstants.fallbackLocale,
+        startLocale: startLocale,
         // LocalStorage is our single source of truth for the language; disable
         // easy_localization's own persistence. The saved language is loaded and
         // applied on the splash screen (SplashViewModel + GetLanguageUseCase).

@@ -1,7 +1,6 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
 import 'package:benny_style/messages/base_message_type.dart';
 import 'package:benny_style/messages/snqd_message.dart';
-import 'package:benny_style/textfields/benny_textfield.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/presentation/widgets/app_text_field.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/billing_info_state.dart';
 import '../view_model/billing_info_view_model.dart';
@@ -61,39 +61,41 @@ class _BillingInfoView extends StatelessWidget {
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.payment_cardholder'.tr()),
-                BennyTextField<String>(
+                AppTextField(
                   hintText: 'onboarding.card_name_placeholder'.tr(),
-                  onTextChanged: viewModel.onNameOnCardChanged,
+                  onChanged: viewModel.onNameOnCardChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.card_number'.tr()),
-                BennyTextField<String>(
+                AppTextField(
+                  hintText: '',
                   keyboardType: TextInputType.number,
-                  onTextChanged: viewModel.onCardNumberChanged,
+                  onChanged: viewModel.onCardNumberChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.card_cvc'.tr()),
-                BennyTextField<String>(
+                AppTextField(
+                  hintText: '',
                   keyboardType: TextInputType.number,
-                  onTextChanged: viewModel.onCvcChanged,
+                  onChanged: viewModel.onCvcChanged,
                 ),
                 SizedBox(height: theme.spacing.spacing12),
                 _label(theme, 'onboarding.card_expire_date'.tr()),
                 Row(
                   children: [
                     Expanded(
-                      child: BennyTextField<String>(
+                      child: AppTextField(
                         hintText: 'onboarding.card_expire_month'.tr(),
                         keyboardType: TextInputType.number,
-                        onTextChanged: viewModel.onMonthChanged,
+                        onChanged: viewModel.onMonthChanged,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: BennyTextField<String>(
+                      child: AppTextField(
                         hintText: 'onboarding.card_expire_year'.tr(),
                         keyboardType: TextInputType.number,
-                        onTextChanged: viewModel.onYearChanged,
+                        onChanged: viewModel.onYearChanged,
                       ),
                     ),
                   ],

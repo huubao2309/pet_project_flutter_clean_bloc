@@ -34,6 +34,8 @@ class SplashViewModel extends ViewModel<SplashState> {
     await _clearStaleSecureStorageUseCase.execute(const NoParams());
     final isLoggedIn = await _isLoggedInUseCase.execute(const NoParams());
     final saved = await _getLanguageUseCase.execute(const NoParams());
+    // Hold the splash a touch longer so its UI is comfortable to review.
+    await Future<void>.delayed(const Duration(seconds: 2));
     setState(
       SplashReady(locale: _resolveSupported(saved), isLoggedIn: isLoggedIn),
     );

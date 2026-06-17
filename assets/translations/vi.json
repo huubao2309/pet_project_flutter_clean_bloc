@@ -29,7 +29,7 @@
   },
   "welcome": {
     "title": "Chào mừng đến với Benny",
-    "caption": "Benny, công cụ kiểm định bất động sản giúp ghi nhận nhanh chóng và hiệu quả tình trạng của bất động sản cho thuê.",
+    "caption": "Công cụ đồng hành cùng cộng tác viên bán bất động sản.",
     "login": "Đăng nhập",
     "register": "Tạo tài khoản"
   },
@@ -43,13 +43,14 @@
     "login": "Đăng nhập",
     "logout": "Đăng xuất",
     "phone": "Số điện thoại",
-    "phone_invalid": "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0",
+    "phone_invalid": "Số điện thoại không hợp lệ",
     "password": "Mật khẩu",
     "forgot_password": "Quên mật khẩu?",
     "login_button": "Đăng nhập",
+    "password_required": "Vui lòng nhập mật khẩu",
     "register": {
       "title": "Đăng ký Benny",
-      "caption": "Chào mừng đến với Benny, công cụ kiểm định bất động sản giúp ghi nhận nhanh chóng và hiệu quả tình trạng của bất động sản cho thuê. Đăng ký ngay để dễ dàng tạo bản kiểm định số đầu tiên.",
+      "caption": "Tạo tài khoản để bắt đầu với Benny.",
       "phone": "Số điện thoại",
       "submit": "Đăng ký",
       "password": "Mật khẩu",
@@ -58,6 +59,9 @@
       "password_special": "Chứa ít nhất một ký tự đặc biệt (#,&,$,@,...)",
       "password_number": "Chứa ít nhất một chữ số",
       "password_capital": "Chứa ít nhất một chữ in hoa",
+      "password_requirements": "Yêu cầu mật khẩu",
+      "password_valid": "Mật khẩu hợp lệ",
+      "password_must": "Mật khẩu phải có:",
       "updates_caption": "Tôi muốn nhận thông tin cập nhật về Benny",
       "button": "Đăng ký và tạo bản kiểm định",
       "terms_prefix": "Khi nhấn \"Đăng ký\", bạn đồng ý với ",
@@ -70,7 +74,7 @@
     },
     "forgot": {
       "title": "Quên mật khẩu",
-      "caption": "Đừng lo — chỉ cần nhập số điện thoại bạn đã dùng khi đăng ký Benny, chúng tôi sẽ gửi mã đặt lại qua SMS.",
+      "caption": "Nhập số điện thoại đã đăng ký, chúng tôi sẽ gửi mã đặt lại qua SMS.",
       "phone": "Số điện thoại",
       "send": "Gửi mã đặt lại",
       "sent": "Đã gửi mã đặt lại",
@@ -95,6 +99,10 @@
       "login_message": "Bạn đã đăng nhập sai quá nhiều lần. Vui lòng thử lại sau 30 phút.",
       "otp_message": "Bạn đã nhập sai mã OTP quá nhiều lần. Vui lòng thử lại sau 30 phút.",
       "back": "Quay lại đăng nhập"
+    },
+    "deleted": {
+      "title": "Tài khoản đã bị xoá",
+      "message": "Tài khoản này đã bị xoá và không thể sử dụng được nữa."
     },
     "reset": {
       "title": "Đặt lại mật khẩu",

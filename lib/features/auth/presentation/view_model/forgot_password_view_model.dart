@@ -24,7 +24,9 @@ class ForgotPasswordViewModel extends ViewModel<ForgotPasswordState> {
     if (!currentState.canSubmit) {
       return;
     }
-    setState(currentState.copyWith(isLoading: true, clearError: true));
+    setState(
+      currentState.copyWith(isLoading: true, isSent: false, clearError: true),
+    );
     try {
       await _forgotPasswordUseCase.execute(currentState.phone.trim());
       setState(currentState.copyWith(isLoading: false, isSent: true));

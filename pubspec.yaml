@@ -106,14 +106,21 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
+# Native launch screen — mirrors lib/.../splash/presentation/pages/splash_page.dart
+# (navy hero background + house mark only, no wordmark). Colors match the
+# splash_page hero gradient TOP (AppColors.heroTop) so the native→Flutter
+# hand-off is seamless. Legacy Android & iOS show the house image centred;
+# Android 12+ shows the house as the masked icon.
 flutter_native_splash:
   color: "#1A3C5E"
-  image: assets/images/splash_logo.png
-  color_dark: "#142F49"
-  image_dark: assets/images/splash_logo.png
+  color_dark: "#1E3E5C"
+  image: assets/images/splash_house.png
+  image_dark: assets/images/splash_house.png
   android_12:
     image: assets/images/splash_logo.png
-    color: "#1A3C5E"
     image_dark: assets/images/splash_logo.png
-    color_dark: "#142F49"
+    icon_background_color: "#1A3C5E"
+    icon_background_color_dark: "#1E3E5C"
+    color: "#1A3C5E"
+    color_dark: "#1E3E5C"
   web: false

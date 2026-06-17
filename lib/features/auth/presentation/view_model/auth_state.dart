@@ -1,3 +1,4 @@
+import '../../../../core/error/app_exception.dart';
 import '../../domain/entities/user_entity.dart';
 
 /// Immutable UI state for the auth feature.
@@ -27,5 +28,14 @@ final class AuthUnauthenticated extends AuthState {
 
 final class AuthFailure extends AuthState {
   const AuthFailure(this.message);
+  final String message;
+}
+
+/// The account is blocked (hard stop) — see [BlockReason] for the cause (too
+/// many wrong OTP entries, a deleted account, …). The View renders a
+/// full-screen error instead of a snackbar.
+final class AuthBlocked extends AuthState {
+  const AuthBlocked(this.reason, this.message);
+  final BlockReason reason;
   final String message;
 }

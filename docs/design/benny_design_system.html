@@ -506,13 +506,12 @@
 
     <div class="cluster">
       <div class="ch">Splash <span class="pill">1 trạng thái</span></div>
-      <div class="cd">Logo + tên app "Benny". Bỏ tagline để tránh phụ thuộc đa ngôn ngữ.</div>
+      <div class="cd">Chỉ logo house-mark trên nền navy gradient + spinner. Bỏ chữ "Benny" và tagline để tránh phụ thuộc đa ngôn ngữ.</div>
       <div class="states">
       <!-- SPLASH -->
       <div class="phone">
         <div style="height:512px;background:linear-gradient(#1A3C5E,#142F49);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
           <svg viewBox="0 0 240 240" width="116" height="116" fill="none"><path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/><rect x="60" y="104" width="120" height="104" rx="14" fill="#fff"/><rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/><rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/><path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/><circle cx="129" cy="189" r="3" fill="#E8A020"/></svg>
-          <div style="color:#fff;font-size:28px;font-weight:600;margin-top:20px">Benny</div>
           <div style="position:absolute;bottom:44px;width:24px;height:24px;border:3px solid rgba(232,160,32,.3);border-top-color:#E8A020;border-radius:50%"></div>
         </div>
         <div class="cap">Khởi động</div>
@@ -750,7 +749,7 @@
 
     <div class="cluster">
       <div class="ch">Login <span class="pill">3 trạng thái</span></div>
-      <div class="cd">Ban đầu (chưa nhập) → đã nhập SĐT &amp; mật khẩu → lỗi (SĐT / mật khẩu sai, text lỗi dưới field). Password có nút show/hide.</div>
+      <div class="cd">Ban đầu (chưa nhập) → đã nhập SĐT &amp; mật khẩu → lỗi định dạng SĐT (viền đỏ + text lỗi dưới field). Mật khẩu KHÔNG kiểm tra rule ở màn này — chỉ bắt buộc nhập; sai thông tin đăng nhập báo qua snackbar. Password có nút show/hide.</div>
       <div class="states">
 
       <div class="phone">
@@ -790,14 +789,13 @@
           <div class="a-card">
             <div class="inp bad">0123</div>
             <div class="ierr">Số điện thoại không hợp lệ</div>
-            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
-            <div class="ierr">Mật khẩu chưa đạt yêu cầu</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div style="text-align:right;font-size:12px;color:var(--amber-600);margin-top:8px">Quên mật khẩu?</div>
             <div class="cta" style="margin-top:10px">Đăng nhập</div>
           </div>
           <div style="text-align:center;font-size:14px;color:var(--navy-600);font-weight:600;margin-top:18px">Đăng ký</div>
         </div>
-        <div class="cap">Sai SĐT &amp; mật khẩu</div>
+        <div class="cap">Sai định dạng SĐT</div>
       </div>
 
       </div>
@@ -875,10 +873,10 @@
           <div class="a-cap">Nhập số điện thoại đã đăng ký, chúng tôi sẽ gửi mã đặt lại qua SMS.</div>
           <div class="a-card">
             <div class="inp">Số điện thoại</div>
-            <div class="cta" style="margin-top:16px">Gửi mã đặt lại</div>
+            <div class="cta off" style="margin-top:16px">Gửi mã đặt lại</div>
           </div>
         </div>
-        <div class="cap">Nhập SĐT → sang OTP</div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
       </div>
 
       </div>
@@ -1172,12 +1170,11 @@
 
     <div class="cluster">
       <div class="ch">Splash <span class="pill">Dark</span></div>
-      <div class="cd">Nền navy-đen, logo light-mark + tên app.</div>
+      <div class="cd">Nền navy-đen, chỉ logo light-mark + spinner (bỏ chữ "Benny").</div>
       <div class="states">
       <div class="phone">
         <div style="height:512px;background:linear-gradient(#0E1B28,#0A131C);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
           <svg viewBox="0 0 240 240" width="116" height="116" fill="none"><path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/><rect x="60" y="104" width="120" height="104" rx="14" fill="#fff"/><rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/><rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/><path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#0E1B28"/><circle cx="129" cy="189" r="3" fill="#E8A020"/></svg>
-          <div style="color:var(--tx);font-size:28px;font-weight:600;margin-top:20px">Benny</div>
           <div style="position:absolute;bottom:44px;width:24px;height:24px;border:3px solid rgba(236,178,55,.25);border-top-color:var(--amb);border-radius:50%"></div>
         </div>
         <div class="cap">Khởi động</div>
@@ -1322,7 +1319,7 @@
 
     <div class="cluster">
       <div class="ch">Login <span class="pill">Dark · 2 trạng thái</span></div>
-      <div class="cd">Mặc định → lỗi (viền đỏ + text lỗi). Password có show/hide.</div>
+      <div class="cd">Mặc định → lỗi định dạng SĐT (viền đỏ + text lỗi). Mật khẩu không kiểm tra rule (chỉ bắt buộc nhập). Password có show/hide.</div>
       <div class="states">
       <div class="phone">
         <div class="ph-body">
@@ -1345,14 +1342,13 @@
           <div class="a-card">
             <div class="inp bad">0123</div>
             <div class="ierr">Số điện thoại không hợp lệ</div>
-            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic"></i></div>
-            <div class="ierr">Mật khẩu chưa đạt yêu cầu</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye-off ic"></i></div>
             <div style="text-align:right;font-size:12px;color:var(--amb);margin-top:8px">Quên mật khẩu?</div>
             <div class="cta" style="margin-top:10px">Đăng nhập</div>
           </div>
           <div style="text-align:center;font-size:14px;color:#8FB6E0;font-weight:600;margin-top:18px">Đăng ký</div>
         </div>
-        <div class="cap">Sai SĐT &amp; mật khẩu</div>
+        <div class="cap">Sai định dạng SĐT</div>
       </div>
       </div>
     </div>
@@ -1396,10 +1392,10 @@
           <div class="a-cap">Nhập số điện thoại đã đăng ký, chúng tôi sẽ gửi mã đặt lại qua SMS.</div>
           <div class="a-card">
             <div class="inp">Số điện thoại</div>
-            <div class="cta" style="margin-top:16px">Gửi mã đặt lại</div>
+            <div class="cta off" style="margin-top:16px">Gửi mã đặt lại</div>
           </div>
         </div>
-        <div class="cap">Nhập SĐT → sang OTP</div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
       </div>
       </div>
     </div>

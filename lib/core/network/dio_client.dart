@@ -97,10 +97,9 @@ class DioClient {
     final body = response.data ?? {};
     return ApiResponse<T>(
       success: response.statusCode != null && response.statusCode! < 400,
-      data: fromJson != null && body['data'] != null
-          ? fromJson(body['data'])
-          : null,
+      data: fromJson != null && body['data'] != null ? fromJson(body['data']) : null,
       message: body['message'] as String?,
+      verdict: body['verdict'] as String?,
       statusCode: response.statusCode,
       meta: body['meta'] as Map<String, dynamic>?,
     );
@@ -110,16 +109,17 @@ class DioClient {
     if (e.response?.statusCode == 401) {
       return AuthException();
     }
-    if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
+    if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
       return NetworkException('errors.network_timeout'.tr());
     }
     if (e.type == DioExceptionType.connectionError) {
       return NetworkException();
     }
+    final Object? responseData = e.response?.data;
     return ServerException.withCode(
       e.response?.statusCode ?? 500,
       e.message ?? 'errors.unknown'.tr(),
+      responseData,
     );
   }
 }
