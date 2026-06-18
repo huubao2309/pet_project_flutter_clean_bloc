@@ -10,4 +10,9 @@ abstract final class MockAssets {
   static const signupSuccess = '${_base}auth_mock/signup_success.json';
   static const signupIsBlocked = '${_base}auth_mock/signup_is_blocked_failed.json';
   static const signupFailed = '${_base}auth_mock/signup_failed.json';
+
+  // App update scenarios.
+  static const appUpdateForce = '${_base}app_update_mock/app_update_force.json';
+  static const appUpdateOptional = '${_base}app_update_mock/app_update_optional.json';
+  static const appUpdateNone = '${_base}app_update_mock/app_update_none.json';
 }

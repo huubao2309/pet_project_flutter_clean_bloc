@@ -3,6 +3,13 @@
     "name": "Benny",
     "tagline": "Real estate sales collaborator"
   },
+  "update": {
+    "title": "A new version is available",
+    "message": "A new version with improvements and new features is ready. Update for the best experience.",
+    "force_message": "Please update to the latest version to keep using the app.",
+    "update_button": "Update",
+    "close_button": "Close"
+  },
   "common": {
     "loading": "Loading...",
     "error": "An error occurred",

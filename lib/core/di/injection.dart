@@ -23,6 +23,14 @@ import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
 import '../../features/onboarding/presentation/view_model/billing_info_view_model.dart';
 import '../../features/onboarding/presentation/view_model/personal_info_view_model.dart';
+import '../../features/app_update/data/datasources/app_update_mock_data_source.dart';
+import '../../features/app_update/data/datasources/app_update_remote_data_source.dart';
+import '../../features/app_update/data/repositories/app_update_repository_impl.dart';
+import '../../features/app_update/domain/repositories/app_update_repository.dart';
+import '../../features/app_update/domain/use_cases/check_app_update_use_case.dart';
+import '../../features/app_update/domain/use_cases/dismiss_optional_update_use_case.dart';
+import '../../features/app_update/domain/use_cases/open_store_use_case.dart';
+import '../../features/app_update/presentation/view_model/app_update_view_model.dart';
 import '../../features/splash/presentation/view_model/splash_view_model.dart';
 import '../deep_link/deep_link_service.dart';
 import '../localization/data/repositories/language_repository_impl.dart';
@@ -102,6 +110,44 @@ Future<void> configureDependencies(Env env) async {
   _registerHomeFeature();
   _registerMainFeature();
   _registerOnboardingFeature();
+  _registerAppUpdateFeature();
+}
+
+/// App-update wiring (version check + force/optional prompts).
+///
+/// Swap the stub for the real backend by replacing the
+/// [AppUpdateRemoteDataSource] registration with
+/// `AppUpdateApiDataSource(dioClient: getIt<DioClient>())`.
+void _registerAppUpdateFeature() {
+  // Data source — ONE line to switch fake data ⇄ real backend.
+  getIt.registerLazySingleton<AppUpdateRemoteDataSource>(
+    AppUpdateMockDataSource.new,
+  );
+
+  getIt.registerLazySingleton<AppUpdateRepository>(
+    () => AppUpdateRepositoryImpl(
+      remoteDataSource: getIt<AppUpdateRemoteDataSource>(),
+      localStorage: getIt<LocalStorage>(),
+    ),
+  );
+
+  getIt.registerLazySingleton(
+    () => CheckAppUpdateUseCase(repository: getIt<AppUpdateRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => OpenStoreUseCase(repository: getIt<AppUpdateRepository>()),
+  );
+
+  getIt.registerFactory(
+    () => AppUpdateViewModel(
+      checkUseCase: getIt<CheckAppUpdateUseCase>(),
+      dismissUseCase: getIt<DismissOptionalUpdateUseCase>(),
+      openStoreUseCase: getIt<OpenStoreUseCase>(),
+    ),
+  );
 }
 
 /// Localization wiring (language preference get/set behind use cases).

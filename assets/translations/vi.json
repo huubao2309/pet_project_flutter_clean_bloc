@@ -1,4 +1,11 @@
 {
+  "update": {
+    "title": "Đã có phiên bản mới",
+    "message": "Phiên bản mới với nhiều cải tiến và tính năng đã sẵn sàng. Hãy cập nhật để có trải nghiệm tốt nhất.",
+    "force_message": "Vui lòng cập nhật lên phiên bản mới nhất để tiếp tục sử dụng ứng dụng.",
+    "update_button": "Cập nhật",
+    "close_button": "Đóng"
+  },
   "app": {
     "name": "Benny",
     "tagline": "Cộng tác viên bất động sản"

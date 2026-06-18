@@ -6,6 +6,7 @@ import 'base/app_constants.dart';
 import 'core/di/injection.dart';
 import 'core/presentation/presentation.dart';
 import 'core/router/app_router.dart';
+import 'features/app_update/presentation/widgets/app_update_gate.dart';
 import 'core/theme/app_theme_mode.dart';
 import 'core/theme/theme_view_model.dart';
 import 'environments/env_type.dart';
@@ -41,9 +42,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // The theme controller lives above MaterialApp so the whole app rebuilds
     // (and routed pages can read/toggle it) when Light/Dark mode changes.
-    return ViewModelProvider<ThemeViewModel>(
-      create: (_) => getIt<ThemeViewModel>(),
-      child: EasyLocalization(
+    // [AppUpdateGate] sits at the very top so its version check runs once and
+    // its prompt is independent of the current route (and survives theme /
+    // locale rebuilds of MaterialApp below).
+    return AppUpdateGate(
+      child: ViewModelProvider<ThemeViewModel>(
+        create: (_) => getIt<ThemeViewModel>(),
+        child: EasyLocalization(
         supportedLocales: AppConstants.supportedLocales,
         path: AppConstants.translationsPath,
         fallbackLocale: AppConstants.fallbackLocale,
@@ -88,6 +93,7 @@ class MyApp extends StatelessWidget {
             },
           ),
         ),
+      ),
       ),
     );
   }

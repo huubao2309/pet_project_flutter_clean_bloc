@@ -1,0 +1,16 @@
+{
+  "message": "ok",
+  "time": "2022-10-26T02:35:54Z",
+  "verdict": "success",
+  "status_code": 200,
+  "data": {
+    "latest_version": "1.0.0",
+    "min_required_version": "1.0.0",
+    "force_update": false,
+    "release_notes": "",
+    "store_url": {
+      "android": "https://play.google.com/store/apps/details?id=com.benny.app",
+      "ios": "https://apps.apple.com/app/id000000000"
+    }
+  }
+}

@@ -1079,8 +1079,8 @@
     </div>
 
     <div class="cluster">
-      <div class="ch">Dialog &amp; Bottom sheet <span class="pill">3 dialog · 3 bottom sheet</span></div>
-      <div class="cd">Dialog: xác nhận (2 nút) · xoá/destructive (nút đỏ) · thông báo (icon + 1 nút). Bottom sheet (radius trên, có grab handle theo BennyBottomSheet): chọn ngôn ngữ · action sheet · xác nhận destructive.</div>
+      <div class="ch">Dialog &amp; Bottom sheet <span class="pill">5 dialog · 3 bottom sheet</span></div>
+      <div class="cd">Dialog: xác nhận (2 nút) · xoá/destructive (nút đỏ) · thông báo (icon + 1 nút) · cập nhật bắt buộc (icon + 1 nút, không thể đóng) · cập nhật tuỳ chọn (icon + 2 nút). Bottom sheet (radius trên, có grab handle theo BennyBottomSheet): chọn ngôn ngữ · action sheet · xác nhận destructive.</div>
       <div class="states">
 
       <div class="phone">
@@ -1124,6 +1124,35 @@
           </div>
         </div>
         <div class="cap">Dialog thông báo</div>
+      </div>
+
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;padding:0 20px">
+          <div class="scrim" style="background:rgba(8,21,33,.45)"></div>
+          <div class="dlg" style="text-align:center">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--navy-50);color:var(--navy-600);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto"><i class="ti ti-cloud-download"></i></div>
+            <div style="font-size:16px;font-weight:700;color:var(--navy-800);margin-top:12px">Đã có phiên bản mới</div>
+            <div style="font-size:13px;color:var(--gray-600);margin-top:6px;line-height:1.5">Vui lòng cập nhật lên phiên bản mới nhất để tiếp tục sử dụng ứng dụng.</div>
+            <div class="cta" style="margin-top:18px">Cập nhật</div>
+          </div>
+        </div>
+        <div class="cap">Cập nhật bắt buộc (không thể đóng)</div>
+      </div>
+
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;padding:0 20px">
+          <div class="scrim" style="background:rgba(8,21,33,.45)"></div>
+          <div class="dlg" style="text-align:center">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--navy-50);color:var(--navy-600);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto"><i class="ti ti-cloud-download"></i></div>
+            <div style="font-size:16px;font-weight:700;color:var(--navy-800);margin-top:12px">Đã có phiên bản mới</div>
+            <div style="font-size:13px;color:var(--gray-600);margin-top:6px;line-height:1.5">Phiên bản mới với nhiều cải tiến và tính năng đã sẵn sàng. Hãy cập nhật để có trải nghiệm tốt nhất.</div>
+            <div style="display:flex;gap:10px;margin-top:18px">
+              <div class="cta2" style="flex:1">Đóng</div>
+              <div class="cta" style="flex:1">Cập nhật</div>
+            </div>
+          </div>
+        </div>
+        <div class="cap">Cập nhật tuỳ chọn (đóng được)</div>
       </div>
 
       <div class="phone">
