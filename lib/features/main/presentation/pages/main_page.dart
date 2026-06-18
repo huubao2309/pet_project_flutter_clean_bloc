@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/lazy_load_indexed_stack.dart';
+import '../../../../core/router/app_routes.dart';
+import '../../../commission/presentation/pages/commission_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../main_tab.dart';
@@ -22,17 +25,11 @@ class MainPage extends StatelessWidget {
       subtitleKey: 'placeholder.history',
       icon: Icons.history_outlined,
     ),
-    MainTab.qr: PlaceholderTabPage(
-      titleKey: 'nav.qr',
-      subtitleKey: 'placeholder.qr',
-      icon: Icons.qr_code_scanner_rounded,
-      accent: true,
-    ),
-    MainTab.commission: PlaceholderTabPage(
-      titleKey: 'nav.commission',
-      subtitleKey: 'placeholder.commission',
-      icon: Icons.payments_outlined,
-    ),
+    // The QR tab never renders as a page — tapping its center button pushes the
+    // full-screen scanner route instead (see [_MainView]). This entry is a
+    // harmless stand-in to keep the IndexedStack aligned with the tab list.
+    MainTab.qr: SizedBox.shrink(),
+    MainTab.commission: CommissionPage(),
     MainTab.profile: ProfilePage(),
   };
 
@@ -65,9 +62,27 @@ class _MainView extends StatelessWidget {
         bottomNavigationBar: MainBottomNav(
           tabs: tabs,
           currentIndex: index,
-          onTap: viewModel.changeTab,
+          onTap: (i) => _onTabTapped(context, tabs, viewModel, i),
         ),
       ),
     );
+  }
+
+  /// The center QR tab opens the scanner as a pushed route rather than a tab;
+  /// every other tab switches the IndexedStack.
+  void _onTabTapped(
+    BuildContext context,
+    List<MainTab> tabs,
+    MainViewModel viewModel,
+    int index,
+  ) {
+    if (index < 0 || index >= tabs.length) {
+      return;
+    }
+    if (tabs[index] == MainTab.qr) {
+      context.push(AppRoutes.qrScan);
+      return;
+    }
+    viewModel.changeTab(index);
   }
 }

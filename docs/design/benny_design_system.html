@@ -670,6 +670,210 @@
       </div>
     </div>
 
+    <!-- ============== HOA HỒNG (Commission listing) ============== -->
+    <div class="cluster">
+      <div class="ch">Hoa hồng — BĐS hoa hồng cao gần bạn <span class="pill">3 trạng thái</span></div>
+      <div class="cd">Danh sách các căn nhà có điểm hoa hồng cao trong bán kính gần đây. AppBar có nút lấy vị trí hiện tại; thanh sắp xếp (điểm HH · giá bán · trạng thái) + bottom sheet bộ lọc. Mỗi tin hiển thị khoảng cách, % &amp; số tiền hoa hồng, trạng thái (Cần bán gấp…) và cảnh báo "Sắp hết hạn".</div>
+      <div class="states">
+
+      <!-- COMMISSION — LIST -->
+      <div class="phone">
+        <div style="height:560px;background:var(--bg);display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px">
+            <span style="font-size:21px;font-weight:600;color:var(--navy-800)">Hoa hồng</span>
+            <div style="display:flex;align-items:center;gap:5px;background:var(--navy-50);color:var(--navy-700);font-size:12px;font-weight:600;padding:7px 11px;border-radius:20px"><i class="ti ti-current-location" style="color:var(--amber-600)"></i>Quận 1</div>
+          </div>
+
+          <div style="margin:0 16px;background:linear-gradient(135deg,var(--navy-600),var(--navy-800));border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <span style="width:34px;height:34px;border-radius:10px;background:rgba(232,160,32,.22);color:var(--amber-300);display:flex;align-items:center;justify-content:center"><i class="ti ti-map-pin"></i></span>
+            <div style="flex:1"><div style="color:#fff;font-size:13px;font-weight:600">Tin hoa hồng cao gần bạn</div><div style="color:var(--navy-100);font-size:11px;margin-top:1px">Quận 1, TP.HCM · bán kính 5 km · 8 tin</div></div>
+            <i class="ti ti-refresh" style="color:var(--navy-100)"></i>
+          </div>
+
+          <div style="display:flex;gap:8px;padding:12px 16px 6px;overflow:hidden">
+            <span style="display:flex;align-items:center;gap:4px;background:var(--amber-500);color:#fff;font-size:11px;font-weight:600;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-arrow-down"></i>Điểm HH</span>
+            <span style="background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Giá bán</span>
+            <span style="background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Trạng thái</span>
+            <span style="display:flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-adjustments-horizontal"></i>Lọc</span>
+          </div>
+
+          <div style="flex:1;overflow:hidden;padding:6px 16px 0;display:flex;flex-direction:column;gap:10px">
+            <!-- card: urgent + expiring -->
+            <div style="background:#fff;border:1px solid var(--gray-100);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,var(--navy-400),var(--navy-600));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--navy-800)">The Marq Quận 1</span><span style="background:var(--error-bg);color:var(--error-d);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap"><i class="ti ti-flame"></i> Cần bán gấp</span></div>
+                <div style="font-size:10px;color:var(--gray-400);margin-top:2px"><i class="ti ti-map-pin"></i> Quận 1 · cách 1,2 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amber-600)">8,5 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--amber-50);color:var(--amber-700);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 3% · 255 tr</span>
+                </div>
+                <div style="margin-top:6px;display:flex;align-items:center;gap:4px;background:var(--warning-bg);color:var(--warning-d);font-size:10px;padding:3px 8px;border-radius:8px;width:fit-content"><i class="ti ti-clock-hour-4"></i> Sắp hết hạn · còn 2 ngày</div>
+              </div>
+            </div>
+            <!-- card: available -->
+            <div style="background:#fff;border:1px solid var(--gray-100);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,var(--navy-400),var(--navy-600));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--navy-800)">Saigon Pearl</span><span style="background:var(--success-bg);color:var(--success-d);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap">Đang bán</span></div>
+                <div style="font-size:10px;color:var(--gray-400);margin-top:2px"><i class="ti ti-map-pin"></i> Bình Thạnh · cách 3,4 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amber-600)">6,2 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--amber-50);color:var(--amber-700);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 2,5% · 155 tr</span>
+                </div>
+              </div>
+            </div>
+            <!-- card: deposited -->
+            <div style="background:#fff;border:1px solid var(--gray-100);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,var(--navy-400),var(--navy-600));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-home"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--navy-800)">Nhà phố Thảo Điền</span><span style="background:var(--amber-50);color:var(--amber-700);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap">Đã cọc</span></div>
+                <div style="font-size:10px;color:var(--gray-400);margin-top:2px"><i class="ti ti-map-pin"></i> TP. Thủ Đức · cách 5,0 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amber-600)">14,5 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--amber-50);color:var(--amber-700);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 2% · 290 tr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="navbar">
+            <div class="it"><i class="ti ti-home" style="color:var(--gray-400)"></i><div class="l" style="color:var(--gray-400)">Trang chủ</div></div>
+            <div class="it"><i class="ti ti-history" style="color:var(--gray-400)"></i><div class="l" style="color:var(--gray-400)">Lịch sử</div></div>
+            <div class="it"><div class="qrc"><i class="ti ti-qrcode"></i></div><div class="l" style="color:var(--amber-700);font-weight:600">Quét QR</div></div>
+            <div class="it"><i class="ti ti-cash" style="color:var(--navy-600)"></i><div class="l" style="color:var(--navy-600);font-weight:600">Hoa hồng</div></div>
+            <div class="it"><i class="ti ti-user" style="color:var(--gray-400)"></i><div class="l" style="color:var(--gray-400)">Hồ sơ</div></div>
+          </div>
+        </div>
+        <div class="cap">Danh sách — sắp xếp theo điểm HH</div>
+      </div>
+
+      <!-- COMMISSION — LOCATING -->
+      <div class="phone">
+        <div style="height:560px;background:var(--bg);display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px">
+            <span style="font-size:21px;font-weight:600;color:var(--navy-800)">Hoa hồng</span>
+            <div style="display:flex;align-items:center;gap:5px;background:var(--amber-50);color:var(--amber-700);font-size:12px;font-weight:600;padding:7px 11px;border-radius:20px"><span style="width:11px;height:11px;border:2px solid var(--amber-300);border-top-color:var(--amber-600);border-radius:50%;display:inline-block"></span>Đang định vị</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center">
+            <div style="width:96px;height:96px;background:var(--navy-50);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy-600);font-size:42px"><i class="ti ti-location-search"></i></div>
+            <div style="font-size:16px;font-weight:600;color:var(--navy-800);margin-top:20px">Đang xác định vị trí của bạn…</div>
+            <div style="font-size:13px;color:var(--gray-500);margin-top:8px">Benny sẽ tìm các BĐS hoa hồng cao quanh khu vực bạn đang đứng.</div>
+          </div>
+        </div>
+        <div class="cap">Lấy vị trí hiện tại</div>
+      </div>
+
+      <!-- COMMISSION — FILTER SHEET -->
+      <div class="phone">
+        <div style="height:560px;background:rgba(8,21,33,.5);display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 22px">
+            <div style="width:36px;height:4px;background:var(--gray-200);border-radius:4px;margin:0 auto 14px"></div>
+            <div style="font-size:16px;font-weight:600;color:var(--navy-800)">Bộ lọc &amp; sắp xếp</div>
+
+            <div style="font-size:11px;font-weight:600;color:var(--gray-400);margin-top:16px;text-transform:uppercase;letter-spacing:.6px">Sắp xếp theo</div>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:2px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0"><span style="font-size:13px;color:var(--navy-800);font-weight:600">Điểm hoa hồng cao nhất</span><i class="ti ti-circle-check-filled" style="color:var(--amber-500);font-size:18px"></i></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-top:.5px solid var(--gray-100)"><span style="font-size:13px;color:var(--navy-700)">Giá bán: cao → thấp</span><i class="ti ti-circle" style="color:var(--gray-300);font-size:18px"></i></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-top:.5px solid var(--gray-100)"><span style="font-size:13px;color:var(--navy-700)">Giá bán: thấp → cao</span><i class="ti ti-circle" style="color:var(--gray-300);font-size:18px"></i></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-top:.5px solid var(--gray-100)"><span style="font-size:13px;color:var(--navy-700)">Gần tôi nhất</span><i class="ti ti-circle" style="color:var(--gray-300);font-size:18px"></i></div>
+            </div>
+
+            <div style="font-size:11px;font-weight:600;color:var(--gray-400);margin-top:14px;text-transform:uppercase;letter-spacing:.6px">Trạng thái</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <span style="background:var(--navy-600);color:#fff;font-size:11px;font-weight:600;padding:6px 12px;border-radius:16px">Cần bán gấp</span>
+              <span style="background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 12px;border-radius:16px">Đang bán</span>
+              <span style="background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 12px;border-radius:16px">Sắp hết hạn</span>
+              <span style="background:#fff;border:1px solid var(--gray-200);color:var(--navy-700);font-size:11px;padding:6px 12px;border-radius:16px">Đã cọc</span>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px">
+              <div style="flex:1;text-align:center;border:1px solid var(--navy-200);color:var(--navy-600);font-size:13px;font-weight:600;padding:11px;border-radius:8px">Đặt lại</div>
+              <div style="flex:2;text-align:center;background:var(--navy-600);color:#fff;font-size:13px;font-weight:600;padding:11px;border-radius:8px">Áp dụng</div>
+            </div>
+          </div>
+        </div>
+        <div class="cap">Bottom sheet — bộ lọc &amp; sắp xếp</div>
+      </div>
+
+      </div>
+    </div>
+
+    <!-- ============== QUÉT QR (in-app camera scanner) ============== -->
+    <div class="cluster">
+      <div class="ch">Quét QR — camera trong app <span class="pill">3 trạng thái</span></div>
+      <div class="cd">Khi chọn "Quét QR" mở màn hình camera toàn màn hình (thư viện <code>mobile_scanner</code>): khung quét với góc amber + vạch quét, nút đèn flash &amp; chọn ảnh từ thư viện. Có màn xin quyền camera và bottom sheet hiển thị BĐS sau khi quét thành công.</div>
+      <div class="states">
+
+      <!-- QR — SCANNER -->
+      <div class="phone">
+        <div style="height:560px;background:#0A0E12;position:relative;display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;z-index:2">
+            <span style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-x"></i></span>
+            <span style="color:#fff;font-size:15px;font-weight:600">Quét mã QR</span>
+            <span style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-bolt"></i></span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="position:relative;width:202px;height:202px;border-radius:24px;background:rgba(255,255,255,.04)">
+              <span style="position:absolute;top:0;left:0;width:38px;height:38px;border-top:4px solid var(--amber-500);border-left:4px solid var(--amber-500);border-radius:18px 0 0 0"></span>
+              <span style="position:absolute;top:0;right:0;width:38px;height:38px;border-top:4px solid var(--amber-500);border-right:4px solid var(--amber-500);border-radius:0 18px 0 0"></span>
+              <span style="position:absolute;bottom:0;left:0;width:38px;height:38px;border-bottom:4px solid var(--amber-500);border-left:4px solid var(--amber-500);border-radius:0 0 0 18px"></span>
+              <span style="position:absolute;bottom:0;right:0;width:38px;height:38px;border-bottom:4px solid var(--amber-500);border-right:4px solid var(--amber-500);border-radius:0 0 18px 0"></span>
+              <span style="position:absolute;left:16px;right:16px;top:50%;height:2px;background:var(--amber-500);box-shadow:0 0 14px 2px var(--amber-500)"></span>
+              <i class="ti ti-qrcode" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.08);font-size:90px"></i>
+            </div>
+            <div style="color:rgba(255,255,255,.8);font-size:13px;margin-top:24px;text-align:center;padding:0 44px;line-height:1.5">Đưa mã QR của bất động sản vào khung để xem chi tiết</div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;padding:0 16px 30px">
+            <span style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);color:#fff;font-size:12px;padding:10px 16px;border-radius:24px"><i class="ti ti-bolt"></i> Đèn flash</span>
+            <span style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);color:#fff;font-size:12px;padding:10px 16px;border-radius:24px"><i class="ti ti-photo"></i> Thư viện</span>
+          </div>
+        </div>
+        <div class="cap">Camera quét QR trong app</div>
+      </div>
+
+      <!-- QR — PERMISSION -->
+      <div class="phone">
+        <div style="height:560px;background:#0A0E12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center">
+          <div style="width:96px;height:96px;border-radius:50%;background:rgba(232,160,32,.15);color:var(--amber-400);display:flex;align-items:center;justify-content:center;font-size:42px"><i class="ti ti-camera"></i></div>
+          <div style="color:#fff;font-size:18px;font-weight:600;margin-top:20px">Cần quyền camera</div>
+          <div style="color:rgba(255,255,255,.65);font-size:13px;margin-top:8px;line-height:1.55">Cho phép Benny truy cập camera để quét mã QR của bất động sản.</div>
+          <div style="margin-top:22px;background:var(--amber-500);color:#fff;font-size:13px;font-weight:600;padding:11px 30px;border-radius:8px">Cấp quyền truy cập</div>
+          <div style="margin-top:12px;color:rgba(255,255,255,.6);font-size:12px">Để sau</div>
+        </div>
+        <div class="cap">Xin quyền camera</div>
+      </div>
+
+      <!-- QR — RESULT SHEET -->
+      <div class="phone">
+        <div style="height:560px;background:#0A0E12;position:relative;display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="position:absolute;top:64px;left:0;right:0;display:flex;flex-direction:column;align-items:center;opacity:.5">
+            <div style="width:130px;height:130px;border-radius:22px;border:3px solid var(--amber-500);display:flex;align-items:center;justify-content:center;color:var(--amber-400);font-size:40px"><i class="ti ti-circle-check"></i></div>
+          </div>
+          <div style="background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 22px">
+            <div style="width:36px;height:4px;background:var(--gray-200);border-radius:4px;margin:0 auto 14px"></div>
+            <div style="display:flex;gap:12px">
+              <div style="width:66px;height:66px;border-radius:12px;background:linear-gradient(135deg,var(--navy-400),var(--navy-600));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <span style="font-size:9px;color:var(--success-d);background:var(--success-bg);padding:2px 7px;border-radius:10px"><i class="ti ti-circle-check"></i> Đã quét mã QR</span>
+                <div style="font-size:15px;font-weight:600;color:var(--navy-800);margin-top:5px">Vinhomes Central Park</div>
+                <div style="font-size:11px;color:var(--gray-400)">Bình Thạnh, TP.HCM · 78 m² · 2 PN</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+              <span style="font-size:18px;font-weight:600;color:var(--amber-600)">5,6 tỷ</span>
+              <span style="background:var(--amber-50);color:var(--amber-700);font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px"><i class="ti ti-coin"></i> HH 168 tr</span>
+            </div>
+            <div style="background:var(--navy-600);color:#fff;text-align:center;font-size:14px;font-weight:600;padding:12px;border-radius:8px;margin-top:14px">Xem chi tiết bất động sản</div>
+            <div style="text-align:center;color:var(--gray-500);font-size:13px;margin-top:10px">Quét mã khác</div>
+          </div>
+        </div>
+        <div class="cap">Kết quả sau khi quét</div>
+      </div>
+
+      </div>
+    </div>
+
     <div class="cluster">
       <div class="ch">Profile — Hồ sơ <span class="pill">1 trạng thái</span></div>
       <div class="cd">Header navy (avatar + tên + 4 số cuối SĐT) + các nhóm cài đặt dạng list tile. Đăng nhập vân tay là switch; ngôn ngữ/phiên bản hiển thị value; xoá tài khoản tông đỏ.</div>
@@ -1643,6 +1847,98 @@
           </div>
         </div>
         <div class="cap">Bottom sheet — action sheet</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- ============== HOA HỒNG — Dark ============== -->
+    <div class="cluster">
+      <div class="ch">Hoa hồng — BĐS hoa hồng cao gần bạn <span class="pill">Dark</span></div>
+      <div class="cd">Bản tối của danh sách hoa hồng: nền tối, card surface viền mảnh; số tiền &amp; hoa hồng tông amber; badge trạng thái dùng token tối.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:560px;background:var(--bg);display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px">
+            <span style="font-size:21px;font-weight:600;color:var(--tx)">Hoa hồng</span>
+            <div style="display:flex;align-items:center;gap:5px;background:var(--priSoft);color:#cfe0ef;font-size:12px;font-weight:600;padding:7px 11px;border-radius:20px"><i class="ti ti-current-location" style="color:var(--amb)"></i>Quận 1</div>
+          </div>
+          <div style="margin:0 16px;background:linear-gradient(135deg,#1E3E5C,#11202E);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <span style="width:34px;height:34px;border-radius:10px;background:var(--ambSoft);color:var(--amb);display:flex;align-items:center;justify-content:center"><i class="ti ti-map-pin"></i></span>
+            <div style="flex:1"><div style="color:#fff;font-size:13px;font-weight:600">Tin hoa hồng cao gần bạn</div><div style="color:#bcd2e6;font-size:11px;margin-top:1px">Quận 1, TP.HCM · bán kính 5 km · 8 tin</div></div>
+            <i class="ti ti-refresh" style="color:#bcd2e6"></i>
+          </div>
+          <div style="display:flex;gap:8px;padding:12px 16px 6px;overflow:hidden">
+            <span style="display:flex;align-items:center;gap:4px;background:var(--amb);color:#3D2507;font-size:11px;font-weight:600;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-arrow-down"></i>Điểm HH</span>
+            <span style="background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Giá bán</span>
+            <span style="background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Trạng thái</span>
+            <span style="display:flex;align-items:center;gap:4px;background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-adjustments-horizontal"></i>Lọc</span>
+          </div>
+          <div style="flex:1;overflow:hidden;padding:6px 16px 0;display:flex;flex-direction:column;gap:10px">
+            <div style="background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--tx)">The Marq Quận 1</span><span style="background:var(--errSoft);color:var(--errc);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap"><i class="ti ti-flame"></i> Cần bán gấp</span></div>
+                <div style="font-size:10px;color:var(--tx3);margin-top:2px"><i class="ti ti-map-pin"></i> Quận 1 · cách 1,2 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amb)">8,5 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--ambSoft);color:var(--amb);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 3% · 255 tr</span>
+                </div>
+                <div style="margin-top:6px;display:flex;align-items:center;gap:4px;background:var(--warnSoft);color:var(--warnc);font-size:10px;padding:3px 8px;border-radius:8px;width:fit-content"><i class="ti ti-clock-hour-4"></i> Sắp hết hạn · còn 2 ngày</div>
+              </div>
+            </div>
+            <div style="background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--tx)">Saigon Pearl</span><span style="background:var(--okSoft);color:var(--okc);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap">Đang bán</span></div>
+                <div style="font-size:10px;color:var(--tx3);margin-top:2px"><i class="ti ti-map-pin"></i> Bình Thạnh · cách 3,4 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amb)">6,2 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--ambSoft);color:var(--amb);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 2,5% · 155 tr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div class="it"><i class="ti ti-home" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Trang chủ</div></div>
+            <div class="it"><i class="ti ti-history" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Lịch sử</div></div>
+            <div class="it"><div class="qrc"><i class="ti ti-qrcode"></i></div><div class="l" style="color:var(--amb);font-weight:600">Quét QR</div></div>
+            <div class="it"><i class="ti ti-cash" style="color:#8FB6E0"></i><div class="l" style="color:#8FB6E0;font-weight:600">Hoa hồng</div></div>
+            <div class="it"><i class="ti ti-user" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Hồ sơ</div></div>
+          </div>
+        </div>
+        <div class="cap">Danh sách — Dark</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- ============== QUÉT QR — Dark ============== -->
+    <div class="cluster">
+      <div class="ch">Quét QR — camera trong app <span class="pill">Dark</span></div>
+      <div class="cd">Màn camera vốn nền tối nên hầu như đồng nhất 2 chế độ; bottom sheet kết quả đổi sang surface tối.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:560px;background:#05080B;position:relative;display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="position:absolute;top:64px;left:0;right:0;display:flex;flex-direction:column;align-items:center;opacity:.5">
+            <div style="width:130px;height:130px;border-radius:22px;border:3px solid var(--amb);display:flex;align-items:center;justify-content:center;color:var(--amb);font-size:40px"><i class="ti ti-circle-check"></i></div>
+          </div>
+          <div style="background:var(--surf);border-radius:20px 20px 0 0;padding:16px 16px 22px">
+            <div style="width:36px;height:4px;background:var(--line);border-radius:4px;margin:0 auto 14px"></div>
+            <div style="display:flex;gap:12px">
+              <div style="width:66px;height:66px;border-radius:12px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <span style="font-size:9px;color:var(--okc);background:var(--okSoft);padding:2px 7px;border-radius:10px"><i class="ti ti-circle-check"></i> Đã quét mã QR</span>
+                <div style="font-size:15px;font-weight:600;color:var(--tx);margin-top:5px">Vinhomes Central Park</div>
+                <div style="font-size:11px;color:var(--tx3)">Bình Thạnh, TP.HCM · 78 m² · 2 PN</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+              <span style="font-size:18px;font-weight:600;color:var(--amb)">5,6 tỷ</span>
+              <span style="background:var(--ambSoft);color:var(--amb);font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px"><i class="ti ti-coin"></i> HH 168 tr</span>
+            </div>
+            <div style="background:#3E6B92;color:#fff;text-align:center;font-size:14px;font-weight:600;padding:12px;border-radius:8px;margin-top:14px">Xem chi tiết bất động sản</div>
+          </div>
+        </div>
+        <div class="cap">Kết quả sau khi quét — Dark</div>
       </div>
       </div>
     </div>

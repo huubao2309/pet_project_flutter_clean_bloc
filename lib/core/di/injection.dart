@@ -19,6 +19,7 @@ import '../../features/auth/presentation/view_model/auth_view_model.dart';
 import '../../features/auth/presentation/view_model/forgot_password_view_model.dart';
 import '../../features/auth/presentation/view_model/otp_view_model.dart';
 import '../../features/auth/presentation/view_model/sign_up_view_model.dart';
+import '../../features/commission/presentation/view_model/commission_view_model.dart';
 import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
 import '../../features/onboarding/presentation/view_model/billing_info_view_model.dart';
@@ -108,6 +109,7 @@ Future<void> configureDependencies(Env env) async {
   _registerSplashFeature();
   _registerAuthFeature();
   _registerHomeFeature();
+  _registerCommissionFeature();
   _registerMainFeature();
   _registerOnboardingFeature();
   _registerAppUpdateFeature();
@@ -182,6 +184,11 @@ void _registerMainFeature() {
 /// Home feature wiring.
 void _registerHomeFeature() {
   getIt.registerFactory(HomeViewModel.new);
+}
+
+/// Commission (Hoa hồng) feature wiring.
+void _registerCommissionFeature() {
+  getIt.registerFactory(CommissionViewModel.new);
 }
 
 /// Onboarding feature wiring (pure form view models — no backend yet).

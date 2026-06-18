@@ -201,6 +201,53 @@
       "cancelled": "Cancelled"
     }
   },
+  "commission": {
+    "banner_title": "High-commission listings near you",
+    "banner_subtitle": "{location} · within {radius} km · {count} listings",
+    "distance": "{address} · {distance} away",
+    "payout": "Comm. {percent}% · {amount}",
+    "expiring": "Expiring soon · {days} days left",
+    "filter": "Filter",
+    "filter_title": "Filter & sort",
+    "sort_label": "Sort by",
+    "status_label": "Status",
+    "reset": "Reset",
+    "apply": "Apply",
+    "empty": "No matching listings found",
+    "locating_short": "Locate",
+    "locating_title": "Finding your location…",
+    "locating_subtitle": "Benny is looking for high-commission properties around where you are.",
+    "sort": {
+      "score": "Highest commission score",
+      "score_short": "Comm.",
+      "price_desc": "Price: high → low",
+      "price_asc": "Price: low → high",
+      "price_short": "Price",
+      "nearest": "Nearest to me",
+      "nearest_short": "Nearest"
+    },
+    "status": {
+      "urgent_sell": "Urgent sale",
+      "available": "On sale",
+      "deposited": "Reserved"
+    }
+  },
+  "qr": {
+    "title": "Scan QR code",
+    "hint": "Point the property QR code into the frame to see details",
+    "flash": "Flash",
+    "gallery": "Gallery",
+    "gallery_unavailable": "Picking from the gallery is coming soon.",
+    "scanned": "QR scanned",
+    "result_specs": "{address} · {area} m² · {bedrooms} BR",
+    "result_commission": "Comm. {amount}",
+    "view_detail": "View property details",
+    "scan_again": "Scan another code",
+    "permission_title": "Camera permission needed",
+    "permission_message": "Allow Benny to use the camera to scan property QR codes.",
+    "permission_grant": "Grant access",
+    "permission_later": "Later"
+  },
   "loan": {
     "title": "My Loans",
     "amount": "Amount",

@@ -10,6 +10,7 @@ import '../../features/auth/presentation/pages/welcome_page.dart';
 import '../../features/main/presentation/pages/main_page.dart';
 import '../../features/onboarding/presentation/pages/billing_info_page.dart';
 import '../../features/onboarding/presentation/pages/personal_info_page.dart';
+import '../../features/qr_scan/presentation/pages/qr_scan_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import 'app_routes.dart';
 import 'router_guard.dart';
@@ -68,6 +69,8 @@ class AppRouter {
       ),
       // MainPage hosts the bottom-navigation tabs.
       GoRoute(path: AppRoutes.main, builder: (_, __) => const MainPage()),
+      // Full-screen in-app QR scanner, pushed over the tabs.
+      GoRoute(path: AppRoutes.qrScan, builder: (_, __) => const QrScanPage()),
     ],
   );
 

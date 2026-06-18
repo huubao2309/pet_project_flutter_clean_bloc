@@ -18,11 +18,12 @@ class BrandDataSourceStyle {
   };
 
   static final Map<String, Color> brandSecondary = {
+    // Design `.btn-secondary`: white fill, navy-600 label, navy-200 border.
     "borderDisableColor": _color.neutral500,
     "borderActiveColor": _color.brand200,
-    "foregroundActiveColor": _color.brand700,
+    "foregroundActiveColor": _color.brand600,
     "foregroundDisableColor": _color.neutral600,
-    "backgroundActiveColor": _color.brand100,
+    "backgroundActiveColor": _color.white,
     "backgroundDisableColor": _color.neutral400,
     "overlayActiveColor": _color.brand300,
   };

@@ -1,8 +1,10 @@
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
+import '../../../../core/router/app_routes.dart';
 import '../view_model/home_state.dart';
 import '../view_model/home_view_model.dart';
 import '../widgets/deal_tile.dart';
@@ -81,7 +83,7 @@ class _LoadedBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const QuickActions(),
+                QuickActions(onScanQr: () => context.push(AppRoutes.qrScan)),
                 gap,
                 StatsRow(
                   activeListings: state.activeListings,

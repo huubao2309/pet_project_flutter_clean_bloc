@@ -10,12 +10,16 @@ class StatusBadge extends StatelessWidget {
     required this.label,
     required this.color,
     required this.background,
+    this.icon,
     super.key,
   });
 
   final String label;
   final Color color;
   final Color background;
+
+  /// Optional leading icon (e.g. a flame for an urgent-sell status).
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +34,19 @@ class StatusBadge extends StatelessWidget {
         color: background,
         borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
       ),
-      child: Text(
-        label,
-        style: theme.textStyle.captionDefault
-            .copyWith(color: color, fontWeight: FontWeight.w600),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 12, color: color),
+            const SizedBox(width: 3),
+          ],
+          Text(
+            label,
+            style: theme.textStyle.captionDefault
+                .copyWith(color: color, fontWeight: FontWeight.w600),
+          ),
+        ],
       ),
     );
   }

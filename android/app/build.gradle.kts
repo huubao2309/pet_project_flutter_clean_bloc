@@ -24,7 +24,8 @@ android {
         applicationId = "com.clean.bloc.pet_project_flutter_clean_bloc"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // mobile_scanner (QR scanning) requires Android API 23+.
+        minSdk = maxOf(flutter.minSdkVersion, 23)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

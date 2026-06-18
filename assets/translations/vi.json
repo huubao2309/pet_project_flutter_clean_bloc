@@ -201,6 +201,53 @@
       "cancelled": "Đã hủy"
     }
   },
+  "commission": {
+    "banner_title": "Tin hoa hồng cao gần bạn",
+    "banner_subtitle": "{location} · bán kính {radius} km · {count} tin",
+    "distance": "{address} · cách {distance}",
+    "payout": "HH {percent}% · {amount}",
+    "expiring": "Sắp hết hạn · còn {days} ngày",
+    "filter": "Lọc",
+    "filter_title": "Bộ lọc & sắp xếp",
+    "sort_label": "Sắp xếp theo",
+    "status_label": "Trạng thái",
+    "reset": "Đặt lại",
+    "apply": "Áp dụng",
+    "empty": "Không tìm thấy tin phù hợp",
+    "locating_short": "Định vị",
+    "locating_title": "Đang xác định vị trí của bạn…",
+    "locating_subtitle": "Benny sẽ tìm các BĐS hoa hồng cao quanh khu vực bạn đang đứng.",
+    "sort": {
+      "score": "Điểm hoa hồng cao nhất",
+      "score_short": "Điểm HH",
+      "price_desc": "Giá bán: cao → thấp",
+      "price_asc": "Giá bán: thấp → cao",
+      "price_short": "Giá bán",
+      "nearest": "Gần tôi nhất",
+      "nearest_short": "Gần nhất"
+    },
+    "status": {
+      "urgent_sell": "Cần bán gấp",
+      "available": "Đang bán",
+      "deposited": "Đã cọc"
+    }
+  },
+  "qr": {
+    "title": "Quét mã QR",
+    "hint": "Đưa mã QR của bất động sản vào khung để xem chi tiết",
+    "flash": "Đèn flash",
+    "gallery": "Thư viện",
+    "gallery_unavailable": "Chọn ảnh từ thư viện sẽ sớm có mặt.",
+    "scanned": "Đã quét mã QR",
+    "result_specs": "{address} · {area} m² · {bedrooms} PN",
+    "result_commission": "HH {amount}",
+    "view_detail": "Xem chi tiết bất động sản",
+    "scan_again": "Quét mã khác",
+    "permission_title": "Cần quyền camera",
+    "permission_message": "Cho phép Benny truy cập camera để quét mã QR của bất động sản.",
+    "permission_grant": "Cấp quyền truy cập",
+    "permission_later": "Để sau"
+  },
   "loan": {
     "title": "Khoản vay",
     "amount": "Số tiền",

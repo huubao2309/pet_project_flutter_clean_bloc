@@ -9,4 +9,5 @@ abstract final class AppRoutes {
   static const personalInfo = '/onboarding/personal-info';
   static const billingInfo = '/onboarding/billing-info';
   static const main = '/main';
+  static const qrScan = '/qr-scan';
 }
