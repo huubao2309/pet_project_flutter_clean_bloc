@@ -48,12 +48,19 @@
     "forgot_password": "Quên mật khẩu?",
     "login_button": "Đăng nhập",
     "password_required": "Vui lòng nhập mật khẩu",
+    "back": "Quay lại",
     "register": {
       "title": "Đăng ký Benny",
       "caption": "Tạo tài khoản để bắt đầu với Benny.",
       "phone": "Số điện thoại",
       "submit": "Đăng ký",
+      "blocked": {
+        "title": "Không thể đăng ký",
+        "message": "Số điện thoại này đã bị chặn và không thể dùng để tạo tài khoản."
+      },
       "password": "Mật khẩu",
+      "confirm_password": "Nhập lại mật khẩu",
+      "password_mismatch": "Mật khẩu nhập lại không khớp",
       "password_strength": "Mật khẩu của bạn phải:",
       "password_length": "Có ít nhất 8 ký tự",
       "password_special": "Chứa ít nhất một ký tự đặc biệt (#,&,$,@,...)",
@@ -102,7 +109,9 @@
     },
     "deleted": {
       "title": "Tài khoản đã bị xoá",
-      "message": "Tài khoản này đã bị xoá và không thể sử dụng được nữa."
+      "message": "Tài khoản này đã bị xoá, bạn có muốn tạo lại tài khoản này không?",
+      "confirm": "Đồng ý",
+      "cancel": "Không"
     },
     "reset": {
       "title": "Đặt lại mật khẩu",

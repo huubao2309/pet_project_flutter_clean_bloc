@@ -803,7 +803,7 @@
 
     <div class="cluster">
       <div class="ch">Sign up <span class="pill">3 trạng thái</span></div>
-      <div class="cd">Rule mật khẩu gọn lại: dòng "Yêu cầu mật khẩu" + icon ⓘ; nhấn để mở popover hiển thị rule (cập nhật trực tiếp khi gõ) — không chiếm chỗ như checklist luôn hiển thị.</div>
+      <div class="cd">Rule mật khẩu gọn lại: dòng "Yêu cầu mật khẩu" + icon ⓘ; nhấn để mở popover hiển thị rule (cập nhật trực tiếp khi gõ). Thêm field "Nhập lại mật khẩu" để xác nhận — báo lỗi nếu không khớp.</div>
       <div class="states">
 
       <div class="phone">
@@ -815,6 +815,7 @@
             <div class="inp">Số điện thoại</div>
             <div class="inp" style="margin-top:12px">Mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="inp" style="margin-top:12px">Nhập lại mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
@@ -837,10 +838,12 @@
               <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Một chữ số</div>
               <div class="rule"><span class="rk" style="background:var(--error-d)">&#10007;</span>Một chữ in hoa</div>
             </div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
-        <div class="cap">Mở popover rule (đang nhập)</div>
+        <div class="cap">Popover rule + nhập lại sai</div>
       </div>
 
       <div class="phone">
@@ -852,10 +855,11 @@
             <div class="inp val">0901 234 567</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="cta" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
-        <div class="cap">Mật khẩu hợp lệ</div>
+        <div class="cap">Hợp lệ + nhập lại khớp</div>
       </div>
 
       </div>
@@ -998,8 +1002,8 @@
     </div>
 
       <div class="cluster">
-      <div class="ch">Error screen (AppErrorView) <span class="pill">2 trạng thái</span></div>
-      <div class="cd">Màn lỗi tái sử dụng: icon + title + mô tả + CTA. Dùng cho khoá tài khoản (sai OTP / đăng nhập sai quá nhiều lần).</div>
+      <div class="ch">Error screen (AppErrorView) <span class="pill">3 trạng thái</span></div>
+      <div class="cd">Màn lỗi tái sử dụng: icon + title + mô tả + CTA. Dùng cho khoá tài khoản (sai OTP / đăng nhập sai quá nhiều lần) và chặn số điện thoại khi đăng ký.</div>
       <div class="states">
 
       <div class="phone">
@@ -1020,6 +1024,16 @@
           <div style="width:100%;background:var(--navy-600);color:#fff;font-size:14px;font-weight:600;text-align:center;padding:13px;border-radius:8px;margin-top:26px">Quay lại đăng nhập</div>
         </div>
         <div class="cap">Khoá do đăng nhập sai</div>
+      </div>
+
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--error-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#C62400;font-size:46px"><i class="ti ti-phone-off"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--navy-800);margin-top:20px">Không thể đăng ký</div>
+          <div style="font-size:13px;color:var(--gray-500);margin-top:8px">Số điện thoại này đã bị chặn và không thể dùng để tạo tài khoản.</div>
+          <div style="width:100%;background:var(--navy-600);color:#fff;font-size:14px;font-weight:600;text-align:center;padding:13px;border-radius:8px;margin-top:26px">Quay lại</div>
+        </div>
+        <div class="cap">SĐT bị chặn (đăng ký)</div>
       </div>
 
       </div>
@@ -1354,8 +1368,8 @@
     </div>
 
     <div class="cluster">
-      <div class="ch">Sign up <span class="pill">Dark</span></div>
-      <div class="cd">Rule mật khẩu dạng popover (mở khi đang nhập).</div>
+      <div class="ch">Sign up <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Rule mật khẩu dạng popover (mở khi đang nhập) + field "Nhập lại mật khẩu" (báo lỗi nếu không khớp).</div>
       <div class="states">
       <div class="phone">
         <div class="ph-body">
@@ -1373,10 +1387,27 @@
               <div class="rule"><span class="rk" style="background:#34D17F">&#10003;</span>Một chữ số</div>
               <div class="rule"><span class="rk" style="background:#F2745A">&#10007;</span>Một chữ in hoa</div>
             </div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
-        <div class="cap">Mở popover rule</div>
+        <div class="cap">Popover rule + nhập lại sai</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đăng ký Benny</div>
+          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-card">
+            <div class="inp val">0901 234 567</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="pwhint" style="color:#34D17F"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="cta" style="margin-top:14px">Đăng ký</div>
+          </div>
+        </div>
+        <div class="cap">Hợp lệ + nhập lại khớp</div>
       </div>
       </div>
     </div>
@@ -1508,7 +1539,7 @@
 
     <div class="cluster">
       <div class="ch">Error screen (AppErrorView) <span class="pill">Dark</span></div>
-      <div class="cd">Khoá tài khoản — icon đỏ sáng trên nền soft tối.</div>
+      <div class="cd">Khoá tài khoản &amp; chặn số điện thoại — icon đỏ sáng trên nền soft tối.</div>
       <div class="states">
       <div class="phone">
         <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
@@ -1518,6 +1549,15 @@
           <div class="cta" style="width:100%;margin-top:26px">Quay lại đăng nhập</div>
         </div>
         <div class="cap">Khoá do sai OTP</div>
+      </div>
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--errSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--errc);font-size:46px"><i class="ti ti-phone-off"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Không thể đăng ký</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Số điện thoại này đã bị chặn và không thể dùng để tạo tài khoản.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Quay lại</div>
+        </div>
+        <div class="cap">SĐT bị chặn (đăng ký)</div>
       </div>
       </div>
     </div>

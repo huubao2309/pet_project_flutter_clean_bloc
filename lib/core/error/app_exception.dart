@@ -4,6 +4,7 @@ part 'exceptions/account_blocked_exception.dart';
 part 'exceptions/auth_exception.dart';
 part 'exceptions/cache_exception.dart';
 part 'exceptions/network_exception.dart';
+part 'exceptions/phone_blocked_exception.dart';
 part 'exceptions/server_exception.dart';
 part 'exceptions/validation_exception.dart';
 

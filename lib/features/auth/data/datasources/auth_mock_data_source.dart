@@ -30,7 +30,7 @@ class AuthMockDataSource implements AuthRemoteDataSource {
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
   static const _loginScenario = MockAssets.loginAccountIsDeleted;
-  static const _signUpScenario = MockAssets.signupSuccess;
+  static const _signUpScenario = MockAssets.signupIsBlocked;
   static const _logoutScenario = MockAssets.logoutSuccess;
 
   static const _latency = Duration(seconds: 1);
@@ -52,6 +52,12 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   @override
   Future<bool> signUp(SignUpRequestDto request) async {
     final json = await _read(_signUpScenario);
+    // Sign-up-only hard stop: the phone is blocked from registering. Like the
+    // login blocks, this verdict is meaningful for sign-up only, so it stays
+    // here rather than in the shared _ensureSuccess.
+    if (isPhoneBlockedVerdict(json['verdict'] as String?)) {
+      throw PhoneBlockedException(_messageOf(json));
+    }
     _ensureSuccess(json);
     return true;
   }

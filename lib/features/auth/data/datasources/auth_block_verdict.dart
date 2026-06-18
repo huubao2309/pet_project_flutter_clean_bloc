@@ -12,3 +12,8 @@ BlockReason? blockReasonFromVerdict(String? verdict) => switch (verdict) {
       'account_is_deleted' => BlockReason.accountDeleted,
       _ => null,
     };
+
+/// Whether a backend sign-up `verdict` means the phone is blocked from
+/// registering (a hard stop shown full-screen). Kept here with the other
+/// verdict literals so the transport contract stays in the data layer.
+bool isPhoneBlockedVerdict(String? verdict) => verdict == 'phone_is_blocked';

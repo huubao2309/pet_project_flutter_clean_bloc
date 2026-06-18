@@ -1,4 +1,6 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
+import 'package:benny_style/buttons/benny_secondary_button.dart';
+import 'package:benny_style/dialog/benny_dialog.dart';
 import 'package:benny_style/loading/spinner/benny_spinner.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -96,29 +98,31 @@ class _LoginViewState extends State<_LoginView> {
         );
   }
 
-  /// Full-screen error for a blocked account; [reason] selects the copy. The
-  /// `switch` is exhaustive, so a new [BlockReason] won't compile until it is
-  /// given a title/description here.
-  Widget _blockedView(BuildContext context, BlockReason reason) {
-    final (String title, String description, IconData icon) = switch (reason) {
-      BlockReason.otpLimitExceeded => (
-          'auth.lock.title'.tr(),
-          'auth.lock.otp_message'.tr(),
-          Icons.gpp_bad_outlined,
-        ),
-      BlockReason.accountDeleted => (
-          'auth.deleted.title'.tr(),
-          'auth.deleted.message'.tr(),
-          Icons.person_off_outlined,
-        ),
-    };
+  /// Full-screen lock view for the OTP-limit case (too many wrong OTP entries).
+  Widget _otpLockedView(BuildContext context) {
     return AppErrorView(
-      icon: icon,
-      title: title,
-      description: description,
+      icon: Icons.gpp_bad_outlined,
+      title: 'auth.lock.title'.tr(),
+      description: 'auth.lock.otp_message'.tr(),
       primaryLabel: 'auth.lock.back'.tr(),
       onPrimary: () => context.viewModel<AuthViewModel>().reset(),
     );
+  }
+
+  /// Account-deleted case: ask in a centered dialog whether to recreate the
+  /// account. "Yes" replaces login with sign-up, carrying the typed phone so it
+  /// is pre-filled there; "No" just dismisses the dialog.
+  Future<void> _showAccountDeletedDialog(BuildContext context) async {
+    final recreate =
+        await BennyDialog.show<bool>(const _AccountDeletedDialog());
+    if (recreate == true && context.mounted) {
+      context.pushReplacement(
+        Uri(
+          path: AppRoutes.signUp,
+          queryParameters: {'phone': _phoneController.text.trim()},
+        ).toString(),
+      );
+    }
   }
 
   @override
@@ -136,13 +140,23 @@ class _LoginViewState extends State<_LoginView> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));
         }
+        if (state is AuthBlocked) {
+          // Each reason picks its presentation. Exhaustive switch: a new
+          // BlockReason must declare how it surfaces here.
+          switch (state.reason) {
+            case BlockReason.otpLimitExceeded:
+              break; // Full-screen, rendered by the builder below.
+            case BlockReason.accountDeleted:
+              _showAccountDeletedDialog(context);
+          }
+        }
       },
       builder: (context, state) {
-        // Hard stop: the account is blocked (too many wrong OTP entries, a
-        // deleted account, …). The reason drives the text; the exhaustive
-        // switch forces a new BlockReason to be given one here.
-        if (state is AuthBlocked) {
-          return _blockedView(context, state.reason);
+        // OTP-limit lock is a full-screen stop. Account-deleted keeps the login
+        // form visible and shows a dialog over it (handled in the listener).
+        if (state is AuthBlocked &&
+            state.reason == BlockReason.otpLimitExceeded) {
+          return _otpLockedView(context);
         }
 
         return Scaffold(
@@ -220,6 +234,67 @@ class _LoginViewState extends State<_LoginView> {
           ),
         );
       },
+    );
+  }
+}
+
+/// Centered confirm dialog shown when login hits a deleted account. Offers to
+/// recreate it; pops `true` for "Yes", `false` for "No".
+class _AccountDeletedDialog extends StatelessWidget {
+  const _AccountDeletedDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = getIt<ThemeState>();
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(theme.spacing.spacing20),
+      decoration: BoxDecoration(
+        color: theme.colors.white,
+        borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'auth.deleted.title'.tr(),
+            style: theme.textStyle.paragraphLabel.copyWith(
+              color: theme.colors.brand800,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: theme.spacing.spacing8),
+          Text(
+            'auth.deleted.message'.tr(),
+            style: theme.textStyle.captionDefault.copyWith(
+              color: theme.colors.neutral600,
+              height: 1.5,
+            ),
+          ),
+          SizedBox(height: theme.spacing.spacing20),
+          Row(
+            children: [
+              Expanded(
+                child: BennySecondaryButton(
+                  title: 'auth.deleted.cancel'.tr(),
+                  isWrapContent: false,
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+              ),
+              SizedBox(width: theme.spacing.spacing12),
+              Expanded(
+                child: BennyPrimaryButton(
+                  title: 'auth.deleted.confirm'.tr(),
+                  isWrapContent: false,
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

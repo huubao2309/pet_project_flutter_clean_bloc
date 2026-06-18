@@ -1,0 +1,9 @@
+{
+  "message": "phone_is_blocked_failed",
+  "time": "2022-10-26T02:35:54Z",
+  "verdict": "phone_is_blocked",
+  "status_code": 400,
+  "data": {
+    "user_message": "Phone is blocked, you cannot create an account."
+  }
+}

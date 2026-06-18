@@ -39,7 +39,11 @@ class AppRouter {
         builder: (_, state) =>
             LoginPage(prefilledPhone: state.uri.queryParameters['phone']),
       ),
-      GoRoute(path: AppRoutes.signUp, builder: (_, __) => const SignUpPage()),
+      GoRoute(
+        path: AppRoutes.signUp,
+        builder: (_, state) =>
+            SignUpPage(prefilledPhone: state.uri.queryParameters['phone']),
+      ),
       GoRoute(
         path: AppRoutes.forgotPassword,
         builder: (_, __) => const ForgotPasswordPage(),

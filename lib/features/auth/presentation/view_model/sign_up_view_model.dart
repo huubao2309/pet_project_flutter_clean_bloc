@@ -38,6 +38,10 @@ class SignUpViewModel extends ViewModel<SignUpState> {
     );
   }
 
+  void onConfirmPasswordChanged(String value) {
+    setState(currentState.copyWith(confirmPassword: value));
+  }
+
   void onReceiveUpdatesChanged({required bool value}) {
     setState(currentState.copyWith(receiveUpdates: value));
   }
@@ -56,6 +60,10 @@ class SignUpViewModel extends ViewModel<SignUpState> {
         ),
       );
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
+    } on PhoneBlockedException catch (_) {
+      // Hard stop (phone blocked from registering): the View shows a
+      // full-screen error, not a snackbar. Must be caught before AppException.
+      setState(currentState.copyWith(isLoading: false, isBlocked: true));
     } on AppException catch (e) {
       setState(currentState.copyWith(isLoading: false, errorMessage: e.message));
     }

@@ -48,12 +48,19 @@
     "forgot_password": "Forgot password?",
     "login_button": "Login",
     "password_required": "Please enter your password",
+    "back": "Go back",
     "register": {
       "title": "Sign up to Benny",
       "caption": "Create an account to get started with Benny.",
       "phone": "Phone number",
       "submit": "Register",
+      "blocked": {
+        "title": "Registration blocked",
+        "message": "This phone number is blocked and cannot be used to create an account."
+      },
       "password": "Password",
+      "confirm_password": "Re-enter password",
+      "password_mismatch": "Passwords do not match",
       "password_strength": "Your password must:",
       "password_length": "Be at least 8 characters long",
       "password_special": "Contain at least one special character (#,&,$,@,...)",
@@ -102,7 +109,9 @@
     },
     "deleted": {
       "title": "Account deleted",
-      "message": "This account has been deleted and can no longer be used."
+      "message": "This account has been deleted. Do you want to recreate it?",
+      "confirm": "Yes",
+      "cancel": "No"
     },
     "reset": {
       "title": "Reset password",

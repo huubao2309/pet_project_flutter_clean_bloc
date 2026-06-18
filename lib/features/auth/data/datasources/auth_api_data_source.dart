@@ -64,22 +64,44 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     if (reason == null) {
       return null;
     }
-    final data = responseData['data'];
-    final userMessage = data is Map ? data['user_message'] as String? : null;
-    return AccountBlockedException(reason, userMessage ?? 'errors.unknown'.tr());
+    return AccountBlockedException(reason, _userMessageOf(responseData));
   }
 
   @override
   Future<bool> signUp(SignUpRequestDto request) async {
-    final response = await _dioClient.post<void>(
-      _signUp,
-      data: request.toJson(),
-    );
+    try {
+      final response = await _dioClient.post<void>(
+        _signUp,
+        data: request.toJson(),
+      );
 
-    if (!response.success) {
-      throw ServerException(message: response.message ?? 'errors.signup_failed'.tr());
+      if (!response.success) {
+        throw ServerException(
+          message: response.message ?? 'errors.signup_failed'.tr(),
+        );
+      }
+      return true;
+    } on ServerException catch (e) {
+      // Sign-up-only hard stop: the phone is blocked (verdict `phone_is_blocked`,
+      // HTTP 400). DioClient surfaces it as a ServerException carrying the raw
+      // body; the verdict check stays here so it applies to sign-up only.
+      if (_isPhoneBlocked(e.responseData)) {
+        throw PhoneBlockedException(_userMessageOf(e.responseData));
+      }
+      rethrow;
     }
-    return true;
+  }
+
+  /// True when [responseData] is the backend's `phone_is_blocked` envelope.
+  bool _isPhoneBlocked(Object? responseData) =>
+      responseData is Map &&
+      isPhoneBlockedVerdict(responseData['verdict'] as String?);
+
+  /// The nested `data.user_message` from an envelope, or a generic fallback.
+  String _userMessageOf(Object? responseData) {
+    final data = responseData is Map ? responseData['data'] : null;
+    final userMessage = data is Map ? data['user_message'] as String? : null;
+    return userMessage ?? 'errors.unknown'.tr();
   }
 
   @override
