@@ -16,7 +16,7 @@ import 'app_update_remote_data_source.dart';
 class AppUpdateMockDataSource implements AppUpdateRemoteDataSource {
   const AppUpdateMockDataSource();
 
-  static const _scenario = MockAssets.appUpdateForce;
+  static const _scenario = MockAssets.appUpdateNone;
   static const _latency = Duration(milliseconds: 500);
 
   @override

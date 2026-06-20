@@ -6,48 +6,78 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/di/injection.dart';
 
-/// Centered update dialog matching the "Dialog thông báo" style in the design
-/// system: icon badge + title + message + action button(s).
+/// Full-screen update prompt shown as a root overlay (see `AppUpdateOverlay`).
 ///
-/// Two flavours:
-///  • [AppUpdateDialog.forced] — a single "Update" button; the host shows it
-///    non-dismissibly (no barrier tap / back).
-///  • [AppUpdateDialog.optional] — "Close" + "Update"; pops `true` to update,
-///    `false` to close.
-class AppUpdateDialog extends StatelessWidget {
-  const AppUpdateDialog._({
+/// Renders the "Dialog thông báo" card from the design system over a dimmed
+/// [ModalBarrier]:
+///  • [forced] true  → the barrier ignores taps and the Android back button is
+///    swallowed; the only action is "Update". The prompt stays until the app is
+///    updated and relaunched.
+///  • [forced] false → tapping the barrier or pressing Android back triggers
+///    [onCancel]; "Update" runs [onUpdate]. Both close the prompt (the caller
+///    records the dismissal so it won't show again until a newer version ships).
+class AppUpdateOverlayView extends StatelessWidget {
+  const AppUpdateOverlayView({
     required this.forced,
-    required this.message,
-    this.onUpdate,
+    required this.onUpdate,
+    this.onCancel,
+    this.message,
+    super.key,
   });
 
-  factory AppUpdateDialog.forced({
-    required VoidCallback onUpdate,
-    String? message,
-  }) =>
-      AppUpdateDialog._(forced: true, message: message, onUpdate: onUpdate);
-
-  factory AppUpdateDialog.optional({String? message}) =>
-      AppUpdateDialog._(forced: false, message: message);
-
   final bool forced;
+  final VoidCallback onUpdate;
+
+  /// Dismiss handler for optional updates; null for forced (no way out).
+  final VoidCallback? onCancel;
   final String? message;
-  final VoidCallback? onUpdate;
 
   @override
   Widget build(BuildContext context) {
+    return BackButtonListener(
+      // Always swallow the hardware back button so it never pops the screen
+      // behind the prompt; for optional updates back also dismisses (no-op when
+      // forced, since onCancel is null).
+      onBackButtonPressed: () async {
+        onCancel?.call();
+        return true;
+      },
+      child: Stack(
+        children: [
+          ModalBarrier(
+            color: Colors.black54,
+            dismissible: !forced,
+            onDismiss: onCancel,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Material(
+                color: Colors.transparent,
+                child: _card(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _card() {
     final theme = getIt<ThemeState>();
     final hasServerMessage = message != null && message!.isNotEmpty;
     final description = hasServerMessage
         ? message!
         : (forced ? 'update.force_message' : 'update.message').tr();
 
-    return Dialog(
-      backgroundColor: theme.colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
-      ),
-      child: Padding(
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 360),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colors.white,
+          borderRadius:
+              BorderRadius.circular(theme.borderRadius.borderRadius16),
+        ),
         padding: EdgeInsets.all(theme.spacing.spacing20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -97,7 +127,7 @@ class AppUpdateDialog extends StatelessWidget {
                     child: BennySecondaryButton(
                       title: 'update.close_button'.tr(),
                       isWrapContent: false,
-                      onPressed: () => Navigator.of(context).pop(false),
+                      onPressed: onCancel,
                     ),
                   ),
                   SizedBox(width: theme.spacing.spacing12),
@@ -105,7 +135,7 @@ class AppUpdateDialog extends StatelessWidget {
                     child: BennyPrimaryButton(
                       title: 'update.update_button'.tr(),
                       isWrapContent: false,
-                      onPressed: () => Navigator.of(context).pop(true),
+                      onPressed: onUpdate,
                     ),
                   ),
                 ],

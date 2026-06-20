@@ -31,8 +31,7 @@ class CheckAppUpdateUseCase implements UseCase<AppUpdateStatus, NoParams> {
     );
 
     // Forced when the backend says so, or the build is below the minimum.
-    final forced = config.forceUpdate ||
-        VersionComparator.isLower(current, config.minRequiredVersion);
+    final forced = config.forceUpdate || VersionComparator.isLower(current, config.minRequiredVersion);
     if (forced) {
       return AppForcedUpdate(info);
     }
@@ -40,8 +39,7 @@ class CheckAppUpdateUseCase implements UseCase<AppUpdateStatus, NoParams> {
     // Optional: suppress if the user already dismissed this (or a newer)
     // version — re-prompt only when something newer ships.
     final dismissed = await repository.lastDismissedVersion();
-    if (dismissed != null &&
-        !VersionComparator.isLower(dismissed, config.latestVersion)) {
+    if (dismissed != null && !VersionComparator.isLower(dismissed, config.latestVersion)) {
       return const AppUpToDate();
     }
     return AppOptionalUpdate(info);

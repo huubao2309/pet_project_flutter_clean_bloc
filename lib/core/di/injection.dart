@@ -31,7 +31,7 @@ import '../../features/app_update/domain/repositories/app_update_repository.dart
 import '../../features/app_update/domain/use_cases/check_app_update_use_case.dart';
 import '../../features/app_update/domain/use_cases/dismiss_optional_update_use_case.dart';
 import '../../features/app_update/domain/use_cases/open_store_use_case.dart';
-import '../../features/app_update/presentation/view_model/app_update_view_model.dart';
+import '../../features/app_update/presentation/app_update_overlay.dart';
 import '../../features/splash/presentation/view_model/splash_view_model.dart';
 import '../deep_link/deep_link_service.dart';
 import '../localization/data/repositories/language_repository_impl.dart';
@@ -92,7 +92,10 @@ Future<void> configureDependencies(Env env) async {
 
   // --- Network ---
   getIt.registerSingleton<DioClient>(
-    DioClient(baseUrl: env.baseUrl, secureStorage: getIt<SecureStorage>(), envType: env.envType),
+    DioClient(
+        baseUrl: env.baseUrl,
+        secureStorage: getIt<SecureStorage>(),
+        envType: env.envType),
   );
 
   // --- Router ---
@@ -137,14 +140,17 @@ void _registerAppUpdateFeature() {
     () => CheckAppUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
-    () => DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
+    () =>
+        DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
     () => OpenStoreUseCase(repository: getIt<AppUpdateRepository>()),
   );
 
-  getIt.registerFactory(
-    () => AppUpdateViewModel(
+  // Presentation orchestrator: a singleton so its single-entry guard persists
+  // for the app's lifetime. Triggered once from the splash screen.
+  getIt.registerLazySingleton(
+    () => AppUpdateOverlay(
       checkUseCase: getIt<CheckAppUpdateUseCase>(),
       dismissUseCase: getIt<DismissOptionalUpdateUseCase>(),
       openStoreUseCase: getIt<OpenStoreUseCase>(),
@@ -161,7 +167,8 @@ void _registerLocalizationFeature() {
     () => GetLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
   getIt.registerLazySingleton(
-    () => ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
+    () =>
+        ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
 }
 

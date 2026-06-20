@@ -8,6 +8,7 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../app_update/presentation/app_update_overlay.dart';
 import '../view_model/splash_state.dart';
 import '../view_model/splash_view_model.dart';
 
@@ -19,7 +20,13 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<SplashViewModel>(
-      create: (_) => getIt<SplashViewModel>()..bootstrap(),
+      create: (_) {
+        // Fire-and-forget: the version check runs in the background and never
+        // blocks the splash. When/if `/app/version` answers, AppUpdateOverlay
+        // shows the prompt over whatever screen the user has reached by then.
+        getIt<AppUpdateOverlay>().check();
+        return getIt<SplashViewModel>()..bootstrap();
+      },
       child: const _SplashView(),
     );
   }
@@ -41,8 +48,7 @@ class _SplashView extends StatelessWidget {
         // Language is already applied at boot (env.dart → MyApp.startLocale), so
         // the splash only routes — calling setLocale here would recreate the
         // locale-keyed MaterialApp and flash black during the transition.
-        final target =
-            getIt<AppRouter>().isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
+        final target = getIt<AppRouter>().isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
         context.go(target);
       },
       child: Scaffold(
