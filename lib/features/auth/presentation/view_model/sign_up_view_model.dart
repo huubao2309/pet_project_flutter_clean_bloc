@@ -1,6 +1,7 @@
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
+import '../../domain/entities/sign_up_result.dart';
 import '../../domain/use_cases/sign_up_use_case.dart';
 import 'sign_up_state.dart';
 
@@ -52,14 +53,23 @@ class SignUpViewModel extends ViewModel<SignUpState> {
     }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
-      await _signUpUseCase.execute(
+      final result = await _signUpUseCase.execute(
         SignUpParams(
           phone: currentState.phone,
           password: currentState.password,
           receiveUpdates: currentState.receiveUpdates,
         ),
       );
-      setState(currentState.copyWith(isLoading: false, isSuccess: true));
+      switch (result) {
+        // OTP step required → the View routes to the verification screen.
+        case SignUpOtpRequired(:final challenge):
+          setState(
+            currentState.copyWith(isLoading: false, otpChallenge: challenge),
+          );
+        // Completed outright → the View routes to login (old behavior).
+        case SignUpCompleted():
+          setState(currentState.copyWith(isLoading: false, isSuccess: true));
+      }
     } on PhoneBlockedException catch (_) {
       // Hard stop (phone blocked from registering): the View shows a
       // full-screen error, not a snackbar. Must be caught before AppException.

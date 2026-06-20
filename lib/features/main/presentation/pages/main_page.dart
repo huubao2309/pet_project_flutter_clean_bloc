@@ -8,6 +8,7 @@ import '../../../../core/router/app_routes.dart';
 import '../../../commission/presentation/pages/commission_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
+import '../../../profile/presentation/view_model/profile_view_model.dart';
 import '../main_tab.dart';
 import '../view_model/main_view_model.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -37,7 +38,13 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelProvider<MainViewModel>(
       create: (_) => getIt<MainViewModel>(),
-      child: const _MainView(),
+      // Provided above the tabs so the Profile tab reads the same instance.
+      // Loading the profile here means the API is called as soon as the main
+      // screen opens, before the user reaches the Profile tab.
+      child: ViewModelProvider<ProfileViewModel>(
+        create: (_) => getIt<ProfileViewModel>()..loadProfile(),
+        child: const _MainView(),
+      ),
     );
   }
 }

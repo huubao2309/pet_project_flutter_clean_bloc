@@ -7,6 +7,7 @@ import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
 import '../models/response/login_data_dto.dart';
+import '../models/response/otp_challenge_dto.dart';
 import 'auth_block_verdict.dart';
 import 'auth_remote_data_source.dart';
 
@@ -68,11 +69,13 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> signUp(SignUpRequestDto request) async {
+  Future<OtpChallengeDto> signUp(SignUpRequestDto request) async {
     try {
-      final response = await _dioClient.post<void>(
+      final response = await _dioClient.post<OtpChallengeDto>(
         _signUp,
         data: request.toJson(),
+        fromJson: (json) =>
+            OtpChallengeDto.fromJson(json as Map<String, dynamic>),
       );
 
       if (!response.success) {
@@ -80,7 +83,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
           message: response.message ?? 'errors.signup_failed'.tr(),
         );
       }
-      return true;
+      // No `data` (registration completed without a challenge) → empty DTO.
+      return response.data ?? const OtpChallengeDto();
     } on ServerException catch (e) {
       // Sign-up-only hard stop: the phone is blocked (verdict `phone_is_blocked`,
       // HTTP 400). DioClient surfaces it as a ServerException carrying the raw

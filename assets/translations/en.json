@@ -282,6 +282,7 @@
     "logout_success": "Logged out successfully"
   },
   "profile": {
+    "loading_name": "Loading...",
     "account": "Account",
     "support": "Support & more",
     "edit_info": "Edit information",
@@ -297,6 +298,7 @@
     "delete": "Delete account",
     "logout_confirm_title": "Log out",
     "logout_confirm_message": "Are you sure you want to log out of Benny?",
+    "logout_success": "Logged out successfully",
     "delete_confirm_title": "Delete account?",
     "delete_confirm_message": "This action can't be undone. All your data will be permanently deleted.",
     "coming_soon": "Coming soon"

@@ -2,21 +2,24 @@ import 'dart:async';
 
 import '../../../../core/presentation/view_model.dart';
 import 'otp_state.dart';
+import 'otp_timer_config.dart';
 
 /// View model for the OTP screen. Verification is mocked for now (expected code
 /// `123456`); swap [_verifyCode] / [_requestCode] for real use cases later.
 ///
 /// Runs a 1s ticker that counts down the code validity and the resend cooldown,
 /// flips to [OtpError.expired] when validity hits zero, and locks the screen
-/// after [_maxAttempts] wrong codes.
+/// after [OtpTimerConfig.maxAttempts] wrong codes. Durations come from
+/// [OtpTimerConfig] so each flow (forgot-password, login) can configure them.
 class OtpViewModel extends ViewModel<OtpState> {
-  OtpViewModel() : super(const OtpState()) {
+  OtpViewModel({OtpTimerConfig config = const OtpTimerConfig()})
+      : _config = config,
+        super(const OtpState()) {
     _restart();
   }
 
-  static const int _validitySeconds = 120;
-  static const int _resendCooldown = 30;
-  static const int _maxAttempts = 5;
+  final OtpTimerConfig _config;
+
   static const String _mockCode = '123456';
 
   Timer? _timer;
@@ -46,7 +49,7 @@ class OtpViewModel extends ViewModel<OtpState> {
     }
 
     final attempts = currentState.attempts + 1;
-    if (attempts >= _maxAttempts) {
+    if (attempts >= _config.maxAttempts) {
       _timer?.cancel();
       setState(
         currentState.copyWith(
@@ -77,9 +80,9 @@ class OtpViewModel extends ViewModel<OtpState> {
 
   void _restart() {
     setState(
-      const OtpState(
-        secondsLeft: _validitySeconds,
-        resendIn: _resendCooldown,
+      OtpState(
+        secondsLeft: _config.validitySeconds,
+        resendIn: _config.resendCooldownSeconds,
       ),
     );
     _timer?.cancel();

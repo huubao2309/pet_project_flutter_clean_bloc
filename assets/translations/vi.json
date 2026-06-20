@@ -282,6 +282,7 @@
     "logout_success": "Đăng xuất thành công"
   },
   "profile": {
+    "loading_name": "Đang tải...",
     "account": "Tài khoản",
     "support": "Hỗ trợ & khác",
     "edit_info": "Thay đổi thông tin",
@@ -297,6 +298,7 @@
     "delete": "Xoá tài khoản",
     "logout_confirm_title": "Đăng xuất",
     "logout_confirm_message": "Bạn có chắc muốn đăng xuất khỏi Benny?",
+    "logout_success": "Đăng xuất thành công",
     "delete_confirm_title": "Xoá tài khoản?",
     "delete_confirm_message": "Hành động này không thể hoàn tác. Toàn bộ dữ liệu của bạn sẽ bị xoá vĩnh viễn.",
     "coming_soon": "Tính năng đang phát triển"

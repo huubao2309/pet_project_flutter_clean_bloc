@@ -1,4 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
+
+import '../../../../core/error/app_exception.dart';
 import '../../../../core/storage/secure_storage/secure_storage.dart';
+import '../../domain/entities/login_result.dart';
+import '../../domain/entities/otp_challenge.dart';
+import '../../domain/entities/sign_up_result.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
@@ -24,27 +30,55 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final SecureStorage _secureStorage;
 
+  /// `challenge_type` value that means an OTP step is required before the
+  /// session is granted (the backend couldn't authenticate outright).
+  static const _challengeVerifyOtp = 'verify_otp';
+
   @override
-  Future<UserEntity> login({
+  Future<LoginResult> login({
     required String phone,
     required String password,
   }) async {
     final data = await _remoteDataSource.login(
       LoginRequestDto(phone: phone, password: password),
     );
+
+    // OTP challenge: the user is NOT authenticated yet, so there are no tokens
+    // to persist. Hand the challenge parameters to the presentation layer,
+    // which routes to the OTP screen.
+    if (data.challengeType == _challengeVerifyOtp) {
+      return LoginOtpRequired(
+        OtpChallenge(
+          sessionToken: data.sessionToken ?? '',
+          resendSecs: data.otpResendSecs ?? 0,
+          // Missing/null → 0 → the "Resend" button is enabled immediately.
+          enableResendSecs: data.otpEnableResendSecs ?? 0,
+        ),
+      );
+    }
+
+    // No challenge → the response must carry the session tokens. Fail fast on a
+    // malformed payload rather than persisting half a session. Login does not
+    // return the user profile — it is fetched separately on the main screen.
+    final accessToken = data.accessToken;
+    final refreshToken = data.refreshToken;
+    if (accessToken == null || refreshToken == null) {
+      throw ServerException(message: 'errors.login_failed'.tr());
+    }
+
     // Persist tokens so the user stays logged in after restarting the app.
-    await _secureStorage.saveAccessToken(data.accessToken);
-    await _secureStorage.saveRefreshToken(data.refreshToken);
-    return data.userInfo.toEntity();
+    await _secureStorage.saveAccessToken(accessToken);
+    await _secureStorage.saveRefreshToken(refreshToken);
+    return const LoginAuthenticated();
   }
 
   @override
-  Future<bool> signUp({
+  Future<SignUpResult> signUp({
     required String phone,
     required String password,
     bool? receiveUpdates,
   }) async {
-    return _remoteDataSource.signUp(
+    final data = await _remoteDataSource.signUp(
       SignUpRequestDto(
         phone: phone,
         password: password,
@@ -53,6 +87,11 @@ class AuthRepositoryImpl implements AuthRepository {
         statusUpdate: receiveUpdates,
       ),
     );
+    // A verify_otp challenge → the View routes to the OTP screen; otherwise the
+    // registration is complete.
+    return data.requiresOtpVerification
+        ? SignUpOtpRequired(data.toEntity())
+        : const SignUpCompleted();
   }
 
   @override

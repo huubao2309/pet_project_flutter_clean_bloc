@@ -45,10 +45,9 @@ class _SplashView extends StatelessWidget {
         if (state is! SplashReady) {
           return;
         }
-        // Language is already applied at boot (env.dart → MyApp.startLocale), so
-        // the splash only routes — calling setLocale here would recreate the
-        // locale-keyed MaterialApp and flash black during the transition.
-        final target = getIt<AppRouter>().isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
+
+        getIt<AppRouter>().setLoggedIn(value: state.isLoggedIn);
+        final target = state.isLoggedIn ? AppRoutes.main : AppRoutes.welcome;
         context.go(target);
       },
       child: Scaffold(

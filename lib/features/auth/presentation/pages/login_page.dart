@@ -2,6 +2,8 @@ import 'package:benny_style/buttons/benny_primary_button.dart';
 import 'package:benny_style/buttons/benny_secondary_button.dart';
 import 'package:benny_style/dialog/benny_dialog.dart';
 import 'package:benny_style/loading/spinner/benny_spinner.dart';
+import 'package:benny_style/snackbar/base_snackbar_type.dart';
+import 'package:benny_style/snackbar/benny_snackbar.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/validators.dart';
 import '../view_model/auth_state.dart';
 import '../view_model/auth_view_model.dart';
+import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_password_field.dart';
@@ -136,9 +139,27 @@ class _LoginViewState extends State<_LoginView> {
           context.go(AppRoutes.main);
           return;
         }
+        if (state is AuthOtpRequired) {
+          context.push(
+            Uri(
+              path: AppRoutes.otp,
+              queryParameters: {
+                'phone': _phoneController.text.trim(),
+                'flow': OtpFlow.login.name,
+                'resend': '${state.challenge.resendSecs}',
+                'enable_resend': '${state.challenge.enableResendSecs}',
+              },
+            ).toString(),
+          );
+          return;
+        }
         if (state is AuthFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          // Design system: failures use the red error snackbar (BennySnackBar),
+          // not the default Material one.
+          BennySnackBar.show(
+            message: state.message,
+            type: BaseSnackBarType.error,
+          );
         }
         if (state is AuthBlocked) {
           // Each reason picks its presentation. Exhaustive switch: a new

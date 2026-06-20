@@ -82,6 +82,7 @@ flutter:
     - assets/mock/
     - assets/mock/auth_mock/
     - assets/mock/app_update_mock/
+    - assets/mock/profile_mock/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

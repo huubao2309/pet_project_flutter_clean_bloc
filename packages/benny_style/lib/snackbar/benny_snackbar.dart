@@ -115,7 +115,8 @@ class _BennySnackBarOverlay extends StatelessWidget {
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: Colors.white,
+          // Light tinted background per type (design: nền tint nhạt).
+          color: type.backgroundColor,
           border: Border.all(color: type.borderColor, width: 1),
           borderRadius: BorderRadius.circular(borderRadius),
         ),

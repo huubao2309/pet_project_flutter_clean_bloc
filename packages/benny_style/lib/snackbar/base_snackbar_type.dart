@@ -13,6 +13,8 @@ enum BaseSnackBarType {
 }
 
 extension BaseSnackBarTypeStyle on BaseSnackBarType {
+  /// Icon + message tone (the design's `-d` colour). Per the design system the
+  /// icon and text share the same tone as the type.
   Color get iconColor {
     switch (this) {
       case BaseSnackBarType.info:
@@ -26,12 +28,27 @@ extension BaseSnackBarTypeStyle on BaseSnackBarType {
     }
   }
 
+  /// Light tinted card background (the design's `-bg` colour).
+  Color get backgroundColor {
+    switch (this) {
+      case BaseSnackBarType.info:
+        return _color.brand50;
+      case BaseSnackBarType.success:
+        return _color.success50;
+      case BaseSnackBarType.warning:
+        return _color.warning50;
+      case BaseSnackBarType.error:
+        return _color.error50;
+    }
+  }
+
+  // Message text shares the icon's tone (design: "icon & chữ cùng tông").
   TextStyle get messageTextStyle => _theme.textStyle.paragraphDefault.copyWith(
-        color: _color.neutral800,
+        color: iconColor,
       );
 
   TextStyle get undoTextStyle => _theme.textStyle.paragraphLabelLink.copyWith(
-        color: _color.neutral800,
+        color: iconColor,
       );
 
   String get iconName {
@@ -42,8 +59,9 @@ extension BaseSnackBarTypeStyle on BaseSnackBarType {
         return Assets.svg.icInfo.keyName;
       case BaseSnackBarType.warning:
         return Assets.svg.icError.keyName;
+      // Alert icon (design: alert-circle), not the trash icon.
       case BaseSnackBarType.error:
-        return Assets.svg.icTrash.keyName;
+        return Assets.svg.icError.keyName;
     }
   }
 
@@ -60,7 +78,20 @@ extension BaseSnackBarTypeStyle on BaseSnackBarType {
     }
   }
 
-  Color get borderColor => _color.generalBorder;
+  /// Card border in the type's tone (the design's per-type border tint).
+  Color get borderColor {
+    switch (this) {
+      case BaseSnackBarType.info:
+        return _color.brand200;
+      case BaseSnackBarType.success:
+        return _color.success200;
+      case BaseSnackBarType.warning:
+        return _color.warning300;
+      case BaseSnackBarType.error:
+        return _color.error300;
+    }
+  }
+
   AppColors get _color => _theme.colors;
   ThemeState get _theme => bennyLocator<ThemeState>();
 }

@@ -1,3 +1,5 @@
+import 'package:benny_style/snackbar/base_snackbar_type.dart';
+import 'package:benny_style/snackbar/benny_snackbar.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -212,9 +214,11 @@ class _BottomControls extends StatelessWidget {
 
   Future<void> _analyzeFromGallery(BuildContext context) async {
     // Picking from the gallery needs an image picker plugin; surface a hint in
-    // the mock build instead of failing silently.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('qr.gallery_unavailable'.tr())),
+    // the mock build instead of failing silently. Design system: use the amber
+    // warning snackbar, not the default Material one.
+    BennySnackBar.show(
+      message: 'qr.gallery_unavailable'.tr(),
+      type: BaseSnackBarType.warning,
     );
   }
 }

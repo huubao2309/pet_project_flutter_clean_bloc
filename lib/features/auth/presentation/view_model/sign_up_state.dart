@@ -1,3 +1,5 @@
+import '../../domain/entities/otp_challenge.dart';
+
 /// Per-rule password strength result, used to drive the checklist UI.
 class PasswordStrength {
   const PasswordStrength({
@@ -35,6 +37,7 @@ class SignUpState {
     this.isSuccess = false,
     this.isBlocked = false,
     this.errorMessage,
+    this.otpChallenge,
   });
 
   final String phone;
@@ -52,6 +55,10 @@ class SignUpState {
   /// full-screen error instead of a snackbar.
   final bool isBlocked;
   final String? errorMessage;
+
+  /// Set when sign-up returns a `verify_otp` challenge. The View routes to the
+  /// OTP screen once this becomes non-null.
+  final OtpChallenge? otpChallenge;
 
   /// True once the confirmation matches a non-empty password.
   bool get isConfirmValid =>
@@ -79,6 +86,7 @@ class SignUpState {
     bool? isBlocked,
     String? errorMessage,
     bool clearError = false,
+    OtpChallenge? otpChallenge,
   }) {
     return SignUpState(
       phone: phone ?? this.phone,
@@ -91,6 +99,7 @@ class SignUpState {
       isSuccess: isSuccess ?? this.isSuccess,
       isBlocked: isBlocked ?? this.isBlocked,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      otpChallenge: otpChallenge ?? this.otpChallenge,
     );
   }
 }

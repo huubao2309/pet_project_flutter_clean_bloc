@@ -51,8 +51,15 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.otp,
-        builder: (_, state) =>
-            OtpPage(phone: state.uri.queryParameters['phone']),
+        builder: (_, state) {
+          final params = state.uri.queryParameters;
+          return OtpPage(
+            phone: params['phone'],
+            flow: OtpFlow.fromName(params['flow']),
+            resendSecs: int.tryParse(params['resend'] ?? ''),
+            enableResendSecs: int.tryParse(params['enable_resend'] ?? ''),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.resetPassword,

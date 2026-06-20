@@ -1,3 +1,4 @@
+import 'package:benny_style/snackbar/base_snackbar_type.dart';
 import 'package:benny_style/snackbar/benny_snackbar.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,10 +11,11 @@ import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/language_switcher.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/storage/local_storage/local_storage.dart';
 import '../../../../core/theme/theme_view_model.dart';
 import '../../../auth/presentation/view_model/auth_state.dart';
 import '../../../auth/presentation/view_model/auth_view_model.dart';
+import '../view_model/profile_state.dart';
+import '../view_model/profile_view_model.dart';
 import '../widgets/profile_group.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_tile.dart';
@@ -35,14 +37,6 @@ class ProfilePage extends StatelessWidget {
 class _ProfileView extends StatelessWidget {
   const _ProfileView();
 
-  String _maskedPhone() {
-    final phone = getIt<LocalStorage>().getPhoneNumber();
-    if (phone.length < 4) {
-      return '••• ••• ••••';
-    }
-    return '••• ••• ${phone.substring(phone.length - 4)}';
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = getIt<ThemeState>();
@@ -51,17 +45,25 @@ class _ProfileView extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.colors.surfaceBackground,
       body: ViewModelListener<AuthViewModel, AuthState>(
-        listenWhen: (_, c) => c is AuthUnauthenticated,
+        listenWhen: (_, c) => c is AuthUnauthenticated || c is AuthFailure,
         listener: (context, state) {
           if (state is AuthUnauthenticated) {
+            // Logout succeeded → green success snackbar, then back to welcome.
             getIt<AppRouter>().setLoggedIn(value: false);
+            BennySnackBar.show(message: 'profile.logout_success'.tr());
             context.go(AppRoutes.welcome);
+          } else if (state is AuthFailure) {
+            // Logout failed → keep the session, show the red error snackbar.
+            BennySnackBar.show(
+              message: state.message,
+              type: BaseSnackBarType.error,
+            );
           }
         },
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            ProfileHeader(name: 'Bảo Nguyễn', maskedPhone: _maskedPhone()),
+            const _ProfileHeaderSection(),
             Padding(
               padding: EdgeInsets.all(theme.spacing.spacing16),
               child: Column(
@@ -227,6 +229,35 @@ Future<bool> _confirm(
     ),
   );
   return result ?? false;
+}
+
+/// Profile header bound to [ProfileViewModel]: shows the fetched name and a
+/// masked phone, with a graceful placeholder while the profile loads.
+class _ProfileHeaderSection extends StatelessWidget {
+  const _ProfileHeaderSection();
+
+  static const _maskedPlaceholder = '••• ••• ••••';
+
+  String _mask(String phone) {
+    if (phone.length < 4) {
+      return _maskedPlaceholder;
+    }
+    return '••• ••• ${phone.substring(phone.length - 4)}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<ProfileViewModel, ProfileState>(
+      builder: (context, state) {
+        final profile = state is ProfileLoaded ? state.profile : null;
+        return ProfileHeader(
+          name: profile?.fullName ?? 'profile.loading_name'.tr(),
+          maskedPhone:
+              profile != null ? _mask(profile.phone) : _maskedPlaceholder,
+        );
+      },
+    );
+  }
 }
 
 class _GroupLabel extends StatelessWidget {

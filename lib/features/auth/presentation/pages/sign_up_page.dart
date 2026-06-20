@@ -15,6 +15,7 @@ import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/sign_up_state.dart';
 import '../view_model/sign_up_view_model.dart';
+import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_password_field.dart';
@@ -69,7 +70,9 @@ class _SignUpViewState extends State<_SignUpView> {
 
     return ViewModelConsumer<SignUpViewModel, SignUpState>(
       listenWhen: (p, c) =>
-          p.errorMessage != c.errorMessage || (!p.isSuccess && c.isSuccess),
+          p.errorMessage != c.errorMessage ||
+          (!p.isSuccess && c.isSuccess) ||
+          (p.otpChallenge == null && c.otpChallenge != null),
       listener: (context, state) {
         final message = state.errorMessage;
         if (message != null) {
@@ -78,10 +81,25 @@ class _SignUpViewState extends State<_SignUpView> {
             type: BaseSnackBarType.error,
           );
         }
+        final challenge = state.otpChallenge;
+        if (challenge != null) {
+          // Sign-up needs OTP verification before completing. Route to the OTP
+          // screen, carrying the backend's timer config (same as login).
+          context.push(
+            Uri(
+              path: AppRoutes.otp,
+              queryParameters: {
+                'phone': state.phone,
+                'flow': OtpFlow.signUp.name,
+                'resend': '${challenge.resendSecs}',
+                'enable_resend': '${challenge.enableResendSecs}',
+              },
+            ).toString(),
+          );
+          return;
+        }
         if (state.isSuccess) {
           BennySnackBar.show(message: 'auth.register.success'.tr());
-          // Replace sign-up with login, carrying the phone so the user only
-          // needs to type the password.
           context.pushReplacement(
             Uri(
               path: AppRoutes.login,

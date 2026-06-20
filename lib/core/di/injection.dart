@@ -17,13 +17,18 @@ import '../../features/auth/domain/use_cases/reset_password_use_case.dart';
 import '../../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../features/auth/presentation/view_model/auth_view_model.dart';
 import '../../features/auth/presentation/view_model/forgot_password_view_model.dart';
-import '../../features/auth/presentation/view_model/otp_view_model.dart';
 import '../../features/auth/presentation/view_model/sign_up_view_model.dart';
 import '../../features/commission/presentation/view_model/commission_view_model.dart';
 import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
 import '../../features/onboarding/presentation/view_model/billing_info_view_model.dart';
 import '../../features/onboarding/presentation/view_model/personal_info_view_model.dart';
+import '../../features/profile/data/datasources/profile_mock_data_source.dart';
+import '../../features/profile/data/datasources/profile_remote_data_source.dart';
+import '../../features/profile/data/repositories/profile_repository_impl.dart';
+import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/profile/domain/use_cases/get_profile_use_case.dart';
+import '../../features/profile/presentation/view_model/profile_view_model.dart';
 import '../../features/app_update/data/datasources/app_update_mock_data_source.dart';
 import '../../features/app_update/data/datasources/app_update_remote_data_source.dart';
 import '../../features/app_update/data/repositories/app_update_repository_impl.dart';
@@ -113,6 +118,7 @@ Future<void> configureDependencies(Env env) async {
   _registerAuthFeature();
   _registerHomeFeature();
   _registerCommissionFeature();
+  _registerProfileFeature();
   _registerMainFeature();
   _registerOnboardingFeature();
   _registerAppUpdateFeature();
@@ -193,6 +199,31 @@ void _registerHomeFeature() {
   getIt.registerFactory(HomeViewModel.new);
 }
 
+/// Profile feature wiring.
+///
+/// Swap the stub for the real backend by replacing the
+/// [ProfileRemoteDataSource] registration with
+/// `ProfileApiDataSource(dioClient: getIt<DioClient>())`. Use case, view model
+/// and pages stay untouched.
+void _registerProfileFeature() {
+  getIt.registerLazySingleton<ProfileRemoteDataSource>(
+    ProfileMockDataSource.new,
+  );
+  getIt.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(
+      remoteDataSource: getIt<ProfileRemoteDataSource>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => GetProfileUseCase(profileRepository: getIt<ProfileRepository>()),
+  );
+  // Factory: MainPage creates one instance and shares it with the Profile tab
+  // via the widget tree (BlocProvider), so both see the same loaded profile.
+  getIt.registerFactory(
+    () => ProfileViewModel(getProfileUseCase: getIt<GetProfileUseCase>()),
+  );
+}
+
 /// Commission (Hoa hồng) feature wiring.
 void _registerCommissionFeature() {
   getIt.registerFactory(CommissionViewModel.new);
@@ -262,5 +293,6 @@ void _registerAuthFeature() {
       forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     ),
   );
-  getIt.registerFactory(OtpViewModel.new);
+  // OtpViewModel is constructed directly by OtpPage (it takes a per-navigation
+  // OtpTimerConfig), so it isn't registered here.
 }

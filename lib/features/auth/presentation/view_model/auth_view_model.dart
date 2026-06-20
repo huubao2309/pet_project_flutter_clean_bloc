@@ -1,6 +1,7 @@
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/use_case/use_case.dart';
+import '../../domain/entities/login_result.dart';
 import '../../domain/use_cases/get_current_user_use_case.dart';
 import '../../domain/use_cases/login_use_case.dart';
 import '../../domain/use_cases/logout_use_case.dart';
@@ -37,14 +38,16 @@ class AuthViewModel extends ViewModel<AuthState> {
   Future<void> login({required String phone, required String password}) async {
     setState(const AuthLoading());
     try {
-      final user = await _loginUseCase.execute(
+      final result = await _loginUseCase.execute(
         LoginParams(phone: phone, password: password),
       );
-      setState(AuthAuthenticated(user));
+      switch (result) {
+        case LoginAuthenticated():
+          setState(const AuthAuthenticated());
+        case LoginOtpRequired(:final challenge):
+          setState(AuthOtpRequired(challenge));
+      }
     } on AccountBlockedException catch (e) {
-      // Hard stop (too many wrong OTP entries, deleted account, …): the View
-      // shows a full-screen error, not a snackbar. The reason drives which
-      // message. Must be caught before AppException.
       setState(AuthBlocked(e.reason, e.message));
     } on AppException catch (e) {
       setState(AuthFailure(e.message));
@@ -61,7 +64,6 @@ class AuthViewModel extends ViewModel<AuthState> {
       await _logoutUseCase.execute(const NoParams());
       setState(const AuthUnauthenticated());
     } on AppException catch (e) {
-      // Logout failed → keep the session and surface the error to the UI.
       setState(AuthFailure(e.message));
     }
   }

@@ -41,12 +41,17 @@ class RouterGuard extends ChangeNotifier {
   }
 
   /// Routes reachable without being logged in (the welcome/auth flow).
+  ///
+  /// [AppRoutes.otp] is public: it is shown BEFORE the session is granted — both
+  /// in the forgot-password flow and in the login re-verification flow
+  /// (`challenge_type: "verify_otp"`), where the user is not logged in yet.
   static const _publicRoutes = <String>{
     AppRoutes.welcome,
     AppRoutes.login,
     AppRoutes.signUp,
     AppRoutes.forgotPassword,
     AppRoutes.resetPassword,
+    AppRoutes.otp,
   };
 
   /// Returns the redirect target for a navigation, or null to allow it through.

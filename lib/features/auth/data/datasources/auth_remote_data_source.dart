@@ -3,6 +3,7 @@ import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
 import '../models/response/login_data_dto.dart';
+import '../models/response/otp_challenge_dto.dart';
 
 /// Remote data source contract for the auth feature.
 ///
@@ -12,7 +13,10 @@ import '../models/response/login_data_dto.dart';
 abstract class AuthRemoteDataSource {
   Future<LoginDataDto> login(LoginRequestDto request);
 
-  Future<bool> signUp(SignUpRequestDto request);
+  /// Registers a new account. Returns the response `data` as an
+  /// [OtpChallengeDto]: it carries a `verify_otp` challenge when the backend
+  /// requires OTP verification, otherwise its challenge fields are absent.
+  Future<OtpChallengeDto> signUp(SignUpRequestDto request);
 
   Future<void> forgotPassword(ForgotPasswordRequestDto request);
 

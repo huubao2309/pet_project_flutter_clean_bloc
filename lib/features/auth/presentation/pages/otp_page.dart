@@ -9,33 +9,111 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/app_error_view.dart';
 import '../../../../core/presentation/widgets/app_top_bar.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/otp_state.dart';
+import '../view_model/otp_timer_config.dart';
 import '../view_model/otp_view_model.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/otp_input_field.dart';
 
-/// OTP entry screen. Reached after the reset code is sent by SMS.
+/// Which flow opened the OTP screen — decides where to go once the code is
+/// verified, and how the timers are configured.
+enum OtpFlow {
+  /// Forgot-password: after verifying, continue to reset the password.
+  forgotPassword,
+
+  /// Login re-verification (`challenge_type: "verify_otp"`): after verifying,
+  /// the session is granted and we go to Home.
+  login,
+
+  /// Sign-up verification (`challenge_type: "verify_otp"`): after verifying,
+  /// the account is confirmed and we go to login to sign in.
+  signUp;
+
+  static OtpFlow fromName(String? name) =>
+      OtpFlow.values.firstWhere((f) => f.name == name, orElse: () => forgotPassword);
+
+  /// Flows whose OTP timers are driven by the backend challenge (vs the
+  /// client-side defaults used by forgot-password).
+  bool get usesBackendTimers => this == login || this == signUp;
+}
+
+/// OTP entry screen. Reached after a code is sent by SMS — either from the
+/// forgot-password flow or as a login re-verification step.
 class OtpPage extends StatelessWidget {
-  const OtpPage({this.phone, super.key});
+  const OtpPage({
+    this.phone,
+    this.flow = OtpFlow.forgotPassword,
+    this.resendSecs,
+    this.enableResendSecs,
+    super.key,
+  });
 
   /// Phone number the code was sent to (shown in the caption).
   final String? phone;
 
+  /// Which flow opened this screen.
+  final OtpFlow flow;
+
+  /// `otp_resend_secs` from the backend challenge (login / sign-up flows).
+  final int? resendSecs;
+
+  /// `otp_enable_resend_secs` from the backend challenge (login / sign-up).
+  final int? enableResendSecs;
+
+  /// Builds the timer config. For the login and sign-up flows the backend
+  /// dictates the durations:
+  ///   • the "Resend" button stays disabled for `otp_enable_resend_secs`
+  ///     (defaulting to 0 — enabled immediately — when absent), and
+  ///   • the code-expiry countdown uses `otp_resend_secs`.
+  /// Forgot-password keeps the client-side defaults.
+  OtpTimerConfig _config() {
+    if (!flow.usesBackendTimers) {
+      return const OtpTimerConfig();
+    }
+    return OtpTimerConfig(
+      validitySeconds: resendSecs ?? OtpTimerConfig.defaultValiditySeconds,
+      resendCooldownSeconds: enableResendSecs ?? 0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<OtpViewModel>(
-      create: (_) => getIt<OtpViewModel>(),
-      child: _OtpView(phone: phone),
+      create: (_) => OtpViewModel(config: _config()),
+      child: _OtpView(phone: phone, flow: flow),
     );
   }
 }
 
 class _OtpView extends StatelessWidget {
-  const _OtpView({this.phone});
+  const _OtpView({required this.flow, this.phone});
 
   final String? phone;
+  final OtpFlow flow;
+
+  /// Continues the flow once the code is verified.
+  void _onVerified(BuildContext context) {
+    switch (flow) {
+      case OtpFlow.login:
+        // Identity confirmed → grant the session and go to Home.
+        getIt<AppRouter>().setLoggedIn(value: true);
+        context.go(AppRoutes.main);
+      case OtpFlow.signUp:
+        // Account confirmed → go to login, carrying the phone so the user only
+        // needs to type the password.
+        context.go(
+          Uri(
+            path: AppRoutes.login,
+            queryParameters: {'phone': phone ?? ''},
+          ).toString(),
+        );
+      case OtpFlow.forgotPassword:
+        context.go(AppRoutes.resetPassword);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +121,7 @@ class _OtpView extends StatelessWidget {
 
     return ViewModelConsumer<OtpViewModel, OtpState>(
       listenWhen: (p, c) => !p.isVerified && c.isVerified,
-      listener: (context, state) {
-        // Verified — continue the flow (here: to reset the password).
-        context.go(AppRoutes.resetPassword);
-      },
+      listener: (context, state) => _onVerified(context),
       builder: (context, state) {
         if (state.isLocked) {
           return AppErrorView(

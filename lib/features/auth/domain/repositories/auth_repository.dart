@@ -1,3 +1,5 @@
+import '../entities/login_result.dart';
+import '../entities/sign_up_result.dart';
 import '../entities/user_entity.dart';
 
 /// Auth domain contract (a "port"). Lives in the domain layer so use cases
@@ -6,10 +8,13 @@ import '../entities/user_entity.dart';
 /// Note: parameters are plain domain values, never data-layer DTOs — keeping
 /// the domain free of serialization concerns.
 abstract class AuthRepository {
-  Future<UserEntity> login({required String phone, required String password});
+  /// Authenticates the user. Returns a [LoginResult]: either authenticated
+  /// (tokens persisted) or an OTP challenge that must be verified first.
+  Future<LoginResult> login({required String phone, required String password});
 
-  /// Registers a new account. Returns true when the sign-up succeeded.
-  Future<bool> signUp({
+  /// Registers a new account. Returns a [SignUpResult]: either completed, or an
+  /// OTP challenge that must be verified next.
+  Future<SignUpResult> signUp({
     required String phone,
     required String password,
     bool? receiveUpdates,

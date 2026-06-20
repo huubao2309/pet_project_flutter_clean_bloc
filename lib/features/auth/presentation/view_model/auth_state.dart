@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../domain/entities/otp_challenge.dart';
 import '../../domain/entities/user_entity.dart';
 
 /// Immutable UI state for the auth feature.
@@ -18,12 +19,23 @@ final class AuthLoading extends AuthState {
 }
 
 final class AuthAuthenticated extends AuthState {
-  const AuthAuthenticated(this.user);
-  final UserEntity user;
+  const AuthAuthenticated([this.user]);
+
+  /// The signed-in user, when known. Null right after a token-only login
+  /// (`challenge_type: "none"`), where the profile is loaded separately.
+  final UserEntity? user;
 }
 
 final class AuthUnauthenticated extends AuthState {
   const AuthUnauthenticated();
+}
+
+/// Credentials accepted, but the account must pass an OTP check before the
+/// session is granted (`challenge_type: "verify_otp"`). The View routes to the
+/// OTP screen, carrying [challenge] so it can configure the timers.
+final class AuthOtpRequired extends AuthState {
+  const AuthOtpRequired(this.challenge);
+  final OtpChallenge challenge;
 }
 
 final class AuthFailure extends AuthState {

@@ -1,4 +1,5 @@
 import '../../../../core/use_case/use_case.dart';
+import '../entities/sign_up_result.dart';
 import '../repositories/auth_repository.dart';
 
 class SignUpParams {
@@ -13,13 +14,13 @@ class SignUpParams {
   final bool receiveUpdates;
 }
 
-class SignUpUseCase implements UseCase<bool, SignUpParams> {
+class SignUpUseCase implements UseCase<SignUpResult, SignUpParams> {
   const SignUpUseCase({required this.authRepository});
 
   final AuthRepository authRepository;
 
   @override
-  Future<bool> execute(SignUpParams params) => authRepository.signUp(
+  Future<SignUpResult> execute(SignUpParams params) => authRepository.signUp(
         phone: params.phone,
         password: params.password,
         receiveUpdates: params.receiveUpdates,

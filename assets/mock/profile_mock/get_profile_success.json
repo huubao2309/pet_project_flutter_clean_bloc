@@ -1,0 +1,13 @@
+{
+  "message": "get profile successfully",
+  "time": "2022-10-26T02:35:54Z",
+  "verdict": "success",
+  "status_code": 200,
+  "user_message": "",
+  "data": {
+    "id": "1",
+    "fullName": "Harry",
+    "phone": "0911223344",
+    "email": "abc@gmail.com"
+  }
+}

@@ -5,13 +5,8 @@
   "status_code": 200,
   "user_message": "",
   "data": {
+    "challenge_type": "none",
     "access_token": "etwrqrqwerqwerqwr",
-    "refresh_token": "refesh_adddd",
-    "user_info": {
-      "id": "1",
-      "fullName": "Harry",
-      "phone": "0911223344",
-      "email": "abc@gmail.com"
-    }
+    "refresh_token": "refesh_adddd"
   }
 }
