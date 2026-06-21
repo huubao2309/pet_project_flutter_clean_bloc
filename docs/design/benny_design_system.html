@@ -272,6 +272,72 @@
         <div class="note">Lockup ngang</div>
       </div>
     </div>
+
+    <h2 style="margin-top:36px">Launcher icon theo môi trường — watermark</h2>
+    <p class="sub">Icon hiển thị NGOÀI ứng dụng (home screen). Prod dùng tile gốc. Staging/UAT thêm dải watermark chéo ở góc dưới-phải để phân biệt build trên cùng một máy. Không áp dụng cho logo bên trong app.</p>
+    <div class="screens" style="justify-content:flex-start;gap:30px;align-items:center;">
+      <div style="text-align:center">
+        <svg viewBox="0 0 240 240" width="120" height="120" fill="none">
+          <defs>
+            <linearGradient id="navyProd" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#1A3C5E"/><stop offset="1" stop-color="#142F49"/></linearGradient>
+          </defs>
+          <rect x="16" y="16" width="208" height="208" rx="52" fill="url(#navyProd)"/>
+          <g transform="translate(36 36) scale(0.7)">
+            <path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/>
+            <rect x="60" y="104" width="120" height="104" rx="14" fill="#FFFFFF"/>
+            <rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/>
+            <circle cx="129" cy="189" r="3" fill="#E8A020"/>
+          </g>
+        </svg>
+        <div class="note">prod — ic_launcher (không watermark)</div>
+      </div>
+      <div style="text-align:center">
+        <svg viewBox="0 0 240 240" width="120" height="120" fill="none">
+          <defs>
+            <linearGradient id="navyStg" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#1A3C5E"/><stop offset="1" stop-color="#142F49"/></linearGradient>
+            <clipPath id="clipStg"><rect x="16" y="16" width="208" height="208" rx="52"/></clipPath>
+          </defs>
+          <rect x="16" y="16" width="208" height="208" rx="52" fill="url(#navyStg)"/>
+          <g transform="translate(36 36) scale(0.7)">
+            <path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/>
+            <rect x="60" y="104" width="120" height="104" rx="14" fill="#FFFFFF"/>
+            <rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/>
+            <circle cx="129" cy="189" r="3" fill="#E8A020"/>
+          </g>
+          <g clip-path="url(#clipStg)"><g transform="rotate(-45 192 192)">
+            <rect x="82" y="181" width="240" height="32" fill="#E8A020"/>
+            <text x="202" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="21" letter-spacing="1.5" fill="#142F49">STG</text>
+          </g></g>
+        </svg>
+        <div class="note">staging — ic_launcher_staging (STG)</div>
+      </div>
+      <div style="text-align:center">
+        <svg viewBox="0 0 240 240" width="120" height="120" fill="none">
+          <defs>
+            <linearGradient id="navyUat" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#1A3C5E"/><stop offset="1" stop-color="#142F49"/></linearGradient>
+            <clipPath id="clipUat"><rect x="16" y="16" width="208" height="208" rx="52"/></clipPath>
+          </defs>
+          <rect x="16" y="16" width="208" height="208" rx="52" fill="url(#navyUat)"/>
+          <g transform="translate(36 36) scale(0.7)">
+            <path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/>
+            <rect x="60" y="104" width="120" height="104" rx="14" fill="#FFFFFF"/>
+            <rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/>
+            <path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#1A3C5E"/>
+            <circle cx="129" cy="189" r="3" fill="#E8A020"/>
+          </g>
+          <g clip-path="url(#clipUat)"><g transform="rotate(-45 192 192)">
+            <rect x="82" y="181" width="240" height="32" fill="#D6534F"/>
+            <text x="202" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="21" letter-spacing="1.5" fill="#FFFFFF">UAT</text>
+          </g></g>
+        </svg>
+        <div class="note">uat — ic_launcher_uat (UAT)</div>
+      </div>
+    </div>
   </section>
 
   <!-- 01 COLOR -->
@@ -2117,10 +2183,11 @@
       <div><code>Entities</code><span>lib/features/home/domain/entities/ (property_listing · deal_record)</span></div>
       <div><code>Currency format</code><span>lib/core/utils/currency_format.dart</span></div>
       <div><code>Logo SVG</code><span>assets/images/logo_mark.svg · logo_tile.svg</span></div>
+      <div><code>Launcher icon</code><span>tool/gen_launcher_icons.py → assets/launcher/ · flutter_launcher_icons-{prod,staging,uat}.yaml</span></div>
       <div><code>Translations</code><span>assets/translations/vi.json · en.json</span></div>
     </div>
     <h3>Trạng thái</h3>
-    <p class="note">✅ Đã build (Light Mode): Design system (Navy/Amber/Gray) · Logo · Splash · Auth flow (Welcome · Login · Sign up · Forgot · OTP · Reset) · AppErrorView · Main shell 5 tab · Home dashboard.<br>🎨 Mới ở design (chưa build code): Snackbar có nút tắt · Controls (switch/checkbox/radio/appbar/list tile) · Profile (Hồ sơ) + nút Dark Mode · Status screens (→ đề xuất AppStatusView) · Dialog &amp; Bottom sheet · password rule popover · <b>Dark Mode đầy đủ</b> (mục 06, bảng màu tối ở mục 01).<br>🌙 Dark Mode: cần thêm bộ token tối vào theme (ThemeState/AppColors) + cờ light/dark; lưu lựa chọn; toggle ở Profile. Hiện app mới chỉ có Light Mode.<br>⏳ Chưa làm: tab Lịch sử / QR / Hoa hồng / Profile (đang placeholder) · launcher icon (mipmap còn icon đỏ cũ) · wiring điều hướng · OTP verify đang mock (123456).</p>
+    <p class="note">✅ Đã build (Light Mode): Design system (Navy/Amber/Gray) · Logo · Launcher icon theo môi trường (prod / staging-STG / uat-UAT, watermark góc dưới-phải) · Splash · Auth flow (Welcome · Login · Sign up · Forgot · OTP · Reset) · AppErrorView · Main shell 5 tab · Home dashboard.<br>🎨 Mới ở design (chưa build code): Snackbar có nút tắt · Controls (switch/checkbox/radio/appbar/list tile) · Profile (Hồ sơ) + nút Dark Mode · Status screens (→ đề xuất AppStatusView) · Dialog &amp; Bottom sheet · password rule popover · <b>Dark Mode đầy đủ</b> (mục 06, bảng màu tối ở mục 01).<br>🌙 Dark Mode: cần thêm bộ token tối vào theme (ThemeState/AppColors) + cờ light/dark; lưu lựa chọn; toggle ở Profile. Hiện app mới chỉ có Light Mode.<br>⏳ Chưa làm: tab Lịch sử / QR / Hoa hồng / Profile (đang placeholder) · wiring điều hướng · OTP verify đang mock (123456).</p>
   </section>
 
 </div>

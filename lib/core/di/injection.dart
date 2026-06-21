@@ -300,6 +300,4 @@ void _registerAuthFeature() {
       forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     ),
   );
-  // OtpViewModel is constructed directly by OtpPage (it takes a per-navigation
-  // OtpTimerConfig), so it isn't registered here.
 }

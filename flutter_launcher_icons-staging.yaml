@@ -1,0 +1,10 @@
+# Launcher icon (shown OUTSIDE the app) for the `staging` flavor — STG watermark.
+# Generated from tool/gen_launcher_icons.py. In-app logos are NOT affected.
+# Regenerate icons:  dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher/ic_launcher_staging.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "assets/launcher/adaptive_bg.png"
+  adaptive_icon_foreground: "assets/launcher/adaptive_fg_staging.png"
