@@ -11,6 +11,7 @@ import '../../../../core/presentation/widgets/app_error_view.dart';
 import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../domain/entities/verify_otp_result.dart';
 import '../../domain/use_cases/verify_otp_use_case.dart';
 import '../view_model/otp_state.dart';
 import '../view_model/otp_timer_config.dart';
@@ -33,8 +34,7 @@ enum OtpFlow {
   /// the account is confirmed and we go to login to sign in.
   signUp;
 
-  static OtpFlow fromName(String? name) =>
-      OtpFlow.values.firstWhere((f) => f.name == name, orElse: () => forgotPassword);
+  static OtpFlow fromName(String? name) => OtpFlow.values.firstWhere((f) => f.name == name, orElse: () => forgotPassword);
 
   /// Flows whose OTP timers are driven by the backend challenge (vs the
   /// client-side defaults used by forgot-password).
@@ -93,41 +93,34 @@ class OtpPage extends StatelessWidget {
         config: _config(),
         sessionToken: sessionToken ?? '',
       ),
-      child: _OtpView(phone: phone, flow: flow),
+      child: _OtpView(phone: phone),
     );
   }
 }
 
 class _OtpView extends StatelessWidget {
-  const _OtpView({required this.flow, this.phone});
+  const _OtpView({this.phone});
 
   final String? phone;
-  final OtpFlow flow;
 
-  /// Continues the flow once the code is verified.
+  /// Continues once the code is verified, routing purely on the backend's
+  /// `challenge_type` (carried by [OtpState.verifyResult]) — not the flow.
   void _onVerified(BuildContext context, OtpState state) {
-    // Sign-up: verification returned a `register_password` challenge → go set a
-    // password, carrying the fresh session token.
-    final registerToken = state.registerSessionToken;
-    if (registerToken != null) {
-      context.push(
-        Uri(
-          path: AppRoutes.registerPassword,
-          queryParameters: {'session_token': registerToken},
-        ).toString(),
-      );
-      return;
-    }
-
-    switch (flow) {
-      case OtpFlow.login:
-      case OtpFlow.signUp:
-        // Authenticated outright (tokens persisted) → grant the session and go
-        // to Home.
+    switch (state.verifyResult) {
+      // challenge_type "register_password" → replace the OTP screen with the
+      // set-password screen, carrying the fresh session token.
+      case VerifyOtpRegisterPassword(:final sessionToken):
+        context.pushReplacement(
+          Uri(
+            path: AppRoutes.registerPassword,
+            queryParameters: {'session_token': sessionToken},
+          ).toString(),
+        );
+      case VerifyOtpAuthenticated():
         getIt<AppRouter>().setLoggedIn(value: true);
         context.go(AppRoutes.main);
-      case OtpFlow.forgotPassword:
-        context.go(AppRoutes.resetPassword);
+      case null:
+        break;
     }
   }
 
@@ -199,12 +192,8 @@ class _OtpForm extends StatelessWidget {
         if (hasError) ...[
           SizedBox(height: theme.spacing.spacing8),
           Text(
-            (state.error == OtpError.expired
-                    ? 'auth.otp.error_expired'
-                    : 'auth.otp.error_invalid')
-                .tr(),
-            style: theme.textStyle.captionDefault
-                .copyWith(color: theme.colors.error600),
+            (state.error == OtpError.expired ? 'auth.otp.error_expired' : 'auth.otp.error_invalid').tr(),
+            style: theme.textStyle.captionDefault.copyWith(color: theme.colors.error600),
           ),
         ],
         SizedBox(height: theme.spacing.spacing16),
@@ -247,10 +236,7 @@ class _CountdownRow extends StatelessWidget {
         ),
         SizedBox(width: theme.spacing.spacing4),
         Text(
-          expired
-              ? 'auth.otp.expired_label'.tr()
-              : 'auth.otp.expires_in'
-                  .tr(namedArgs: {'time': _format(state.secondsLeft)}),
+          expired ? 'auth.otp.expired_label'.tr() : 'auth.otp.expires_in'.tr(namedArgs: {'time': _format(state.secondsLeft)}),
           style: theme.textStyle.captionDefault.copyWith(
             color: expired ? theme.colors.error600 : theme.colors.neutral500,
           ),
@@ -275,8 +261,7 @@ class _ResendRow extends StatelessWidget {
       children: [
         Text(
           'auth.otp.no_code'.tr(),
-          style: theme.textStyle.paragraphDefault
-              .copyWith(color: theme.colors.neutral600),
+          style: theme.textStyle.paragraphDefault.copyWith(color: theme.colors.neutral600),
         ),
         SizedBox(width: theme.spacing.spacing4),
         if (state.canResend)
@@ -292,10 +277,8 @@ class _ResendRow extends StatelessWidget {
           )
         else
           Text(
-            'auth.otp.resend_in'
-                .tr(namedArgs: {'seconds': '${state.resendIn}'}),
-            style: theme.textStyle.paragraphDefault
-                .copyWith(color: theme.colors.neutral400),
+            'auth.otp.resend_in'.tr(namedArgs: {'seconds': '${state.resendIn}'}),
+            style: theme.textStyle.paragraphDefault.copyWith(color: theme.colors.neutral400),
           ),
       ],
     );

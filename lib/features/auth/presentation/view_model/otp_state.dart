@@ -1,3 +1,5 @@
+import '../../domain/entities/verify_otp_result.dart';
+
 /// Why the OTP entry is currently in an error state.
 enum OtpError { none, invalid, expired }
 
@@ -9,7 +11,7 @@ class OtpState {
     this.error = OtpError.none,
     this.isLocked = false,
     this.isVerified = false,
-    this.registerSessionToken,
+    this.verifyResult,
     this.secondsLeft = 0,
     this.resendIn = 0,
     this.attempts = 0,
@@ -23,10 +25,10 @@ class OtpState {
   final bool isLocked;
   final bool isVerified;
 
-  /// Set when verification (sign-up flow) returns a `register_password`
-  /// challenge: the fresh session token to carry into the register-password
-  /// screen. Null for the login / forgot-password flows.
-  final String? registerSessionToken;
+  /// The outcome of a successful verification — drives where the View navigates
+  /// (login → Home; sign-up `register_password` → set-password screen). Null
+  /// until [isVerified] flips true.
+  final VerifyOtpResult? verifyResult;
 
   /// Remaining validity of the current code (seconds).
   final int secondsLeft;
@@ -50,7 +52,7 @@ class OtpState {
     OtpError? error,
     bool? isLocked,
     bool? isVerified,
-    String? registerSessionToken,
+    VerifyOtpResult? verifyResult,
     int? secondsLeft,
     int? resendIn,
     int? attempts,
@@ -61,8 +63,7 @@ class OtpState {
       error: error ?? this.error,
       isLocked: isLocked ?? this.isLocked,
       isVerified: isVerified ?? this.isVerified,
-      registerSessionToken:
-          registerSessionToken ?? this.registerSessionToken,
+      verifyResult: verifyResult ?? this.verifyResult,
       secondsLeft: secondsLeft ?? this.secondsLeft,
       resendIn: resendIn ?? this.resendIn,
       attempts: attempts ?? this.attempts,

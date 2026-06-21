@@ -110,11 +110,6 @@ class _FormContent extends StatelessWidget {
           hintText: 'auth.register.password'.tr(),
           onTextChanged: viewModel.onPasswordChanged,
         ),
-        SizedBox(height: theme.spacing.spacing8),
-        PasswordRequirementHint(
-          strength: state.strength,
-          isPasswordEmpty: state.password.isEmpty,
-        ),
         SizedBox(height: theme.spacing.spacing12),
         AuthPasswordField(
           hintText: 'auth.register.confirm_password'.tr(),
@@ -122,6 +117,13 @@ class _FormContent extends StatelessWidget {
           errorText: state.hasConfirmMismatch
               ? 'auth.register.password_mismatch'.tr()
               : null,
+        ),
+        // Password-rule hint sits below both fields (see "Register · Mật khẩu"
+        // in the design system).
+        SizedBox(height: theme.spacing.spacing8),
+        PasswordRequirementHint(
+          strength: state.strength,
+          isPasswordEmpty: state.password.isEmpty,
         ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(

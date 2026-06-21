@@ -2,17 +2,17 @@ import 'dart:async';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
-import '../../domain/entities/verify_otp_result.dart';
 import '../../domain/use_cases/verify_otp_use_case.dart';
 import 'otp_state.dart';
 import 'otp_timer_config.dart';
 
 /// View model for the OTP screen.
 ///
-/// `verify()` calls the verify-otp API via [VerifyOtpUseCase] and surfaces the
-/// outcome:
-///   • sign-up  → [OtpState.registerSessionToken] is set (go set a password);
-///   • login    → tokens are persisted, [OtpState.isVerified] flips true.
+/// `verify()` calls the verify-otp API via [VerifyOtpUseCase] and exposes the
+/// outcome as [OtpState.verifyResult] (with [OtpState.isVerified] true) so the
+/// View can navigate on the backend's `challenge_type`:
+///   • sign-up  → `register_password` challenge (go set a password);
+///   • login    → authenticated (tokens persisted).
 ///
 /// Runs a 1s ticker that counts down the code validity and the resend cooldown,
 /// flips to [OtpError.expired] when validity hits zero, and locks the screen
@@ -57,20 +57,14 @@ class OtpViewModel extends ViewModel<OtpState> {
         VerifyOtpParams(code: currentState.code, sessionToken: _sessionToken),
       );
       _timer?.cancel();
-      switch (result) {
-        // Sign-up: carry the fresh session token to the register-password step.
-        case VerifyOtpRegisterPassword(:final sessionToken):
-          setState(
-            currentState.copyWith(
-              isVerifying: false,
-              isVerified: true,
-              registerSessionToken: sessionToken,
-            ),
-          );
-        // Login: tokens persisted in the repository → just mark verified.
-        case VerifyOtpAuthenticated():
-          setState(currentState.copyWith(isVerifying: false, isVerified: true));
-      }
+      // The View navigates based on this result (see `_onVerified`).
+      setState(
+        currentState.copyWith(
+          isVerifying: false,
+          isVerified: true,
+          verifyResult: result,
+        ),
+      );
     } on AppException catch (_) {
       _registerWrongAttempt();
     }

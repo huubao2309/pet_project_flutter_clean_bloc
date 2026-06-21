@@ -1106,7 +1106,7 @@
 
     <div class="cluster">
       <div class="ch">Register · Mật khẩu <span class="pill">3 trạng thái</span></div>
-      <div class="cd">Bước 2 — màn "Tạo mật khẩu". Rule mật khẩu gọn: dòng "Yêu cầu mật khẩu" + icon ⓘ; nhấn để mở popover hiển thị rule (cập nhật trực tiếp khi gõ). Field "Nhập lại mật khẩu" để xác nhận — báo lỗi nếu không khớp.</div>
+      <div class="cd">Bước 2 — màn "Tạo mật khẩu". 2 field "Mật khẩu" + "Nhập lại mật khẩu" trước; bên dưới cả 2 field là dòng "Yêu cầu mật khẩu" + icon ⓘ (nhấn mở popover hiển thị rule, cập nhật trực tiếp khi gõ). Báo lỗi ngay dưới field "Nhập lại mật khẩu" nếu không khớp.</div>
       <div class="states">
 
       <div class="phone">
@@ -1116,8 +1116,8 @@
           <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
             <div class="inp">Mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="inp" style="margin-top:12px">Nhập lại mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
@@ -1131,7 +1131,9 @@
           <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
             <div class="inp val">•••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
+            <div class="pwhint" style="margin-top:12px"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="pop">
               <div class="pt">Mật khẩu phải có:</div>
               <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Có ít nhất 8 ký tự</div>
@@ -1139,8 +1141,6 @@
               <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Một chữ số</div>
               <div class="rule"><span class="rk" style="background:var(--error-d)">&#10007;</span>Một chữ in hoa</div>
             </div>
-            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
-            <div class="ierr">Mật khẩu nhập lại không khớp</div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
@@ -1154,8 +1154,8 @@
           <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
             <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint" style="color:var(--success-d);margin-top:12px"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="cta" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
@@ -1752,7 +1752,7 @@
 
     <div class="cluster">
       <div class="ch">Register · Mật khẩu <span class="pill">Dark · 2 trạng thái</span></div>
-      <div class="cd">Bước 2 — màn "Tạo mật khẩu". Rule mật khẩu dạng popover (mở khi đang nhập) + field "Nhập lại mật khẩu" (báo lỗi nếu không khớp).</div>
+      <div class="cd">Bước 2 — màn "Tạo mật khẩu". 2 field "Mật khẩu" + "Nhập lại mật khẩu" trước; dòng "Yêu cầu mật khẩu" (popover rule) nằm dưới cả 2 field. Báo lỗi ngay dưới field "Nhập lại mật khẩu" nếu không khớp.</div>
       <div class="states">
       <div class="phone">
         <div class="ph-body">
@@ -1761,7 +1761,9 @@
           <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
             <div class="inp val">•••• <i class="ti ti-eye ic"></i></div>
-            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
+            <div class="pwhint" style="margin-top:12px"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="pop">
               <div class="pt">Mật khẩu phải có:</div>
               <div class="rule"><span class="rk" style="background:#34D17F">&#10003;</span>Có ít nhất 8 ký tự</div>
@@ -1769,8 +1771,6 @@
               <div class="rule"><span class="rk" style="background:#34D17F">&#10003;</span>Một chữ số</div>
               <div class="rule"><span class="rk" style="background:#F2745A">&#10007;</span>Một chữ in hoa</div>
             </div>
-            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic"></i></div>
-            <div class="ierr">Mật khẩu nhập lại không khớp</div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>
@@ -1783,8 +1783,8 @@
           <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
             <div class="inp val">•••••••• <i class="ti ti-eye ic"></i></div>
-            <div class="pwhint" style="color:#34D17F"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="pwhint" style="color:#34D17F;margin-top:12px"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="cta" style="margin-top:14px">Đăng ký</div>
           </div>
         </div>

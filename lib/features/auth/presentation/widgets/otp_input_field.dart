@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +10,9 @@ import '../../../../core/di/injection.dart';
 /// Tapping anywhere focuses the field; the cells mirror the typed digits and
 /// turn red while [hasError] is set.
 ///
-/// When [obscure] is true (the default) each filled cell shows
-/// [obscuringCharacter] instead of the digit, masking the code the moment it is
-/// typed.
+/// When [obscure] is true (the default) the just-typed digit is shown in clear
+/// text for [revealDuration] so the user can confirm it, then replaced with
+/// [obscuringCharacter]. Earlier digits stay masked.
 class OtpInputField extends StatefulWidget {
   const OtpInputField({
     required this.onChanged,
@@ -20,6 +22,7 @@ class OtpInputField extends StatefulWidget {
     this.autofocus = true,
     this.obscure = true,
     this.obscuringCharacter = '•',
+    this.revealDuration = const Duration(milliseconds: 500),
     super.key,
   });
 
@@ -35,6 +38,9 @@ class OtpInputField extends StatefulWidget {
   /// The glyph shown in a filled cell while [obscure] is true.
   final String obscuringCharacter;
 
+  /// How long the just-typed digit stays visible before being masked.
+  final Duration revealDuration;
+
   @override
   State<OtpInputField> createState() => _OtpInputFieldState();
 }
@@ -43,8 +49,15 @@ class _OtpInputFieldState extends State<OtpInputField> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
 
+  /// Index of the digit currently shown in clear text (just typed). Null once
+  /// it has been masked or when the last edit was a deletion.
+  int? _revealedIndex;
+  Timer? _revealTimer;
+  int _prevLength = 0;
+
   @override
   void dispose() {
+    _revealTimer?.cancel();
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
@@ -52,6 +65,23 @@ class _OtpInputFieldState extends State<OtpInputField> {
 
   void _onChanged(String value) {
     widget.onChanged(value);
+
+    // Peek the just-typed digit for a moment, then mask it — only when a
+    // character was added (not on delete) and masking is enabled.
+    if (widget.obscure && value.length > _prevLength) {
+      _revealTimer?.cancel();
+      _revealedIndex = value.length - 1;
+      _revealTimer = Timer(widget.revealDuration, () {
+        if (mounted) {
+          setState(() => _revealedIndex = null);
+        }
+      });
+    } else {
+      _revealTimer?.cancel();
+      _revealedIndex = null;
+    }
+    _prevLength = value.length;
+
     if (value.length == widget.length) {
       widget.onCompleted?.call(value);
     }
@@ -81,6 +111,7 @@ class _OtpInputFieldState extends State<OtpInputField> {
                     focused: _focusNode.hasFocus,
                     obscure: widget.obscure,
                     obscuringCharacter: widget.obscuringCharacter,
+                    revealedIndex: _revealedIndex,
                   ),
                 ),
               ],
@@ -120,6 +151,7 @@ class _Cell extends StatelessWidget {
     required this.focused,
     required this.obscure,
     required this.obscuringCharacter,
+    required this.revealedIndex,
   });
 
   final ThemeState theme;
@@ -130,10 +162,15 @@ class _Cell extends StatelessWidget {
   final bool obscure;
   final String obscuringCharacter;
 
+  /// Index whose digit is currently shown in clear text (just typed), if any.
+  final int? revealedIndex;
+
   @override
   Widget build(BuildContext context) {
     final filled = index < text.length;
     final isNext = focused && index == text.length;
+    // Mask filled cells, except the just-typed digit during its brief reveal.
+    final masked = obscure && index != revealedIndex;
 
     final Color borderColor;
     if (hasError) {
@@ -158,7 +195,7 @@ class _Cell extends StatelessWidget {
         ),
       ),
       child: Text(
-        filled ? (obscure ? obscuringCharacter : text[index]) : '',
+        filled ? (masked ? obscuringCharacter : text[index]) : '',
         style: theme.textStyle.heading.copyWith(
           color: theme.colors.brand800,
           fontSize: 22,
