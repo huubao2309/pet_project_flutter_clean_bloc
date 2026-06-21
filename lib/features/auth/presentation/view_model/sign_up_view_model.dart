@@ -7,8 +7,9 @@ import 'sign_up_state.dart';
 
 /// View model (MVVM) for the sign-up screen.
 ///
-/// Holds form state and live validation (phone + 4 password rules) and submits
-/// via [SignUpUseCase]. The View calls these plain methods.
+/// Holds the phone field with live validation and, on "Continue", submits via
+/// [SignUpUseCase]. A `verify_otp` challenge is surfaced as [SignUpState.otpChallenge]
+/// so the View can route to the OTP screen. The View calls these plain methods.
 class SignUpViewModel extends ViewModel<SignUpState> {
   SignUpViewModel({required SignUpUseCase signUpUseCase})
       : _signUpUseCase = signUpUseCase,
@@ -25,40 +26,14 @@ class SignUpViewModel extends ViewModel<SignUpState> {
     );
   }
 
-  void onPasswordChanged(String value) {
-    setState(
-      currentState.copyWith(
-        password: value,
-        strength: PasswordStrength(
-          hasMinLength: Validators.hasMinLength(value),
-          hasSpecialChar: Validators.hasSpecialChar(value),
-          hasNumber: Validators.hasNumber(value),
-          hasCapital: Validators.hasCapital(value),
-        ),
-      ),
-    );
-  }
-
-  void onConfirmPasswordChanged(String value) {
-    setState(currentState.copyWith(confirmPassword: value));
-  }
-
-  void onReceiveUpdatesChanged({required bool value}) {
-    setState(currentState.copyWith(receiveUpdates: value));
-  }
-
   Future<void> signUp() async {
-    if (!currentState.canSubmit) {
+    if (!currentState.canSubmit || currentState.isLoading) {
       return;
     }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
       final result = await _signUpUseCase.execute(
-        SignUpParams(
-          phone: currentState.phone,
-          password: currentState.password,
-          receiveUpdates: currentState.receiveUpdates,
-        ),
+        SignUpParams(phone: currentState.phone),
       );
       switch (result) {
         // OTP step required → the View routes to the verification screen.
@@ -66,7 +41,7 @@ class SignUpViewModel extends ViewModel<SignUpState> {
           setState(
             currentState.copyWith(isLoading: false, otpChallenge: challenge),
           );
-        // Completed outright → the View routes to login (old behavior).
+        // Completed outright → the View routes to login.
         case SignUpCompleted():
           setState(currentState.copyWith(isLoading: false, isSuccess: true));
       }

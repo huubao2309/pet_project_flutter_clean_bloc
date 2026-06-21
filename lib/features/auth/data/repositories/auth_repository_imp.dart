@@ -6,12 +6,16 @@ import '../../domain/entities/login_result.dart';
 import '../../domain/entities/otp_challenge.dart';
 import '../../domain/entities/sign_up_result.dart';
 import '../../domain/entities/user_entity.dart';
+import '../../domain/entities/verify_otp_result.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
+import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
+import '../models/request/register_password_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
+import '../models/request/verify_otp_request_dto.dart';
 
 /// The single [AuthRepository] implementation, backed by an
 /// [AuthRemoteDataSource] (real API or fake mock — chosen in DI) and
@@ -75,13 +79,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<SignUpResult> signUp({
     required String phone,
-    required String password,
     bool? receiveUpdates,
   }) async {
     final data = await _remoteDataSource.signUp(
       SignUpRequestDto(
         phone: phone,
-        password: password,
         // The data layer owns transport concerns like the API language code.
         language: _defaultLanguage,
         statusUpdate: receiveUpdates,
@@ -92,6 +94,54 @@ class AuthRepositoryImpl implements AuthRepository {
     return data.requiresOtpVerification
         ? SignUpOtpRequired(data.toEntity())
         : const SignUpCompleted();
+  }
+
+  @override
+  Future<VerifyOtpResult> verifyOtp({
+    required String code,
+    required String sessionToken,
+  }) async {
+    final data = await _remoteDataSource.verifyOtp(
+      VerifyOtpRequestDto(code: code, sessionToken: sessionToken),
+    );
+
+    // Only an authenticated response (challenge_type "none") carries the session
+    // tokens — persist them when both are present. Other challenges (e.g.
+    // register_password) don't return tokens, so there's nothing to save.
+    final accessToken = data.accessToken;
+    final refreshToken = data.refreshToken;
+    if (data.isAuthenticated && accessToken != null && refreshToken != null) {
+      await _secureStorage.saveAccessToken(accessToken);
+      await _secureStorage.saveRefreshToken(refreshToken);
+    }
+
+    // Sign-up flow: the phone is confirmed but a password must still be set.
+    // Hand the fresh session token to the register-password step.
+    if (data.requiresPasswordRegistration) {
+      return VerifyOtpRegisterPassword(data.sessionToken ?? '');
+    }
+    return const VerifyOtpAuthenticated();
+  }
+
+  @override
+  Future<void> registerPassword({
+    required String password,
+    required String sessionToken,
+  }) async {
+    final data = await _remoteDataSource.registerPassword(
+      RegisterPasswordRequestDto(
+        password: password,
+        sessionToken: sessionToken,
+      ),
+    );
+    // Success completes the account and signs the user in → persist tokens.
+    final accessToken = data.accessToken;
+    final refreshToken = data.refreshToken;
+    if (accessToken == null || refreshToken == null) {
+      throw ServerException(message: 'errors.register_password_failed'.tr());
+    }
+    await _secureStorage.saveAccessToken(accessToken);
+    await _secureStorage.saveRefreshToken(refreshToken);
   }
 
   @override
@@ -108,6 +158,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }) {
     return _remoteDataSource.resetPassword(
       ResetPasswordRequestDto(newPassword: newPassword, token: token),
+    );
+  }
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) {
+    return _remoteDataSource.changePassword(
+      ChangePasswordRequestDto(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      ),
     );
   }
 

@@ -2,19 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/network/dio_client.dart';
+import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
+import '../models/request/register_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
+import '../models/request/verify_otp_request_dto.dart';
 import '../models/response/login_data_dto.dart';
 import '../models/response/otp_challenge_dto.dart';
+import '../models/response/register_password_data_dto.dart';
+import '../models/response/verify_otp_data_dto.dart';
 import 'auth_block_verdict.dart';
 import 'auth_remote_data_source.dart';
 
 /// Real [AuthRemoteDataSource] talking to the backend over [DioClient].
 class AuthApiDataSource implements AuthRemoteDataSource {
-  const AuthApiDataSource({required DioClient dioClient})
-      : _dioClient = dioClient;
+  const AuthApiDataSource({required DioClient dioClient}) : _dioClient = dioClient;
 
   final DioClient _dioClient;
 
@@ -23,6 +27,9 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   static const _signUp = '/auth/signup';
   static const _forgotPassword = '/auth/forgot-password';
   static const _resetPassword = '/auth/reset-password';
+  static const _changePassword = '/auth/change-password';
+  static const _verifyOTP = '/auth/verify-otp';
+  static const _registerPassword = '/auth/register-password';
 
   @override
   Future<LoginDataDto> login(LoginRequestDto request) async {
@@ -41,11 +48,6 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
       return response.data!;
     } on ServerException catch (e) {
-      // Login-only hard stop: too many wrong OTP entries → account locked. The
-      // backend reports verdict `otp_limit_exceeded` with HTTP 400, which the
-      // (generic) DioClient surfaces as a ServerException carrying the raw
-      // response body. Keeping the verdict check here — not in DioClient —
-      // means it applies to login only.
       final blocked = _accountBlockedFrom(e.responseData);
       if (blocked != null) {
         throw blocked;
@@ -74,8 +76,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
       final response = await _dioClient.post<OtpChallengeDto>(
         _signUp,
         data: request.toJson(),
-        fromJson: (json) =>
-            OtpChallengeDto.fromJson(json as Map<String, dynamic>),
+        fromJson: (json) => OtpChallengeDto.fromJson(json as Map<String, dynamic>),
       );
 
       if (!response.success) {
@@ -83,12 +84,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
           message: response.message ?? 'errors.signup_failed'.tr(),
         );
       }
-      // No `data` (registration completed without a challenge) → empty DTO.
       return response.data ?? const OtpChallengeDto();
     } on ServerException catch (e) {
-      // Sign-up-only hard stop: the phone is blocked (verdict `phone_is_blocked`,
-      // HTTP 400). DioClient surfaces it as a ServerException carrying the raw
-      // body; the verdict check stays here so it applies to sign-up only.
       if (_isPhoneBlocked(e.responseData)) {
         throw PhoneBlockedException(_userMessageOf(e.responseData));
       }
@@ -97,9 +94,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   /// True when [responseData] is the backend's `phone_is_blocked` envelope.
-  bool _isPhoneBlocked(Object? responseData) =>
-      responseData is Map &&
-      isPhoneBlockedVerdict(responseData['verdict'] as String?);
+  bool _isPhoneBlocked(Object? responseData) => responseData is Map && isPhoneBlockedVerdict(responseData['verdict'] as String?);
 
   /// The nested `data.user_message` from an envelope, or a generic fallback.
   String _userMessageOf(Object? responseData) {
@@ -130,6 +125,53 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     if (!response.success) {
       throw ServerException(
         message: response.message ?? 'errors.reset_failed'.tr(),
+      );
+    }
+  }
+
+  @override
+  Future<VerifyOtpDataDto> verifyOtp(VerifyOtpRequestDto request) async {
+    final response = await _dioClient.post<VerifyOtpDataDto>(
+      _verifyOTP,
+      data: request.toJson(),
+      fromJson: (json) =>
+          VerifyOtpDataDto.fromJson(json as Map<String, dynamic>),
+    );
+    if (!response.success || response.data == null) {
+      throw ServerException(
+        message: response.message ?? 'errors.verify_otp_failed'.tr(),
+      );
+    }
+    return response.data!;
+  }
+
+  @override
+  Future<RegisterPasswordDataDto> registerPassword(
+    RegisterPasswordRequestDto request,
+  ) async {
+    final response = await _dioClient.post<RegisterPasswordDataDto>(
+      _registerPassword,
+      data: request.toJson(),
+      fromJson: (json) =>
+          RegisterPasswordDataDto.fromJson(json as Map<String, dynamic>),
+    );
+    if (!response.success || response.data == null) {
+      throw ServerException(
+        message: response.message ?? 'errors.register_password_failed'.tr(),
+      );
+    }
+    return response.data!;
+  }
+
+  @override
+  Future<void> changePassword(ChangePasswordRequestDto request) async {
+    final response = await _dioClient.post<void>(
+      _changePassword,
+      data: request.toJson(),
+    );
+    if (!response.success) {
+      throw ServerException(
+        message: response.message ?? 'errors.change_failed'.tr(),
       );
     }
   }

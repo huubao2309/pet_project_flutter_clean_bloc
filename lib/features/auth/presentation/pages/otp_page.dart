@@ -11,6 +11,7 @@ import '../../../../core/presentation/widgets/app_error_view.dart';
 import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../domain/use_cases/verify_otp_use_case.dart';
 import '../view_model/otp_state.dart';
 import '../view_model/otp_timer_config.dart';
 import '../view_model/otp_view_model.dart';
@@ -46,6 +47,7 @@ class OtpPage extends StatelessWidget {
   const OtpPage({
     this.phone,
     this.flow = OtpFlow.forgotPassword,
+    this.sessionToken,
     this.resendSecs,
     this.enableResendSecs,
     super.key,
@@ -56,6 +58,10 @@ class OtpPage extends StatelessWidget {
 
   /// Which flow opened this screen.
   final OtpFlow flow;
+
+  /// Session token from the login / sign-up step — sent with the verify-otp
+  /// call so the backend ties the code to that request.
+  final String? sessionToken;
 
   /// `otp_resend_secs` from the backend challenge (login / sign-up flows).
   final int? resendSecs;
@@ -82,7 +88,11 @@ class OtpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<OtpViewModel>(
-      create: (_) => OtpViewModel(config: _config()),
+      create: (_) => OtpViewModel(
+        verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
+        config: _config(),
+        sessionToken: sessionToken ?? '',
+      ),
       child: _OtpView(phone: phone, flow: flow),
     );
   }
@@ -95,21 +105,27 @@ class _OtpView extends StatelessWidget {
   final OtpFlow flow;
 
   /// Continues the flow once the code is verified.
-  void _onVerified(BuildContext context) {
+  void _onVerified(BuildContext context, OtpState state) {
+    // Sign-up: verification returned a `register_password` challenge → go set a
+    // password, carrying the fresh session token.
+    final registerToken = state.registerSessionToken;
+    if (registerToken != null) {
+      context.push(
+        Uri(
+          path: AppRoutes.registerPassword,
+          queryParameters: {'session_token': registerToken},
+        ).toString(),
+      );
+      return;
+    }
+
     switch (flow) {
       case OtpFlow.login:
-        // Identity confirmed → grant the session and go to Home.
+      case OtpFlow.signUp:
+        // Authenticated outright (tokens persisted) → grant the session and go
+        // to Home.
         getIt<AppRouter>().setLoggedIn(value: true);
         context.go(AppRoutes.main);
-      case OtpFlow.signUp:
-        // Account confirmed → go to login, carrying the phone so the user only
-        // needs to type the password.
-        context.go(
-          Uri(
-            path: AppRoutes.login,
-            queryParameters: {'phone': phone ?? ''},
-          ).toString(),
-        );
       case OtpFlow.forgotPassword:
         context.go(AppRoutes.resetPassword);
     }
@@ -121,7 +137,7 @@ class _OtpView extends StatelessWidget {
 
     return ViewModelConsumer<OtpViewModel, OtpState>(
       listenWhen: (p, c) => !p.isVerified && c.isVerified,
-      listener: (context, state) => _onVerified(context),
+      listener: (context, state) => _onVerified(context, state),
       builder: (context, state) {
         if (state.isLocked) {
           return AppErrorView(

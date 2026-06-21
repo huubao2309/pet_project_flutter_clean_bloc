@@ -18,9 +18,10 @@ import '../view_model/sign_up_view_model.dart';
 import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
-import '../widgets/auth_password_field.dart';
-import '../widgets/password_requirement_hint.dart';
 
+/// Sign-up screen: collect the phone number and submit. The backend replies
+/// with a `verify_otp` challenge (see `signup_success.json`), so on "Continue"
+/// we call `signUp()` and route to the OTP screen.
 class SignUpPage extends StatelessWidget {
   const SignUpPage({this.prefilledPhone, super.key});
 
@@ -91,6 +92,7 @@ class _SignUpViewState extends State<_SignUpView> {
               queryParameters: {
                 'phone': state.phone,
                 'flow': OtpFlow.signUp.name,
+                'session_token': challenge.sessionToken,
                 'resend': '${challenge.resendSecs}',
                 'enable_resend': '${challenge.enableResendSecs}',
               },
@@ -175,23 +177,9 @@ class _FormContent extends StatelessWidget {
               ? 'auth.phone_invalid'.tr()
               : null,
         ),
-        SizedBox(height: theme.spacing.spacing12),
-        AuthPasswordField(
-          hintText: 'auth.register.password'.tr(),
-          onTextChanged: viewModel.onPasswordChanged,
-        ),
-        SizedBox(height: theme.spacing.spacing8),
-        PasswordRequirementHint(state: state),
-        SizedBox(height: theme.spacing.spacing12),
-        AuthPasswordField(
-          hintText: 'auth.register.confirm_password'.tr(),
-          onTextChanged: viewModel.onConfirmPasswordChanged,
-          errorText:
-              state.hasConfirmMismatch ? 'auth.register.password_mismatch'.tr() : null,
-        ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(
-          title: 'auth.register.submit'.tr(),
+          title: 'auth.register.continue'.tr(),
           isWrapContent: false,
           onPressed:
               (state.canSubmit && !state.isLoading) ? viewModel.signUp : null,

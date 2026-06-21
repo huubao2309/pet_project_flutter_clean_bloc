@@ -146,6 +146,7 @@ class _LoginViewState extends State<_LoginView> {
               queryParameters: {
                 'phone': _phoneController.text.trim(),
                 'flow': OtpFlow.login.name,
+                'session_token': state.challenge.sessionToken,
                 'resend': '${state.challenge.resendSecs}',
                 'enable_resend': '${state.challenge.enableResendSecs}',
               },

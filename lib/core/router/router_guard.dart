@@ -49,6 +49,7 @@ class RouterGuard extends ChangeNotifier {
     AppRoutes.welcome,
     AppRoutes.login,
     AppRoutes.signUp,
+    AppRoutes.registerPassword,
     AppRoutes.forgotPassword,
     AppRoutes.resetPassword,
     AppRoutes.otp,

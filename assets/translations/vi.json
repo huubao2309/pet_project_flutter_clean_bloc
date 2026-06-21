@@ -32,7 +32,10 @@
     "signup_failed": "Đăng ký thất bại",
     "logout_failed": "Đăng xuất thất bại",
     "forgot_failed": "Gửi email thất bại",
-    "reset_failed": "Đặt lại mật khẩu thất bại"
+    "reset_failed": "Đặt lại mật khẩu thất bại",
+    "change_failed": "Đổi mật khẩu thất bại",
+    "verify_otp_failed": "Xác minh mã không thành công",
+    "register_password_failed": "Đặt mật khẩu không thành công"
   },
   "welcome": {
     "title": "Chào mừng đến với Benny",
@@ -60,6 +63,9 @@
       "title": "Đăng ký Benny",
       "caption": "Tạo tài khoản để bắt đầu với Benny.",
       "phone": "Số điện thoại",
+      "continue": "Tiếp tục",
+      "password_title": "Tạo mật khẩu",
+      "password_caption": "Đặt mật khẩu cho số {phone}.",
       "submit": "Đăng ký",
       "blocked": {
         "title": "Không thể đăng ký",
@@ -128,6 +134,19 @@
       "success": "Mật khẩu của bạn đã được đặt lại",
       "success_message": "Bây giờ bạn có thể dùng mật khẩu mới để đăng nhập Benny.",
       "login_go": "Đến trang đăng nhập"
+    },
+    "change": {
+      "title": "Đổi mật khẩu",
+      "caption": "Nhập mật khẩu hiện tại và chọn mật khẩu mới cho tài khoản Benny.",
+      "current_password": "Mật khẩu hiện tại",
+      "new_password": "Mật khẩu mới",
+      "confirm_password": "Nhập lại mật khẩu mới",
+      "submit": "Cập nhật mật khẩu",
+      "success": "Mật khẩu của bạn đã được thay đổi"
+    },
+    "register_password": {
+      "title": "Tạo mật khẩu",
+      "caption": "Chọn mật khẩu để hoàn tất tạo tài khoản Benny của bạn."
     }
   },
   "onboarding": {
@@ -286,6 +305,7 @@
     "account": "Tài khoản",
     "support": "Hỗ trợ & khác",
     "edit_info": "Thay đổi thông tin",
+    "change_password": "Đổi mật khẩu",
     "language": "Thay đổi ngôn ngữ",
     "fingerprint": "Đăng nhập bằng vân tay",
     "dark_mode": "Chuyển sang Dark Mode",

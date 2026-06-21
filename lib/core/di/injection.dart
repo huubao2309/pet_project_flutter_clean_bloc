@@ -8,13 +8,16 @@ import '../../features/auth/data/datasources/auth_mock_data_source.dart';
 import '../../features/auth/data/datasources/auth_remote_data_source.dart';
 import '../../features/auth/data/repositories/auth_repository_imp.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/domain/use_cases/change_password_use_case.dart';
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart';
 import '../../features/auth/domain/use_cases/get_current_user_use_case.dart';
 import '../../features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import '../../features/auth/domain/use_cases/login_use_case.dart';
 import '../../features/auth/domain/use_cases/logout_use_case.dart';
+import '../../features/auth/domain/use_cases/register_password_use_case.dart';
 import '../../features/auth/domain/use_cases/reset_password_use_case.dart';
 import '../../features/auth/domain/use_cases/sign_up_use_case.dart';
+import '../../features/auth/domain/use_cases/verify_otp_use_case.dart';
 import '../../features/auth/presentation/view_model/auth_view_model.dart';
 import '../../features/auth/presentation/view_model/forgot_password_view_model.dart';
 import '../../features/auth/presentation/view_model/sign_up_view_model.dart';
@@ -275,6 +278,15 @@ void _registerAuthFeature() {
   );
   getIt.registerLazySingleton(
     () => ResetPasswordUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => ChangePasswordUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => VerifyOtpUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => RegisterPasswordUseCase(authRepository: getIt<AuthRepository>()),
   );
 
   // View models — factory so each screen gets a fresh instance.

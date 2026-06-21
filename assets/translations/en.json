@@ -32,7 +32,10 @@
     "signup_failed": "Sign up failed",
     "logout_failed": "Logout failed",
     "forgot_failed": "Failed to send email",
-    "reset_failed": "Failed to reset password"
+    "reset_failed": "Failed to reset password",
+    "change_failed": "Failed to change password",
+    "verify_otp_failed": "Failed to verify the code",
+    "register_password_failed": "Failed to set the password"
   },
   "welcome": {
     "title": "Welcome to Benny",
@@ -60,6 +63,9 @@
       "title": "Sign up to Benny",
       "caption": "Create an account to get started with Benny.",
       "phone": "Phone number",
+      "continue": "Continue",
+      "password_title": "Create a password",
+      "password_caption": "Set a password for {phone}.",
       "submit": "Register",
       "blocked": {
         "title": "Registration blocked",
@@ -128,6 +134,19 @@
       "success": "Your password was reset",
       "success_message": "You can now use your new password to log into Benny.",
       "login_go": "Go to log in"
+    },
+    "change": {
+      "title": "Change password",
+      "caption": "Enter your current password and choose a new one for your Benny account.",
+      "current_password": "Current password",
+      "new_password": "New password",
+      "confirm_password": "Re-enter new password",
+      "submit": "Update password",
+      "success": "Your password was changed"
+    },
+    "register_password": {
+      "title": "Create a password",
+      "caption": "Choose a password to finish creating your Benny account."
     }
   },
   "onboarding": {
@@ -286,6 +305,7 @@
     "account": "Account",
     "support": "Support & more",
     "edit_info": "Edit information",
+    "change_password": "Change password",
     "language": "Language",
     "fingerprint": "Fingerprint login",
     "dark_mode": "Dark Mode",

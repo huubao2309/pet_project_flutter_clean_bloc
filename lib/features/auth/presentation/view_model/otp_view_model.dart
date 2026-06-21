@@ -1,26 +1,37 @@
 import 'dart:async';
 
+import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
+import '../../domain/entities/verify_otp_result.dart';
+import '../../domain/use_cases/verify_otp_use_case.dart';
 import 'otp_state.dart';
 import 'otp_timer_config.dart';
 
-/// View model for the OTP screen. Verification is mocked for now (expected code
-/// `123456`); swap [_verifyCode] / [_requestCode] for real use cases later.
+/// View model for the OTP screen.
+///
+/// `verify()` calls the verify-otp API via [VerifyOtpUseCase] and surfaces the
+/// outcome:
+///   • sign-up  → [OtpState.registerSessionToken] is set (go set a password);
+///   • login    → tokens are persisted, [OtpState.isVerified] flips true.
 ///
 /// Runs a 1s ticker that counts down the code validity and the resend cooldown,
 /// flips to [OtpError.expired] when validity hits zero, and locks the screen
-/// after [OtpTimerConfig.maxAttempts] wrong codes. Durations come from
-/// [OtpTimerConfig] so each flow (forgot-password, login) can configure them.
+/// after [OtpTimerConfig.maxAttempts] wrong codes.
 class OtpViewModel extends ViewModel<OtpState> {
-  OtpViewModel({OtpTimerConfig config = const OtpTimerConfig()})
-      : _config = config,
+  OtpViewModel({
+    required VerifyOtpUseCase verifyOtpUseCase,
+    OtpTimerConfig config = const OtpTimerConfig(),
+    String sessionToken = '',
+  })  : _config = config,
+        _verifyOtpUseCase = verifyOtpUseCase,
+        _sessionToken = sessionToken,
         super(const OtpState()) {
     _restart();
   }
 
   final OtpTimerConfig _config;
-
-  static const String _mockCode = '123456';
+  final VerifyOtpUseCase _verifyOtpUseCase;
+  final String _sessionToken;
 
   Timer? _timer;
 
@@ -40,14 +51,34 @@ class OtpViewModel extends ViewModel<OtpState> {
       return;
     }
     setState(currentState.copyWith(isVerifying: true));
-    final ok = await _verifyCode(currentState.code);
 
-    if (ok) {
+    try {
+      final result = await _verifyOtpUseCase.execute(
+        VerifyOtpParams(code: currentState.code, sessionToken: _sessionToken),
+      );
       _timer?.cancel();
-      setState(currentState.copyWith(isVerifying: false, isVerified: true));
-      return;
+      switch (result) {
+        // Sign-up: carry the fresh session token to the register-password step.
+        case VerifyOtpRegisterPassword(:final sessionToken):
+          setState(
+            currentState.copyWith(
+              isVerifying: false,
+              isVerified: true,
+              registerSessionToken: sessionToken,
+            ),
+          );
+        // Login: tokens persisted in the repository → just mark verified.
+        case VerifyOtpAuthenticated():
+          setState(currentState.copyWith(isVerifying: false, isVerified: true));
+      }
+    } on AppException catch (_) {
+      _registerWrongAttempt();
     }
+  }
 
+  /// Records a wrong attempt: lock the screen at the limit, otherwise flag the
+  /// code as invalid.
+  void _registerWrongAttempt() {
     final attempts = currentState.attempts + 1;
     if (attempts >= _config.maxAttempts) {
       _timer?.cancel();
@@ -107,12 +138,6 @@ class OtpViewModel extends ViewModel<OtpState> {
         error: expired,
       ),
     );
-  }
-
-  // ── Mock backend — replace with injected use cases ──────────────────────
-  Future<bool> _verifyCode(String code) async {
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-    return code == _mockCode;
   }
 
   Future<void> _requestCode() async {

@@ -12,6 +12,19 @@ abstract final class MockAssets {
   static const signupIsBlocked = '${_base}auth_mock/signup_is_blocked_failed.json';
   static const signupFailed = '${_base}auth_mock/signup_failed.json';
 
+  // Verify-OTP scenarios (told apart by the flow that opened the OTP screen).
+  // Login flow  → challenge_type "none": carries access/refresh tokens.
+  // Signup flow → challenge_type "register_password": carries a session token,
+  //               the user sets a password next.
+  static const verifyOtpLoginSuccess =
+      '${_base}auth_mock/verify_otp_login_flow_success.json';
+  static const verifyOtpSignupSuccess =
+      '${_base}auth_mock/verify_otp_signup_flow_success.json';
+
+  // Register-password (sign-up flow, after OTP) → returns auth tokens.
+  static const registerPasswordSuccess =
+      '${_base}auth_mock/register_password_success.json';
+
   // Profile scenarios.
   static const profileSuccess = '${_base}profile_mock/get_profile_success.json';
 

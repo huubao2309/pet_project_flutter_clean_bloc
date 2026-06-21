@@ -1,9 +1,11 @@
 import 'package:benny_style/benny_locator.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/pages/change_password_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/otp_page.dart';
+import '../../features/auth/presentation/pages/register_password_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/auth/presentation/pages/sign_up_page.dart';
 import '../../features/auth/presentation/pages/welcome_page.dart';
@@ -46,6 +48,12 @@ class AppRouter {
             SignUpPage(prefilledPhone: state.uri.queryParameters['phone']),
       ),
       GoRoute(
+        path: AppRoutes.registerPassword,
+        builder: (_, state) => RegisterPasswordPage(
+          sessionToken: state.uri.queryParameters['session_token'] ?? '',
+        ),
+      ),
+      GoRoute(
         path: AppRoutes.forgotPassword,
         builder: (_, __) => const ForgotPasswordPage(),
       ),
@@ -56,6 +64,7 @@ class AppRouter {
           return OtpPage(
             phone: params['phone'],
             flow: OtpFlow.fromName(params['flow']),
+            sessionToken: params['session_token'],
             resendSecs: int.tryParse(params['resend'] ?? ''),
             enableResendSecs: int.tryParse(params['enable_resend'] ?? ''),
           );
@@ -65,6 +74,10 @@ class AppRouter {
         path: AppRoutes.resetPassword,
         builder: (_, state) =>
             ResetPasswordPage(token: state.uri.queryParameters['token']),
+      ),
+      GoRoute(
+        path: AppRoutes.changePassword,
+        builder: (_, __) => const ChangePasswordPage(),
       ),
       GoRoute(
         path: AppRoutes.personalInfo,

@@ -894,6 +894,7 @@
             <div class="glabel">Tài khoản</div>
             <div class="pgroup">
               <div class="ptile"><div class="pi"><i class="ti ti-user-edit"></i></div><div class="ptt">Thay đổi thông tin</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-lock"></i></div><div class="ptt">Đổi mật khẩu</div><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-language"></i></div><div class="ptt">Thay đổi ngôn ngữ</div><span class="ptv" style="margin-right:6px">Tiếng Việt</span><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-fingerprint"></i></div><div class="ptt">Đăng nhập bằng vân tay</div><span class="tgl"></span></div>
               <div class="ptile"><div class="pi"><i class="ti ti-moon"></i></div><div class="ptt">Chuyển sang Dark Mode</div><span class="tgl off"></span></div>
@@ -923,6 +924,70 @@
           </div>
         </div>
         <div class="cap">Tab Hồ sơ</div>
+      </div>
+
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Change password — Đổi mật khẩu <span class="pill">3 trạng thái</span></div>
+      <div class="cd">Mở từ Hồ sơ → mục "Đổi mật khẩu". 3 field: Mật khẩu hiện tại · Mật khẩu mới (kèm rule popover) · Nhập lại mật khẩu mới (báo lỗi nếu không khớp). Đổi thành công → snackbar + quay lại Hồ sơ.</div>
+      <div class="states">
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đổi mật khẩu</div>
+          <div class="a-cap">Nhập mật khẩu hiện tại và chọn mật khẩu mới cho tài khoản Benny.</div>
+          <div class="a-card">
+            <div class="inp">Mật khẩu hiện tại <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="inp" style="margin-top:12px">Mật khẩu mới <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="inp" style="margin-top:12px">Nhập lại mật khẩu mới <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="cta off" style="margin-top:14px">Cập nhật mật khẩu</div>
+          </div>
+        </div>
+        <div class="cap">Mặc định (rule ẩn)</div>
+      </div>
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đổi mật khẩu</div>
+          <div class="a-cap">Nhập mật khẩu hiện tại và chọn mật khẩu mới cho tài khoản Benny.</div>
+          <div class="a-card">
+            <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="inp val" style="margin-top:12px">•••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="pop">
+              <div class="pt">Mật khẩu phải có:</div>
+              <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Có ít nhất 8 ký tự</div>
+              <div class="rule"><span class="rk" style="background:var(--error-d)">&#10007;</span>Một ký tự đặc biệt</div>
+              <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Một chữ số</div>
+              <div class="rule"><span class="rk" style="background:var(--error-d)">&#10007;</span>Một chữ in hoa</div>
+            </div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
+            <div class="cta off" style="margin-top:14px">Cập nhật mật khẩu</div>
+          </div>
+        </div>
+        <div class="cap">Popover rule + nhập lại sai</div>
+      </div>
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đổi mật khẩu</div>
+          <div class="a-cap">Nhập mật khẩu hiện tại và chọn mật khẩu mới cho tài khoản Benny.</div>
+          <div class="a-card">
+            <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="cta" style="margin-top:14px">Cập nhật mật khẩu</div>
+          </div>
+        </div>
+        <div class="cap">Hợp lệ + nhập lại khớp</div>
       </div>
 
       </div>
@@ -1006,8 +1071,8 @@
     </div>
 
     <div class="cluster">
-      <div class="ch">Sign up <span class="pill">3 trạng thái</span></div>
-      <div class="cd">Rule mật khẩu gọn lại: dòng "Yêu cầu mật khẩu" + icon ⓘ; nhấn để mở popover hiển thị rule (cập nhật trực tiếp khi gõ). Thêm field "Nhập lại mật khẩu" để xác nhận — báo lỗi nếu không khớp.</div>
+      <div class="ch">Sign up <span class="pill">2 trạng thái</span></div>
+      <div class="cd">Bước 1 — chỉ nhập số điện thoại (không còn field mật khẩu). SĐT hợp lệ → nút "Tiếp tục" sáng, chuyển sang màn "Tạo mật khẩu".</div>
       <div class="states">
 
       <div class="phone">
@@ -1017,7 +1082,40 @@
           <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
           <div class="a-card">
             <div class="inp">Số điện thoại</div>
-            <div class="inp" style="margin-top:12px">Mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="cta off" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
+      </div>
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đăng ký Benny</div>
+          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-card">
+            <div class="inp val">0901 234 567</div>
+            <div class="cta" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT hợp lệ → nút sáng</div>
+      </div>
+
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Register · Mật khẩu <span class="pill">3 trạng thái</span></div>
+      <div class="cd">Bước 2 — màn "Tạo mật khẩu". Rule mật khẩu gọn: dòng "Yêu cầu mật khẩu" + icon ⓘ; nhấn để mở popover hiển thị rule (cập nhật trực tiếp khi gõ). Field "Nhập lại mật khẩu" để xác nhận — báo lỗi nếu không khớp.</div>
+      <div class="states">
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
+          <div class="a-card">
+            <div class="inp">Mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="inp" style="margin-top:12px">Nhập lại mật khẩu <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div class="cta off" style="margin-top:14px">Đăng ký</div>
@@ -1029,11 +1127,10 @@
       <div class="phone">
         <div class="ph-body">
           <span class="back"><i class="ti ti-chevron-left"></i></span>
-          <div class="a-title">Đăng ký Benny</div>
-          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
-            <div class="inp val">0901 234 567</div>
-            <div class="inp val" style="margin-top:12px">•••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="inp val">•••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="pop">
               <div class="pt">Mật khẩu phải có:</div>
@@ -1053,11 +1150,10 @@
       <div class="phone">
         <div class="ph-body">
           <span class="back"><i class="ti ti-chevron-left"></i></span>
-          <div class="a-title">Đăng ký Benny</div>
-          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
-            <div class="inp val">0901 234 567</div>
-            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="cta" style="margin-top:14px">Đăng ký</div>
@@ -1091,8 +1187,8 @@
     </div>
 
       <div class="cluster">
-      <div class="ch">OTP <span class="pill">3 trạng thái</span></div>
-      <div class="cd">6 ô nhập + đếm ngược hiệu lực + nút "Gửi lại". Đang nhập → sai mã (ô đỏ + text lỗi) → hết hạn (timer đỏ, phải gửi lại).</div>
+      <div class="ch">OTP <span class="pill">4 trạng thái</span></div>
+      <div class="cd">6 ô nhập + đếm ngược hiệu lực + nút "Gửi lại". Mỗi số vừa nhập được che ngay bằng dấu • ở giữa ô (bảo mật). Đang nhập (đã che) → sai mã (ô đỏ + text lỗi) → hết hạn (timer đỏ, phải gửi lại).</div>
       <div class="states">
 
       <div class="phone">
@@ -1161,6 +1257,28 @@
           <div style="text-align:center;font-size:13px;color:var(--gray-500);margin-top:16px">Không nhận được mã? <span style="color:var(--amber-600);font-weight:700">Gửi lại</span></div>
         </div>
         <div class="cap">Hết hạn</div>
+      </div>
+
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Xác thực OTP</div>
+          <div class="a-cap">Nhập mã gồm 6 số chúng tôi đã gửi tới 0901 234 567.</div>
+          <div class="a-card">
+            <div style="display:flex;gap:7px">
+              <div class="otpc" style="border:1px solid var(--navy-300)">•</div>
+              <div class="otpc" style="border:1px solid var(--navy-300)">•</div>
+              <div class="otpc" style="border:1px solid var(--navy-300)">•</div>
+              <div class="otpc" style="border:1px solid var(--navy-300)">•</div>
+              <div class="otpc" style="border:1.5px solid var(--navy-600)"></div>
+              <div class="otpc" style="border:1px solid var(--gray-200)"></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:14px;color:var(--gray-500);font-size:12px"><i class="ti ti-clock"></i> Mã hết hạn sau 01:36</div>
+            <div class="cta off" style="margin-top:14px">Xác nhận</div>
+          </div>
+          <div style="text-align:center;font-size:13px;color:var(--gray-500);margin-top:16px">Không nhận được mã? <span style="color:var(--gray-400)">Gửi lại sau 18s</span></div>
+        </div>
+        <div class="cap">Đang nhập — số bị che bằng dấu • ngay khi gõ</div>
       </div>
 
       </div>
@@ -1511,6 +1629,7 @@
             <div class="glabel">Tài khoản</div>
             <div class="pgroup">
               <div class="ptile"><div class="pi"><i class="ti ti-user-edit"></i></div><div class="ptt">Thay đổi thông tin</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-lock"></i></div><div class="ptt">Đổi mật khẩu</div><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-language"></i></div><div class="ptt">Thay đổi ngôn ngữ</div><span class="ptv" style="margin-right:6px">Tiếng Việt</span><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-fingerprint"></i></div><div class="ptt">Đăng nhập bằng vân tay</div><span class="tgl"></span></div>
               <div class="ptile"><div class="pi"><i class="ti ti-moon"></i></div><div class="ptt">Chuyển sang Dark Mode</div><span class="tgl"></span></div>
@@ -1602,7 +1721,7 @@
 
     <div class="cluster">
       <div class="ch">Sign up <span class="pill">Dark · 2 trạng thái</span></div>
-      <div class="cd">Rule mật khẩu dạng popover (mở khi đang nhập) + field "Nhập lại mật khẩu" (báo lỗi nếu không khớp).</div>
+      <div class="cd">Bước 1 — chỉ nhập số điện thoại (không còn field mật khẩu). SĐT hợp lệ → nút "Tiếp tục" sáng.</div>
       <div class="states">
       <div class="phone">
         <div class="ph-body">
@@ -1610,8 +1729,38 @@
           <div class="a-title">Đăng ký Benny</div>
           <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
           <div class="a-card">
+            <div class="inp">Số điện thoại</div>
+            <div class="cta off" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đăng ký Benny</div>
+          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-card">
             <div class="inp val">0901 234 567</div>
-            <div class="inp val" style="margin-top:12px">•••• <i class="ti ti-eye ic"></i></div>
+            <div class="cta" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT hợp lệ → nút sáng</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Register · Mật khẩu <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Bước 2 — màn "Tạo mật khẩu". Rule mật khẩu dạng popover (mở khi đang nhập) + field "Nhập lại mật khẩu" (báo lỗi nếu không khớp).</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
+          <div class="a-card">
+            <div class="inp val">•••• <i class="ti ti-eye ic"></i></div>
             <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="pop">
               <div class="pt">Mật khẩu phải có:</div>
@@ -1630,11 +1779,10 @@
       <div class="phone">
         <div class="ph-body">
           <span class="back"><i class="ti ti-chevron-left"></i></span>
-          <div class="a-title">Đăng ký Benny</div>
-          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
           <div class="a-card">
-            <div class="inp val">0901 234 567</div>
-            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="inp val">•••••••• <i class="ti ti-eye ic"></i></div>
             <div class="pwhint" style="color:#34D17F"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
             <div class="cta" style="margin-top:14px">Đăng ký</div>
@@ -1959,7 +2107,7 @@
       <div><code>Main shell · tabs</code><span>lib/features/main/presentation/ (main_page · main_tab · widgets/)</span></div>
       <div><code>Bottom nav</code><span>lib/features/main/presentation/widgets/main_bottom_nav.dart</span></div>
       <div><code>Home dashboard</code><span>lib/features/home/presentation/ (pages · widgets · view_model)</span></div>
-      <div><code>Auth screens</code><span>lib/features/auth/presentation/pages/ (welcome · login · sign_up · forgot · otp · reset)</span></div>
+      <div><code>Auth screens</code><span>lib/features/auth/presentation/pages/ (welcome · login · sign_up · register_password · forgot · otp · reset · change_password)</span></div>
       <div><code>AuthHeader · AuthCard · AuthPasswordField · OtpInputField</code><span>lib/features/auth/presentation/widgets/</span></div>
       <div><code>OtpViewModel · OtpState</code><span>lib/features/auth/presentation/view_model/</span></div>
       <div><code>AppErrorView (màn Error tái sử dụng)</code><span>lib/core/presentation/widgets/app_error_view.dart</span></div>

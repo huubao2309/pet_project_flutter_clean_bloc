@@ -7,6 +7,10 @@ import '../../../../core/di/injection.dart';
 /// A fixed-length OTP entry: [length] cells driven by a single hidden field.
 /// Tapping anywhere focuses the field; the cells mirror the typed digits and
 /// turn red while [hasError] is set.
+///
+/// When [obscure] is true (the default) each filled cell shows
+/// [obscuringCharacter] instead of the digit, masking the code the moment it is
+/// typed.
 class OtpInputField extends StatefulWidget {
   const OtpInputField({
     required this.onChanged,
@@ -14,6 +18,8 @@ class OtpInputField extends StatefulWidget {
     this.length = 6,
     this.hasError = false,
     this.autofocus = true,
+    this.obscure = true,
+    this.obscuringCharacter = '•',
     super.key,
   });
 
@@ -22,6 +28,12 @@ class OtpInputField extends StatefulWidget {
   final int length;
   final bool hasError;
   final bool autofocus;
+
+  /// Mask each filled cell instead of showing the digit.
+  final bool obscure;
+
+  /// The glyph shown in a filled cell while [obscure] is true.
+  final String obscuringCharacter;
 
   @override
   State<OtpInputField> createState() => _OtpInputFieldState();
@@ -60,7 +72,17 @@ class _OtpInputFieldState extends State<OtpInputField> {
             children: [
               for (var i = 0; i < widget.length; i++) ...[
                 if (i > 0) SizedBox(width: theme.spacing.spacing8),
-                Expanded(child: _Cell(theme: theme, index: i, text: text, hasError: widget.hasError, focused: _focusNode.hasFocus)),
+                Expanded(
+                  child: _Cell(
+                    theme: theme,
+                    index: i,
+                    text: text,
+                    hasError: widget.hasError,
+                    focused: _focusNode.hasFocus,
+                    obscure: widget.obscure,
+                    obscuringCharacter: widget.obscuringCharacter,
+                  ),
+                ),
               ],
             ],
           ),
@@ -96,6 +118,8 @@ class _Cell extends StatelessWidget {
     required this.text,
     required this.hasError,
     required this.focused,
+    required this.obscure,
+    required this.obscuringCharacter,
   });
 
   final ThemeState theme;
@@ -103,6 +127,8 @@ class _Cell extends StatelessWidget {
   final String text;
   final bool hasError;
   final bool focused;
+  final bool obscure;
+  final String obscuringCharacter;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +158,7 @@ class _Cell extends StatelessWidget {
         ),
       ),
       child: Text(
-        filled ? text[index] : '',
+        filled ? (obscure ? obscuringCharacter : text[index]) : '',
         style: theme.textStyle.heading.copyWith(
           color: theme.colors.brand800,
           fontSize: 22,

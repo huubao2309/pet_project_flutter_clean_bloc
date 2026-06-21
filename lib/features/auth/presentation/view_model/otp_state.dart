@@ -9,6 +9,7 @@ class OtpState {
     this.error = OtpError.none,
     this.isLocked = false,
     this.isVerified = false,
+    this.registerSessionToken,
     this.secondsLeft = 0,
     this.resendIn = 0,
     this.attempts = 0,
@@ -21,6 +22,11 @@ class OtpState {
   /// Too many wrong attempts — the screen should hand off to the error view.
   final bool isLocked;
   final bool isVerified;
+
+  /// Set when verification (sign-up flow) returns a `register_password`
+  /// challenge: the fresh session token to carry into the register-password
+  /// screen. Null for the login / forgot-password flows.
+  final String? registerSessionToken;
 
   /// Remaining validity of the current code (seconds).
   final int secondsLeft;
@@ -44,6 +50,7 @@ class OtpState {
     OtpError? error,
     bool? isLocked,
     bool? isVerified,
+    String? registerSessionToken,
     int? secondsLeft,
     int? resendIn,
     int? attempts,
@@ -54,6 +61,8 @@ class OtpState {
       error: error ?? this.error,
       isLocked: isLocked ?? this.isLocked,
       isVerified: isVerified ?? this.isVerified,
+      registerSessionToken:
+          registerSessionToken ?? this.registerSessionToken,
       secondsLeft: secondsLeft ?? this.secondsLeft,
       resendIn: resendIn ?? this.resendIn,
       attempts: attempts ?? this.attempts,

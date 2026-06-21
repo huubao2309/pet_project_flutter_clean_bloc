@@ -5,12 +5,17 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/constants/mock_assets.dart';
 import '../../../../core/error/app_exception.dart';
+import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
+import '../models/request/register_password_request_dto.dart';
 import '../models/request/sign_up_request_dto.dart';
+import '../models/request/verify_otp_request_dto.dart';
 import '../models/response/login_data_dto.dart';
 import '../models/response/otp_challenge_dto.dart';
+import '../models/response/register_password_data_dto.dart';
+import '../models/response/verify_otp_data_dto.dart';
 import 'auth_block_verdict.dart';
 import 'auth_remote_data_source.dart';
 
@@ -32,9 +37,11 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
   // Login: MockAssets.loginSuccess         → challenge_type "none" → Home.
   //        MockAssets.loginNeedVerifyOtp   → challenge_type "verify_otp" → OTP.
-  static const _loginScenario = MockAssets.loginSuccess;
+  static const _loginScenario = MockAssets.loginNeedVerifyOtp;
   static const _signUpScenario = MockAssets.signupSuccess;
   static const _logoutScenario = MockAssets.logoutSuccess;
+  static const _verifyOTPScenario = MockAssets.verifyOtpLoginSuccess;
+  static const _registerPasswordScenario = MockAssets.registerPasswordSuccess;
 
   static const _latency = Duration(seconds: 1);
 
@@ -64,9 +71,7 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     _ensureSuccess(json);
     // The `data` envelope carries the (optional) verify_otp challenge.
     final data = json['data'] as Map<String, dynamic>?;
-    return data == null
-        ? const OtpChallengeDto()
-        : OtpChallengeDto.fromJson(data);
+    return data == null ? const OtpChallengeDto() : OtpChallengeDto.fromJson(data);
   }
 
   @override
@@ -76,6 +81,31 @@ class AuthMockDataSource implements AuthRemoteDataSource {
 
   @override
   Future<void> resetPassword(ResetPasswordRequestDto request) async {
+    await Future<void>.delayed(_latency);
+  }
+
+  @override
+  Future<VerifyOtpDataDto> verifyOtp(
+    VerifyOtpRequestDto request,
+  ) async {
+    final json = await _read(_verifyOTPScenario);
+    _ensureSuccess(json);
+    return VerifyOtpDataDto.fromJson(json['data'] as Map<String, dynamic>);
+  }
+
+  @override
+  Future<RegisterPasswordDataDto> registerPassword(
+    RegisterPasswordRequestDto request,
+  ) async {
+    final json = await _read(_registerPasswordScenario);
+    _ensureSuccess(json);
+    return RegisterPasswordDataDto.fromJson(
+      json['data'] as Map<String, dynamic>,
+    );
+  }
+
+  @override
+  Future<void> changePassword(ChangePasswordRequestDto request) async {
     await Future<void>.delayed(_latency);
   }
 
@@ -106,8 +136,6 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   /// the top-level `message`, then a generic fallback.
   String _messageOf(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>?;
-    return (data?['user_message'] as String?) ??
-        (json['message'] as String?) ??
-        'errors.unknown'.tr();
+    return (data?['user_message'] as String?) ?? (json['message'] as String?) ?? 'errors.unknown'.tr();
   }
 }

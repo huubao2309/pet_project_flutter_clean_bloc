@@ -1,10 +1,10 @@
-import 'sign_up_state.dart' show PasswordStrength;
+import 'password_strength.dart';
 
-export 'sign_up_state.dart' show PasswordStrength;
+export 'password_strength.dart';
 
 /// Immutable UI state for the reset-password screen. Library-agnostic.
 ///
-/// Reuses [PasswordStrength] from the sign-up flow for the same 4 password
+/// Reuses [PasswordStrength] from the registration flow for the same 4 password
 /// rules.
 class ResetPasswordState {
   const ResetPasswordState({

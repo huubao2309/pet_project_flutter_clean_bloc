@@ -78,6 +78,11 @@ class _ProfileView extends StatelessWidget {
                         onTap: () => _comingSoon(),
                       ),
                       ProfileTile(
+                        icon: Icons.lock_outline,
+                        title: 'profile.change_password'.tr(),
+                        onTap: () => context.push(AppRoutes.changePassword),
+                      ),
+                      ProfileTile(
                         icon: Icons.language_outlined,
                         title: 'profile.language'.tr(),
                         value: 'language.${context.locale.languageCode}'.tr(),

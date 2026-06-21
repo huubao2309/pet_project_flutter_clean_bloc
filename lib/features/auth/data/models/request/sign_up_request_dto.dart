@@ -6,14 +6,12 @@ part 'sign_up_request_dto.g.dart';
 class SignUpRequestDto {
   const SignUpRequestDto({
     required this.phone,
-    required this.password,
     required this.language,
     this.verify,
     this.statusUpdate,
   });
 
   final String phone;
-  final String password;
   final String language;
   final bool? verify;
 

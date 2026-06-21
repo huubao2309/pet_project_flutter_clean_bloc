@@ -3,19 +3,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/di/injection.dart';
-import '../view_model/sign_up_state.dart';
+import '../view_model/password_strength.dart';
 import 'validate_icon_widget.dart';
 
-/// Compact password-requirement affordance for the sign-up form.
+/// Compact password-requirement affordance for the create-password form.
 ///
 /// Replaces the always-visible checklist: a single "Yêu cầu mật khẩu" line with
 /// an ⓘ icon that toggles a popover listing the live rule states. Once every
 /// rule passes it collapses into a green "Mật khẩu hợp lệ" confirmation. Defined
 /// for both Light and Dark mode via theme tokens.
 class PasswordRequirementHint extends StatefulWidget {
-  const PasswordRequirementHint({required this.state, super.key});
+  const PasswordRequirementHint({
+    required this.strength,
+    required this.isPasswordEmpty,
+    super.key,
+  });
 
-  final SignUpState state;
+  final PasswordStrength strength;
+
+  /// Whether the password field is still empty — drives the "unknown" rule
+  /// state (neutral, not a failure) before the user starts typing.
+  final bool isPasswordEmpty;
 
   @override
   State<PasswordRequirementHint> createState() =>
@@ -28,8 +36,8 @@ class _PasswordRequirementHintState extends State<PasswordRequirementHint> {
   @override
   Widget build(BuildContext context) {
     final theme = getIt<ThemeState>();
-    final strength = widget.state.strength;
-    final isEmpty = widget.state.password.isEmpty;
+    final strength = widget.strength;
+    final isEmpty = widget.isPasswordEmpty;
     final isValid = strength.isAllValid;
 
     if (isValid) {

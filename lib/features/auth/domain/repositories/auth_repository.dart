@@ -1,6 +1,7 @@
 import '../entities/login_result.dart';
 import '../entities/sign_up_result.dart';
 import '../entities/user_entity.dart';
+import '../entities/verify_otp_result.dart';
 
 /// Auth domain contract (a "port"). Lives in the domain layer so use cases
 /// depend inward only; the data layer provides the implementation.
@@ -13,11 +14,26 @@ abstract class AuthRepository {
   Future<LoginResult> login({required String phone, required String password});
 
   /// Registers a new account. Returns a [SignUpResult]: either completed, or an
-  /// OTP challenge that must be verified next.
+  /// OTP challenge that must be verified next. The signup API takes only the
+  /// phone; the password is set in a later step.
   Future<SignUpResult> signUp({
     required String phone,
-    required String password,
     bool? receiveUpdates,
+  });
+
+  /// Verifies an OTP [code] against [sessionToken]. Returns a [VerifyOtpResult]:
+  /// authenticated (login flow, tokens persisted) or a register-password step
+  /// (sign-up flow, carrying a fresh session token).
+  Future<VerifyOtpResult> verifyOtp({
+    required String code,
+    required String sessionToken,
+  });
+
+  /// Sets the password for an OTP-verified sign-up using [sessionToken], then
+  /// persists the returned auth tokens (signing the user in).
+  Future<void> registerPassword({
+    required String password,
+    required String sessionToken,
   });
 
   /// Sends a password-reset code to [phone].
@@ -27,6 +43,13 @@ abstract class AuthRepository {
   Future<void> resetPassword({
     required String newPassword,
     required String token,
+  });
+
+  /// Changes the password for the logged-in user. The backend verifies
+  /// [currentPassword] before applying [newPassword].
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
   });
 
   Future<void> logout();
