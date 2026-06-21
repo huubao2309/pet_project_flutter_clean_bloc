@@ -37,13 +37,6 @@ abstract class AuthRepository {
   /// Sets a new password for an OTP-verified forgot-password flow.
   Future<void> resetPassword({required String newPassword});
 
-  /// Changes the password for the logged-in user. The backend verifies
-  /// [currentPassword] before applying [newPassword].
-  Future<void> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  });
-
   Future<void> logout();
 
   Future<bool> isLoggedIn();

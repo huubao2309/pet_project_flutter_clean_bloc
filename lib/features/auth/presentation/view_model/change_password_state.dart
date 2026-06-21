@@ -36,10 +36,20 @@ class ChangePasswordState {
   bool get hasConfirmMismatch =>
       confirmPassword.isNotEmpty && confirmPassword != newPassword;
 
-  /// The submit button is enabled only when the current password is filled and
-  /// every new-password rule plus the confirmation pass validation.
+  /// True when the new password is identical to the current one — not allowed,
+  /// since the point is to actually change it (drives the inline error on the
+  /// new-password field).
+  bool get hasNewSameAsCurrent =>
+      newPassword.isNotEmpty && newPassword == currentPassword;
+
+  /// The submit button is enabled only when the current password is filled,
+  /// every new-password rule and the confirmation pass validation, and the new
+  /// password differs from the current one.
   bool get canSubmit =>
-      currentPassword.isNotEmpty && strength.isAllValid && isConfirmValid;
+      currentPassword.isNotEmpty &&
+      strength.isAllValid &&
+      isConfirmValid &&
+      !hasNewSameAsCurrent;
 
   ChangePasswordState copyWith({
     String? currentPassword,

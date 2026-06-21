@@ -141,6 +141,7 @@
       "current_password": "Current password",
       "new_password": "New password",
       "confirm_password": "Re-enter new password",
+      "new_same_as_current": "New password must be different from the current password",
       "submit": "Update password",
       "success": "Your password was changed"
     },

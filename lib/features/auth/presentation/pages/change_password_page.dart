@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/app_top_bar.dart';
-import '../../domain/use_cases/change_password_use_case.dart';
+import '../../../profile/domain/use_cases/change_password_use_case.dart';
 import '../view_model/change_password_state.dart';
 import '../view_model/change_password_view_model.dart';
 import '../widgets/auth_card.dart';
@@ -109,11 +109,9 @@ class _FormContent extends StatelessWidget {
         AuthPasswordField(
           hintText: 'auth.change.new_password'.tr(),
           onTextChanged: viewModel.onNewPasswordChanged,
-        ),
-        SizedBox(height: theme.spacing.spacing8),
-        PasswordRequirementHint(
-          strength: state.strength,
-          isPasswordEmpty: state.newPassword.isEmpty,
+          errorText: state.hasNewSameAsCurrent
+              ? 'auth.change.new_same_as_current'.tr()
+              : null,
         ),
         SizedBox(height: theme.spacing.spacing12),
         AuthPasswordField(
@@ -122,6 +120,11 @@ class _FormContent extends StatelessWidget {
           errorText: state.hasConfirmMismatch
               ? 'auth.register.password_mismatch'.tr()
               : null,
+        ),
+        SizedBox(height: theme.spacing.spacing8),
+        PasswordRequirementHint(
+          strength: state.strength,
+          isPasswordEmpty: state.newPassword.isEmpty,
         ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(

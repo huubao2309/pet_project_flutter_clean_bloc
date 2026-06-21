@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/network/dio_client.dart';
-import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
@@ -27,7 +26,6 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   static const _signUp = '/auth/signup';
   static const _forgotPassword = '/auth/forgot-password';
   static const _resetPassword = '/auth/reset-password';
-  static const _changePassword = '/auth/change-password';
   static const _verifyOTP = '/auth/verify-otp';
   static const _registerPassword = '/auth/register-password';
 
@@ -164,19 +162,6 @@ class AuthApiDataSource implements AuthRemoteDataSource {
       );
     }
     return response.data!;
-  }
-
-  @override
-  Future<void> changePassword(ChangePasswordRequestDto request) async {
-    final response = await _dioClient.post<void>(
-      _changePassword,
-      data: request.toJson(),
-    );
-    if (!response.success) {
-      throw ServerException(
-        message: response.message ?? 'errors.change_failed'.tr(),
-      );
-    }
   }
 
   @override

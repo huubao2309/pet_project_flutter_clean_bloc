@@ -9,7 +9,6 @@ import '../../features/auth/data/datasources/auth_remote_data_source.dart';
 import '../../features/auth/data/datasources/pre_auth_session.dart';
 import '../../features/auth/data/repositories/auth_repository_imp.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
-import '../../features/auth/domain/use_cases/change_password_use_case.dart';
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart';
 import '../../features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import '../../features/auth/domain/use_cases/login_use_case.dart';
@@ -26,10 +25,11 @@ import '../../features/home/presentation/view_model/home_view_model.dart';
 import '../../features/main/presentation/view_model/main_view_model.dart';
 import '../../features/onboarding/presentation/view_model/billing_info_view_model.dart';
 import '../../features/onboarding/presentation/view_model/personal_info_view_model.dart';
-import '../../features/profile/data/datasources/profile_mock_data_source.dart';
-import '../../features/profile/data/datasources/profile_remote_data_source.dart';
+import '../../features/profile/data/datasources/user_mock_data_source.dart';
+import '../../features/profile/data/datasources/user_remote_data_source.dart';
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/profile/domain/use_cases/change_password_use_case.dart';
 import '../../features/profile/domain/use_cases/get_profile_use_case.dart';
 import '../../features/profile/presentation/view_model/profile_view_model.dart';
 import '../../features/app_update/data/datasources/app_update_mock_data_source.dart';
@@ -196,23 +196,27 @@ void _registerHomeFeature() {
   getIt.registerFactory(HomeViewModel.new);
 }
 
-/// Profile feature wiring.
+/// Profile feature wiring (the current user's account — backend `/user/*`).
 ///
-/// Swap the stub for the real backend by replacing the
-/// [ProfileRemoteDataSource] registration with
-/// `ProfileApiDataSource(dioClient: getIt<DioClient>())`. Use case, view model
-/// and pages stay untouched.
+/// Swap the stub for the real backend by replacing the [UserRemoteDataSource]
+/// registration with `UserApiDataSource(dioClient: getIt<DioClient>())`. Use
+/// cases, view model and pages stay untouched.
 void _registerProfileFeature() {
-  getIt.registerLazySingleton<ProfileRemoteDataSource>(
-    ProfileMockDataSource.new,
+  getIt.registerLazySingleton<UserRemoteDataSource>(
+    UserMockDataSource.new,
   );
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(
-      remoteDataSource: getIt<ProfileRemoteDataSource>(),
+      remoteDataSource: getIt<UserRemoteDataSource>(),
     ),
   );
   getIt.registerLazySingleton(
     () => GetProfileUseCase(profileRepository: getIt<ProfileRepository>()),
+  );
+  // Change password is an authenticated account operation, so it lives with the
+  // user/profile context (not auth, which handles the pre-auth session flows).
+  getIt.registerLazySingleton(
+    () => ChangePasswordUseCase(profileRepository: getIt<ProfileRepository>()),
   );
   // Factory: MainPage creates one instance and shares it with the Profile tab
   // via the widget tree (BlocProvider), so both see the same loaded profile.
@@ -274,9 +278,6 @@ void _registerAuthFeature() {
   );
   getIt.registerLazySingleton(
     () => ResetPasswordUseCase(authRepository: getIt<AuthRepository>()),
-  );
-  getIt.registerLazySingleton(
-    () => ChangePasswordUseCase(authRepository: getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton(
     () => VerifyOtpUseCase(authRepository: getIt<AuthRepository>()),

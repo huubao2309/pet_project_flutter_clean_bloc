@@ -14,7 +14,6 @@ import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/forgot_password_state.dart';
 import '../view_model/forgot_password_view_model.dart';
-import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 
@@ -87,7 +86,6 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                   path: AppRoutes.otp,
                   queryParameters: {
                     'phone': state.phone.trim(),
-                    'flow': OtpFlow.forgotPassword.name,
                   },
                 ).toString(),
               );

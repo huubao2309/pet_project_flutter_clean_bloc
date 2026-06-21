@@ -1,7 +1,7 @@
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
-import '../../domain/use_cases/change_password_use_case.dart';
+import '../../../profile/domain/use_cases/change_password_use_case.dart';
 import 'change_password_state.dart';
 
 /// View model (MVVM) for the change-password screen (reached from Profile).

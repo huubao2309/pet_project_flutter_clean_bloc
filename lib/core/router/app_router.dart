@@ -63,7 +63,6 @@ class AppRouter {
           final params = state.uri.queryParameters;
           return OtpPage(
             phone: params['phone'],
-            flow: OtpFlow.fromName(params['flow']),
             resendSecs: int.tryParse(params['resend'] ?? ''),
             enableResendSecs: int.tryParse(params['enable_resend'] ?? ''),
           );

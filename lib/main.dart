@@ -10,10 +10,6 @@ import 'core/theme/app_theme_mode.dart';
 import 'core/theme/theme_view_model.dart';
 import 'environments/env_type.dart';
 
-/// App-wide scroll behavior that removes the overscroll indicator (Android's
-/// Material stretch / glow). The stretch indicator is known to schedule a
-/// rebuild during layout, crashing scroll views with "Build scheduled during
-/// frame".
 class _AppScrollBehavior extends MaterialScrollBehavior {
   const _AppScrollBehavior();
 
@@ -31,20 +27,10 @@ class MyApp extends StatelessWidget {
   const MyApp({required this.envType, required this.startLocale, super.key});
 
   final EnvType envType;
-
-  /// Language resolved at boot (saved language or fallback). Passed to
-  /// EasyLocalization so the app starts in the right language — avoids applying
-  /// it later on the splash, which would recreate the locale-keyed MaterialApp.
   final Locale startLocale;
 
   @override
   Widget build(BuildContext context) {
-    // The theme controller lives above MaterialApp so the whole app rebuilds
-    // (and routed pages can read/toggle it) when Light/Dark mode changes.
-    //
-    // The version check is no longer wired here: it is triggered from the splash
-    // screen and shown through a root overlay (see `AppUpdateOverlay`), so it is
-    // independent of this widget tree and of the current route.
     return ViewModelProvider<ThemeViewModel>(
       create: (_) => getIt<ThemeViewModel>(),
       child: EasyLocalization(
@@ -52,15 +38,10 @@ class MyApp extends StatelessWidget {
         path: AppConstants.translationsPath,
         fallbackLocale: AppConstants.fallbackLocale,
         startLocale: startLocale,
-        // LocalStorage is our single source of truth for the language; disable
-        // easy_localization's own persistence. The saved language is loaded and
-        // applied on the splash screen (SplashViewModel + GetLanguageUseCase).
         saveLocale: false,
         child: Builder(
           builder: (ctx) => ViewModelBuilder<ThemeViewModel, AppThemeMode>(
             builder: (context, mode) {
-              // Drive the brightness-aware design tokens for this frame; the
-              // whole subtree below re-reads `theme.colors.*` with this mode.
               getIt<ThemeState>().colors.brightness = mode.brightness;
               return MaterialApp.router(
                 // Rebuild the whole app subtree when locale OR theme changes so

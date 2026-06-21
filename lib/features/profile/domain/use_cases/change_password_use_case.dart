@@ -1,5 +1,5 @@
 import '../../../../core/use_case/use_case.dart';
-import '../repositories/auth_repository.dart';
+import '../repositories/profile_repository.dart';
 
 class ChangePasswordParams {
   const ChangePasswordParams({
@@ -12,13 +12,13 @@ class ChangePasswordParams {
 }
 
 class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
-  const ChangePasswordUseCase({required this.authRepository});
+  const ChangePasswordUseCase({required this.profileRepository});
 
-  final AuthRepository authRepository;
+  final ProfileRepository profileRepository;
 
   @override
   Future<void> execute(ChangePasswordParams params) =>
-      authRepository.changePassword(
+      profileRepository.changePassword(
         currentPassword: params.currentPassword,
         newPassword: params.newPassword,
       );

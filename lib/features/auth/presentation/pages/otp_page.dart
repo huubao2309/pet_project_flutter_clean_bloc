@@ -20,33 +20,11 @@ import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/otp_input_field.dart';
 
-/// Which flow opened the OTP screen — decides where to go once the code is
-/// verified, and how the timers are configured.
-enum OtpFlow {
-  /// Forgot-password: after verifying, continue to reset the password.
-  forgotPassword,
-
-  /// Login re-verification (`challenge_type: "verify_otp"`): after verifying,
-  /// the session is granted and we go to Home.
-  login,
-
-  /// Sign-up verification (`challenge_type: "verify_otp"`): after verifying,
-  /// the account is confirmed and we go to login to sign in.
-  signUp;
-
-  static OtpFlow fromName(String? name) => OtpFlow.values.firstWhere((f) => f.name == name, orElse: () => forgotPassword);
-
-  /// Flows whose OTP timers are driven by the backend challenge (vs the
-  /// client-side defaults used by forgot-password).
-  bool get usesBackendTimers => this == login || this == signUp;
-}
-
 /// OTP entry screen. Reached after a code is sent by SMS — either from the
 /// forgot-password flow or as a login re-verification step.
 class OtpPage extends StatelessWidget {
   const OtpPage({
     this.phone,
-    this.flow = OtpFlow.forgotPassword,
     this.resendSecs,
     this.enableResendSecs,
     super.key,
@@ -55,23 +33,21 @@ class OtpPage extends StatelessWidget {
   /// Phone number the code was sent to (shown in the caption).
   final String? phone;
 
-  /// Which flow opened this screen.
-  final OtpFlow flow;
-
   /// `otp_resend_secs` from the backend challenge (login / sign-up flows).
   final int? resendSecs;
 
   /// `otp_enable_resend_secs` from the backend challenge (login / sign-up).
   final int? enableResendSecs;
 
-  /// Builds the timer config. For the login and sign-up flows the backend
-  /// dictates the durations:
+  /// Builds the timer config. When the backend supplied the challenge timers
+  /// (login / sign-up) they dictate the durations:
   ///   • the "Resend" button stays disabled for `otp_enable_resend_secs`
   ///     (defaulting to 0 — enabled immediately — when absent), and
   ///   • the code-expiry countdown uses `otp_resend_secs`.
-  /// Forgot-password keeps the client-side defaults.
+  /// Forgot-password opens this screen without those values, so it keeps the
+  /// client-side defaults.
   OtpTimerConfig _config() {
-    if (!flow.usesBackendTimers) {
+    if (resendSecs == null && enableResendSecs == null) {
       return const OtpTimerConfig();
     }
     return OtpTimerConfig(

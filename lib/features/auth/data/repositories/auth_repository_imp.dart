@@ -5,12 +5,10 @@ import '../../../../core/storage/secure_storage/secure_storage.dart';
 import '../../domain/entities/login_result.dart';
 import '../../domain/entities/otp_challenge.dart';
 import '../../domain/entities/sign_up_result.dart';
-import '../../domain/entities/user_entity.dart';
 import '../../domain/entities/verify_otp_result.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import '../datasources/pre_auth_session.dart';
-import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/register_password_request_dto.dart';
@@ -179,19 +177,6 @@ class AuthRepositoryImpl implements AuthRepository {
     );
     // The forgot-password flow ends here — the user logs in again next.
     _preAuthSession.clear();
-  }
-
-  @override
-  Future<void> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) {
-    return _remoteDataSource.changePassword(
-      ChangePasswordRequestDto(
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      ),
-    );
   }
 
   @override

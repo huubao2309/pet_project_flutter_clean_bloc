@@ -1,4 +1,3 @@
-import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
@@ -40,9 +39,6 @@ abstract class AuthRemoteDataSource {
   Future<RegisterPasswordDataDto> registerPassword(
     RegisterPasswordRequestDto request,
   );
-
-  /// Changes the password for the logged-in user (verifies the current one).
-  Future<void> changePassword(ChangePasswordRequestDto request);
 
   Future<void> logout();
 }

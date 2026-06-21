@@ -15,7 +15,6 @@ import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/sign_up_state.dart';
 import '../view_model/sign_up_view_model.dart';
-import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 
@@ -91,7 +90,6 @@ class _SignUpViewState extends State<_SignUpView> {
               path: AppRoutes.otp,
               queryParameters: {
                 'phone': state.phone,
-                'flow': OtpFlow.signUp.name,
                 'resend': '${challenge.resendSecs}',
                 'enable_resend': '${challenge.enableResendSecs}',
               },

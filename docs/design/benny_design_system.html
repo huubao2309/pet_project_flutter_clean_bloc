@@ -130,10 +130,15 @@
   .pop{position:relative;background:#fff;border:1px solid var(--gray-100);border-radius:10px;box-shadow:0 10px 22px rgba(8,21,33,.16);padding:11px 12px;margin-top:8px;}
   .pop::before{content:"";position:absolute;top:-6px;left:16px;width:11px;height:11px;background:#fff;border-left:1px solid var(--gray-100);border-top:1px solid var(--gray-100);transform:rotate(45deg);}
   .pop .pt{font-size:11px;font-weight:600;color:var(--navy-800);margin-bottom:6px;}
-  .snack{display:flex;align-items:center;gap:10px;border-radius:10px;padding:11px 14px;}
-  .snack i{font-size:18px;flex-shrink:0;}
-  .snack .msg{font-size:13px;font-weight:500;flex:1;}
-  .snack .x{font-size:16px;opacity:.7;cursor:pointer;}
+  /* Snackbar — mirrors BennySnackBar: top countdown progress bar + tinted body
+     + white rounded close button (BennyGhostIconButton). */
+  .snackbar{border-radius:8px;overflow:hidden;border:1px solid;box-shadow:0 2px 8px rgba(19,19,19,.08),0 0 6px rgba(19,19,19,.02);}
+  .snackbar .bar{height:4px;width:100%;}
+  .snackbar .bar .fill{height:100%;}
+  .snackbar .row{display:flex;align-items:center;gap:8px;padding:8px 10px;}
+  .snackbar .row i.lead{font-size:18px;flex-shrink:0;}
+  .snackbar .row .msg{font-size:13px;font-weight:500;flex:1;}
+  .snackbar .row .close{width:32px;height:32px;border-radius:8px;background:#fff;border:1px solid var(--gray-100);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-700);font-size:15px;flex-shrink:0;box-shadow:0 1px 2px rgba(19,19,19,.06);}
   .cta.danger{background:#C62400;}
   .tgl{width:40px;height:23px;border-radius:12px;background:var(--navy-600);position:relative;display:inline-block;flex-shrink:0;}
   .tgl::after{content:"";position:absolute;top:2px;left:19px;width:19px;height:19px;border-radius:50%;background:#fff;}
@@ -517,24 +522,41 @@
       </div>
     </div>
     <h3>Snackbar</h3>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div class="snack" style="background:var(--success-bg);border:1px solid #C9F4D1">
-        <i class="ti ti-circle-check" style="color:var(--success-d)"></i>
-        <span class="msg" style="color:var(--success-d)">Đăng xuất thành công</span>
-        <i class="ti ti-x x" style="color:var(--success-d)"></i>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="snackbar" style="background:var(--success-bg);border-color:#C9F4D1">
+        <div class="bar" style="background:var(--success)"><div class="fill" style="width:88%;background:var(--success-d)"></div></div>
+        <div class="row">
+          <i class="ti ti-check lead" style="color:var(--success-d)"></i>
+          <span class="msg" style="color:var(--success-d)">Đăng xuất thành công</span>
+          <div class="close"><i class="ti ti-x"></i></div>
+        </div>
       </div>
-      <div class="snack" style="background:var(--error-bg);border:1px solid #F09595">
-        <i class="ti ti-alert-circle" style="color:var(--error-d)"></i>
-        <span class="msg" style="color:var(--error-d)">Đăng nhập thất bại. Vui lòng thử lại.</span>
-        <i class="ti ti-x x" style="color:var(--error-d)"></i>
+      <div class="snackbar" style="background:var(--error-bg);border-color:#F09595">
+        <div class="bar" style="background:var(--error)"><div class="fill" style="width:62%;background:var(--error-d)"></div></div>
+        <div class="row">
+          <i class="ti ti-alert-circle lead" style="color:var(--error-d)"></i>
+          <span class="msg" style="color:var(--error-d)">Đăng nhập thất bại. Vui lòng thử lại.</span>
+          <div class="close"><i class="ti ti-x"></i></div>
+        </div>
       </div>
-      <div class="snack" style="background:var(--warning-bg);border:1px solid #F1D8A7">
-        <i class="ti ti-alert-triangle" style="color:var(--warning-d)"></i>
-        <span class="msg" style="color:var(--warning-d)">Vui lòng kiểm tra lại thông tin.</span>
-        <i class="ti ti-x x" style="color:var(--warning-d)"></i>
+      <div class="snackbar" style="background:var(--warning-bg);border-color:#F1D8A7">
+        <div class="bar" style="background:var(--warning)"><div class="fill" style="width:74%;background:var(--warning-d)"></div></div>
+        <div class="row">
+          <i class="ti ti-alert-triangle lead" style="color:var(--warning-d)"></i>
+          <span class="msg" style="color:var(--warning-d)">Vui lòng kiểm tra lại thông tin.</span>
+          <div class="close"><i class="ti ti-x"></i></div>
+        </div>
+      </div>
+      <div class="snackbar" style="background:var(--navy-50);border-color:var(--navy-200)">
+        <div class="bar" style="background:var(--navy-500)"><div class="fill" style="width:45%;background:var(--navy-700)"></div></div>
+        <div class="row">
+          <i class="ti ti-info-circle lead" style="color:var(--navy-700)"></i>
+          <span class="msg" style="color:var(--navy-700)">Phiên đăng nhập sắp hết hạn.</span>
+          <div class="close"><i class="ti ti-x"></i></div>
+        </div>
       </div>
     </div>
-    <div class="note" style="margin-top:8px">Thành công (xanh) · Thất bại (đỏ) · Cảnh báo (amber) — nền tint nhạt + icon &amp; chữ cùng tông, có nút <i class="ti ti-x"></i> để tắt. Dùng <code style="background:var(--gray-50);border:.5px solid var(--gray-100);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--navy-600)">BennySnackBar</code> (BaseSnackBarType.success / error / warning).</div>
+    <div class="note" style="margin-top:8px">Thành công (xanh) · Thất bại (đỏ) · Cảnh báo (amber) · Thông tin (navy) — mỗi snackbar có <b>thanh đếm ngược</b> trên đỉnh (nền tông sáng + phần chạy tông đậm, tự rút về 0 theo thời lượng), thân nền tint nhạt + icon &amp; chữ cùng tông, và nút đóng <i class="ti ti-x"></i> dạng ô vuông bo góc nền trắng. Dùng <code style="background:var(--gray-50);border:.5px solid var(--gray-100);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--navy-600)">BennySnackBar</code> (BaseSnackBarType.success / error / warning / info).</div>
 
     <h3>App bar</h3>
     <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--gray-100);border-radius:10px;padding:10px 12px">
@@ -997,7 +1019,7 @@
 
     <div class="cluster">
       <div class="ch">Change password — Đổi mật khẩu <span class="pill">3 trạng thái</span></div>
-      <div class="cd">Mở từ Hồ sơ → mục "Đổi mật khẩu". 3 field: Mật khẩu hiện tại · Mật khẩu mới (kèm rule popover) · Nhập lại mật khẩu mới (báo lỗi nếu không khớp). Đổi thành công → snackbar + quay lại Hồ sơ.</div>
+      <div class="cd">Mở từ Hồ sơ → mục "Đổi mật khẩu". 3 field: Mật khẩu hiện tại · Mật khẩu mới · Nhập lại mật khẩu mới (báo lỗi nếu không khớp). Dòng "Yêu cầu mật khẩu" + icon ⓘ (popover rule) nằm dưới cả 3 field. Đổi thành công → snackbar + quay lại Hồ sơ.</div>
       <div class="states">
 
       <div class="phone">
@@ -1008,8 +1030,8 @@
           <div class="a-card">
             <div class="inp">Mật khẩu hiện tại <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
             <div class="inp" style="margin-top:12px">Mật khẩu mới <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="inp" style="margin-top:12px">Nhập lại mật khẩu mới <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="cta off" style="margin-top:14px">Cập nhật mật khẩu</div>
           </div>
         </div>
@@ -1024,7 +1046,9 @@
           <div class="a-card">
             <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="inp val" style="margin-top:12px">•••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
+            <div class="pwhint" style="margin-top:12px"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
             <div class="pop">
               <div class="pt">Mật khẩu phải có:</div>
               <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Có ít nhất 8 ký tự</div>
@@ -1032,8 +1056,6 @@
               <div class="rule"><span class="rk" style="background:var(--navy-700)">&#10003;</span>Một chữ số</div>
               <div class="rule"><span class="rk" style="background:var(--error-d)">&#10007;</span>Một chữ in hoa</div>
             </div>
-            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic" style="color:var(--gray-400)"></i></div>
-            <div class="ierr">Mật khẩu nhập lại không khớp</div>
             <div class="cta off" style="margin-top:14px">Cập nhật mật khẩu</div>
           </div>
         </div>
@@ -1048,8 +1070,8 @@
           <div class="a-card">
             <div class="inp val">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
-            <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic" style="color:var(--gray-400)"></i></div>
+            <div class="pwhint" style="color:var(--success-d)"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
             <div class="cta" style="margin-top:14px">Cập nhật mật khẩu</div>
           </div>
         </div>

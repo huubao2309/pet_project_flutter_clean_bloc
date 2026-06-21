@@ -95,6 +95,8 @@ class _ProfileView extends StatelessWidget {
                         trailing: Switch.adaptive(
                           value: themeVm.isDark,
                           activeTrackColor: theme.colors.brand600,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           onChanged: (v) => themeVm.setDark(value: v),
                         ),
                       ),
@@ -158,8 +160,7 @@ class _ProfileView extends StatelessWidget {
     );
   }
 
-  void _comingSoon() =>
-      BennySnackBar.show(message: 'profile.coming_soon'.tr());
+  void _comingSoon() => BennySnackBar.show(message: 'profile.coming_soon'.tr());
 
   Future<void> _confirmLogout(BuildContext context) async {
     final ok = await _confirm(
@@ -225,7 +226,8 @@ Future<bool> _confirm(
           child: Text(
             confirmLabel,
             style: TextStyle(
-              color: destructive ? theme.colors.error600 : theme.colors.brand600,
+              color:
+                  destructive ? theme.colors.error600 : theme.colors.brand600,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -310,6 +312,7 @@ class _FingerprintTileState extends State<_FingerprintTile> {
       trailing: Switch.adaptive(
         value: _enabled,
         activeTrackColor: theme.colors.brand600,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         onChanged: (v) => setState(() => _enabled = v),
       ),
     );

@@ -20,7 +20,6 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/validators.dart';
 import '../view_model/auth_state.dart';
 import '../view_model/auth_view_model.dart';
-import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_password_field.dart';
@@ -145,7 +144,6 @@ class _LoginViewState extends State<_LoginView> {
               path: AppRoutes.otp,
               queryParameters: {
                 'phone': _phoneController.text.trim(),
-                'flow': OtpFlow.login.name,
                 'resend': '${state.challenge.resendSecs}',
                 'enable_resend': '${state.challenge.enableResendSecs}',
               },

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/constants/mock_assets.dart';
 import '../../../../core/error/app_exception.dart';
-import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
@@ -35,7 +34,7 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   const AuthMockDataSource();
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
-  static const _loginScenario = MockAssets.loginNeedVerifyOtp;
+  static const _loginScenario = MockAssets.loginSuccess;
   static const _signUpScenario = MockAssets.signupSuccess;
   static const _logoutScenario = MockAssets.logoutSuccess;
   static const _verifyOTPScenario = MockAssets.verifyOtpForgotSuccess;
@@ -48,9 +47,6 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   @override
   Future<LoginDataDto> login(LoginRequestDto request) async {
     final json = await _read(_loginScenario);
-    // Login-only hard stops (account blocked): the verdict maps to a
-    // BlockReason. These are meaningful for login only, so they stay here
-    // rather than in the shared _ensureSuccess.
     final blockReason = blockReasonFromVerdict(json['verdict'] as String?);
     if (blockReason != null) {
       throw AccountBlockedException(blockReason, _messageOf(json));
@@ -62,14 +58,10 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   @override
   Future<OtpChallengeDto> signUp(SignUpRequestDto request) async {
     final json = await _read(_signUpScenario);
-    // Sign-up-only hard stop: the phone is blocked from registering. Like the
-    // login blocks, this verdict is meaningful for sign-up only, so it stays
-    // here rather than in the shared _ensureSuccess.
     if (isPhoneBlockedVerdict(json['verdict'] as String?)) {
       throw PhoneBlockedException(_messageOf(json));
     }
     _ensureSuccess(json);
-    // The `data` envelope carries the (optional) verify_otp challenge.
     final data = json['data'] as Map<String, dynamic>?;
     return data == null ? const OtpChallengeDto() : OtpChallengeDto.fromJson(data);
   }
@@ -105,11 +97,6 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     return RegisterPasswordDataDto.fromJson(
       json['data'] as Map<String, dynamic>,
     );
-  }
-
-  @override
-  Future<void> changePassword(ChangePasswordRequestDto request) async {
-    await Future<void>.delayed(_latency);
   }
 
   @override

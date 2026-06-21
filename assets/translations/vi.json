@@ -141,6 +141,7 @@
       "current_password": "Mật khẩu hiện tại",
       "new_password": "Mật khẩu mới",
       "confirm_password": "Nhập lại mật khẩu mới",
+      "new_same_as_current": "Mật khẩu mới không được trùng với mật khẩu hiện tại",
       "submit": "Cập nhật mật khẩu",
       "success": "Mật khẩu của bạn đã được thay đổi"
     },
