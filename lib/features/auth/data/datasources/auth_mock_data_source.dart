@@ -35,13 +35,13 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   const AuthMockDataSource();
 
   // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
-  // Login: MockAssets.loginSuccess         → challenge_type "none" → Home.
-  //        MockAssets.loginNeedVerifyOtp   → challenge_type "verify_otp" → OTP.
   static const _loginScenario = MockAssets.loginNeedVerifyOtp;
   static const _signUpScenario = MockAssets.signupSuccess;
   static const _logoutScenario = MockAssets.logoutSuccess;
-  static const _verifyOTPScenario = MockAssets.verifyOtpLoginSuccess;
+  static const _verifyOTPScenario = MockAssets.verifyOtpForgotSuccess;
   static const _registerPasswordScenario = MockAssets.registerPasswordSuccess;
+  static const _forgotPasswordScenario = MockAssets.forgotPasswordSuccess;
+  static const _resetPasswordScenario = MockAssets.resetPasswordSuccess;
 
   static const _latency = Duration(seconds: 1);
 
@@ -75,13 +75,16 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> forgotPassword(ForgotPasswordRequestDto request) async {
-    await Future<void>.delayed(_latency);
+  Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request) async {
+    final json = await _read(_forgotPasswordScenario);
+    _ensureSuccess(json);
+    return OtpChallengeDto.fromJson(json['data'] as Map<String, dynamic>);
   }
 
   @override
   Future<void> resetPassword(ResetPasswordRequestDto request) async {
-    await Future<void>.delayed(_latency);
+    final json = await _read(_resetPasswordScenario);
+    _ensureSuccess(json);
   }
 
   @override

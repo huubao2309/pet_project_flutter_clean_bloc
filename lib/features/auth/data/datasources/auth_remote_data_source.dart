@@ -23,7 +23,9 @@ abstract class AuthRemoteDataSource {
   /// requires OTP verification, otherwise its challenge fields are absent.
   Future<OtpChallengeDto> signUp(SignUpRequestDto request);
 
-  Future<void> forgotPassword(ForgotPasswordRequestDto request);
+  /// Sends a reset code and returns the `verify_otp` challenge (session token +
+  /// timers) the OTP screen needs.
+  Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request);
 
   Future<void> resetPassword(ResetPasswordRequestDto request);
 

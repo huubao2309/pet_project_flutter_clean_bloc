@@ -104,16 +104,19 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> forgotPassword(ForgotPasswordRequestDto request) async {
-    final response = await _dioClient.post<void>(
+  Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request) async {
+    final response = await _dioClient.post<OtpChallengeDto>(
       _forgotPassword,
       data: request.toJson(),
+      fromJson: (json) =>
+          OtpChallengeDto.fromJson(json as Map<String, dynamic>),
     );
-    if (!response.success) {
+    if (!response.success || response.data == null) {
       throw ServerException(
         message: response.message ?? 'errors.forgot_failed'.tr(),
       );
     }
+    return response.data!;
   }
 
   @override

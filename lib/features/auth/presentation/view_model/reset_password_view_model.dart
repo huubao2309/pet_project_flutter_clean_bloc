@@ -5,17 +5,11 @@ import '../../domain/use_cases/reset_password_use_case.dart';
 import 'reset_password_state.dart';
 
 class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
-  ResetPasswordViewModel({
-    required ResetPasswordUseCase resetPasswordUseCase,
-    String token = '',
-  })  : _resetPasswordUseCase = resetPasswordUseCase,
-        _token = token,
+  ResetPasswordViewModel({required ResetPasswordUseCase resetPasswordUseCase})
+      : _resetPasswordUseCase = resetPasswordUseCase,
         super(const ResetPasswordState());
 
   final ResetPasswordUseCase _resetPasswordUseCase;
-
-  /// Reset token coming from the email deep link (empty in the stub flow).
-  final String _token;
 
   void onPasswordChanged(String value) {
     setState(
@@ -31,18 +25,17 @@ class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
     );
   }
 
+  void onConfirmPasswordChanged(String value) {
+    setState(currentState.copyWith(confirmPassword: value));
+  }
+
   Future<void> resetPassword() async {
     if (!currentState.canSubmit) {
       return;
     }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
-      await _resetPasswordUseCase.execute(
-        ResetPasswordParams(
-          newPassword: currentState.password,
-          token: _token,
-        ),
-      );
+      await _resetPasswordUseCase.execute(currentState.password);
       setState(currentState.copyWith(isLoading: false, isResetSuccess: true));
     } on AppException catch (e) {
       setState(

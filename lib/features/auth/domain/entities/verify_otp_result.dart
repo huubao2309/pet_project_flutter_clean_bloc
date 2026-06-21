@@ -1,10 +1,7 @@
-/// Outcome of verifying an OTP code.
-///
-/// The backend resolves the verification into one of two next steps, told apart
-/// by the response's `challenge_type`:
-///   • login flow   → authenticated outright (tokens persisted).
-///   • sign-up flow → the phone is confirmed but a password must still be set;
-///     a fresh session token is issued for the register-password step.
+/// Outcome of verifying an OTP code — the next step in the flow, told apart by
+/// the backend's `challenge_type`. The session token that carries the flow
+/// forward is held by the data layer (PreAuthSession), so these are pure
+/// markers: the View navigates on the type alone.
 sealed class VerifyOtpResult {
   const VerifyOtpResult();
 }
@@ -15,9 +12,12 @@ final class VerifyOtpAuthenticated extends VerifyOtpResult {
 }
 
 /// Verification passed but the user must set a password next (sign-up flow).
-/// Carries the session token the register-password call needs.
 final class VerifyOtpRegisterPassword extends VerifyOtpResult {
-  const VerifyOtpRegisterPassword(this.sessionToken);
+  const VerifyOtpRegisterPassword();
+}
 
-  final String sessionToken;
+/// Verification passed and the user must set a new password (forgot-password
+/// flow).
+final class VerifyOtpResetPassword extends VerifyOtpResult {
+  const VerifyOtpResetPassword();
 }

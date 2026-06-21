@@ -47,7 +47,6 @@ class OtpPage extends StatelessWidget {
   const OtpPage({
     this.phone,
     this.flow = OtpFlow.forgotPassword,
-    this.sessionToken,
     this.resendSecs,
     this.enableResendSecs,
     super.key,
@@ -58,10 +57,6 @@ class OtpPage extends StatelessWidget {
 
   /// Which flow opened this screen.
   final OtpFlow flow;
-
-  /// Session token from the login / sign-up step — sent with the verify-otp
-  /// call so the backend ties the code to that request.
-  final String? sessionToken;
 
   /// `otp_resend_secs` from the backend challenge (login / sign-up flows).
   final int? resendSecs;
@@ -91,7 +86,6 @@ class OtpPage extends StatelessWidget {
       create: (_) => OtpViewModel(
         verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
         config: _config(),
-        sessionToken: sessionToken ?? '',
       ),
       child: _OtpView(phone: phone),
     );
@@ -108,12 +102,17 @@ class _OtpView extends StatelessWidget {
   void _onVerified(BuildContext context, OtpState state) {
     switch (state.verifyResult) {
       // challenge_type "register_password" → replace the OTP screen with the
-      // set-password screen, carrying the fresh session token.
-      case VerifyOtpRegisterPassword(:final sessionToken):
+      // set-password screen. The session token is held by the data layer.
+      case VerifyOtpRegisterPassword():
+        context.pushReplacement(AppRoutes.registerPassword);
+      // challenge_type "reset_password" → replace the OTP screen with the
+      // reset-password screen, carrying the phone for the login autofill once
+      // the password is reset.
+      case VerifyOtpResetPassword():
         context.pushReplacement(
           Uri(
-            path: AppRoutes.registerPassword,
-            queryParameters: {'session_token': sessionToken},
+            path: AppRoutes.resetPassword,
+            queryParameters: {'phone': phone ?? ''},
           ).toString(),
         );
       case VerifyOtpAuthenticated():

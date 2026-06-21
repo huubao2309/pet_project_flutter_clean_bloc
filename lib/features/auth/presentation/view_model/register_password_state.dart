@@ -4,11 +4,9 @@ export 'password_strength.dart';
 
 /// Immutable UI state for the register-password screen — the final step of the
 /// sign-up flow, reached after OTP verification. Holds the new password, its
-/// confirmation, live rule validation, and the session token used to submit.
-/// Library-agnostic.
+/// confirmation, and live rule validation. Library-agnostic.
 class RegisterPasswordState {
   const RegisterPasswordState({
-    this.sessionToken = '',
     this.password = '',
     this.confirmPassword = '',
     this.strength = const PasswordStrength.empty(),
@@ -17,8 +15,6 @@ class RegisterPasswordState {
     this.errorMessage,
   });
 
-  /// Session token from the verify-otp response, submitted with the password.
-  final String sessionToken;
   final String password;
 
   /// The re-entered password used to confirm the user typed what they intended.
@@ -42,7 +38,6 @@ class RegisterPasswordState {
   bool get canSubmit => strength.isAllValid && isConfirmValid;
 
   RegisterPasswordState copyWith({
-    String? sessionToken,
     String? password,
     String? confirmPassword,
     PasswordStrength? strength,
@@ -52,7 +47,6 @@ class RegisterPasswordState {
     bool clearError = false,
   }) {
     return RegisterPasswordState(
-      sessionToken: sessionToken ?? this.sessionToken,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       strength: strength ?? this.strength,

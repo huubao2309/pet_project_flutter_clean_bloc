@@ -1,17 +1,22 @@
+import '../../domain/entities/otp_challenge.dart';
+
 /// Immutable UI state for the forgot-password screen. Library-agnostic.
 class ForgotPasswordState {
   const ForgotPasswordState({
     this.phone = '',
     this.isPhoneValid = false,
     this.isLoading = false,
-    this.isSent = false,
+    this.otpChallenge,
     this.errorMessage,
   });
 
   final String phone;
   final bool isPhoneValid;
   final bool isLoading;
-  final bool isSent;
+
+  /// Set once "Send reset code" succeeds — carries the `verify_otp` challenge
+  /// (session token + timers). The View routes to the OTP screen when non-null.
+  final OtpChallenge? otpChallenge;
   final String? errorMessage;
 
   bool get canSubmit => isPhoneValid;
@@ -20,7 +25,7 @@ class ForgotPasswordState {
     String? phone,
     bool? isPhoneValid,
     bool? isLoading,
-    bool? isSent,
+    OtpChallenge? otpChallenge,
     String? errorMessage,
     bool clearError = false,
   }) {
@@ -28,7 +33,7 @@ class ForgotPasswordState {
       phone: phone ?? this.phone,
       isPhoneValid: isPhoneValid ?? this.isPhoneValid,
       isLoading: isLoading ?? this.isLoading,
-      isSent: isSent ?? this.isSent,
+      otpChallenge: otpChallenge ?? this.otpChallenge,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }

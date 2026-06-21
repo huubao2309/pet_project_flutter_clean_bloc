@@ -1,6 +1,6 @@
 import '../entities/login_result.dart';
+import '../entities/otp_challenge.dart';
 import '../entities/sign_up_result.dart';
-import '../entities/user_entity.dart';
 import '../entities/verify_otp_result.dart';
 
 /// Auth domain contract (a "port"). Lives in the domain layer so use cases
@@ -21,29 +21,21 @@ abstract class AuthRepository {
     bool? receiveUpdates,
   });
 
-  /// Verifies an OTP [code] against [sessionToken]. Returns a [VerifyOtpResult]:
-  /// authenticated (login flow, tokens persisted) or a register-password step
-  /// (sign-up flow, carrying a fresh session token).
-  Future<VerifyOtpResult> verifyOtp({
-    required String code,
-    required String sessionToken,
-  });
+  /// Verifies an OTP [code] for the active pre-auth flow. Returns a
+  /// [VerifyOtpResult]: authenticated (login, tokens persisted), or a
+  /// register-/reset-password step (the session carries on internally).
+  Future<VerifyOtpResult> verifyOtp({required String code});
 
-  /// Sets the password for an OTP-verified sign-up using [sessionToken], then
-  /// persists the returned auth tokens (signing the user in).
-  Future<void> registerPassword({
-    required String password,
-    required String sessionToken,
-  });
+  /// Sets the password for an OTP-verified sign-up, then persists the returned
+  /// auth tokens (signing the user in).
+  Future<void> registerPassword({required String password});
 
-  /// Sends a password-reset code to [phone].
-  Future<void> forgotPassword({required String phone});
+  /// Sends a password-reset code to [phone] and returns the `verify_otp`
+  /// challenge (session token + timers) for the OTP screen.
+  Future<OtpChallenge> forgotPassword({required String phone});
 
-  /// Sets a new password using the reset [token] from the email link.
-  Future<void> resetPassword({
-    required String newPassword,
-    required String token,
-  });
+  /// Sets a new password for an OTP-verified forgot-password flow.
+  Future<void> resetPassword({required String newPassword});
 
   /// Changes the password for the logged-in user. The backend verifies
   /// [currentPassword] before applying [newPassword].
@@ -55,6 +47,4 @@ abstract class AuthRepository {
   Future<void> logout();
 
   Future<bool> isLoggedIn();
-
-  Future<UserEntity?> getCurrentUser();
 }

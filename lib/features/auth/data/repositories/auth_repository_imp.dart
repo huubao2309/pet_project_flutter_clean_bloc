@@ -9,6 +9,7 @@ import '../../domain/entities/user_entity.dart';
 import '../../domain/entities/verify_otp_result.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
+import '../datasources/pre_auth_session.dart';
 import '../models/request/change_password_request_dto.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
@@ -23,16 +24,21 @@ import '../models/request/verify_otp_request_dto.dart';
 ///
 /// The data layer owns DTO construction/serialization: the domain passes plain
 /// values, this class maps them to request DTOs and maps response DTOs back to
-/// domain entities. It also owns session persistence (saving/clearing tokens).
+/// domain entities. It also owns session persistence — the access/refresh
+/// tokens in [SecureStorage] and the transient pre-auth [PreAuthSession] token
+/// used to carry a sign-up / forgot-password flow across its steps.
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
     required SecureStorage secureStorage,
+    required PreAuthSession preAuthSession,
   })  : _remoteDataSource = remoteDataSource,
-        _secureStorage = secureStorage;
+        _secureStorage = secureStorage,
+        _preAuthSession = preAuthSession;
 
   final AuthRemoteDataSource _remoteDataSource;
   final SecureStorage _secureStorage;
+  final PreAuthSession _preAuthSession;
 
   /// `challenge_type` value that means an OTP step is required before the
   /// session is granted (the backend couldn't authenticate outright).
@@ -51,9 +57,10 @@ class AuthRepositoryImpl implements AuthRepository {
     // to persist. Hand the challenge parameters to the presentation layer,
     // which routes to the OTP screen.
     if (data.challengeType == _challengeVerifyOtp) {
+      // Stash the pre-auth session token so the verify-otp step can use it.
+      _preAuthSession.save(data.sessionToken ?? '');
       return LoginOtpRequired(
         OtpChallenge(
-          sessionToken: data.sessionToken ?? '',
           resendSecs: data.otpResendSecs ?? 0,
           // Missing/null → 0 → the "Resend" button is enabled immediately.
           enableResendSecs: data.otpEnableResendSecs ?? 0,
@@ -91,50 +98,57 @@ class AuthRepositoryImpl implements AuthRepository {
     );
     // A verify_otp challenge → the View routes to the OTP screen; otherwise the
     // registration is complete.
-    return data.requiresOtpVerification
-        ? SignUpOtpRequired(data.toEntity())
-        : const SignUpCompleted();
+    if (data.requiresOtpVerification) {
+      _preAuthSession.save(data.sessionToken ?? '');
+      return SignUpOtpRequired(data.toEntity());
+    }
+    return const SignUpCompleted();
   }
 
   @override
-  Future<VerifyOtpResult> verifyOtp({
-    required String code,
-    required String sessionToken,
-  }) async {
+  Future<VerifyOtpResult> verifyOtp({required String code}) async {
     final data = await _remoteDataSource.verifyOtp(
-      VerifyOtpRequestDto(code: code, sessionToken: sessionToken),
+      VerifyOtpRequestDto(code: code, sessionToken: _preAuthSession.require()),
     );
 
-    // Only an authenticated response (challenge_type "none") carries the session
-    // tokens — persist them when both are present. Other challenges (e.g.
-    // register_password) don't return tokens, so there's nothing to save.
-    final accessToken = data.accessToken;
-    final refreshToken = data.refreshToken;
-    if (data.isAuthenticated && accessToken != null && refreshToken != null) {
-      await _secureStorage.saveAccessToken(accessToken);
-      await _secureStorage.saveRefreshToken(refreshToken);
+    // Authenticated (challenge_type "none"): persist tokens when present and end
+    // the pre-auth flow.
+    if (data.isAuthenticated) {
+      final accessToken = data.accessToken;
+      final refreshToken = data.refreshToken;
+      if (accessToken != null && refreshToken != null) {
+        await _secureStorage.saveAccessToken(accessToken);
+        await _secureStorage.saveRefreshToken(refreshToken);
+      }
+      _preAuthSession.clear();
+      return const VerifyOtpAuthenticated();
     }
 
-    // Sign-up flow: the phone is confirmed but a password must still be set.
-    // Hand the fresh session token to the register-password step.
+    // Sign-up flow: phone confirmed, a password must still be set. The response
+    // issues a fresh session token — carry it into the register-password step.
     if (data.requiresPasswordRegistration) {
-      return VerifyOtpRegisterPassword(data.sessionToken ?? '');
+      _preAuthSession.save(data.sessionToken ?? '');
+      return const VerifyOtpRegisterPassword();
     }
+    // Forgot-password flow: confirmed, the user must set a new password.
+    if (data.requiresPasswordReset) {
+      _preAuthSession.save(data.sessionToken ?? '');
+      return const VerifyOtpResetPassword();
+    }
+    _preAuthSession.clear();
     return const VerifyOtpAuthenticated();
   }
 
   @override
-  Future<void> registerPassword({
-    required String password,
-    required String sessionToken,
-  }) async {
+  Future<void> registerPassword({required String password}) async {
     final data = await _remoteDataSource.registerPassword(
       RegisterPasswordRequestDto(
         password: password,
-        sessionToken: sessionToken,
+        sessionToken: _preAuthSession.require(),
       ),
     );
-    // Success completes the account and signs the user in → persist tokens.
+    // Success completes the account and signs the user in → persist tokens and
+    // end the pre-auth flow.
     final accessToken = data.accessToken;
     final refreshToken = data.refreshToken;
     if (accessToken == null || refreshToken == null) {
@@ -142,23 +156,29 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     await _secureStorage.saveAccessToken(accessToken);
     await _secureStorage.saveRefreshToken(refreshToken);
+    _preAuthSession.clear();
   }
 
   @override
-  Future<void> forgotPassword({required String phone}) {
-    return _remoteDataSource.forgotPassword(
+  Future<OtpChallenge> forgotPassword({required String phone}) async {
+    final data = await _remoteDataSource.forgotPassword(
       ForgotPasswordRequestDto(phone: phone),
     );
+    // Stash the pre-auth session token so verify-otp / reset-password can use it.
+    _preAuthSession.save(data.sessionToken ?? '');
+    return data.toEntity();
   }
 
   @override
-  Future<void> resetPassword({
-    required String newPassword,
-    required String token,
-  }) {
-    return _remoteDataSource.resetPassword(
-      ResetPasswordRequestDto(newPassword: newPassword, token: token),
+  Future<void> resetPassword({required String newPassword}) async {
+    await _remoteDataSource.resetPassword(
+      ResetPasswordRequestDto(
+        newPassword: newPassword,
+        sessionToken: _preAuthSession.require(),
+      ),
     );
+    // The forgot-password flow ends here — the user logs in again next.
+    _preAuthSession.clear();
   }
 
   @override
@@ -187,11 +207,5 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isLoggedIn() async {
     final token = await _secureStorage.getAccessToken();
     return token != null;
-  }
-
-  @override
-  Future<UserEntity?> getCurrentUser() async {
-    // TODO: fetch the current user from a /me endpoint or cached profile.
-    return null;
   }
 }

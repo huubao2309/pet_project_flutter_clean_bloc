@@ -23,17 +23,13 @@ import '../widgets/password_requirement_hint.dart';
 /// Final step of the sign-up flow (after OTP): the user sets a password. On
 /// success the account is created and signed in, landing on the main screen.
 class RegisterPasswordPage extends StatelessWidget {
-  const RegisterPasswordPage({required this.sessionToken, super.key});
-
-  /// Session token from the verify-otp response, submitted with the password.
-  final String sessionToken;
+  const RegisterPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<RegisterPasswordViewModel>(
       create: (_) => RegisterPasswordViewModel(
         registerPasswordUseCase: getIt<RegisterPasswordUseCase>(),
-        sessionToken: sessionToken,
       ),
       child: const _RegisterPasswordView(),
     );

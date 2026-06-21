@@ -7,15 +7,13 @@ import 'register_password_state.dart';
 /// View model (MVVM) for the register-password screen (final sign-up step).
 ///
 /// Holds the new password + confirmation with live rule validation and submits
-/// via [RegisterPasswordUseCase] together with the session token from the
-/// verify-otp step. On success the user is signed in. The View calls these
-/// plain methods.
+/// via [RegisterPasswordUseCase]. The session token is resolved by the data
+/// layer. On success the user is signed in. The View calls these plain methods.
 class RegisterPasswordViewModel extends ViewModel<RegisterPasswordState> {
   RegisterPasswordViewModel({
     required RegisterPasswordUseCase registerPasswordUseCase,
-    required String sessionToken,
   })  : _registerPasswordUseCase = registerPasswordUseCase,
-        super(RegisterPasswordState(sessionToken: sessionToken));
+        super(const RegisterPasswordState());
 
   final RegisterPasswordUseCase _registerPasswordUseCase;
 
@@ -43,12 +41,7 @@ class RegisterPasswordViewModel extends ViewModel<RegisterPasswordState> {
     }
     setState(currentState.copyWith(isLoading: true, clearError: true));
     try {
-      await _registerPasswordUseCase.execute(
-        RegisterPasswordParams(
-          password: currentState.password,
-          sessionToken: currentState.sessionToken,
-        ),
-      );
+      await _registerPasswordUseCase.execute(currentState.password);
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
     } on AppException catch (e) {
       setState(

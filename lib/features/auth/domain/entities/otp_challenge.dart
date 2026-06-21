@@ -1,15 +1,15 @@
-/// Parameters for an OTP verification step, returned by the backend alongside a
-/// `challenge_type: "verify_otp"` response. Shared by the login re-verification
-/// and sign-up flows.
+/// On-screen parameters for an OTP verification step, returned by the backend
+/// alongside a `challenge_type: "verify_otp"` response. Shared by the login
+/// re-verification, sign-up, and forgot-password flows.
+///
+/// The session token that ties the challenge to the request is NOT here — it is
+/// a data-layer credential held by `PreAuthSession`; this entity only carries
+/// what the OTP screen displays.
 class OtpChallenge {
   const OtpChallenge({
-    required this.sessionToken,
     required this.resendSecs,
     required this.enableResendSecs,
   });
-
-  /// Short-lived token that ties the OTP verification back to this request.
-  final String sessionToken;
 
   /// `otp_resend_secs` — drives the on-screen code-expiry countdown.
   final int resendSecs;

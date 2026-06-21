@@ -40,7 +40,6 @@ class OtpChallengeDto {
   bool get requiresOtpVerification => challengeType == 'verify_otp';
 
   OtpChallenge toEntity() => OtpChallenge(
-        sessionToken: sessionToken ?? '',
         resendSecs: otpResendSecs ?? 0,
         // Missing/null → 0 → the "Resend" button is enabled immediately.
         enableResendSecs: otpEnableResendSecs ?? 0,

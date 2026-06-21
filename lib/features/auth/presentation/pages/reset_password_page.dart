@@ -1,8 +1,5 @@
 import 'package:benny_style/buttons/benny_primary_button.dart';
-import 'package:benny_style/buttons/benny_secondary_button.dart';
 import 'package:benny_style/loading/spinner/benny_spinner.dart';
-import 'package:benny_style/messages/base_message_type.dart';
-import 'package:benny_style/messages/snqd_message.dart';
 import 'package:benny_style/snackbar/base_snackbar_type.dart';
 import 'package:benny_style/snackbar/benny_snackbar.dart';
 import 'package:benny_style/theme/theme_state.dart';
@@ -20,28 +17,33 @@ import '../view_model/reset_password_view_model.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_password_field.dart';
-import '../widgets/validate_icon_widget.dart';
+import '../widgets/password_requirement_hint.dart';
 
+/// Final step of the forgot-password flow (after OTP): the user sets a new
+/// password. On success the backend ends the session (`challenge_type:
+/// "verify_login"`), so we return to Login — carrying the phone for autofill —
+/// where the user must sign in with the new password.
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({this.token, super.key});
+  const ResetPasswordPage({this.phone, super.key});
 
-  /// Reset token from the email deep link (e.g. `/reset-password?token=...`).
-  final String? token;
+  /// Phone carried through the flow, used to autofill the Login screen after.
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ResetPasswordViewModel>(
       create: (_) => ResetPasswordViewModel(
         resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
-        token: token ?? '',
       ),
-      child: const _ResetPasswordView(),
+      child: _ResetPasswordView(phone: phone),
     );
   }
 }
 
 class _ResetPasswordView extends StatelessWidget {
-  const _ResetPasswordView();
+  const _ResetPasswordView({this.phone});
+
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +54,26 @@ class _ResetPasswordView extends StatelessWidget {
       appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
       body: SafeArea(
         child: ViewModelConsumer<ResetPasswordViewModel, ResetPasswordState>(
-          listenWhen: (p, c) => p.errorMessage != c.errorMessage,
+          listenWhen: (p, c) =>
+              p.errorMessage != c.errorMessage ||
+              (!p.isResetSuccess && c.isResetSuccess),
           listener: (context, state) {
             final message = state.errorMessage;
             if (message != null) {
               BennySnackBar.show(
                 message: message,
                 type: BaseSnackBarType.error,
+              );
+            }
+            if (state.isResetSuccess) {
+              // Password reset → session ended; return to Login with the phone
+              // pre-filled so the user signs in with the new password.
+              BennySnackBar.show(message: 'auth.reset.success'.tr());
+              context.go(
+                Uri(
+                  path: AppRoutes.login,
+                  queryParameters: {'phone': phone ?? ''},
+                ).toString(),
               );
             }
           },
@@ -73,10 +88,7 @@ class _ResetPasswordView extends StatelessWidget {
                     captionKey: 'auth.reset.caption',
                   ),
                   SizedBox(height: theme.spacing.spacing24),
-                  if (state.isResetSuccess)
-                    _SuccessContent(theme: theme)
-                  else
-                    AuthCard(child: _FormContent(state: state)),
+                  AuthCard(child: _FormContent(state: state)),
                 ],
               ),
             );
@@ -92,18 +104,10 @@ class _FormContent extends StatelessWidget {
 
   final ResetPasswordState state;
 
-  ValidIconState _ruleState(bool passed) {
-    if (state.password.isEmpty) {
-      return ValidIconState.unknown;
-    }
-    return passed ? ValidIconState.valid : ValidIconState.invalid;
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = getIt<ThemeState>();
     final viewModel = context.viewModel<ResetPasswordViewModel>();
-    final strength = state.strength;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,48 +118,18 @@ class _FormContent extends StatelessWidget {
           onTextChanged: viewModel.onPasswordChanged,
         ),
         SizedBox(height: theme.spacing.spacing12),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: theme.spacing.spacing16,
-            vertical: theme.spacing.spacing12,
-          ),
-          decoration: BoxDecoration(
-            color: theme.colors.neutral50,
-            border: Border.all(color: theme.colors.neutral100),
-            borderRadius:
-                BorderRadius.circular(theme.borderRadius.borderRadius8),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'auth.register.password_strength'.tr(),
-                style: theme.textStyle.paragraphDefault
-                    .copyWith(color: theme.colors.neutral900),
-              ),
-              SizedBox(height: theme.spacing.spacing8),
-              ValidateIconWidget(
-                state: _ruleState(strength.hasMinLength),
-                title: 'auth.register.password_length'.tr(),
-              ),
-              SizedBox(height: theme.spacing.spacing8),
-              ValidateIconWidget(
-                state: _ruleState(strength.hasSpecialChar),
-                title: 'auth.register.password_special'.tr(),
-              ),
-              SizedBox(height: theme.spacing.spacing8),
-              ValidateIconWidget(
-                state: _ruleState(strength.hasNumber),
-                title: 'auth.register.password_number'.tr(),
-              ),
-              SizedBox(height: theme.spacing.spacing8),
-              ValidateIconWidget(
-                state: _ruleState(strength.hasCapital),
-                title: 'auth.register.password_capital'.tr(),
-              ),
-            ],
-          ),
+        AuthPasswordField(
+          hintText: 'auth.register.confirm_password'.tr(),
+          onTextChanged: viewModel.onConfirmPasswordChanged,
+          errorText: state.hasConfirmMismatch
+              ? 'auth.register.password_mismatch'.tr()
+              : null,
+        ),
+        // Password-rule hint sits below both fields (per the design system).
+        SizedBox(height: theme.spacing.spacing8),
+        PasswordRequirementHint(
+          strength: state.strength,
+          isPasswordEmpty: state.password.isEmpty,
         ),
         SizedBox(height: theme.spacing.spacing40),
         BennyPrimaryButton(
@@ -165,31 +139,6 @@ class _FormContent extends StatelessWidget {
               ? viewModel.resetPassword
               : null,
           widget: state.isLoading ? const BennySpinner() : null,
-        ),
-      ],
-    );
-  }
-}
-
-class _SuccessContent extends StatelessWidget {
-  const _SuccessContent({required this.theme});
-
-  final ThemeState theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BennyMessage(
-          type: BaseMessageType.success,
-          title: 'auth.reset.success'.tr(),
-          message: 'auth.reset.success_message'.tr(),
-        ),
-        SizedBox(height: theme.spacing.spacing40),
-        BennySecondaryButton(
-          title: 'auth.reset.login_go'.tr(),
-          isWrapContent: false,
-          onPressed: () => context.go(AppRoutes.login),
         ),
       ],
     );

@@ -21,17 +21,14 @@ class OtpViewModel extends ViewModel<OtpState> {
   OtpViewModel({
     required VerifyOtpUseCase verifyOtpUseCase,
     OtpTimerConfig config = const OtpTimerConfig(),
-    String sessionToken = '',
   })  : _config = config,
         _verifyOtpUseCase = verifyOtpUseCase,
-        _sessionToken = sessionToken,
         super(const OtpState()) {
     _restart();
   }
 
   final OtpTimerConfig _config;
   final VerifyOtpUseCase _verifyOtpUseCase;
-  final String _sessionToken;
 
   Timer? _timer;
 
@@ -53,9 +50,7 @@ class OtpViewModel extends ViewModel<OtpState> {
     setState(currentState.copyWith(isVerifying: true));
 
     try {
-      final result = await _verifyOtpUseCase.execute(
-        VerifyOtpParams(code: currentState.code, sessionToken: _sessionToken),
-      );
+      final result = await _verifyOtpUseCase.execute(currentState.code);
       _timer?.cancel();
       // The View navigates based on this result (see `_onVerified`).
       setState(

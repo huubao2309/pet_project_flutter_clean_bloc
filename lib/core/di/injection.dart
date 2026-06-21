@@ -6,11 +6,11 @@ import 'package:get_it/get_it.dart';
 import '../../environments/env.dart';
 import '../../features/auth/data/datasources/auth_mock_data_source.dart';
 import '../../features/auth/data/datasources/auth_remote_data_source.dart';
+import '../../features/auth/data/datasources/pre_auth_session.dart';
 import '../../features/auth/data/repositories/auth_repository_imp.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/use_cases/change_password_use_case.dart';
 import '../../features/auth/domain/use_cases/forgot_password_use_case.dart';
-import '../../features/auth/domain/use_cases/get_current_user_use_case.dart';
 import '../../features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import '../../features/auth/domain/use_cases/login_use_case.dart';
 import '../../features/auth/domain/use_cases/logout_use_case.dart';
@@ -76,8 +76,7 @@ Future<void> configureDependencies(Env env) async {
   getIt.registerLazySingleton<ThemeViewModel>(
     () => ThemeViewModel(
       localStorage: getIt<LocalStorage>(),
-      systemBrightness:
-          WidgetsBinding.instance.platformDispatcher.platformBrightness,
+      systemBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness,
     ),
   );
 
@@ -100,10 +99,7 @@ Future<void> configureDependencies(Env env) async {
 
   // --- Network ---
   getIt.registerSingleton<DioClient>(
-    DioClient(
-        baseUrl: env.baseUrl,
-        secureStorage: getIt<SecureStorage>(),
-        envType: env.envType),
+    DioClient(baseUrl: env.baseUrl, secureStorage: getIt<SecureStorage>(), envType: env.envType),
   );
 
   // --- Router ---
@@ -149,8 +145,7 @@ void _registerAppUpdateFeature() {
     () => CheckAppUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
-    () =>
-        DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
+    () => DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
     () => OpenStoreUseCase(repository: getIt<AppUpdateRepository>()),
@@ -176,8 +171,7 @@ void _registerLocalizationFeature() {
     () => GetLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
   getIt.registerLazySingleton(
-    () =>
-        ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
+    () => ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
 }
 
@@ -249,11 +243,16 @@ void _registerAuthFeature() {
   //   • Real : AuthApiDataSource(dioClient: getIt<DioClient>())
   getIt.registerLazySingleton<AuthRemoteDataSource>(AuthMockDataSource.new);
 
+  // Transient holder for the pre-auth `session_token` (sign-up / forgot-password
+  // flows). Singleton so every step of a flow shares the same instance.
+  getIt.registerLazySingleton(PreAuthSession.new);
+
   // Repository — same impl for both data sources.
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       remoteDataSource: getIt<AuthRemoteDataSource>(),
       secureStorage: getIt<SecureStorage>(),
+      preAuthSession: getIt<PreAuthSession>(),
     ),
   );
 
@@ -263,9 +262,6 @@ void _registerAuthFeature() {
   );
   getIt.registerLazySingleton(
     () => LogoutUseCase(authRepository: getIt<AuthRepository>()),
-  );
-  getIt.registerLazySingleton(
-    () => GetCurrentUserUseCase(authRepository: getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton(
     () => IsLoggedInUseCase(authRepository: getIt<AuthRepository>()),
@@ -294,7 +290,6 @@ void _registerAuthFeature() {
     () => AuthViewModel(
       loginUseCase: getIt<LoginUseCase>(),
       logoutUseCase: getIt<LogoutUseCase>(),
-      getCurrentUserUseCase: getIt<GetCurrentUserUseCase>(),
     ),
   );
   getIt.registerFactory(

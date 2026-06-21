@@ -41,6 +41,9 @@ class VerifyOtpDataDto {
   bool get requiresPasswordRegistration =>
       challengeType == 'register_password';
 
+  /// True when the user must set a new password (forgot-password flow).
+  bool get requiresPasswordReset => challengeType == 'reset_password';
+
   factory VerifyOtpDataDto.fromJson(Map<String, dynamic> json) =>
       _$VerifyOtpDataDtoFromJson(json);
 

@@ -14,23 +14,50 @@ import '../../../../core/presentation/widgets/app_top_bar.dart';
 import '../../../../core/router/app_routes.dart';
 import '../view_model/forgot_password_state.dart';
 import '../view_model/forgot_password_view_model.dart';
+import 'otp_page.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
+  const ForgotPasswordPage({this.prefilledPhone, super.key});
+
+  /// Phone carried over from the Login screen so the field starts pre-filled.
+  final String? prefilledPhone;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ForgotPasswordViewModel>(
-      create: (_) => getIt<ForgotPasswordViewModel>(),
-      child: const _ForgotPasswordView(),
+      create: (_) {
+        final viewModel = getIt<ForgotPasswordViewModel>();
+        final phone = prefilledPhone;
+        if (phone != null && phone.isNotEmpty) {
+          viewModel.onPhoneChanged(phone);
+        }
+        return viewModel;
+      },
+      child: _ForgotPasswordView(prefilledPhone: prefilledPhone),
     );
   }
 }
 
-class _ForgotPasswordView extends StatelessWidget {
-  const _ForgotPasswordView();
+class _ForgotPasswordView extends StatefulWidget {
+  const _ForgotPasswordView({this.prefilledPhone});
+
+  final String? prefilledPhone;
+
+  @override
+  State<_ForgotPasswordView> createState() => _ForgotPasswordViewState();
+}
+
+class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
+  late final TextEditingController _phoneController =
+      TextEditingController(text: widget.prefilledPhone ?? '');
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +71,8 @@ class _ForgotPasswordView extends StatelessWidget {
           // Surface errors, and on a successful send go straight to the OTP
           // screen (no intermediate "code sent" step — per design).
           listenWhen: (p, c) =>
-              p.errorMessage != c.errorMessage || (!p.isSent && c.isSent),
+              p.errorMessage != c.errorMessage ||
+              (p.otpChallenge == null && c.otpChallenge != null),
           listener: (context, state) {
             final message = state.errorMessage;
             if (message != null) {
@@ -53,11 +81,14 @@ class _ForgotPasswordView extends StatelessWidget {
                 type: BaseSnackBarType.error,
               );
             }
-            if (state.isSent) {
+            if (state.otpChallenge != null) {
               context.push(
                 Uri(
                   path: AppRoutes.otp,
-                  queryParameters: {'phone': state.phone.trim()},
+                  queryParameters: {
+                    'phone': state.phone.trim(),
+                    'flow': OtpFlow.forgotPassword.name,
+                  },
                 ).toString(),
               );
             }
@@ -73,7 +104,12 @@ class _ForgotPasswordView extends StatelessWidget {
                     captionKey: 'auth.forgot.caption',
                   ),
                   SizedBox(height: theme.spacing.spacing24),
-                  AuthCard(child: _FormContent(state: state)),
+                  AuthCard(
+                    child: _FormContent(
+                      state: state,
+                      phoneController: _phoneController,
+                    ),
+                  ),
                 ],
               ),
             );
@@ -85,9 +121,10 @@ class _ForgotPasswordView extends StatelessWidget {
 }
 
 class _FormContent extends StatelessWidget {
-  const _FormContent({required this.state});
+  const _FormContent({required this.state, required this.phoneController});
 
   final ForgotPasswordState state;
+  final TextEditingController phoneController;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +136,7 @@ class _FormContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         AppTextField(
+          controller: phoneController,
           hintText: 'auth.forgot.phone'.tr(),
           keyboardType: TextInputType.phone,
           onChanged: viewModel.onPhoneChanged,

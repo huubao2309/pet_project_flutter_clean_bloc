@@ -49,13 +49,13 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.registerPassword,
-        builder: (_, state) => RegisterPasswordPage(
-          sessionToken: state.uri.queryParameters['session_token'] ?? '',
-        ),
+        builder: (_, __) => const RegisterPasswordPage(),
       ),
       GoRoute(
         path: AppRoutes.forgotPassword,
-        builder: (_, __) => const ForgotPasswordPage(),
+        builder: (_, state) => ForgotPasswordPage(
+          prefilledPhone: state.uri.queryParameters['phone'],
+        ),
       ),
       GoRoute(
         path: AppRoutes.otp,
@@ -64,7 +64,6 @@ class AppRouter {
           return OtpPage(
             phone: params['phone'],
             flow: OtpFlow.fromName(params['flow']),
-            sessionToken: params['session_token'],
             resendSecs: int.tryParse(params['resend'] ?? ''),
             enableResendSecs: int.tryParse(params['enable_resend'] ?? ''),
           );
@@ -73,7 +72,7 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.resetPassword,
         builder: (_, state) =>
-            ResetPasswordPage(token: state.uri.queryParameters['token']),
+            ResetPasswordPage(phone: state.uri.queryParameters['phone']),
       ),
       GoRoute(
         path: AppRoutes.changePassword,

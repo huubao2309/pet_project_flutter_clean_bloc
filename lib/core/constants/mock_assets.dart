@@ -20,10 +20,31 @@ abstract final class MockAssets {
       '${_base}auth_mock/verify_otp_login_flow_success.json';
   static const verifyOtpSignupSuccess =
       '${_base}auth_mock/verify_otp_signup_flow_success.json';
+  // Forgot-password flow → challenge_type "reset_password": carries a session
+  // token to set a new password next.
+  static const verifyOtpForgotSuccess =
+      '${_base}auth_mock/verify_otp_forgot_password_flow_success.json';
+  // Wrong/expired OTP → failure (drives the "code invalid" error / lock).
+  static const verifyOtpIncorrectFailed =
+      '${_base}auth_mock/verify_otp_incorrect_failed.json';
 
   // Register-password (sign-up flow, after OTP) → returns auth tokens.
   static const registerPasswordSuccess =
       '${_base}auth_mock/register_password_success.json';
+  static const registerPasswordFailed =
+      '${_base}auth_mock/register_password_failed.json';
+
+  // Forgot-password: send reset code → challenge_type "verify_otp".
+  static const forgotPasswordSuccess =
+      '${_base}auth_mock/forgot_password_success.json';
+  static const forgotPasswordFailed =
+      '${_base}auth_mock/forgot_password_failed.json';
+  // Reset-password (forgot flow) → challenge_type "verify_login": the user must
+  // log in again with the new password.
+  static const resetPasswordSuccess =
+      '${_base}auth_mock/reset_password_success.json';
+  static const resetPasswordFailed =
+      '${_base}auth_mock/reset_password_failed.json';
 
   // Profile scenarios.
   static const profileSuccess = '${_base}profile_mock/get_profile_success.json';

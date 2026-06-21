@@ -146,7 +146,6 @@ class _LoginViewState extends State<_LoginView> {
               queryParameters: {
                 'phone': _phoneController.text.trim(),
                 'flow': OtpFlow.login.name,
-                'session_token': state.challenge.sessionToken,
                 'resend': '${state.challenge.resendSecs}',
                 'enable_resend': '${state.challenge.enableResendSecs}',
               },
@@ -216,8 +215,14 @@ class _LoginViewState extends State<_LoginView> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: () =>
-                                context.push(AppRoutes.forgotPassword),
+                            onPressed: () => context.push(
+                              Uri(
+                                path: AppRoutes.forgotPassword,
+                                queryParameters: {
+                                  'phone': _phoneController.text.trim(),
+                                },
+                              ).toString(),
+                            ),
                             child: Text(
                               'auth.forgot_password'.tr(),
                               style: theme.textStyle.captionDefault.copyWith(

@@ -92,7 +92,6 @@ class _SignUpViewState extends State<_SignUpView> {
               queryParameters: {
                 'phone': state.phone,
                 'flow': OtpFlow.signUp.name,
-                'session_token': challenge.sessionToken,
                 'resend': '${challenge.resendSecs}',
                 'enable_resend': '${challenge.enableResendSecs}',
               },
