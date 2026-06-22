@@ -10,8 +10,8 @@ import 'validate_icon_widget.dart';
 ///
 /// Replaces the always-visible checklist: a single "Yêu cầu mật khẩu" line with
 /// an ⓘ icon that toggles a popover listing the live rule states. Once every
-/// rule passes it collapses into a green "Mật khẩu hợp lệ" confirmation. Defined
-/// for both Light and Dark mode via theme tokens.
+/// rule passes it collapses into a green "Mật khẩu hợp lệ" confirmation. Colours
+/// come from theme tokens.
 class PasswordRequirementHint extends StatefulWidget {
   const PasswordRequirementHint({
     required this.strength,

@@ -16,7 +16,7 @@ import '../../di/injection.dart';
 ///   default error styling,
 /// * optionally manages an obscured password with a built-in eye toggle.
 ///
-/// All colours come from theme tokens, so it adapts to Light and Dark mode.
+/// All colours come from theme tokens.
 class AppTextField extends StatefulWidget {
   const AppTextField({
     required this.hintText,

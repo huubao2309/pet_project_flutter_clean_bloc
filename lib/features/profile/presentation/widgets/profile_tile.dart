@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
 
 /// One row in the Profile settings list: leading icon badge + title, with an
-/// optional value, custom trailing (e.g. a switch) or a chevron. Brightness-
-/// aware via the design tokens.
+/// optional value, custom trailing (e.g. a switch) or a chevron. Colours come
+/// from the design tokens.
 ///
 /// Every row is pinned to [_minRowHeight] so rows stay visually even no matter
 /// how tall the trailing widget is — a [Switch] (with its 48px tap target)
