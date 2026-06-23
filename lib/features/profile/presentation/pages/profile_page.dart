@@ -11,6 +11,7 @@ import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/language_switcher.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/theme_view_model.dart';
 import '../../../auth/presentation/view_model/auth_state.dart';
 import '../../../auth/presentation/view_model/auth_view_model.dart';
 import '../view_model/profile_state.dart';
@@ -19,7 +20,8 @@ import '../widgets/profile_group.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_tile.dart';
 
-/// Profile (Hồ sơ) tab — header + grouped settings list.
+/// Profile (Hồ sơ) tab — header + grouped settings list, including the working
+/// Dark Mode toggle (persisted via [ThemeViewModel]).
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -38,6 +40,7 @@ class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = getIt<ThemeState>();
+    final themeVm = getIt<ThemeViewModel>();
 
     return Scaffold(
       backgroundColor: theme.colors.surfaceBackground,
@@ -86,6 +89,17 @@ class _ProfileView extends StatelessWidget {
                         onTap: () => LanguageSwitcher.showPicker(context),
                       ),
                       const _FingerprintTile(),
+                      ProfileTile(
+                        icon: Icons.dark_mode_outlined,
+                        title: 'profile.dark_mode'.tr(),
+                        trailing: Switch.adaptive(
+                          value: themeVm.isDark,
+                          activeTrackColor: theme.colors.brand600,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onChanged: (v) => themeVm.setDark(value: v),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: theme.spacing.spacing20),

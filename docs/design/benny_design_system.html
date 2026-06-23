@@ -71,17 +71,22 @@
   .elev .x .b{width:70px;height:46px;background:#fff;border-radius:11px;}
   .elev .x .l{font-size:11px;color:var(--gray-500);margin-top:6px;}
   .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-  .btn{font-size:13px;font-weight:600;padding:11px 20px;border-radius:8px;border:1px solid transparent;cursor:default;}
+  /* Button — common DS: radius 8, padding 8/12, font 14/500 */
+  .btn{font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px;border:1px solid transparent;cursor:default;}
   .btn-primary{background:var(--navy-600);color:#fff;}
-  .btn-secondary{background:#fff;color:var(--navy-600);border-color:var(--navy-200);}
+  .btn-secondary{background:#fff;color:var(--navy-600);border-color:var(--navy-600);}
   .btn-accent{background:var(--amber-500);color:#fff;}
   .btn-ghost{color:var(--navy-600);}
-  .btn-disabled{background:var(--gray-100);color:var(--gray-400);}
-  .field{background:#fff;border:1px solid var(--navy-200);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
-  .field.err{border-color:var(--error);color:var(--navy-700);}
+  .btn-disabled{background:var(--gray-100);color:var(--gray-300);border-color:var(--gray-200);}
+  /* Text field — common DS: border neutral-300, radius 8, focus ring navy-100, error ring error-bg */
+  .field{background:#fff;border:1px solid var(--gray-300);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
+  .field.foc{border-color:var(--navy-600);box-shadow:0 0 0 3px var(--navy-100);}
+  .field.err{border-color:var(--error);color:var(--navy-700);box-shadow:0 0 0 3px var(--error-bg);}
   .errtext{font-size:11px;color:var(--error-d);margin-top:4px;}
-  .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:11px;}
-  .chip{font-size:11px;padding:4px 11px;border-radius:14px;}
+  /* Tag/Badge — common DS .tag: radius 6, weight 500 */
+  .badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:6px;}
+  /* Choice chip — common DS .chip-c: pill, padding 6/13, font 13 */
+  .chip{font-size:13px;padding:6px 13px;border-radius:999px;}
   /* phone */
   .screens{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;}
   .phone{width:300px;border-radius:30px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 10px 30px rgba(8,21,33,.10);}
@@ -110,22 +115,28 @@
   .states{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;align-items:flex-start;}
   .states .phone{width:262px;}
   .ph-body{background:var(--bg);height:512px;padding:14px 20px;}
-  .back{display:inline-flex;width:34px;height:34px;border:1px solid var(--gray-200);border-radius:8px;align-items:center;justify-content:center;color:var(--gray-600);}
+  /* Back button — common DS IconButton 36x36, radius 8 (outline) */
+  .back{display:inline-flex;width:36px;height:36px;border:1px solid var(--gray-300);border-radius:8px;align-items:center;justify-content:center;color:var(--navy-600);}
   .a-title{font-size:20px;font-weight:700;color:var(--navy-800);margin-top:12px;}
   .a-cap{font-size:12px;color:var(--gray-500);margin-top:6px;}
   .a-card{background:#fff;border:1px solid var(--gray-100);border-radius:16px;padding:16px;margin-top:14px;}
-  .inp{border:1px solid var(--navy-200);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
+  /* Screen text field — common DS: border neutral-300, focus ring navy-100, error ring error-bg */
+  .inp{border:1px solid var(--gray-300);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
   .inp.val{color:var(--navy-800);}
-  .inp.bad{border-color:var(--error);color:var(--navy-800);}
+  .inp.foc{border-color:var(--navy-600);box-shadow:0 0 0 3px var(--navy-100);}
+  .inp.bad{border-color:var(--error);color:var(--navy-800);box-shadow:0 0 0 3px var(--error-bg);}
   .inp .ic{color:var(--navy-600);}
   .ierr{font-size:11px;color:var(--error-d);margin-top:4px;}
+  /* Primary CTA (block) — common DS .btn-primary; disabled = neutral-100 / neutral-300 */
   .cta{background:var(--navy-600);color:#fff;font-size:14px;font-weight:600;text-align:center;padding:13px;border-radius:8px;}
-  .cta.off{background:var(--gray-100);color:var(--gray-400);}
-  .cta2{background:#fff;color:var(--navy-600);font-size:14px;font-weight:600;text-align:center;padding:12px;border-radius:8px;border:1px solid var(--navy-200);}
+  .cta.off{background:var(--gray-100);color:var(--gray-300);}
+  /* Secondary CTA (block) — common DS .btn-secondary: border navy-600 */
+  .cta2{background:#fff;color:var(--navy-600);font-size:14px;font-weight:600;text-align:center;padding:12px;border-radius:8px;border:1px solid var(--navy-600);}
   .rule{font-size:11px;color:var(--gray-600);display:flex;align-items:center;gap:7px;margin-bottom:5px;}
   .rule:last-child{margin-bottom:0;}
   .rk{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;flex-shrink:0;}
-  .otpc{flex:1;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:var(--navy-800);}
+  /* OTP cell — common DS .otp .cell: height 52, weight 600 */
+  .otpc{flex:1;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:var(--navy-800);}
   .pwhint{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:500;color:var(--navy-600);}
   .pop{position:relative;background:#fff;border:1px solid var(--gray-100);border-radius:10px;box-shadow:0 10px 22px rgba(8,21,33,.16);padding:11px 12px;margin-top:8px;}
   .pop::before{content:"";position:absolute;top:-6px;left:16px;width:11px;height:11px;background:#fff;border-left:1px solid var(--gray-100);border-top:1px solid var(--gray-100);transform:rotate(45deg);}
@@ -140,14 +151,18 @@
   .snackbar .row .msg{font-size:13px;font-weight:500;flex:1;}
   .snackbar .row .close{width:32px;height:32px;border-radius:8px;background:#fff;border:1px solid var(--gray-100);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-700);font-size:15px;flex-shrink:0;box-shadow:0 1px 2px rgba(19,19,19,.06);}
   .cta.danger{background:#C62400;}
-  .tgl{width:40px;height:23px;border-radius:12px;background:var(--navy-600);position:relative;display:inline-block;flex-shrink:0;}
-  .tgl::after{content:"";position:absolute;top:2px;left:19px;width:19px;height:19px;border-radius:50%;background:#fff;}
-  .tgl.off{background:var(--gray-200);}
+  /* Switch — common DS .sw: 44x24, knob 20, off track neutral-300 */
+  .tgl{width:44px;height:24px;border-radius:999px;background:var(--navy-600);position:relative;display:inline-block;flex-shrink:0;}
+  .tgl::after{content:"";position:absolute;top:2px;left:22px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .tgl.off{background:var(--gray-300);}
   .tgl.off::after{left:2px;}
-  .cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--navy-300);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
+  /* Checkbox — common DS .cb: border neutral-400 */
+  .cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--gray-400);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
   .cb.on{background:var(--navy-600);border-color:var(--navy-600);color:#fff;}
-  .rb{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--navy-300);display:inline-flex;flex-shrink:0;}
-  .rb.on{border-color:var(--navy-600);border-width:6px;}
+  /* Radio — common DS .rd: 2px ring + centered inner dot (not border-width trick) */
+  .rb{position:relative;width:20px;height:20px;border-radius:50%;border:2px solid var(--gray-400);display:inline-block;flex-shrink:0;}
+  .rb.on{border-color:var(--navy-600);}
+  .rb.on::after{content:"";position:absolute;top:50%;left:50%;width:10px;height:10px;border-radius:50%;background:var(--navy-600);transform:translate(-50%,-50%);}
   .ctrl{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--navy-800);}
   .pgroup{background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden;}
   .ptile{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--gray-100);}
@@ -160,7 +175,8 @@
   .scrim{position:absolute;inset:0;}
   .handle{height:36px;display:flex;align-items:center;justify-content:center;}
   .handle::after{content:"";width:120px;height:4px;border-radius:2px;background:var(--gray-100);}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:8px 8px 0 0;padding-bottom:12px;}
+  /* Bottom sheet — common DS .sheet: radius 16 top corners */
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;padding-bottom:12px;}
   .stile{display:flex;align-items:center;gap:12px;padding:13px 16px;font-size:14px;color:var(--navy-800);}
   .dlg{position:relative;background:#fff;border-radius:16px;padding:20px;width:100%;}
   .callout{display:flex;gap:10px;align-items:flex-start;background:#FFF8EC;border:1px solid #FBE9C3;border-radius:12px;padding:13px 16px;margin-top:18px;font-size:13px;color:#6E430D;line-height:1.5;}
@@ -169,6 +185,51 @@
   .filemap div{padding:7px 0;border-bottom:.5px solid var(--gray-100);display:flex;justify-content:space-between;gap:14px;}
   .filemap code{font-family:'SFMono-Regular',Menlo,monospace;font-size:12px;color:var(--navy-600);}
   .filemap span{color:var(--gray-500);text-align:right;}
+  /* ── Dark mode theme scope ───────────────────────────────────────── */
+  .dark{
+    --bg:#0D1722; --surf:#17232F; --surf2:#1C2B3A; --line:#2A3A47;
+    --tx:#E9EEF3; --tx2:#9DB0BF; --tx3:#6E8090;
+    --pri:#3E6B92; --priSoft:#1E3346; --amb:#ECB237; --ambSoft:#362C12;
+    --okc:#34D17F; --okSoft:#11321F; --errc:#F2745A; --errSoft:#3A1A14; --warnc:#ECB237; --warnSoft:#332710;
+  }
+  section.dark{background:#0F1922;border-color:#22313d;}
+  .dark .eyebrow{color:#6E8090;}
+  .dark h2,.dark .ch{color:#E9EEF3;}
+  .dark h3{color:#bcccd8;}
+  .dark .sub,.dark .cd{color:#9DB0BF;}
+  .dark .cd code{background:#16242f;border-color:#2a3a47;color:#9cc2e6;}
+  .dark .ch .pill{background:#1E3346;color:#cfe0ef;}
+  .dark .cluster{background:#0C1620;border-color:#22313d;}
+  .dark .phone{border-color:#2a3a47;box-shadow:0 12px 30px rgba(0,0,0,.5);}
+  .dark .cap{background:#17232F;color:#9DB0BF;}
+  .dark .back{border-color:#33485c;color:#9DB0BF;}
+  .dark .a-title{color:#E9EEF3;}
+  .dark .a-cap{color:#9DB0BF;}
+  .dark .a-card{background:#17232F;border-color:#2a3a47;}
+  .dark .inp{background:#1B2835;border-color:#33485c;color:#9DB0BF;}
+  .dark .inp.val{color:#E9EEF3;}
+  .dark .inp.bad{border-color:#F2745A;color:#E9EEF3;}
+  .dark .inp .ic{color:#6E8090;}
+  .dark .ierr{color:#F2745A;}
+  .dark .cta{background:#3E6B92;color:#fff;}
+  .dark .cta.off{background:#1c2a36;color:#5f7280;}
+  .dark .cta2{background:transparent;color:#cfe0ef;border-color:#33485c;}
+  .dark .cta.danger{background:#C2402F;}
+  .dark .pwhint{color:#8fb3d6;}
+  .dark .pop{background:#1C2B3A;border-color:#33485c;}
+  .dark .pop::before{background:#1C2B3A;border-color:#33485c;}
+  .dark .pop .pt{color:#E9EEF3;}
+  .dark .rule{color:#9DB0BF;}
+  .dark .otpc{color:#E9EEF3;background:#1B2835;}
+  .dark .pgroup{background:#17232F;border-color:#2a3a47;}
+  .dark .ptile{border-bottom-color:#2a3a47;}
+  .dark .ptile .pi{background:#1E3346;color:#cfe0ef;}
+  .dark .ptile .ptt{color:#E9EEF3;}
+  .dark .ptile .ptv{color:#9DB0BF;}
+  .dark .ptile .pch{color:#4a5b69;}
+  .dark .glabel{color:#6E8090;}
+  .dark .navbar{background:#17232F;border-top-color:#2a3a47;}
+  .dark .sheet{background:#17232F;}
 </style>
 </head>
 <body>
@@ -521,7 +582,7 @@
 
   <!-- 05 SCREENS -->
   <section>
-    <div class="eyebrow">05 · Screens</div>
+    <div class="eyebrow">05 · Screens — Light Mode</div>
     <h2>Màn hình</h2>
     <p class="sub">Mỗi screen là một "cụm" (cluster) — bên trong là các trạng thái UI/UX.</p>
 
@@ -1545,6 +1606,572 @@
 
       </div>
     </div>
+  </section>
+
+  <!-- 06 SCREENS — DARK MODE (restored) -->
+  <section class="dark">
+    <div class="eyebrow">06 · Screens — Dark Mode</div>
+    <h2>Màn hình — Dark Mode</h2>
+    <p class="sub">Bản Dark Mode của các màn hình ở mục 05 — cùng layout, đổi token sang bảng màu tối. Mỗi tính năng đều có cả 2 chế độ.</p>
+
+    <div class="cluster">
+      <div class="ch">Splash <span class="pill">Dark</span></div>
+      <div class="cd">Nền navy-đen, chỉ logo light-mark + spinner (bỏ chữ "Benny").</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:512px;background:linear-gradient(#0E1B28,#0A131C);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
+          <svg viewBox="0 0 240 240" width="116" height="116" fill="none"><path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/><rect x="60" y="104" width="120" height="104" rx="14" fill="#fff"/><rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/><rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/><path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#0E1B28"/><circle cx="129" cy="189" r="3" fill="#E8A020"/></svg>
+          <div style="position:absolute;bottom:44px;width:24px;height:24px;border:3px solid rgba(236,178,55,.25);border-top-color:var(--amb);border-radius:50%"></div>
+        </div>
+        <div class="cap">Khởi động</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Main — Home dashboard <span class="pill">Dark</span></div>
+      <div class="cd">Header navy tối + thẻ hoa hồng surface; card/stat nền surface, viền mảnh; số tiền amber.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="background:var(--bg)">
+          <div style="background:linear-gradient(135deg,#1E3E5C,#11202E);padding:16px 16px 22px;border-radius:0 0 24px 24px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--amb);color:#3D2507;display:flex;align-items:center;justify-content:center;font-weight:600">N</div>
+              <div style="flex:1">
+                <div style="color:#bcd2e6;font-size:11px">Xin chào,</div>
+                <div style="display:flex;align-items:center;gap:6px"><span style="color:#fff;font-size:15px;font-weight:600">Bảo Nguyễn</span><span style="background:rgba(236,178,55,.18);color:var(--amb);font-size:10px;padding:1px 7px;border-radius:10px">Cộng tác viên</span></div>
+              </div>
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-bell"></i></div>
+            </div>
+            <div style="background:var(--surf2);border-radius:14px;padding:16px;margin-top:16px">
+              <div style="display:flex;align-items:center;gap:8px;color:var(--tx2);font-size:13px"><span style="width:28px;height:28px;background:var(--ambSoft);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--amb)"><i class="ti ti-wallet"></i></span>Hoa hồng tháng này</div>
+              <div style="color:var(--amb);font-size:25px;font-weight:600;margin-top:10px">86.500.000 &#8363;</div>
+              <div style="border-top:1px solid var(--line);margin-top:12px;padding-top:10px;display:flex">
+                <div style="flex:1"><div style="color:var(--tx3);font-size:11px">Hoa hồng chờ nhận</div><div style="color:var(--tx);font-size:14px;font-weight:600">42 tr</div></div>
+                <div style="width:1px;background:var(--line)"></div>
+                <div style="flex:1;padding-left:12px"><div style="color:var(--tx3);font-size:11px">Giao dịch đã chốt</div><div style="color:var(--tx);font-size:14px;font-weight:600">4</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px">
+            <div class="qa">
+              <div style="flex:1"><div class="i" style="background:var(--ambSoft);color:var(--amb)"><i class="ti ti-qrcode"></i></div><div style="font-size:11px;color:var(--tx);margin-top:6px">Quét QR</div></div>
+              <div style="flex:1"><div class="i" style="background:var(--priSoft);color:#8FB6E0"><i class="ti ti-building-plus"></i></div><div style="font-size:11px;color:var(--tx);margin-top:6px">Đăng tin</div></div>
+              <div style="flex:1"><div class="i" style="background:var(--priSoft);color:#8FB6E0"><i class="ti ti-users"></i></div><div style="font-size:11px;color:var(--tx);margin-top:6px">Khách hàng</div></div>
+              <div style="flex:1"><div class="i" style="background:var(--priSoft);color:#8FB6E0"><i class="ti ti-chart-line"></i></div><div style="font-size:11px;color:var(--tx);margin-top:6px">Báo cáo</div></div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:18px">
+              <div style="flex:1;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px"><i class="ti ti-home" style="color:#8FB6E0;font-size:20px"></i><div style="font-size:20px;font-weight:600;color:var(--tx);margin-top:8px">12</div><div style="font-size:11px;color:var(--tx3)">Tin đang đăng</div></div>
+              <div style="flex:1;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px"><i class="ti ti-user-search" style="color:#8FB6E0;font-size:20px"></i><div style="font-size:20px;font-weight:600;color:var(--tx);margin-top:8px">28</div><div style="font-size:11px;color:var(--tx3)">Khách tiềm năng</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><span style="font-size:15px;font-weight:600;color:var(--tx)">Bất động sản nổi bật</span><span style="font-size:12px;color:var(--amb)">Xem tất cả</span></div>
+            <div style="display:flex;gap:10px;margin-top:10px;overflow:hidden">
+              <div style="min-width:160px;background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+                <div style="height:70px;background:linear-gradient(135deg,#27557D,#142F49);position:relative;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-size:30px"><i class="ti ti-building-skyscraper"></i><span style="position:absolute;top:6px;left:6px;background:rgba(0,0,0,.45);color:#cfe0ef;font-size:9px;padding:1px 6px;border-radius:10px">Căn hộ</span><span style="position:absolute;top:6px;right:6px;background:var(--okSoft);color:var(--okc);font-size:9px;padding:1px 6px;border-radius:10px">Đang bán</span></div>
+                <div style="padding:8px"><div style="font-size:12px;font-weight:600;color:var(--tx)">Vinhomes Central Park</div><div style="font-size:10px;color:var(--tx3)">Bình Thạnh, TP. HCM</div><div style="font-size:15px;font-weight:600;color:var(--amb);margin-top:5px">5,6 tỷ</div><div style="font-size:10px;color:var(--tx2);margin-top:4px">78 m&#178; · 2 PN</div></div>
+              </div>
+              <div style="min-width:130px;background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+                <div style="height:70px;background:linear-gradient(135deg,#27557D,#142F49);position:relative;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-size:30px"><i class="ti ti-building-skyscraper"></i><span style="position:absolute;top:6px;right:6px;background:var(--ambSoft);color:var(--amb);font-size:9px;padding:1px 6px;border-radius:10px">Đã cọc</span></div>
+                <div style="padding:8px"><div style="font-size:12px;font-weight:600;color:var(--tx)">Nhà phố Thảo Điền</div><div style="font-size:15px;font-weight:600;color:var(--amb);margin-top:5px">14,5 tỷ</div></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><span style="font-size:15px;font-weight:600;color:var(--tx)">Giao dịch gần đây</span><span style="font-size:12px;color:var(--amb)">Xem tất cả</span></div>
+            <div style="background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px;display:flex;align-items:center;gap:10px">
+              <div style="width:40px;height:40px;background:var(--priSoft);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8FB6E0"><i class="ti ti-home-check"></i></div>
+              <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">Masteri Thảo Điền</div><div style="font-size:11px;color:var(--tx3)">Anh Tuấn · 12/06/2026</div></div>
+              <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--okc)">+48 tr</div><span style="background:var(--okSoft);color:var(--okc);font-size:9px;padding:1px 6px;border-radius:10px;margin-top:3px;display:inline-block">Hoàn tất</span></div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div class="it"><i class="ti ti-home" style="color:#8FB6E0"></i><div class="l" style="color:#8FB6E0;font-weight:600">Trang chủ</div></div>
+            <div class="it"><i class="ti ti-history" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Lịch sử</div></div>
+            <div class="it"><div class="qrc"><i class="ti ti-qrcode"></i></div><div class="l" style="color:var(--amb);font-weight:600">Quét QR</div></div>
+            <div class="it"><i class="ti ti-cash" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Hoa hồng</div></div>
+            <div class="it"><i class="ti ti-user" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Hồ sơ</div></div>
+          </div>
+        </div>
+        <div class="cap">Tab Home</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Profile — Hồ sơ <span class="pill">Dark</span></div>
+      <div class="cd">Dark Mode đang BẬT (toggle on). Header navy tối, các nhóm list tile nền surface; xoá tài khoản tông đỏ sáng.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="background:var(--bg)">
+          <div style="background:linear-gradient(135deg,#1E3E5C,#11202E);padding:18px 16px 24px;border-radius:0 0 24px 24px;text-align:center">
+            <div style="width:72px;height:72px;border-radius:50%;background:var(--surf2);display:flex;align-items:center;justify-content:center;color:#8FB6E0;font-size:34px;margin:0 auto;position:relative"><i class="ti ti-user"></i><span style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:var(--amb);border:2px solid #11202E;display:flex;align-items:center;justify-content:center;color:#3D2507;font-size:11px"><i class="ti ti-pencil"></i></span></div>
+            <div style="color:#fff;font-size:17px;font-weight:700;margin-top:12px">Bảo Nguyễn</div>
+            <div style="color:#bcd2e6;font-size:12px;margin-top:3px">••• ••• 4567</div>
+          </div>
+          <div style="padding:16px">
+            <div class="glabel">Tài khoản</div>
+            <div class="pgroup">
+              <div class="ptile"><div class="pi"><i class="ti ti-user-edit"></i></div><div class="ptt">Thay đổi thông tin</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-lock"></i></div><div class="ptt">Đổi mật khẩu</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-language"></i></div><div class="ptt">Thay đổi ngôn ngữ</div><span class="ptv" style="margin-right:6px">Tiếng Việt</span><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-fingerprint"></i></div><div class="ptt">Đăng nhập bằng vân tay</div><span class="tgl"></span></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-moon"></i></div><div class="ptt">Chuyển sang Dark Mode</div><span class="tgl"></span></div>
+            </div>
+            <div class="glabel">Hỗ trợ &amp; khác</div>
+            <div class="pgroup">
+              <div class="ptile"><div class="pi"><i class="ti ti-message-2"></i></div><div class="ptt">Góp ý ứng dụng</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-headset"></i></div><div class="ptt">Hỗ trợ</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-file-text"></i></div><div class="ptt">Chính sách và điều khoản</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-star"></i></div><div class="ptt">Đánh giá ứng dụng</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi"><i class="ti ti-info-circle"></i></div><div class="ptt">Phiên bản ứng dụng</div><span class="ptv">1.0.0</span></div>
+            </div>
+            <div class="pgroup" style="margin-top:16px">
+              <div class="ptile"><div class="pi"><i class="ti ti-logout"></i></div><div class="ptt">Đăng xuất</div><i class="ti ti-chevron-right pch"></i></div>
+              <div class="ptile"><div class="pi" style="background:var(--errSoft);color:var(--errc)"><i class="ti ti-trash"></i></div><div class="ptt" style="color:var(--errc)">Xoá tài khoản</div><i class="ti ti-chevron-right pch"></i></div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div class="it"><i class="ti ti-home" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Trang chủ</div></div>
+            <div class="it"><i class="ti ti-history" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Lịch sử</div></div>
+            <div class="it"><div class="qrc"><i class="ti ti-qrcode"></i></div><div class="l" style="color:var(--amb);font-weight:600">Quét QR</div></div>
+            <div class="it"><i class="ti ti-cash" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Hoa hồng</div></div>
+            <div class="it"><i class="ti ti-user" style="color:#8FB6E0"></i><div class="l" style="color:#8FB6E0;font-weight:600">Hồ sơ</div></div>
+          </div>
+        </div>
+        <div class="cap">Tab Hồ sơ — Dark on</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Welcome <span class="pill">Dark</span></div>
+      <div class="cd">Landing tối — light-mark + CTA.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center">
+          <div style="align-self:flex-end;padding:12px 14px;color:var(--tx2);font-size:13px"><i class="ti ti-world"></i> VI</div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center">
+            <svg viewBox="0 0 240 240" width="86" height="86" fill="none"><path d="M120 36 L202 110 L38 110 Z" fill="#E8A020" stroke="#E8A020" stroke-width="12" stroke-linejoin="round"/><rect x="60" y="104" width="120" height="104" rx="14" fill="#fff"/><rect x="74" y="128" width="24" height="24" rx="6" fill="#E8A020"/><rect x="142" y="128" width="24" height="24" rx="6" fill="#E8A020"/><path d="M104 208 V166 a16 16 0 0 1 32 0 V208 Z" fill="#0E1B28"/></svg>
+            <div style="font-size:24px;font-weight:800;color:var(--tx);margin-top:16px">Benny</div>
+            <div style="font-size:17px;font-weight:600;color:var(--tx);margin-top:12px">Chào mừng đến với Benny</div>
+            <div style="font-size:12px;color:var(--tx2);margin-top:8px">Công cụ đồng hành cùng cộng tác viên bán bất động sản.</div>
+          </div>
+          <div style="width:100%;padding:0 24px 24px">
+            <div class="cta">Tạo tài khoản</div>
+            <div class="cta2" style="margin-top:12px">Đăng nhập</div>
+          </div>
+        </div>
+        <div class="cap">Landing</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Login <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Mặc định → lỗi định dạng SĐT (viền đỏ + text lỗi). Mật khẩu không kiểm tra rule (chỉ bắt buộc nhập). Password có show/hide.</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Chào mừng trở lại!</div>
+          <div class="a-card">
+            <div class="inp">Số điện thoại</div>
+            <div class="inp" style="margin-top:14px">Mật khẩu <i class="ti ti-eye-off ic"></i></div>
+            <div style="text-align:right;font-size:12px;color:var(--amb);margin-top:8px">Quên mật khẩu?</div>
+            <div class="cta" style="margin-top:10px">Đăng nhập</div>
+          </div>
+          <div style="text-align:center;font-size:14px;color:#8FB6E0;font-weight:600;margin-top:18px">Đăng ký</div>
+        </div>
+        <div class="cap">Mặc định</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Chào mừng trở lại!</div>
+          <div class="a-card">
+            <div class="inp bad">0123</div>
+            <div class="ierr">Số điện thoại không hợp lệ</div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye-off ic"></i></div>
+            <div style="text-align:right;font-size:12px;color:var(--amb);margin-top:8px">Quên mật khẩu?</div>
+            <div class="cta" style="margin-top:10px">Đăng nhập</div>
+          </div>
+          <div style="text-align:center;font-size:14px;color:#8FB6E0;font-weight:600;margin-top:18px">Đăng ký</div>
+        </div>
+        <div class="cap">Sai định dạng SĐT</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Sign up <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Bước 1 — chỉ nhập số điện thoại (không còn field mật khẩu). SĐT hợp lệ → nút "Tiếp tục" sáng.</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đăng ký Benny</div>
+          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-card">
+            <div class="inp">Số điện thoại</div>
+            <div class="cta off" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đăng ký Benny</div>
+          <div class="a-cap">Tạo tài khoản để bắt đầu với Benny.</div>
+          <div class="a-card">
+            <div class="inp val">0901 234 567</div>
+            <div class="cta" style="margin-top:14px">Tiếp tục</div>
+          </div>
+        </div>
+        <div class="cap">SĐT hợp lệ → nút sáng</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Register · Mật khẩu <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Bước 2 — màn "Tạo mật khẩu". 2 field "Mật khẩu" + "Nhập lại mật khẩu" trước; dòng "Yêu cầu mật khẩu" (popover rule) nằm dưới cả 2 field. Báo lỗi ngay dưới field "Nhập lại mật khẩu" nếu không khớp.</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
+          <div class="a-card">
+            <div class="inp val">•••• <i class="ti ti-eye ic"></i></div>
+            <div class="inp bad" style="margin-top:12px">•••• <i class="ti ti-eye-off ic"></i></div>
+            <div class="ierr">Mật khẩu nhập lại không khớp</div>
+            <div class="pwhint" style="margin-top:12px"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="pop">
+              <div class="pt">Mật khẩu phải có:</div>
+              <div class="rule"><span class="rk" style="background:#34D17F">&#10003;</span>Có ít nhất 8 ký tự</div>
+              <div class="rule"><span class="rk" style="background:#F2745A">&#10007;</span>Một ký tự đặc biệt</div>
+              <div class="rule"><span class="rk" style="background:#34D17F">&#10003;</span>Một chữ số</div>
+              <div class="rule"><span class="rk" style="background:#F2745A">&#10007;</span>Một chữ in hoa</div>
+            </div>
+            <div class="cta off" style="margin-top:14px">Đăng ký</div>
+          </div>
+        </div>
+        <div class="cap">Popover rule + nhập lại sai</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Tạo mật khẩu</div>
+          <div class="a-cap">Đặt mật khẩu cho số 0901 234 567.</div>
+          <div class="a-card">
+            <div class="inp val">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="inp val" style="margin-top:12px">•••••••• <i class="ti ti-eye ic"></i></div>
+            <div class="pwhint" style="color:#34D17F;margin-top:12px"><i class="ti ti-circle-check"></i> Mật khẩu hợp lệ</div>
+            <div class="cta" style="margin-top:14px">Đăng ký</div>
+          </div>
+        </div>
+        <div class="cap">Hợp lệ + nhập lại khớp</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Forgot password <span class="pill">Dark</span></div>
+      <div class="cd">Nhập SĐT → sang OTP.</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Quên mật khẩu</div>
+          <div class="a-cap">Nhập số điện thoại đã đăng ký, chúng tôi sẽ gửi mã đặt lại qua SMS.</div>
+          <div class="a-card">
+            <div class="inp">Số điện thoại</div>
+            <div class="cta off" style="margin-top:16px">Gửi mã đặt lại</div>
+          </div>
+        </div>
+        <div class="cap">SĐT trống → nút mờ (disable)</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">OTP <span class="pill">Dark · 2 trạng thái</span></div>
+      <div class="cd">Đang nhập (đếm ngược) → sai mã (ô đỏ + text lỗi).</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Xác thực OTP</div>
+          <div class="a-cap">Nhập mã gồm 6 số chúng tôi đã gửi tới 0901 234 567.</div>
+          <div class="a-card">
+            <div style="display:flex;gap:7px">
+              <div class="otpc" style="border:1px solid #5b86ad">1</div>
+              <div class="otpc" style="border:1px solid #5b86ad">2</div>
+              <div class="otpc" style="border:1px solid #5b86ad">3</div>
+              <div class="otpc" style="border:1.5px solid #8FB6E0"></div>
+              <div class="otpc" style="border:1px solid #2a3a47"></div>
+              <div class="otpc" style="border:1px solid #2a3a47"></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:14px;color:var(--tx2);font-size:12px"><i class="ti ti-clock"></i> Mã hết hạn sau 01:48</div>
+            <div class="cta off" style="margin-top:14px">Xác nhận</div>
+          </div>
+          <div style="text-align:center;font-size:13px;color:var(--tx2);margin-top:16px">Không nhận được mã? <span style="color:var(--tx3)">Gửi lại sau 24s</span></div>
+        </div>
+        <div class="cap">Đang nhập (đếm ngược)</div>
+      </div>
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Xác thực OTP</div>
+          <div class="a-cap">Nhập mã gồm 6 số chúng tôi đã gửi tới 0901 234 567.</div>
+          <div class="a-card">
+            <div style="display:flex;gap:7px">
+              <div class="otpc" style="border:1.5px solid #F2745A">9</div>
+              <div class="otpc" style="border:1.5px solid #F2745A">8</div>
+              <div class="otpc" style="border:1.5px solid #F2745A">7</div>
+              <div class="otpc" style="border:1.5px solid #F2745A">6</div>
+              <div class="otpc" style="border:1.5px solid #F2745A">5</div>
+              <div class="otpc" style="border:1.5px solid #F2745A">4</div>
+            </div>
+            <div style="font-size:11px;color:var(--errc);margin-top:8px">Mã OTP không đúng. Vui lòng thử lại.</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:12px;color:var(--tx2);font-size:12px"><i class="ti ti-clock"></i> Mã hết hạn sau 00:42</div>
+            <div class="cta" style="margin-top:14px">Xác nhận</div>
+          </div>
+          <div style="text-align:center;font-size:13px;color:var(--tx2);margin-top:16px">Không nhận được mã? <span style="color:var(--amb);font-weight:700">Gửi lại</span></div>
+        </div>
+        <div class="cap">Sai mã</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Reset password <span class="pill">Dark</span></div>
+      <div class="cd">2 field: mật khẩu mới + nhập lại; rule qua popover.</div>
+      <div class="states">
+      <div class="phone">
+        <div class="ph-body">
+          <span class="back"><i class="ti ti-chevron-left"></i></span>
+          <div class="a-title">Đặt lại mật khẩu</div>
+          <div class="a-cap">Chọn mật khẩu mới cho tài khoản Benny của bạn.</div>
+          <div class="a-card">
+            <div class="inp">Mật khẩu mới <i class="ti ti-eye-off ic"></i></div>
+            <div class="inp" style="margin-top:12px">Nhập lại mật khẩu <i class="ti ti-eye-off ic"></i></div>
+            <div class="pwhint"><i class="ti ti-info-circle"></i> Yêu cầu mật khẩu</div>
+            <div class="cta off" style="margin-top:14px">Đặt lại mật khẩu</div>
+          </div>
+        </div>
+        <div class="cap">Nhập mật khẩu mới + nhập lại</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Status screens — Success · Thông báo · Cảnh báo <span class="pill">Dark · 3 trạng thái</span></div>
+      <div class="cd">Icon nền soft tối + icon sáng; cùng layout AppStatusView.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--okSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--okc);font-size:46px"><i class="ti ti-circle-check"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Thành công!</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Giao dịch của bạn đã được ghi nhận. Hoa hồng sẽ cập nhật trong giây lát.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Hoàn tất</div>
+        </div>
+        <div class="cap">Thành công</div>
+      </div>
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--priSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#8FB6E0;font-size:46px"><i class="ti ti-info-circle"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Thông báo</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Đã có phiên bản mới của Benny với nhiều cải tiến. Cập nhật để có trải nghiệm tốt nhất.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Đã hiểu</div>
+        </div>
+        <div class="cap">Thông báo</div>
+      </div>
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--warnSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--warnc);font-size:46px"><i class="ti ti-alert-triangle"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Cảnh báo</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Bạn chưa hoàn tất hồ sơ. Vui lòng bổ sung thông tin trước khi tiếp tục.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Bổ sung ngay</div>
+          <div class="cta2" style="width:100%;margin-top:10px">Để sau</div>
+        </div>
+        <div class="cap">Cảnh báo</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Error screen (AppErrorView) <span class="pill">Dark</span></div>
+      <div class="cd">Khoá tài khoản &amp; chặn số điện thoại — icon đỏ sáng trên nền soft tối.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--errSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--errc);font-size:46px"><i class="ti ti-shield-x"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Tài khoản tạm khoá</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Bạn đã nhập sai mã OTP quá nhiều lần. Vui lòng thử lại sau 30 phút.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Quay lại đăng nhập</div>
+        </div>
+        <div class="cap">Khoá do sai OTP</div>
+      </div>
+      <div class="phone">
+        <div style="background:var(--bg);height:512px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center">
+          <div style="width:96px;height:96px;background:var(--errSoft);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--errc);font-size:46px"><i class="ti ti-phone-off"></i></div>
+          <div style="font-size:19px;font-weight:600;color:var(--tx);margin-top:20px">Không thể đăng ký</div>
+          <div style="font-size:13px;color:var(--tx2);margin-top:8px">Số điện thoại này đã bị chặn và không thể dùng để tạo tài khoản.</div>
+          <div class="cta" style="width:100%;margin-top:26px">Quay lại</div>
+        </div>
+        <div class="cap">SĐT bị chặn (đăng ký)</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="ch">Dialog &amp; Bottom sheet <span class="pill">Dark · 2 dialog · 2 sheet</span></div>
+      <div class="cd">Scrim tối hơn, dialog/sheet nền elevated, chữ sáng.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;padding:0 20px">
+          <div class="scrim" style="background:rgba(0,0,0,.6)"></div>
+          <div class="dlg">
+            <div style="font-size:16px;font-weight:700;color:var(--tx)">Đăng xuất</div>
+            <div style="font-size:13px;color:var(--tx2);margin-top:6px;line-height:1.5">Bạn có chắc muốn đăng xuất khỏi Benny?</div>
+            <div style="display:flex;gap:10px;margin-top:18px"><div class="cta2" style="flex:1">Huỷ</div><div class="cta" style="flex:1">Đăng xuất</div></div>
+          </div>
+        </div>
+        <div class="cap">Dialog xác nhận</div>
+      </div>
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;padding:0 20px">
+          <div class="scrim" style="background:rgba(0,0,0,.6)"></div>
+          <div class="dlg">
+            <div style="font-size:16px;font-weight:700;color:var(--tx)">Xoá tài khoản?</div>
+            <div style="font-size:13px;color:var(--tx2);margin-top:6px;line-height:1.5">Hành động này không thể hoàn tác. Toàn bộ dữ liệu của bạn sẽ bị xoá vĩnh viễn.</div>
+            <div style="display:flex;gap:10px;margin-top:18px"><div class="cta2" style="flex:1">Huỷ</div><div class="cta danger" style="flex:1">Xoá</div></div>
+          </div>
+        </div>
+        <div class="cap">Dialog destructive</div>
+      </div>
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative">
+          <div class="scrim" style="background:rgba(0,0,0,.5)"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div style="padding:0 16px 8px;font-size:18px;font-weight:600;color:var(--tx)">Ngôn ngữ</div>
+            <div class="stile">Tiếng Việt <i class="ti ti-check" style="margin-left:auto;color:#8FB6E0"></i></div>
+            <div class="stile">English</div>
+            <div style="height:8px"></div>
+          </div>
+        </div>
+        <div class="cap">Bottom sheet — chọn ngôn ngữ</div>
+      </div>
+      <div class="phone">
+        <div style="height:512px;background:var(--bg);position:relative">
+          <div class="scrim" style="background:rgba(0,0,0,.5)"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div style="padding:0 16px 8px;font-size:18px;font-weight:600;color:var(--tx)">Ảnh đại diện</div>
+            <div class="stile"><i class="ti ti-camera" style="color:#8FB6E0"></i> Chụp ảnh</div>
+            <div class="stile"><i class="ti ti-photo" style="color:#8FB6E0"></i> Chọn từ thư viện</div>
+            <div style="border-top:6px solid #0F1922"></div>
+            <div class="stile" style="justify-content:center;color:var(--tx2);font-weight:600">Huỷ</div>
+          </div>
+        </div>
+        <div class="cap">Bottom sheet — action sheet</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- ============== HOA HỒNG — Dark ============== -->
+    <div class="cluster">
+      <div class="ch">Hoa hồng — BĐS hoa hồng cao gần bạn <span class="pill">Dark</span></div>
+      <div class="cd">Bản tối của danh sách hoa hồng: nền tối, card surface viền mảnh; số tiền &amp; hoa hồng tông amber; badge trạng thái dùng token tối.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:560px;background:var(--bg);display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px">
+            <span style="font-size:21px;font-weight:600;color:var(--tx)">Hoa hồng</span>
+            <div style="display:flex;align-items:center;gap:5px;background:var(--priSoft);color:#cfe0ef;font-size:12px;font-weight:600;padding:7px 11px;border-radius:20px"><i class="ti ti-current-location" style="color:var(--amb)"></i>Quận 1</div>
+          </div>
+          <div style="margin:0 16px;background:linear-gradient(135deg,#1E3E5C,#11202E);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <span style="width:34px;height:34px;border-radius:10px;background:var(--ambSoft);color:var(--amb);display:flex;align-items:center;justify-content:center"><i class="ti ti-map-pin"></i></span>
+            <div style="flex:1"><div style="color:#fff;font-size:13px;font-weight:600">Tin hoa hồng cao gần bạn</div><div style="color:#bcd2e6;font-size:11px;margin-top:1px">Quận 1, TP.HCM · bán kính 5 km · 8 tin</div></div>
+            <i class="ti ti-refresh" style="color:#bcd2e6"></i>
+          </div>
+          <div style="display:flex;gap:8px;padding:12px 16px 6px;overflow:hidden">
+            <span style="display:flex;align-items:center;gap:4px;background:var(--amb);color:#3D2507;font-size:11px;font-weight:600;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-arrow-down"></i>Điểm HH</span>
+            <span style="background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Giá bán</span>
+            <span style="background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap">Trạng thái</span>
+            <span style="display:flex;align-items:center;gap:4px;background:var(--surf);border:1px solid var(--line);color:var(--tx2);font-size:11px;padding:6px 11px;border-radius:16px;white-space:nowrap"><i class="ti ti-adjustments-horizontal"></i>Lọc</span>
+          </div>
+          <div style="flex:1;overflow:hidden;padding:6px 16px 0;display:flex;flex-direction:column;gap:10px">
+            <div style="background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--tx)">The Marq Quận 1</span><span style="background:var(--errSoft);color:var(--errc);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap"><i class="ti ti-flame"></i> Cần bán gấp</span></div>
+                <div style="font-size:10px;color:var(--tx3);margin-top:2px"><i class="ti ti-map-pin"></i> Quận 1 · cách 1,2 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amb)">8,5 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--ambSoft);color:var(--amb);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 3% · 255 tr</span>
+                </div>
+                <div style="margin-top:6px;display:flex;align-items:center;gap:4px;background:var(--warnSoft);color:var(--warnc);font-size:10px;padding:3px 8px;border-radius:8px;width:fit-content"><i class="ti ti-clock-hour-4"></i> Sắp hết hạn · còn 2 ngày</div>
+              </div>
+            </div>
+            <div style="background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;gap:10px">
+              <div style="width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building"></i></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;gap:6px;align-items:flex-start"><span style="font-size:13px;font-weight:600;color:var(--tx)">Saigon Pearl</span><span style="background:var(--okSoft);color:var(--okc);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap">Đang bán</span></div>
+                <div style="font-size:10px;color:var(--tx3);margin-top:2px"><i class="ti ti-map-pin"></i> Bình Thạnh · cách 3,4 km</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:15px;font-weight:600;color:var(--amb)">6,2 tỷ</span>
+                  <span style="display:flex;align-items:center;gap:3px;background:var(--ambSoft);color:var(--amb);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px"><i class="ti ti-coin"></i> HH 2,5% · 155 tr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div class="it"><i class="ti ti-home" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Trang chủ</div></div>
+            <div class="it"><i class="ti ti-history" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Lịch sử</div></div>
+            <div class="it"><div class="qrc"><i class="ti ti-qrcode"></i></div><div class="l" style="color:var(--amb);font-weight:600">Quét QR</div></div>
+            <div class="it"><i class="ti ti-cash" style="color:#8FB6E0"></i><div class="l" style="color:#8FB6E0;font-weight:600">Hoa hồng</div></div>
+            <div class="it"><i class="ti ti-user" style="color:var(--tx3)"></i><div class="l" style="color:var(--tx3)">Hồ sơ</div></div>
+          </div>
+        </div>
+        <div class="cap">Danh sách — Dark</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- ============== QUÉT QR — Dark ============== -->
+    <div class="cluster">
+      <div class="ch">Quét QR — camera trong app <span class="pill">Dark</span></div>
+      <div class="cd">Màn camera vốn nền tối nên hầu như đồng nhất 2 chế độ; bottom sheet kết quả đổi sang surface tối.</div>
+      <div class="states">
+      <div class="phone">
+        <div style="height:560px;background:#05080B;position:relative;display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="position:absolute;top:64px;left:0;right:0;display:flex;flex-direction:column;align-items:center;opacity:.5">
+            <div style="width:130px;height:130px;border-radius:22px;border:3px solid var(--amb);display:flex;align-items:center;justify-content:center;color:var(--amb);font-size:40px"><i class="ti ti-circle-check"></i></div>
+          </div>
+          <div style="background:var(--surf);border-radius:20px 20px 0 0;padding:16px 16px 22px">
+            <div style="width:36px;height:4px;background:var(--line);border-radius:4px;margin:0 auto 14px"></div>
+            <div style="display:flex;gap:12px">
+              <div style="width:66px;height:66px;border-radius:12px;background:linear-gradient(135deg,#27557D,#142F49);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:26px;flex-shrink:0"><i class="ti ti-building-skyscraper"></i></div>
+              <div style="flex:1;min-width:0">
+                <span style="font-size:9px;color:var(--okc);background:var(--okSoft);padding:2px 7px;border-radius:10px"><i class="ti ti-circle-check"></i> Đã quét mã QR</span>
+                <div style="font-size:15px;font-weight:600;color:var(--tx);margin-top:5px">Vinhomes Central Park</div>
+                <div style="font-size:11px;color:var(--tx3)">Bình Thạnh, TP.HCM · 78 m² · 2 PN</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+              <span style="font-size:18px;font-weight:600;color:var(--amb)">5,6 tỷ</span>
+              <span style="background:var(--ambSoft);color:var(--amb);font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px"><i class="ti ti-coin"></i> HH 168 tr</span>
+            </div>
+            <div style="background:#3E6B92;color:#fff;text-align:center;font-size:14px;font-weight:600;padding:12px;border-radius:8px;margin-top:14px">Xem chi tiết bất động sản</div>
+          </div>
+        </div>
+        <div class="cap">Kết quả sau khi quét — Dark</div>
+      </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- 07 CODE MAP -->

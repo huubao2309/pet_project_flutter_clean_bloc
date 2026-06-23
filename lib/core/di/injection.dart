@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../environments/env.dart';
@@ -51,6 +52,7 @@ import '../security/data/repositories/device_session_repository_impl.dart';
 import '../security/domain/repositories/device_session_repository.dart';
 import '../security/domain/use_cases/clear_stale_secure_storage_use_case.dart';
 import '../theme/benny_style_initializer.dart';
+import '../theme/theme_view_model.dart';
 import '../utils/device_info_util.dart';
 import '../storage/local_storage/local_storage.dart';
 import '../storage/local_storage/local_storage_impl.dart';
@@ -69,6 +71,15 @@ Future<void> configureDependencies(Env env) async {
   // --- Storage ---
   getIt.registerSingleton<LocalStorage>(await LocalStorageImpl.create());
   getIt.registerSingleton<SecureStorage>(await SecureStorageImpl.create());
+
+  // --- Theme (Light/Dark mode controller; seeds from system on first launch) ---
+  getIt.registerLazySingleton<ThemeViewModel>(
+    () => ThemeViewModel(
+      localStorage: getIt<LocalStorage>(),
+      systemBrightness:
+          WidgetsBinding.instance.platformDispatcher.platformBrightness,
+    ),
+  );
 
   // --- Security ---
   // Drops stale keychain data left over from an iOS reinstall. Registered here
