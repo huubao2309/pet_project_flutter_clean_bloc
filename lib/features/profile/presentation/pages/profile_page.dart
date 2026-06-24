@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../base/app_constants.dart';
 import '../../../../core/di/injection.dart';
+import '../../../../core/presentation/common/app_overlays.dart';
 import '../../../../core/presentation/presentation.dart';
 import '../../../../core/presentation/widgets/language_switcher.dart';
 import '../../../../core/router/app_router.dart';
@@ -163,8 +164,8 @@ class _ProfileView extends StatelessWidget {
   void _comingSoon() => BennySnackBar.show(message: 'profile.coming_soon'.tr());
 
   Future<void> _confirmLogout(BuildContext context) async {
-    final ok = await _confirm(
-      context,
+    final ok = await AppDialog.confirm(
+      context: context,
       title: 'profile.logout_confirm_title'.tr(),
       message: 'profile.logout_confirm_message'.tr(),
       confirmLabel: 'profile.logout'.tr(),
@@ -175,67 +176,16 @@ class _ProfileView extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context) async {
-    final ok = await _confirm(
-      context,
+    final ok = await AppDialog.destructive(
+      context: context,
       title: 'profile.delete_confirm_title'.tr(),
       message: 'profile.delete_confirm_message'.tr(),
       confirmLabel: 'profile.delete'.tr(),
-      destructive: true,
     );
     if (ok) {
       _comingSoon();
     }
   }
-}
-
-Future<bool> _confirm(
-  BuildContext context, {
-  required String title,
-  required String message,
-  required String confirmLabel,
-  bool destructive = false,
-}) async {
-  final theme = getIt<ThemeState>();
-  final result = await showDialog<bool>(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      backgroundColor: theme.colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius16),
-      ),
-      title: Text(
-        title,
-        style: theme.textStyle.heading
-            .copyWith(color: theme.colors.brand800, fontSize: 17),
-      ),
-      content: Text(
-        message,
-        style: theme.textStyle.paragraphDefault
-            .copyWith(color: theme.colors.neutral600),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(false),
-          child: Text(
-            'common.cancel'.tr(),
-            style: TextStyle(color: theme.colors.neutral500),
-          ),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(true),
-          child: Text(
-            confirmLabel,
-            style: TextStyle(
-              color:
-                  destructive ? theme.colors.error600 : theme.colors.brand600,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-  return result ?? false;
 }
 
 /// Profile header bound to [ProfileViewModel]: shows the fetched name and a
