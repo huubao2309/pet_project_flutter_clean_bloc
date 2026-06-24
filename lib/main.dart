@@ -1,3 +1,4 @@
+import 'package:benny_style/theme/app_colors.dart';
 import 'package:benny_style/theme/theme_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'base/app_constants.dart';
 import 'core/di/injection.dart';
 import 'core/presentation/presentation.dart';
 import 'core/router/app_router.dart';
+import 'core/theme/app_dark_colors.dart';
 import 'core/theme/app_theme_mode.dart';
 import 'core/theme/theme_view_model.dart';
 import 'environments/env_type.dart';
@@ -42,7 +44,10 @@ class MyApp extends StatelessWidget {
         child: Builder(
           builder: (ctx) => ViewModelBuilder<ThemeViewModel, AppThemeMode>(
             builder: (context, mode) {
-              getIt<ThemeState>().colors.brightness = mode.brightness;
+              // Swap the active palette before building. The Dark config lives
+              // in `core` (AppDarkColors); the package only knows AppColors.
+              getIt<ThemeState>()
+                  .setColors(mode.isDark ? AppDarkColors() : AppColors());
               return MaterialApp.router(
                 // Rebuild the whole app subtree when locale OR theme changes so
                 // every visible page re-runs `.tr()` and re-reads colours.

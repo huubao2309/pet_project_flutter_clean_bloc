@@ -53,13 +53,6 @@ class LocalStorageImpl implements LocalStorage {
   String? getVendorId() => _store.getString(LocalStorage.kVendorIdKey);
 
   @override
-  Future<void> setThemeMode({required String value}) =>
-      _store.setString(LocalStorage.kThemeModeKey, value);
-
-  @override
-  String? getThemeMode() => _store.getString(LocalStorage.kThemeModeKey);
-
-  @override
   Future<void> setDismissedUpdateVersion({required String value}) =>
       _store.setString(LocalStorage.kDismissedUpdateVersionKey, value);
 
@@ -68,4 +61,11 @@ class LocalStorageImpl implements LocalStorage {
     final value = _store.getString(LocalStorage.kDismissedUpdateVersionKey);
     return (value == null || value.isEmpty) ? null : value;
   }
+
+  @override
+  Future<void> setThemeMode({required String value}) =>
+      _store.setString(LocalStorage.kThemeModeKey, value);
+
+  @override
+  String? getThemeMode() => _store.getString(LocalStorage.kThemeModeKey);
 }

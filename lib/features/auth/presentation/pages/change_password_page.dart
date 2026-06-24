@@ -44,7 +44,7 @@ class _ChangePasswordView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: theme.colors.surfaceBackground,
-      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
+      appBar: const AppTopBar(),
       body: SafeArea(
         child: ViewModelConsumer<ChangePasswordViewModel, ChangePasswordState>(
           listenWhen: (p, c) =>

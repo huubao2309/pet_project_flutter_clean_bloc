@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart' show WidgetsBinding;
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../environments/env.dart';
@@ -48,11 +48,11 @@ import '../localization/domain/use_cases/change_language_use_case.dart';
 import '../localization/domain/use_cases/get_language_use_case.dart';
 import '../network/dio_client.dart';
 import '../router/app_router.dart';
-import '../theme/theme_view_model.dart';
 import '../security/data/repositories/device_session_repository_impl.dart';
 import '../security/domain/repositories/device_session_repository.dart';
 import '../security/domain/use_cases/clear_stale_secure_storage_use_case.dart';
 import '../theme/benny_style_initializer.dart';
+import '../theme/theme_view_model.dart';
 import '../utils/device_info_util.dart';
 import '../storage/local_storage/local_storage.dart';
 import '../storage/local_storage/local_storage_impl.dart';
@@ -76,7 +76,8 @@ Future<void> configureDependencies(Env env) async {
   getIt.registerLazySingleton<ThemeViewModel>(
     () => ThemeViewModel(
       localStorage: getIt<LocalStorage>(),
-      systemBrightness: WidgetsBinding.instance.platformDispatcher.platformBrightness,
+      systemBrightness:
+          WidgetsBinding.instance.platformDispatcher.platformBrightness,
     ),
   );
 

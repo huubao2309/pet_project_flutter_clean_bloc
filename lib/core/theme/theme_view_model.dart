@@ -13,7 +13,8 @@ import 'app_theme_mode.dart';
 ///    brightness and persist it, so subsequent launches are independent.
 ///
 /// A single instance lives in `getIt`; `MyApp` listens to it to rebuild the
-/// whole tree, and the Profile toggle calls [toggle] / [setDark].
+/// whole tree (swapping `ThemeState.colors` between Light/Dark), and the
+/// Profile toggle calls [toggle] / [setDark].
 class ThemeViewModel extends ViewModel<AppThemeMode> {
   ThemeViewModel({
     required LocalStorage localStorage,

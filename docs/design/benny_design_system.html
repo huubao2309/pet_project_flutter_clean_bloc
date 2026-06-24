@@ -71,17 +71,22 @@
   .elev .x .b{width:70px;height:46px;background:#fff;border-radius:11px;}
   .elev .x .l{font-size:11px;color:var(--gray-500);margin-top:6px;}
   .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-  .btn{font-size:13px;font-weight:600;padding:11px 20px;border-radius:8px;border:1px solid transparent;cursor:default;}
+  /* Button — common DS: radius 8, padding 8/12, font 14/500 */
+  .btn{font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px;border:1px solid transparent;cursor:default;}
   .btn-primary{background:var(--navy-600);color:#fff;}
-  .btn-secondary{background:#fff;color:var(--navy-600);border-color:var(--navy-200);}
+  .btn-secondary{background:#fff;color:var(--navy-600);border-color:var(--navy-600);}
   .btn-accent{background:var(--amber-500);color:#fff;}
   .btn-ghost{color:var(--navy-600);}
-  .btn-disabled{background:var(--gray-100);color:var(--gray-400);}
-  .field{background:#fff;border:1px solid var(--navy-200);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
-  .field.err{border-color:var(--error);color:var(--navy-700);}
+  .btn-disabled{background:var(--gray-100);color:var(--gray-300);border-color:var(--gray-200);}
+  /* Text field — common DS: border neutral-300, radius 8, focus ring navy-100, error ring error-bg */
+  .field{background:#fff;border:1px solid var(--gray-300);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
+  .field.foc{border-color:var(--navy-600);box-shadow:0 0 0 3px var(--navy-100);}
+  .field.err{border-color:var(--error);color:var(--navy-700);box-shadow:0 0 0 3px var(--error-bg);}
   .errtext{font-size:11px;color:var(--error-d);margin-top:4px;}
-  .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:11px;}
-  .chip{font-size:11px;padding:4px 11px;border-radius:14px;}
+  /* Tag/Badge — common DS .tag: radius 6, weight 500 */
+  .badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:6px;}
+  /* Choice chip — common DS .chip-c: pill, padding 6/13, font 13 */
+  .chip{font-size:13px;padding:6px 13px;border-radius:999px;}
   /* phone */
   .screens{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;}
   .phone{width:300px;border-radius:30px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 10px 30px rgba(8,21,33,.10);}
@@ -110,22 +115,28 @@
   .states{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;align-items:flex-start;}
   .states .phone{width:262px;}
   .ph-body{background:var(--bg);height:512px;padding:14px 20px;}
-  .back{display:inline-flex;width:34px;height:34px;border:1px solid var(--gray-200);border-radius:8px;align-items:center;justify-content:center;color:var(--gray-600);}
+  /* Back button — common DS IconButton 36x36, radius 8 (outline) */
+  .back{display:inline-flex;width:36px;height:36px;border:1px solid var(--gray-300);border-radius:8px;align-items:center;justify-content:center;color:var(--navy-600);}
   .a-title{font-size:20px;font-weight:700;color:var(--navy-800);margin-top:12px;}
   .a-cap{font-size:12px;color:var(--gray-500);margin-top:6px;}
   .a-card{background:#fff;border:1px solid var(--gray-100);border-radius:16px;padding:16px;margin-top:14px;}
-  .inp{border:1px solid var(--navy-200);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
+  /* Screen text field — common DS: border neutral-300, focus ring navy-100, error ring error-bg */
+  .inp{border:1px solid var(--gray-300);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--gray-400);display:flex;align-items:center;justify-content:space-between;}
   .inp.val{color:var(--navy-800);}
-  .inp.bad{border-color:var(--error);color:var(--navy-800);}
+  .inp.foc{border-color:var(--navy-600);box-shadow:0 0 0 3px var(--navy-100);}
+  .inp.bad{border-color:var(--error);color:var(--navy-800);box-shadow:0 0 0 3px var(--error-bg);}
   .inp .ic{color:var(--navy-600);}
   .ierr{font-size:11px;color:var(--error-d);margin-top:4px;}
+  /* Primary CTA (block) — common DS .btn-primary; disabled = neutral-100 / neutral-300 */
   .cta{background:var(--navy-600);color:#fff;font-size:14px;font-weight:600;text-align:center;padding:13px;border-radius:8px;}
-  .cta.off{background:var(--gray-100);color:var(--gray-400);}
-  .cta2{background:#fff;color:var(--navy-600);font-size:14px;font-weight:600;text-align:center;padding:12px;border-radius:8px;border:1px solid var(--navy-200);}
+  .cta.off{background:var(--gray-100);color:var(--gray-300);}
+  /* Secondary CTA (block) — common DS .btn-secondary: border navy-600 */
+  .cta2{background:#fff;color:var(--navy-600);font-size:14px;font-weight:600;text-align:center;padding:12px;border-radius:8px;border:1px solid var(--navy-600);}
   .rule{font-size:11px;color:var(--gray-600);display:flex;align-items:center;gap:7px;margin-bottom:5px;}
   .rule:last-child{margin-bottom:0;}
   .rk{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;flex-shrink:0;}
-  .otpc{flex:1;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:var(--navy-800);}
+  /* OTP cell — common DS .otp .cell: height 52, weight 600 */
+  .otpc{flex:1;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:var(--navy-800);}
   .pwhint{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:500;color:var(--navy-600);}
   .pop{position:relative;background:#fff;border:1px solid var(--gray-100);border-radius:10px;box-shadow:0 10px 22px rgba(8,21,33,.16);padding:11px 12px;margin-top:8px;}
   .pop::before{content:"";position:absolute;top:-6px;left:16px;width:11px;height:11px;background:#fff;border-left:1px solid var(--gray-100);border-top:1px solid var(--gray-100);transform:rotate(45deg);}
@@ -140,14 +151,18 @@
   .snackbar .row .msg{font-size:13px;font-weight:500;flex:1;}
   .snackbar .row .close{width:32px;height:32px;border-radius:8px;background:#fff;border:1px solid var(--gray-100);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-700);font-size:15px;flex-shrink:0;box-shadow:0 1px 2px rgba(19,19,19,.06);}
   .cta.danger{background:#C62400;}
-  .tgl{width:40px;height:23px;border-radius:12px;background:var(--navy-600);position:relative;display:inline-block;flex-shrink:0;}
-  .tgl::after{content:"";position:absolute;top:2px;left:19px;width:19px;height:19px;border-radius:50%;background:#fff;}
-  .tgl.off{background:var(--gray-200);}
+  /* Switch — common DS .sw: 44x24, knob 20, off track neutral-300 */
+  .tgl{width:44px;height:24px;border-radius:999px;background:var(--navy-600);position:relative;display:inline-block;flex-shrink:0;}
+  .tgl::after{content:"";position:absolute;top:2px;left:22px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .tgl.off{background:var(--gray-300);}
   .tgl.off::after{left:2px;}
-  .cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--navy-300);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
+  /* Checkbox — common DS .cb: border neutral-400 */
+  .cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--gray-400);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
   .cb.on{background:var(--navy-600);border-color:var(--navy-600);color:#fff;}
-  .rb{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--navy-300);display:inline-flex;flex-shrink:0;}
-  .rb.on{border-color:var(--navy-600);border-width:6px;}
+  /* Radio — common DS .rd: 2px ring + centered inner dot (not border-width trick) */
+  .rb{position:relative;width:20px;height:20px;border-radius:50%;border:2px solid var(--gray-400);display:inline-block;flex-shrink:0;}
+  .rb.on{border-color:var(--navy-600);}
+  .rb.on::after{content:"";position:absolute;top:50%;left:50%;width:10px;height:10px;border-radius:50%;background:var(--navy-600);transform:translate(-50%,-50%);}
   .ctrl{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--navy-800);}
   .pgroup{background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden;}
   .ptile{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--gray-100);}
@@ -160,11 +175,16 @@
   .scrim{position:absolute;inset:0;}
   .handle{height:36px;display:flex;align-items:center;justify-content:center;}
   .handle::after{content:"";width:120px;height:4px;border-radius:2px;background:var(--gray-100);}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:8px 8px 0 0;padding-bottom:12px;}
+  /* Bottom sheet — common DS .sheet: radius 16 top corners */
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;padding-bottom:12px;}
   .stile{display:flex;align-items:center;gap:12px;padding:13px 16px;font-size:14px;color:var(--navy-800);}
   .dlg{position:relative;background:#fff;border-radius:16px;padding:20px;width:100%;}
   .callout{display:flex;gap:10px;align-items:flex-start;background:#FFF8EC;border:1px solid #FBE9C3;border-radius:12px;padding:13px 16px;margin-top:18px;font-size:13px;color:#6E430D;line-height:1.5;}
   .callout i{color:var(--amber-600);font-size:18px;margin-top:1px;flex-shrink:0;}
+  .filemap{font-size:13px;}
+  .filemap div{padding:7px 0;border-bottom:.5px solid var(--gray-100);display:flex;justify-content:space-between;gap:14px;}
+  .filemap code{font-family:'SFMono-Regular',Menlo,monospace;font-size:12px;color:var(--navy-600);}
+  .filemap span{color:var(--gray-500);text-align:right;}
   /* ── Dark mode theme scope ───────────────────────────────────────── */
   .dark{
     --bg:#0D1722; --surf:#17232F; --surf2:#1C2B3A; --line:#2A3A47;
@@ -210,17 +230,6 @@
   .dark .glabel{color:#6E8090;}
   .dark .navbar{background:#17232F;border-top-color:#2a3a47;}
   .dark .sheet{background:#17232F;}
-  .dark .handle::after{background:#33485c;}
-  .dark .stile{color:#E9EEF3;}
-  .dark .dlg{background:#1C2B3A;}
-  .dark .tgl{background:#3E6B92;}
-  .dark .tgl.off{background:#33485c;}
-  .dark .qrc{border-color:#17232F;}
-  .dark .otp-soft{border:1px solid #2a3a47;}
-  .filemap{font-size:13px;}
-  .filemap div{padding:7px 0;border-bottom:.5px solid var(--gray-100);display:flex;justify-content:space-between;gap:14px;}
-  .filemap code{font-family:'SFMono-Regular',Menlo,monospace;font-size:12px;color:var(--navy-600);}
-  .filemap span{color:var(--gray-500);text-align:right;}
 </style>
 </head>
 <body>
@@ -250,7 +259,7 @@
 
   <div class="callout">
     <i class="ti ti-color-swatch"></i>
-    <div><b>Quy tắc bắt buộc:</b> khi tạo BẤT KỲ màn hình / component nào, luôn phải định nghĩa màu cho cả <b>Light Mode</b> và <b>Dark Mode</b> (mỗi token có cặp giá trị light/dark). Không hardcode màu — mọi background, surface, text, border, icon đều phải lấy từ token để tự đổi theo chế độ. Mỗi tính năng có Light Mode thì cũng phải có Dark Mode tương ứng.</div>
+    <div><b>Quy tắc bắt buộc:</b> khi tạo BẤT KỲ màn hình / component nào, không hardcode màu — mọi background, surface, text, border, icon đều phải lấy từ token (<code>colors.*</code>) để giữ palette nhất quán và đổi được ở một nơi.</div>
   </div>
 
   <!-- 00 LOGO -->
@@ -419,21 +428,6 @@
       <tr><td>Đường viền</td><td><span class="dot" style="background:var(--gray-100)"></span><code>colors.neutral100</code> · #EFEFEF</td></tr>
       <tr><td>Chữ chính / phụ / mờ</td><td><code>brand800</code> / <code>neutral500</code> / <code>neutral400</code></td></tr>
     </table>
-
-    <h3>Dark mode — bảng màu</h3>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#0D1722;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Background<br>#0D1722</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#17232F;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Surface<br>#17232F</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#1C2B3A;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Elevated<br>#1C2B3A</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#2A3A47;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Border<br>#2A3A47</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#E9EEF3;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Text<br>#E9EEF3</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#9DB0BF;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Text phụ<br>#9DB0BF</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#3E6B92;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Primary<br>#3E6B92</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#ECB237;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Amber<br>#ECB237</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#34D17F;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Success<br>#34D17F</div></div>
-      <div style="text-align:center"><div style="width:62px;height:42px;border-radius:7px;background:#F2745A;border:1px solid var(--gray-200)"></div><div style="font-size:9px;color:var(--gray-400);margin-top:4px">Error<br>#F2745A</div></div>
-    </div>
-    <div class="note">Dark mode: nền navy-đen sâu, surface nâng dần theo độ cao (background → surface → elevated). <b>Navy primary sáng lên</b> (<code style="background:var(--gray-50);border:.5px solid var(--gray-100);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--navy-600)">#3E6B92</code>) để nổi trên nền tối; <b>Amber giữ rực</b> làm điểm nhấn; success/error/warning sáng &amp; bão hoà hơn để đủ tương phản. Chữ không dùng trắng tuyệt đối (#E9EEF3) cho dịu mắt.</div>
   </section>
 
   <!-- 02 TYPOGRAPHY -->
@@ -589,8 +583,8 @@
   <!-- 05 SCREENS -->
   <section>
     <div class="eyebrow">05 · Screens — Light Mode</div>
-    <h2>Màn hình — Light Mode</h2>
-    <p class="sub">Mỗi screen là một "cụm" (cluster) — bên trong là các trạng thái UI/UX. Bản Dark Mode tương ứng ở mục 06.</p>
+    <h2>Màn hình</h2>
+    <p class="sub">Mỗi screen là một "cụm" (cluster) — bên trong là các trạng thái UI/UX.</p>
 
     <div class="cluster">
       <div class="ch">Splash <span class="pill">1 trạng thái</span></div>
@@ -985,7 +979,6 @@
               <div class="ptile"><div class="pi"><i class="ti ti-lock"></i></div><div class="ptt">Đổi mật khẩu</div><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-language"></i></div><div class="ptt">Thay đổi ngôn ngữ</div><span class="ptv" style="margin-right:6px">Tiếng Việt</span><i class="ti ti-chevron-right pch"></i></div>
               <div class="ptile"><div class="pi"><i class="ti ti-fingerprint"></i></div><div class="ptt">Đăng nhập bằng vân tay</div><span class="tgl"></span></div>
-              <div class="ptile"><div class="pi"><i class="ti ti-moon"></i></div><div class="ptt">Chuyển sang Dark Mode</div><span class="tgl off"></span></div>
             </div>
 
             <div class="glabel">Hỗ trợ &amp; khác</div>
@@ -1615,7 +1608,7 @@
     </div>
   </section>
 
-  <!-- 06 SCREENS DARK -->
+  <!-- 06 SCREENS — DARK MODE (restored) -->
   <section class="dark">
     <div class="eyebrow">06 · Screens — Dark Mode</div>
     <h2>Màn hình — Dark Mode</h2>
@@ -2209,7 +2202,7 @@
       <div><code>Translations</code><span>assets/translations/vi.json · en.json</span></div>
     </div>
     <h3>Trạng thái</h3>
-    <p class="note">✅ Đã build (Light Mode): Design system (Navy/Amber/Gray) · Logo · Launcher icon theo môi trường (prod / staging-STG / uat-UAT, watermark góc dưới-phải) · Splash · Auth flow (Welcome · Login · Sign up · Forgot · OTP · Reset) · AppErrorView · Main shell 5 tab · Home dashboard.<br>🎨 Mới ở design (chưa build code): Snackbar có nút tắt · Controls (switch/checkbox/radio/appbar/list tile) · Profile (Hồ sơ) + nút Dark Mode · Status screens (→ đề xuất AppStatusView) · Dialog &amp; Bottom sheet · password rule popover · <b>Dark Mode đầy đủ</b> (mục 06, bảng màu tối ở mục 01).<br>🌙 Dark Mode: cần thêm bộ token tối vào theme (ThemeState/AppColors) + cờ light/dark; lưu lựa chọn; toggle ở Profile. Hiện app mới chỉ có Light Mode.<br>⏳ Chưa làm: tab Lịch sử / QR / Hoa hồng / Profile (đang placeholder) · wiring điều hướng · OTP verify đang mock (123456).</p>
+    <p class="note">✅ Đã build: Design system (Navy/Amber/Gray) · Logo · Launcher icon theo môi trường (prod / staging-STG / uat-UAT, watermark góc dưới-phải) · Splash · Auth flow (Welcome · Login · Sign up · Forgot · OTP · Reset) · AppErrorView · Main shell 5 tab · Home dashboard.<br>🎨 Mới ở design (chưa build code): Snackbar có nút tắt · Controls (switch/checkbox/radio/appbar/list tile) · Profile (Hồ sơ) · Status screens (→ đề xuất AppStatusView) · Dialog &amp; Bottom sheet · password rule popover.<br>⏳ Chưa làm: tab Lịch sử / QR / Hoa hồng / Profile (đang placeholder) · wiring điều hướng · OTP verify đang mock (123456).</p>
   </section>
 
 </div>

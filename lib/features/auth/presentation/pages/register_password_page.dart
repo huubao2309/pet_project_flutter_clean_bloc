@@ -45,7 +45,7 @@ class _RegisterPasswordView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: theme.colors.surfaceBackground,
-      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
+      appBar: const AppTopBar(),
       body: SafeArea(
         child: ViewModelConsumer<RegisterPasswordViewModel,
             RegisterPasswordState>(

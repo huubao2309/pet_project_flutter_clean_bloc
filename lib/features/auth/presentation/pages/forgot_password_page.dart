@@ -64,7 +64,7 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
 
     return Scaffold(
       backgroundColor: theme.colors.surfaceBackground,
-      appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
+      appBar: const AppTopBar(),
       body: SafeArea(
         child: ViewModelConsumer<ForgotPasswordViewModel, ForgotPasswordState>(
           // Surface errors, and on a successful send go straight to the OTP

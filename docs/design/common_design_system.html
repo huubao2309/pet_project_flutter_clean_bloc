@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Common Design System — Token Reference</title>
+<style>
+  :root {
+    --navy-600: #1A3C5E;
+    --amber-500: #E8A020;
+    --neutral-700: #242424;
+    --neutral-500: #6A6A6A;
+    --neutral-300: #C6C6C6;
+    --neutral-200: #E6E6E6;
+    --neutral-100: #EFEFEF;
+    --neutral-50: #F8F8F8;
+    --neutral-25: #FBFBFB;
+    --radius-8: 8px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Figtree", sans-serif;
+    color: var(--neutral-700);
+    background: var(--neutral-25);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--navy-600);
+    color: #fff;
+    padding: 40px 32px;
+  }
+  header h1 { margin: 0 0 6px; font-size: 28px; font-weight: 600; }
+  header p { margin: 0; opacity: .85; font-size: 14px; }
+  header .accent { color: var(--amber-500); }
+  main { max-width: 1080px; margin: 0 auto; padding: 32px; }
+  section { margin-bottom: 56px; }
+  h2 {
+    font-size: 20px; font-weight: 600; margin: 0 0 4px;
+    padding-bottom: 10px; border-bottom: 2px solid var(--neutral-200);
+  }
+  .sub { color: var(--neutral-500); font-size: 13px; margin: 0 0 20px; }
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px; background: var(--neutral-100);
+    padding: 2px 6px; border-radius: 4px;
+  }
+
+  /* Color ramps */
+  .ramp { margin-bottom: 22px; }
+  .ramp-name { font-weight: 600; font-size: 14px; margin: 0 0 8px; }
+  .ramp-name span { font-weight: 400; color: var(--neutral-500); }
+  .swatches { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; }
+  .swatch { border-radius: 6px; overflow: hidden; border: 1px solid var(--neutral-200); }
+  .swatch .chip { height: 52px; }
+  .swatch .meta { padding: 5px 6px; background: #fff; font-size: 10px; }
+  .swatch .meta b { display: block; font-size: 11px; }
+  .swatch .meta .hex { color: var(--neutral-500); font-family: monospace; font-size: 9.5px; }
+  .star { color: var(--amber-500); }
+  @media (max-width: 760px){ .swatches{ grid-template-columns: repeat(4,1fr); } }
+
+  /* Typography */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--neutral-200); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--neutral-500); }
+  .type-h1 { font-size: 28px; font-weight: 600; }
+  .type-h2 { font-size: 20px; font-weight: 600; }
+  .type-h3 { font-size: 15px; font-weight: 600; }
+  .type-p  { font-size: 14px; font-weight: 400; }
+  .type-cap{ font-size: 12px; font-weight: 400; }
+
+  /* Spacing */
+  .space-row { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; font-size: 13px; }
+  .space-row .label { width: 200px; }
+  .space-bar { height: 16px; background: var(--amber-500); border-radius: 3px; }
+
+  /* Radius */
+  .radius-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+  .radius-box { text-align: center; font-size: 12px; }
+  .radius-box .demo { width: 84px; height: 84px; background: var(--navy-600); margin-bottom: 8px; }
+
+  /* Weights */
+  .weight-row { font-size: 18px; margin-bottom: 6px; }
+  .w400 { font-weight: 400; } .w500 { font-weight: 500; } .w600 { font-weight: 600; }
+
+  /* Buttons */
+  .btn-grid { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    border: 1px solid transparent; border-radius: var(--radius-8);
+    padding: 8px 12px; font-size: 14px; font-weight: 500; cursor: default;
+    font-family: inherit;
+  }
+  .btn-primary   { background: var(--navy-600); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--navy-600); border-color: var(--navy-600); }
+  .btn-tertiary  { background: var(--neutral-50); color: var(--navy-600); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .btn-ghost     { background: transparent; color: var(--navy-600); }
+  .btn-error     { background: #E04827; color: #fff; }
+  .btn-success   { background: #23C85A; color: #fff; }
+  .btn-disabled  { background: var(--neutral-100); color: var(--neutral-300); border-color: var(--neutral-200); }
+  .btn-size-row { display:flex; gap:14px; align-items:center; margin-top:14px; }
+  .bs-sm { padding: 6px 12px; font-size: 13px; }
+  .bs-md { padding: 9px 16px; font-size: 14px; }
+  .bs-lg { padding: 13px 20px; font-size: 15px; }
+
+  .note { background: #FDF4E1; border-left: 3px solid var(--amber-500); padding: 12px 16px; font-size: 13px; border-radius: 6px; }
+
+  /* Generic preview helpers */
+  .label-sm { font-weight: 600; font-size: 14px; margin: 22px 0 10px; }
+  .label-sm span { font-weight: 400; color: var(--neutral-500); }
+  .preview { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+  .phone {
+    width: 300px; border: 1px solid var(--neutral-200); border-radius: 14px;
+    overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+
+  /* App Bar */
+  .appbar {
+    display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 12px;
+    color: #fff; font-size: 16px; font-weight: 600;
+  }
+  .appbar.brand { background: var(--navy-600); }
+  .appbar.light { background: #fff; color: var(--navy-600); border-bottom: 1px solid var(--neutral-200); }
+  .appbar .ttl { flex: 1; }
+  .appbar .actions { display: flex; gap: 6px; }
+
+  /* Icon button / back button */
+  .iconbtn {
+    width: 36px; height: 36px; border-radius: var(--radius-8); border: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: default; background: transparent; color: inherit;
+  }
+  .iconbtn.ghost { background: transparent; }
+  .iconbtn.filled { background: var(--navy-600); color: #fff; }
+  .iconbtn.tonal { background: var(--neutral-100); color: var(--navy-600); }
+  .iconbtn.outline { background:#fff; border:1px solid var(--neutral-300); color: var(--navy-600); }
+  .iconbtn.error { background:#E04827; color:#fff; }
+  .iconbtn.round { border-radius: 999px; }
+
+  /* Text fields */
+  .field { margin-bottom: 14px; max-width: 320px; }
+  .field label { display:block; font-size:12px; font-weight:500; color: var(--neutral-700); margin-bottom:6px; }
+  .field .box {
+    display:flex; align-items:center; gap:8px; min-height:36px; padding:0 12px;
+    border:1px solid var(--neutral-300); border-radius: var(--radius-8); background:#fff;
+    font-size:14px; color: var(--neutral-700);
+  }
+  .field .box.focus { border-color: var(--navy-600); box-shadow: 0 0 0 3px #D2DFEA; }
+  .field .box.error { border-color: #E04827; box-shadow: 0 0 0 3px #FCE6E2; }
+  .field .box.disabled { background: var(--neutral-50); color: var(--neutral-300); border-color: var(--neutral-200); }
+  .field .box .ph { color: var(--neutral-400); }
+  .field .box textarea { border:none; outline:none; resize:vertical; width:100%; font:inherit; padding:8px 0; }
+  .hint { font-size:11px; color: var(--neutral-500); margin-top:5px; }
+  .hint.err { color: #C62400; }
+
+  /* Switch */
+  .sw { position:relative; width:44px; height:24px; border-radius:999px; background: var(--neutral-300); transition:.2s; }
+  .sw::after { content:""; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.3); }
+  .sw.on { background: var(--navy-600); }
+  .sw.on.amber { background: var(--amber-500); }
+  .sw.on::after { left:22px; }
+  .sw.dis { background: var(--neutral-200); }
+  .label-switch { display:flex; align-items:center; gap:12px; font-size:14px; margin-bottom:10px; }
+
+  /* Checkbox & radio */
+  .ctrl-row { display:flex; gap:22px; flex-wrap:wrap; align-items:center; }
+  .cb { width:20px; height:20px; border-radius:5px; border:1.5px solid var(--neutral-400); display:inline-flex; align-items:center; justify-content:center; font-size:13px; color:#fff; }
+  .cb.on { background: var(--navy-600); border-color: var(--navy-600); }
+  .cb.amber.on { background: var(--amber-500); border-color: var(--amber-500); }
+  .rd { position:relative; width:20px; height:20px; border-radius:50%; border:2px solid var(--neutral-400); display:inline-block; flex-shrink:0; box-sizing:border-box; }
+  .rd.on { border-color: var(--navy-600); }
+  .rd.on::after { content:""; position:absolute; top:50%; left:50%; width:10px; height:10px; border-radius:50%; background: var(--navy-600); transform:translate(-50%,-50%); }
+  .opt { display:flex; align-items:center; gap:8px; font-size:14px; }
+
+  /* Choice chips */
+  .chips { display:flex; gap:10px; flex-wrap:wrap; }
+  .chip-c { padding:7px 14px; border-radius:999px; font-size:13px; border:1px solid var(--neutral-300); background:#fff; color: var(--neutral-700); }
+  .chip-c.on { background: var(--navy-600); color:#fff; border-color: var(--navy-600); }
+  .chip-c.amber.on { background:#FDF4E1; color:#A06314; border-color: var(--amber-500); }
+
+  /* Tags */
+  .tags { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .tag { padding:3px 10px; border-radius:6px; font-size:12px; font-weight:500; }
+  .tag.brand   { background:#D2DFEA; color:#142F49; }
+  .tag.amber   { background:#FBE9C3; color:#A06314; }
+  .tag.success { background:#E0F9E4; color:#007612; }
+  .tag.warning { background:#FAF0DD; color:#8D6200; }
+  .tag.error   { background:#FCE6E2; color:#9E1F00; }
+  .tag.neutral { background:#EFEFEF; color:#414141; }
+
+  /* Card & list item */
+  .card { border:1px solid var(--neutral-200); border-radius: var(--radius-8); background:#fff; padding:16px; max-width:320px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .card h4 { margin:0 0 6px; font-size:15px; font-weight:600; }
+  .card p { margin:0; font-size:13px; color: var(--neutral-500); }
+  .list-item { display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--neutral-200); border-radius:var(--radius-8); background:#fff; max-width:320px; }
+  .list-item .ava { width:38px; height:38px; border-radius:50%; background:#D2DFEA; color:#142F49; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; }
+  .list-item .tx { flex:1; }
+  .list-item .tx b { display:block; font-size:14px; }
+  .list-item .tx small { color: var(--neutral-500); font-size:12px; }
+
+  /* Dialog */
+  .dialog { width:300px; border-radius:16px; background:#fff; box-shadow:0 8px 30px rgba(0,0,0,.18); overflow:hidden; }
+  .dialog .body { padding:22px 20px 8px; text-align:center; }
+  .dialog .ic { width:46px; height:46px; border-radius:50%; background:#FDF4E1; color: var(--amber-500); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:22px; }
+  .dialog h4 { margin:0 0 6px; font-size:17px; font-weight:600; }
+  .dialog p { margin:0; font-size:13px; color: var(--neutral-500); }
+  .dialog .acts { display:flex; gap:10px; padding:18px 20px 20px; }
+  .dialog .acts .btn { flex:1; text-align:center; }
+
+  /* Bottom sheet */
+  .sheet { width:300px; border-radius:16px 16px 0 0; background:#fff; box-shadow:0 -6px 24px rgba(0,0,0,.12); padding:8px 0 16px; }
+  .sheet .grip { width:40px; height:4px; border-radius:999px; background: var(--neutral-300); margin:8px auto 14px; }
+  .sheet h4 { margin:0; padding:0 20px 10px; font-size:16px; font-weight:600; }
+  .sheet .opt-row { display:flex; align-items:center; gap:12px; padding:12px 20px; font-size:14px; }
+  .sheet .opt-row:hover { background: var(--neutral-50); }
+  .sheet .opt-row .ig { width:22px; text-align:center; }
+  .sheet.framed { padding:8px 0 0; }
+  .sheet .sheet-header { display:flex; align-items:center; gap:10px; padding:4px 14px 12px; border-bottom:1px solid var(--neutral-200); }
+  .sheet .sheet-header h4 { padding:0; flex:1; }
+  .sheet .sheet-header .x { width:28px; height:28px; border-radius:999px; background: var(--neutral-100); color: var(--neutral-500); border:none; font-size:14px; cursor:default; }
+  .sheet .sheet-body { padding:6px 0; max-height:230px; overflow:auto; }
+  .sheet .sheet-content { padding:14px 20px; font-size:13px; color: var(--neutral-500); }
+  .sheet .sheet-footer { display:flex; gap:10px; padding:14px 20px 18px; border-top:1px solid var(--neutral-200); }
+  .sheet .sheet-footer .btn { flex:1; text-align:center; }
+
+  /* Variant naming */
+  .variant { display:flex; flex-direction:column; gap:8px; }
+  .variant .vname { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:11.5px; font-weight:600; color: var(--navy-600); background:#E9EFF4; padding:3px 9px; border-radius:6px; align-self:flex-start; }
+  .variant .vdesc { font-size:11px; color: var(--neutral-500); max-width:300px; }
+
+  /* Named icon cells */
+  .icon-named { display:flex; gap:18px; flex-wrap:wrap; }
+  .icon-named .cell { display:flex; flex-direction:column; align-items:center; gap:8px; width:104px; text-align:center; }
+  .icon-named .nm { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:11px; font-weight:600; color: var(--navy-600); }
+  .icon-named .ds { font-size:10px; color: var(--neutral-500); line-height:1.35; }
+
+  /* Snackbar / info bar / message */
+  .snack { border-radius:var(--radius-8); font-size:13px; color:#fff; max-width:340px; overflow:hidden; }
+  .snack.brand { background: var(--navy-600); }
+  .snack-row { display:flex; align-items:center; gap:10px; padding:12px 16px; }
+  .snack-row .tx { flex:1; }
+  .snack .act { font-weight:600; color: var(--amber-500); }
+  .snack .x { color: rgba(255,255,255,.7); cursor:default; }
+  .banner { border-radius:var(--radius-8); font-size:13px; max-width:360px; border:1px solid; overflow:hidden; }
+  .banner-row { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; }
+  .banner-row .tx { flex:1; }
+  .banner .ig { font-size:16px; line-height:1.3; }
+  .banner .x { color: currentColor; opacity:.55; cursor:default; }
+  .banner.success { background:#EAFCED; border-color:#B2EFBF; color:#0A5C0A; }
+  .banner.warning { background:#FCF6E9; border-color:#F1D8A7; color:#654A00; }
+  .banner.error   { background:#FDEEEB; border-color:#F7C3B8; color:#671800; }
+  .banner.info    { background:#E9EFF4; border-color:#A6BFD3; color:#142F49; }
+
+  /* Timed progress bar (auto-dismiss countdown) */
+  .timebar { height:3px; width:100%; }
+  .timebar.dark { background: rgba(255,255,255,.2); }
+  .timebar.light { background: rgba(0,0,0,.08); }
+  .timebar i { display:block; height:100%; transform-origin:left; animation: countdown 4s linear infinite; }
+  .timebar.dark i { background: var(--amber-500); }
+  .timebar.light i { background: currentColor; }
+  @keyframes countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+  /* Loading */
+  .spinner { width:34px; height:34px; border-radius:50%; border:3px solid var(--neutral-200); border-top-color: var(--navy-600); animation: spin 1s linear infinite; }
+  .spinner.amber { border-top-color: var(--amber-500); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .shimmer { height:14px; border-radius:6px; margin-bottom:10px; background:linear-gradient(90deg,#EFEFEF 25%,#F8F8F8 37%,#EFEFEF 63%); background-size:400% 100%; animation: shimmer 1.4s ease infinite; }
+  @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+
+  /* Selection dial / segmented */
+  .segment { display:inline-flex; border:1px solid var(--neutral-300); border-radius:var(--radius-8); overflow:hidden; }
+  .segment button { border:none; background:#fff; padding:8px 16px; font:inherit; font-size:13px; color: var(--neutral-700); cursor:default; }
+  .segment button.on { background: var(--navy-600); color:#fff; }
+
+  /* Password field eye */
+  .field .box .eye { margin-left:auto; flex-shrink:0; color: var(--neutral-400); cursor:default; }
+  .dots { letter-spacing:3px; }
+
+  /* Dropdown / select */
+  .dd-menu { border:1px solid var(--neutral-200); border-radius:var(--radius-8); box-shadow:0 6px 22px rgba(0,0,0,.12); background:#fff; width:280px; overflow:hidden; }
+  .dd-item { padding:11px 14px; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .dd-item:hover { background: var(--neutral-50); }
+  .dd-item.sel { background:#E9EFF4; color: var(--navy-600); font-weight:500; }
+  .dd-item.sel::after { content:"✓"; margin-left:auto; }
+  .dd-caret { margin-left:auto; color: var(--neutral-400); }
+
+  /* Tooltip */
+  .tip { position:relative; background: var(--neutral-700); color:#fff; font-size:12px; line-height:1.4; padding:8px 11px; border-radius:6px; max-width:190px; }
+  .tip::after { content:""; position:absolute; border:6px solid transparent; }
+  .tip.bottom::after { top:-12px; left:18px; border-bottom-color: var(--neutral-700); }
+  .tip.top::after { bottom:-12px; left:18px; border-top-color: var(--neutral-700); }
+  .tip.brand { background: var(--navy-600); }
+  .tip.brand.top::after { border-top-color: var(--navy-600); }
+
+  /* Toast */
+  .toast { display:flex; align-items:center; gap:11px; padding:12px 14px; border-radius:10px; font-size:13px; max-width:340px; background:#fff; box-shadow:0 4px 18px rgba(0,0,0,.14); border-left:4px solid; }
+  .toast .ic { font-size:16px; }
+  .toast.success { border-color:#23C85A; } .toast.success .ic { color:#008A27; }
+  .toast.error   { border-color:#E04827; } .toast.error .ic   { color:#C62400; }
+  .toast.warning { border-color:#CE8B00; } .toast.warning .ic { color:#8D6200; }
+  .toast.info    { border-color:#1B73C2; } .toast.info .ic    { color:#155C9C; }
+  .toast .x { margin-left:auto; color: var(--neutral-400); }
+
+  /* OTP / code input */
+  .otp { display:flex; gap:10px; }
+  .otp .cell { width:44px; height:52px; border:1px solid var(--neutral-300); border-radius:var(--radius-8); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:600; color: var(--neutral-700); background:#fff; }
+  .otp .cell.filled { border-color: var(--navy-600); }
+  .otp .cell.focus  { border-color: var(--navy-600); box-shadow:0 0 0 3px #D2DFEA; }
+  .otp .cell.error  { border-color:#E04827; box-shadow:0 0 0 3px #FCE6E2; color:#C62400; }
+
+  /* Tabs */
+  .tabs { display:flex; border-bottom:1px solid var(--neutral-200); }
+  .tabs .tab { padding:12px 18px; font-size:14px; color: var(--neutral-500); border-bottom:2px solid transparent; }
+  .tabs .tab.on { color: var(--navy-600); font-weight:600; border-bottom-color: var(--navy-600); }
+  .pill-tabs { display:inline-flex; gap:4px; background: var(--neutral-100); padding:4px; border-radius:999px; }
+  .pill-tabs .pt { padding:7px 16px; border-radius:999px; font-size:13px; color: var(--neutral-500); }
+  .pill-tabs .pt.on { background:#fff; color: var(--navy-600); font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+
+  /* Bottom navigation bar */
+  .bottombar { display:flex; align-items:flex-end; justify-content:space-around; background:#fff; border-top:1px solid var(--neutral-200); padding:8px 6px 12px; }
+  .bottombar .nav { text-align:center; font-size:9px; color: var(--neutral-400); }
+  .bottombar .nav .ic { font-size:21px; display:block; margin-bottom:2px; }
+  .bottombar .nav.on { color: var(--navy-600); font-weight:600; }
+  .bottombar .qr { width:46px; height:46px; margin:-4px auto 2px; background: var(--amber-500); border:3px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px; box-shadow:0 4px 12px rgba(232,160,32,.45); }
+
+  footer { text-align:center; color: var(--neutral-500); font-size: 12px; padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Common Design System <span class="accent">·</span> Token Reference</h1>
+  <p>Định nghĩa token thực tế của package <code style="background:rgba(255,255,255,.15);color:#fff">benny_style</code> — Navy + Amber · font Figtree</p>
+</header>
+
+<main>
+
+  <!-- COLORS -->
+  <section id="colors">
+    <h2>1. Colors</h2>
+    <p class="sub">7 vai trò × dải 25→900 (~77 token). ★ = giá trị thương hiệu.</p>
+
+    <div class="ramp">
+      <p class="ramp-name">Brand — Navy <span>· primary actions, headers</span></p>
+      <div class="swatches" data-ramp="brand"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Secondary — Amber <span>· highlights, money, center action</span></p>
+      <div class="swatches" data-ramp="secondary"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Neutral — Gray <span>· text, borders, surfaces, disabled</span></p>
+      <div class="swatches" data-ramp="neutral"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Success</p>
+      <div class="swatches" data-ramp="success"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Warning</p>
+      <div class="swatches" data-ramp="warning"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Error — Danger</p>
+      <div class="swatches" data-ramp="error"></div>
+    </div>
+    <div class="ramp">
+      <p class="ramp-name">Info <span>· banner thông tin, trạng thái trung lập (blue, tách biệt với Navy brand)</span></p>
+      <div class="swatches" data-ramp="info"></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section id="typography">
+    <h2>2. Typography</h2>
+    <p class="sub">Font Figtree · 5 vai trò × 3 size (sm / md / lg). Cột "Mẫu" hiển thị size <b>md</b>.</p>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>sm</th><th>md</th><th>lg</th><th>Line (md)</th><th>Weight</th><th>Mẫu (md)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>H1</td><td>24</td><td>28</td><td>32</td><td>40</td><td>600</td><td class="type-h1">Heading 1</td></tr>
+        <tr><td>H2</td><td>18</td><td>20</td><td>22</td><td>32</td><td>600</td><td class="type-h2">Heading 2</td></tr>
+        <tr><td>H3</td><td>14</td><td>15</td><td>16</td><td>22</td><td>600</td><td class="type-h3">Heading 3</td></tr>
+        <tr><td>Paragraph</td><td>13</td><td>14</td><td>15</td><td>22</td><td>400–500</td><td class="type-p">Body paragraph text</td></tr>
+        <tr><td>Caption</td><td>11</td><td>12</td><td>13</td><td>18</td><td>400</td><td class="type-cap">Caption / helper text</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FONT WEIGHTS -->
+  <section id="weights">
+    <h2>3. Font Weights</h2>
+    <p class="sub">Chỉ 3 weight được định nghĩa.</p>
+    <div class="weight-row w400">w400 — Regular · The quick brown fox</div>
+    <div class="weight-row w500">w500 — Medium · The quick brown fox</div>
+    <div class="weight-row w600">w600 — Semibold · The quick brown fox</div>
+  </section>
+
+  <!-- SPACING -->
+  <section id="spacing">
+    <h2>4. Spacing</h2>
+    <p class="sub">Lưới gốc 4 · 12 bước (0 → 40). Mặc định gutter & padding card = 16.</p>
+    <div id="space-list"></div>
+  </section>
+
+  <!-- RADIUS -->
+  <section id="radius">
+    <h2>5. Border Radius</h2>
+    <p class="sub">4 token. Mặc định button / input / card = 8.</p>
+    <div class="radius-grid">
+      <div class="radius-box"><div class="demo" style="border-radius:0"></div>zero · 0</div>
+      <div class="radius-box"><div class="demo" style="border-radius:4px"></div>small · 4</div>
+      <div class="radius-box"><div class="demo" style="border-radius:8px"></div>medium · 8 ★</div>
+      <div class="radius-box"><div class="demo" style="border-radius:16px"></div>large · 16</div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section id="buttons">
+    <h2>6. Buttons</h2>
+    <p class="sub">4 hierarchy × 4 color type · radius 8 · padding mặc định H12/V8.</p>
+
+    <p class="ramp-name">Hierarchy</p>
+    <div class="btn-grid">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-tertiary">Tertiary</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-disabled">Disabled</button>
+    </div>
+
+    <p class="ramp-name" style="margin-top:24px">Color type</p>
+    <div class="btn-grid">
+      <button class="btn btn-primary">Brand</button>
+      <button class="btn btn-success">Success</button>
+      <button class="btn btn-error">Error</button>
+      <button class="btn btn-secondary" style="color:var(--neutral-700);border-color:var(--neutral-300)">Neutral</button>
+    </div>
+
+    <p class="ramp-name" style="margin-top:24px">Size <span>(đề xuất S/M/L — hiện điều khiển bằng padding)</span></p>
+    <div class="btn-size-row">
+      <button class="btn btn-primary bs-sm">Small · 32</button>
+      <button class="btn btn-primary bs-md">Medium · 40</button>
+      <button class="btn btn-primary bs-lg">Large · 48</button>
+    </div>
+    <p class="note" style="margin-top:18px">Tap target tối thiểu <b>44×44 (iOS) / 48×48 (Android)</b>, bất kể size hiển thị.</p>
+  </section>
+
+  <!-- ICON / BACK BUTTONS -->
+  <section id="iconbuttons">
+    <h2>7. Icon &amp; Back Buttons</h2>
+    <p class="sub">Tên đặt theo hierarchy (khớp section 6) · radius 8 · tap target 44/48. Mỗi dạng có tên gọi để tham chiếu.</p>
+
+    <p class="label-sm">Hierarchy &amp; color type</p>
+    <div class="icon-named">
+      <div class="cell"><button class="iconbtn filled">＋</button><span class="nm">IconButton.primary</span><span class="ds">Filled Navy · hành động chính</span></div>
+      <div class="cell"><button class="iconbtn tonal">♡</button><span class="nm">IconButton.secondary</span><span class="ds">Tonal · fill nhạt</span></div>
+      <div class="cell"><button class="iconbtn outline">⚙</button><span class="nm">IconButton.tertiary</span><span class="ds">Outline · viền</span></div>
+      <div class="cell"><button class="iconbtn ghost" style="color:var(--navy-600)">⋯</button><span class="nm">IconButton.ghost</span><span class="ds">Trong suốt · ít nhấn</span></div>
+      <div class="cell"><button class="iconbtn error">🗑</button><span class="nm">IconButton.error</span><span class="ds">Filled Error · phá huỷ</span></div>
+    </div>
+
+    <p class="label-sm">Shape <span>· modifier áp lên mọi hierarchy</span></p>
+    <div class="icon-named">
+      <div class="cell"><button class="iconbtn filled">＋</button><span class="nm">.square</span><span class="ds">Mặc định · radius 8</span></div>
+      <div class="cell"><button class="iconbtn filled round">＋</button><span class="nm">.round</span><span class="ds">Bo tròn 50%</span></div>
+    </div>
+
+    <p class="label-sm">Back button <span>· chính là IconButton + icon ← , thường dùng .ghost trên App Bar</span></p>
+    <div class="icon-named">
+      <div class="cell"><button class="iconbtn ghost" style="color:var(--navy-600)">←</button><span class="nm">BackButton.ghost</span><span class="ds">Mặc định trên App Bar</span></div>
+      <div class="cell"><button class="iconbtn tonal">←</button><span class="nm">BackButton.tonal</span><span class="ds">Nền ảnh / header màu</span></div>
+      <div class="cell"><button class="iconbtn round" style="background:var(--neutral-100);color:var(--navy-600)">←</button><span class="nm">BackButton.round</span><span class="ds">Nổi trên ảnh full-bleed</span></div>
+    </div>
+  </section>
+
+  <!-- APP BAR -->
+  <section id="appbar">
+    <h2>8. App Bar</h2>
+    <p class="sub">Back button + title + actions. 2 phong cách: brand (Navy) và light (nền trắng).</p>
+    <div class="preview">
+      <div class="phone">
+        <div class="appbar brand">
+          <button class="iconbtn ghost">←</button>
+          <span class="ttl">Brand App Bar</span>
+          <div class="actions">
+            <button class="iconbtn ghost">🔍</button>
+            <button class="iconbtn ghost">⋯</button>
+          </div>
+        </div>
+        <div style="height:60px"></div>
+      </div>
+      <div class="phone">
+        <div class="appbar light">
+          <button class="iconbtn ghost" style="color:var(--navy-600)">←</button>
+          <span class="ttl">Light App Bar</span>
+          <div class="actions">
+            <button class="iconbtn ghost" style="color:var(--navy-600)">🔍</button>
+            <button class="iconbtn ghost" style="color:var(--amber-500)">✎</button>
+          </div>
+        </div>
+        <div style="height:60px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEXT FIELDS -->
+  <section id="fields">
+    <h2>9. Text Fields</h2>
+    <p class="sub">Height 36 · radius 8 · các state: default / focus (Navy) / error / disabled.</p>
+    <div class="preview">
+      <div>
+        <div class="field"><label>Default</label><div class="box"><span class="ph">Nhập email…</span></div></div>
+        <div class="field"><label>Focus</label><div class="box focus">email@benny.app</div></div>
+      </div>
+      <div>
+        <div class="field"><label>Error</label><div class="box error">sai-dinh-dang<span style="margin-left:auto;color:#E04827">⚠</span></div><div class="hint err">Email không hợp lệ</div></div>
+        <div class="field"><label>Disabled</label><div class="box disabled"><span class="ph">Không khả dụng</span></div></div>
+      </div>
+      <div>
+        <div class="field"><label>Password — obscured</label><div class="box"><span class="dots">••••••••••</span><svg class="eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="hint">Chạm biểu tượng mắt để hiện/ẩn</div></div>
+        <div class="field"><label>Password — revealed</label><div class="box focus">Benny@2026<svg class="eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div></div>
+        <div class="field"><label>Search</label><div class="box">🔍 <span class="ph">Tìm kiếm</span></div></div>
+      </div>
+      <div>
+        <div class="field"><label>Phone</label><div class="box">🇻🇳 +84 <span>912 345 678</span></div></div>
+        <div class="field"><label>Text Area</label><div class="box" style="align-items:flex-start;padding:0 12px"><textarea rows="3" placeholder="Nội dung…"></textarea></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SWITCH / CHECKBOX / RADIO -->
+  <section id="selection">
+    <h2>10. Switch · Checkbox · Radio</h2>
+    <p class="sub">On = Navy (mặc định) hoặc Amber. Bao gồm cả label-switch.</p>
+
+    <p class="label-sm">Switch</p>
+    <div class="ctrl-row" style="gap:30px">
+      <div class="opt"><span class="sw on"></span> On (Navy)</div>
+      <div class="opt"><span class="sw on amber"></span> On (Amber)</div>
+      <div class="opt"><span class="sw"></span> Off</div>
+      <div class="opt"><span class="sw dis"></span> Disabled</div>
+    </div>
+    <div class="label-switch" style="margin-top:16px"><span>Nhận thông báo đẩy</span><span class="sw on" style="margin-left:auto"></span></div>
+
+    <p class="label-sm">Checkbox</p>
+    <div class="ctrl-row">
+      <div class="opt"><span class="cb on">✓</span> Đã chọn</div>
+      <div class="opt"><span class="cb amber on">✓</span> Amber</div>
+      <div class="opt"><span class="cb"></span> Chưa chọn</div>
+      <div class="opt"><span class="cb on" style="background:var(--neutral-300);border-color:var(--neutral-300)">✓</span> Disabled</div>
+    </div>
+
+    <p class="label-sm">Radio</p>
+    <div class="ctrl-row">
+      <div class="opt"><span class="rd on"></span> Đã chọn</div>
+      <div class="opt"><span class="rd"></span> Chưa chọn</div>
+    </div>
+
+    <p class="label-sm">Choice Chip</p>
+    <div class="chips">
+      <span class="chip-c on">Tất cả</span>
+      <span class="chip-c">Đang chờ</span>
+      <span class="chip-c amber on">Nổi bật</span>
+      <span class="chip-c">Hoàn tất</span>
+    </div>
+
+    <p class="label-sm">Segmented / Selection Dial</p>
+    <div class="segment">
+      <button class="on">Ngày</button>
+      <button>Tuần</button>
+      <button>Tháng</button>
+    </div>
+  </section>
+
+  <!-- TAGS -->
+  <section id="tags">
+    <h2>11. Tags / Badges</h2>
+    <p class="sub">Dùng dải nhạt (100) + chữ đậm (700) của mỗi color role.</p>
+    <div class="tags">
+      <span class="tag brand">Brand</span>
+      <span class="tag amber">Highlight</span>
+      <span class="tag success">Thành công</span>
+      <span class="tag warning">Đang chờ</span>
+      <span class="tag error">Lỗi</span>
+      <span class="tag neutral">Mặc định</span>
+    </div>
+  </section>
+
+  <!-- CARD & LIST ITEM -->
+  <section id="containers">
+    <h2>12. Card &amp; List Item</h2>
+    <p class="sub">Radius 8 · padding 16 · shadow nhẹ.</p>
+    <div class="preview">
+      <div class="card">
+        <h4>Số dư khả dụng</h4>
+        <p>Cập nhật lần cuối hôm nay</p>
+        <div style="font-size:24px;font-weight:600;color:var(--amber-500);margin-top:10px">12.480.000 ₫</div>
+      </div>
+      <div>
+        <div class="list-item" style="margin-bottom:10px">
+          <div class="ava">HB</div>
+          <div class="tx"><b>Huu Bao</b><small>huubao@benny.app</small></div>
+          <span class="sw on"></span>
+        </div>
+        <div class="list-item">
+          <div class="ava" style="background:#FBE9C3;color:#A06314">★</div>
+          <div class="tx"><b>Tài khoản nổi bật</b><small>Quyền truy cập đầy đủ</small></div>
+          <span style="color:var(--neutral-400)">›</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIALOG -->
+  <section id="dialog">
+    <h2>13. Dialog</h2>
+    <p class="sub">Radius 16 · icon + tiêu đề + mô tả + action. Mỗi biến thể có tên gọi để dễ tham chiếu khi thiết kế.</p>
+    <div class="preview">
+
+      <div class="variant">
+        <span class="vname">Dialog.destructive</span>
+        <span class="vdesc">2 button: Secondary "Huỷ" + Error "Xoá". Dùng cho hành động phá huỷ.</span>
+        <div class="dialog">
+          <div class="body">
+            <div class="ic" style="background:#FCE6E2;color:#C62400">!</div>
+            <h4>Xoá tài khoản?</h4>
+            <p>Hành động này không thể hoàn tác. Toàn bộ dữ liệu sẽ bị xoá vĩnh viễn.</p>
+          </div>
+          <div class="acts">
+            <button class="btn btn-secondary">Huỷ</button>
+            <button class="btn btn-error">Xoá</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="variant">
+        <span class="vname">Dialog.confirm</span>
+        <span class="vdesc">2 button: Secondary "Huỷ" + Primary "Đồng ý". Xác nhận hành động thường.</span>
+        <div class="dialog">
+          <div class="body">
+            <div class="ic">?</div>
+            <h4>Đăng xuất?</h4>
+            <p>Bạn sẽ cần đăng nhập lại để tiếp tục sử dụng ứng dụng.</p>
+          </div>
+          <div class="acts">
+            <button class="btn btn-secondary">Huỷ</button>
+            <button class="btn btn-primary">Đồng ý</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="variant">
+        <span class="vname">Dialog.acknowledge</span>
+        <span class="vdesc">1 button: Primary "Đã hiểu". Thông báo kết quả, chỉ cần xác nhận.</span>
+        <div class="dialog">
+          <div class="body">
+            <div class="ic" style="background:#EAFCED;color:#008A27">✓</div>
+            <h4>Thành công</h4>
+            <p>Mật khẩu của bạn đã được cập nhật.</p>
+          </div>
+          <div class="acts">
+            <button class="btn btn-primary">Đã hiểu</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BOTTOM SHEET -->
+  <section id="sheet">
+    <h2>14. Bottom Sheet</h2>
+    <p class="sub">Radius 16 ở 2 góc trên. Mỗi biến thể có tên gọi để dễ tham chiếu khi thiết kế.</p>
+    <div class="preview">
+
+      <div class="variant">
+        <span class="vname">BottomSheet.options</span>
+        <span class="vdesc">Grip + tiêu đề + danh sách lựa chọn. Menu action nhanh, không footer.</span>
+        <div class="sheet">
+          <div class="grip"></div>
+          <h4>Tuỳ chọn</h4>
+          <div class="opt-row"><span class="ig">✎</span> Chỉnh sửa</div>
+          <div class="opt-row"><span class="ig">🔗</span> Chia sẻ</div>
+          <div class="opt-row"><span class="ig">⭐</span> Đánh dấu nổi bật</div>
+          <div class="opt-row" style="color:#C62400"><span class="ig">🗑</span> Xoá</div>
+        </div>
+      </div>
+
+      <div class="variant">
+        <span class="vname">BottomSheet.list</span>
+        <span class="vdesc">Header (tiêu đề + nút đóng) + Item List cuộn được + Footer 1 button. Bố cục đầy đủ.</span>
+        <div class="sheet framed">
+          <div class="grip"></div>
+          <div class="sheet-header">
+            <h4>Chọn ngân hàng</h4>
+            <button class="x">✕</button>
+          </div>
+          <div class="sheet-body">
+            <div class="opt-row"><span class="rd on"></span> Vietcombank</div>
+            <div class="opt-row"><span class="rd"></span> Techcombank</div>
+            <div class="opt-row"><span class="rd"></span> BIDV</div>
+            <div class="opt-row"><span class="rd"></span> MB Bank</div>
+            <div class="opt-row"><span class="rd"></span> ACB</div>
+          </div>
+          <div class="sheet-footer">
+            <button class="btn btn-primary">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="variant">
+        <span class="vname">BottomSheet.confirm</span>
+        <span class="vdesc">Header + nội dung + Footer 2 button (Secondary "Huỷ" + Primary/Error). Xác nhận trong sheet.</span>
+        <div class="sheet framed">
+          <div class="grip"></div>
+          <div class="sheet-header">
+            <h4>Xác nhận thanh toán</h4>
+            <button class="x">✕</button>
+          </div>
+          <div class="sheet-content">
+            Bạn đang chuyển <b style="color:var(--amber-500)">2.500.000 ₫</b> tới
+            <b style="color:var(--neutral-700)">Nguyễn Hữu Bảo</b>. Vui lòng kiểm tra trước khi tiếp tục.
+          </div>
+          <div class="sheet-footer">
+            <button class="btn btn-secondary">Huỷ</button>
+            <button class="btn btn-primary">Thanh toán</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="variant">
+        <span class="vname">BottomSheet.acknowledge</span>
+        <span class="vdesc">Header + nội dung + Footer 1 button (Primary). Thông báo / kết quả trong sheet.</span>
+        <div class="sheet framed">
+          <div class="grip"></div>
+          <div class="sheet-header">
+            <h4>Điều khoản sử dụng</h4>
+            <button class="x">✕</button>
+          </div>
+          <div class="sheet-content">
+            Bằng việc tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi.
+          </div>
+          <div class="sheet-footer">
+            <button class="btn btn-primary">Tôi đồng ý</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section id="feedback">
+    <h2>15. Snackbar · Info Bar · Messages</h2>
+    <p class="sub">Snackbar nền Navy + action Amber. Có nút <b>✕</b> đóng + thanh progress đếm ngược (auto-dismiss) chạy bên dưới.</p>
+
+    <p class="label-sm">Snackbar <span>· nền Navy · progress Amber</span></p>
+    <div class="snack brand">
+      <div class="snack-row"><span>✓</span><span class="tx">Đã lưu thay đổi</span><span class="act">HOÀN TÁC</span><span class="x">✕</span></div>
+      <div class="timebar dark"><i></i></div>
+    </div>
+
+    <p class="label-sm">Info Bar (timed) <span>· 4 color role · progress theo màu role</span></p>
+    <div class="preview" style="flex-direction:column;gap:12px">
+      <div class="banner success">
+        <div class="banner-row"><span class="ig">✓</span><div class="tx"><b>Thành công.</b> Giao dịch đã hoàn tất.</div><span class="x">✕</span></div>
+        <div class="timebar light"><i></i></div>
+      </div>
+      <div class="banner warning">
+        <div class="banner-row"><span class="ig">⚠</span><div class="tx"><b>Đang chờ.</b> Giao dịch đang được xử lý.</div><span class="x">✕</span></div>
+        <div class="timebar light"><i style="animation-duration:6s"></i></div>
+      </div>
+      <div class="banner error">
+        <div class="banner-row"><span class="ig">✕</span><div class="tx"><b>Thất bại.</b> Vui lòng thử lại sau.</div><span class="x">✕</span></div>
+        <div class="timebar light"><i style="animation-duration:5s"></i></div>
+      </div>
+      <div class="banner info">
+        <div class="banner-row"><span class="ig">ⓘ</span><div class="tx"><b>Thông tin.</b> Phiên bản mới đã sẵn sàng.</div><span class="x">✕</span></div>
+        <div class="timebar light"><i style="animation-duration:7s"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOADING -->
+  <section id="loading">
+    <h2>16. Loading &amp; Skeleton</h2>
+    <p class="sub">Spinner (Navy/Amber) · circle progress · shimmer skeleton.</p>
+    <div class="preview" style="align-items:center;gap:40px">
+      <div style="text-align:center;font-size:12px;color:var(--neutral-500)"><div class="spinner" style="margin:0 auto 8px"></div>Navy</div>
+      <div style="text-align:center;font-size:12px;color:var(--neutral-500)"><div class="spinner amber" style="margin:0 auto 8px"></div>Amber</div>
+      <div style="width:260px">
+        <div class="shimmer" style="width:70%"></div>
+        <div class="shimmer"></div>
+        <div class="shimmer" style="width:85%"></div>
+        <div class="shimmer" style="width:40%;margin-bottom:0"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DROPDOWN -->
+  <section id="dropdown">
+    <h2>17. Dropdown / Select</h2>
+    <p class="sub">Field (height 36, radius 8) + menu nổi. Mục đã chọn nền Navy nhạt + dấu ✓.</p>
+    <div class="preview">
+      <div>
+        <div class="field"><label>Đóng (collapsed)</label><div class="box"><span class="ph">Chọn quốc gia</span><span class="dd-caret">▾</span></div></div>
+        <div class="field"><label>Có giá trị</label><div class="box focus">Việt Nam<span class="dd-caret">▴</span></div></div>
+      </div>
+      <div class="dd-menu">
+        <div class="dd-item sel">Việt Nam</div>
+        <div class="dd-item">Singapore</div>
+        <div class="dd-item">Thái Lan</div>
+        <div class="dd-item">Nhật Bản</div>
+        <div class="dd-item">Hàn Quốc</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLTIP -->
+  <section id="tooltip">
+    <h2>18. Tooltip</h2>
+    <p class="sub">Nền Neutral/700 (hoặc Navy) · mũi tên chỉ hướng · text caption.</p>
+    <div class="preview" style="gap:40px;padding-top:14px">
+      <div class="tip bottom">Mẹo: chạm giữ để xem thêm tuỳ chọn.</div>
+      <div class="tip top" style="margin-top:14px">Số dư khả dụng sau khi trừ phí.</div>
+      <div class="tip brand bottom">Tính năng mới — đã cập nhật!</div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <section id="toast">
+    <h2>19. Toast Message</h2>
+    <p class="sub">Nổi tạm thời (auto-dismiss) · nền trắng + viền trái theo color role · có nút đóng.</p>
+    <div class="preview" style="flex-direction:column;gap:12px">
+      <div class="toast success"><span class="ic">✓</span><div>Lưu thay đổi thành công.</div><span class="x">✕</span></div>
+      <div class="toast error"><span class="ic">✕</span><div>Không thể kết nối máy chủ.</div><span class="x">✕</span></div>
+      <div class="toast warning"><span class="ic">⚠</span><div>Phiên đăng nhập sắp hết hạn.</div><span class="x">✕</span></div>
+      <div class="toast info"><span class="ic">ⓘ</span><div>Đã sao chép vào bộ nhớ tạm.</div><span class="x">✕</span></div>
+    </div>
+  </section>
+
+  <!-- OTP / CODE INPUT -->
+  <section id="otp">
+    <h2>20. Code Input (OTP)</h2>
+    <p class="sub">Ô vuông 44×52 · radius 8 · các state: filled / focus (Navy) / error · có chế độ che (obscure).</p>
+    <p class="label-sm">Đang nhập</p>
+    <div class="otp">
+      <div class="cell filled">1</div>
+      <div class="cell filled">2</div>
+      <div class="cell filled">9</div>
+      <div class="cell focus"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <p class="label-sm">Che mã (obscure) <span>· hiển thị ● thay vì số — đồng bộ với password field</span></p>
+    <div class="otp">
+      <div class="cell filled">●</div>
+      <div class="cell filled">●</div>
+      <div class="cell filled">●</div>
+      <div class="cell focus"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <p class="label-sm">Sai mã <span>· kèm text lỗi bên dưới</span></p>
+    <div class="otp">
+      <div class="cell error">1</div>
+      <div class="cell error">2</div>
+      <div class="cell error">9</div>
+      <div class="cell error">0</div>
+      <div class="cell error">3</div>
+      <div class="cell error">7</div>
+    </div>
+    <div class="hint err" style="margin-top:8px">Mã xác thực không đúng. Vui lòng thử lại.</div>
+  </section>
+
+  <!-- TABS -->
+  <section id="tabs">
+    <h2>21. Tabs</h2>
+    <p class="sub">2 kiểu: underline (Navy) và pill segmented.</p>
+    <p class="label-sm">Underline tabs</p>
+    <div class="phone" style="width:340px">
+      <div class="tabs">
+        <div class="tab on">Tổng quan</div>
+        <div class="tab">Giao dịch</div>
+        <div class="tab">Thống kê</div>
+      </div>
+      <div style="height:50px"></div>
+    </div>
+    <p class="label-sm">Pill tabs</p>
+    <div class="pill-tabs">
+      <span class="pt on">Ngày</span>
+      <span class="pt">Tuần</span>
+      <span class="pt">Tháng</span>
+      <span class="pt">Năm</span>
+    </div>
+  </section>
+
+  <!-- BOTTOM BAR -->
+  <section id="bottombar">
+    <h2>22. Bottom Navigation Bar</h2>
+    <p class="sub">5 tab · active = Navy + nhãn đậm · inactive = Gray · nút QR Amber nổi ở giữa.</p>
+    <div class="phone" style="width:300px">
+      <div class="bottombar">
+        <div class="nav on"><span class="ic">⌂</span>Trang chủ</div>
+        <div class="nav"><span class="ic">↻</span>Lịch sử</div>
+        <div class="nav"><div class="qr">▦</div><span style="color:#A06314;font-weight:600">Quét QR</span></div>
+        <div class="nav"><span class="ic">₫</span>Hoa hồng</div>
+        <div class="nav"><span class="ic">☺</span>Hồ sơ</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Token verified against <code>packages/benny_style</code> · Single light theme (dark mode removed)
+</footer>
+
+<script>
+  const RAMPS = {
+    brand: { star: "600", colors: {
+      "25":"#F3F6F9","50":"#E9EFF4","100":"#D2DFEA","200":"#A6BFD3","300":"#7A9EBD",
+      "400":"#3E6B92","500":"#27557D","600":"#1A3C5E","700":"#142F49","800":"#0E2234","900":"#081521" } },
+    secondary: { star: "500", colors: {
+      "25":"#FEFBF4","50":"#FDF4E1","100":"#FBE9C3","200":"#F6D78F","300":"#F1C45B",
+      "400":"#ECB237","500":"#E8A020","600":"#C9831A","700":"#A06314","800":"#6E430D","900":"#3D2507" } },
+    neutral: { star: null, colors: {
+      "25":"#FBFBFB","50":"#F8F8F8","100":"#EFEFEF","200":"#E6E6E6","300":"#C6C6C6",
+      "400":"#9A9A9A","500":"#6A6A6A","600":"#414141","700":"#242424","800":"#131313","900":"#0D0D0D" } },
+    success: { star: null, colors: {
+      "25":"#F5FFF7","50":"#EAFCED","100":"#E0F9E4","200":"#C9F4D1","300":"#B2EFBF",
+      "400":"#6FDF8D","500":"#23C85A","600":"#008A27","700":"#007612","800":"#0A5C0A","900":"#003400" } },
+    warning: { star: null, colors: {
+      "25":"#FFFCF5","50":"#FCF6E9","100":"#FAF0DD","200":"#F5E4C1","300":"#F1D8A7",
+      "400":"#E3B556","500":"#CE8B00","600":"#B17900","700":"#8D6200","800":"#654A00","900":"#403500" } },
+    error: { star: null, colors: {
+      "25":"#FFF7F5","50":"#FDEEEB","100":"#FCE6E2","200":"#F9D4CD","300":"#F7C3B8",
+      "400":"#EE8B76","500":"#E04827","600":"#C62400","700":"#9E1F00","800":"#671800","900":"#260D00" } },
+    info: { star: "500", colors: {
+      "25":"#F2F8FD","50":"#E6F1FB","100":"#C9E2F6","200":"#9BCBEF","300":"#6DB3E7",
+      "400":"#3D8FD6","500":"#1B73C2","600":"#155C9C","700":"#114A7E","800":"#0C3457","900":"#071E33" } },
+  };
+
+  function lum(hex){
+    const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    return (0.299*r+0.587*g+0.114*b);
+  }
+  Object.entries(RAMPS).forEach(([name, def]) => {
+    const host = document.querySelector(`[data-ramp="${name}"]`);
+    Object.entries(def.colors).forEach(([k, hex]) => {
+      const isStar = def.star === k;
+      const el = document.createElement("div");
+      el.className = "swatch";
+      el.innerHTML =
+        `<div class="chip" style="background:${hex}"></div>` +
+        `<div class="meta"><b>${k}${isStar ? ' <span class="star">★</span>' : ''}</b>` +
+        `<span class="hex">${hex}</span></div>`;
+      host.appendChild(el);
+    });
+  });
+
+  const SPACING = [
+    ["zero",0],["superTiny",2],["tiny",4],["small",8],["smallX",12],["medium",16],
+    ["mediumX",20],["large",24],["largeX",28],["largeXX",32],["extraLarge",36],["extraLargeX",40]
+  ];
+  const sl = document.getElementById("space-list");
+  SPACING.forEach(([n, v]) => {
+    const row = document.createElement("div");
+    row.className = "space-row";
+    row.innerHTML =
+      `<div class="label"><code>${n}</code> · ${v}px</div>` +
+      `<div class="space-bar" style="width:${Math.max(v,1)}px"></div>`;
+    sl.appendChild(row);
+  });
+</script>
+</body>
+</html>

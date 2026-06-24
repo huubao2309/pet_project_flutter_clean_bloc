@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/di/injection.dart';
 
 /// White rounded card that groups [ProfileTile]s, separating them with thin
-/// dividers. Brightness-aware (surface + border flip in Dark Mode).
+/// dividers.
 class ProfileGroup extends StatelessWidget {
   const ProfileGroup({required this.children, super.key});
 

@@ -14,6 +14,7 @@ class BennyGhostIconButton extends StatelessWidget {
     required this.svgIconName,
     this.size,
     this.padding,
+    this.iconColor,
   });
 
   final String svgIconName;
@@ -22,15 +23,20 @@ class BennyGhostIconButton extends StatelessWidget {
   final double? size;
   final EdgeInsets? padding;
 
+  /// Optional override for the (enabled) icon colour. When null the colour is
+  /// derived from [type]. Callers pass a theme token (e.g. a brightness-aware
+  /// `colors.*`) so the icon can flip with Light/Dark mode.
+  final Color? iconColor;
+
   @override
   Widget build(BuildContext context) {
     final BennyButtonStyle buttonStyle =
         BennyButtonStyle(type: type, isIconButton: true);
 
     final BaseButtonTypeStyle colorStyle = _getColor();
-    Color iconColor = (onPressed == null)
+    final Color resolvedIconColor = (onPressed == null)
         ? colorStyle.ghost.foregroundDisableColor
-        : colorStyle.ghost.foregroundActiveColor;
+        : (iconColor ?? colorStyle.ghost.foregroundActiveColor);
     return BaseIconButton(
       onPressed: onPressed,
       size: size,
@@ -39,7 +45,7 @@ class BennyGhostIconButton extends StatelessWidget {
         padding: padding ?? const EdgeInsets.all(2.0),
         child: SvgPicture.asset(
           svgIconName,
-          colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(resolvedIconColor, BlendMode.srcIn),
         ),
       ),
     );
