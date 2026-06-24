@@ -1,53 +1,92 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 
-import 'package:pet_project_flutter_clean_bloc/core/router/app_router.dart';
-import 'package:pet_project_flutter_clean_bloc/core/storage/secure_storage/secure_storage.dart';
-import 'package:pet_project_flutter_clean_bloc/environments/env_type.dart';
-import 'package:pet_project_flutter_clean_bloc/main.dart';
+import 'package:pet_project_flutter_clean_bloc/core/theme/benny_style_initializer.dart';
+import 'package:pet_project_flutter_clean_bloc/features/home/presentation/widgets/section_header.dart';
+import 'package:pet_project_flutter_clean_bloc/features/home/presentation/widgets/status_badge.dart';
 
-class _FakeSecureStorage implements SecureStorage {
-  @override
-  Future<void> saveAccessToken(String token) async {}
+import 'helpers/test_setup.dart';
 
-  @override
-  Future<String?> getAccessToken() async => null;
-
-  @override
-  Future<void> saveRefreshToken(String token) async {}
-
-  @override
-  Future<String?> getRefreshToken() async => null;
-}
-
+/// Smoke widget tests for a couple of dependency-light dashboard widgets.
+///
+/// The previous version pumped the whole [MyApp], which now needs the full
+/// plugin-backed DI graph (device info, Hive, secure storage) plus the real
+/// splash route — not something a plain `flutter test` can build. These tests
+/// instead exercise leaf widgets that only depend on the design-system
+/// [ThemeState], which [BennyStyleInitializer] registers without any plugins.
 void main() {
   setUpAll(() async {
-    await EasyLocalization.ensureInitialized();
-
-    if (!GetIt.instance.isRegistered<SecureStorage>()) {
-      GetIt.instance.registerSingleton<SecureStorage>(_FakeSecureStorage());
-    }
-    if (!GetIt.instance.isRegistered<AppRouter>()) {
-      GetIt.instance.registerSingleton<AppRouter>(
-        await AppRouter.create(GetIt.instance<SecureStorage>()),
-      );
-    }
+    await ensureTestBinding();
+    BennyStyleInitializer.ensureInitialized();
   });
 
-  testWidgets('MyApp renders without crashing', (tester) async {
-    await tester.pumpWidget(
-      EasyLocalization(
-        supportedLocales: const [Locale('vi'), Locale('en')],
-        path: 'assets/translations',
-        fallbackLocale: const Locale('vi'),
-        child: const MyApp(envType: EnvType.staging),
-      ),
-    );
-    await tester.pump();
-    // Splash → redirect handled by router; app must render a MaterialApp.
-    expect(find.byType(MaterialApp), findsNothing); // MaterialApp.router, not MaterialApp
-    expect(find.byType(Router), findsOneWidget);
+  Widget wrap(Widget child) => MaterialApp(
+        home: Scaffold(body: Center(child: child)),
+      );
+
+  group('StatusBadge', () {
+    testWidgets('renders its label', (tester) async {
+      await tester.pumpWidget(
+        wrap(
+          const StatusBadge(
+            label: 'Đang bán',
+            color: Colors.white,
+            background: Colors.green,
+          ),
+        ),
+      );
+
+      expect(find.text('Đang bán'), findsOneWidget);
+      expect(find.byIcon(Icons.local_fire_department), findsNothing);
+    });
+
+    testWidgets('renders an optional leading icon', (tester) async {
+      await tester.pumpWidget(
+        wrap(
+          const StatusBadge(
+            label: 'Gấp',
+            color: Colors.white,
+            background: Colors.red,
+            icon: Icons.local_fire_department,
+          ),
+        ),
+      );
+
+      expect(find.text('Gấp'), findsOneWidget);
+      expect(find.byIcon(Icons.local_fire_department), findsOneWidget);
+    });
+  });
+
+  group('SectionHeader', () {
+    testWidgets('shows the title and a "see all" action when provided',
+        (tester) async {
+      var tapped = false;
+      await tester.pumpWidget(
+        wrap(
+          SectionHeader(
+            titleKey: 'home.listings',
+            onSeeAll: () => tapped = true,
+          ),
+        ),
+      );
+
+      // No translations are loaded under `flutter test`, so `.tr()` returns the
+      // key — assert on that rather than localized text.
+      expect(find.text('home.listings'), findsOneWidget);
+      expect(find.text('home.see_all'), findsOneWidget);
+
+      await tester.tap(find.text('home.see_all'));
+      expect(tapped, isTrue);
+    });
+
+    testWidgets('omits the "see all" action when no callback is given',
+        (tester) async {
+      await tester.pumpWidget(
+        wrap(const SectionHeader(titleKey: 'home.deals')),
+      );
+
+      expect(find.text('home.deals'), findsOneWidget);
+      expect(find.text('home.see_all'), findsNothing);
+    });
   });
 }
