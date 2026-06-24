@@ -180,7 +180,7 @@ class _LoginViewState extends State<_LoginView> {
 
         return Scaffold(
           backgroundColor: theme.colors.surfaceBackground,
-          appBar: AppTopBar(backgroundColor: theme.colors.surfaceBackground),
+          appBar: const AppTopBar(),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.spacing24),
