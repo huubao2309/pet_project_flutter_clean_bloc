@@ -11,11 +11,14 @@ import 'interceptors/logging_interceptor.dart';
 import '../storage/secure_storage/secure_storage.dart';
 
 class DioClient implements HttpClient {
+  /// [dio] is injectable for tests (pass a mock / `http_mock_adapter`); in
+  /// production it is omitted and the fully-configured Dio below is built.
   DioClient({
     required String baseUrl,
     required SecureStorage secureStorage,
     required EnvType envType,
-  }) : _dio = _build(baseUrl, secureStorage, envType);
+    Dio? dio,
+  }) : _dio = dio ?? _build(baseUrl, secureStorage, envType);
 
   final Dio _dio;
 
