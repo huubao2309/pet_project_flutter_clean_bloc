@@ -1,19 +1,19 @@
-import '../../../../core/network/dio_client.dart';
+import '../../../../core/network/http_client.dart';
 import '../models/app_update_config_dto.dart';
 import 'app_update_remote_data_source.dart';
 
-/// Real [AppUpdateRemoteDataSource] talking to the backend over [DioClient].
+/// Real [AppUpdateRemoteDataSource] talking to the backend over an [HttpClient].
 class AppUpdateApiDataSource implements AppUpdateRemoteDataSource {
-  const AppUpdateApiDataSource({required DioClient dioClient})
-      : _dioClient = dioClient;
+  const AppUpdateApiDataSource({required HttpClient httpClient})
+      : _httpClient = httpClient;
 
-  final DioClient _dioClient;
+  final HttpClient _httpClient;
 
   static const _path = '/app/version';
 
   @override
   Future<AppUpdateConfigDto?> fetchConfig() async {
-    final response = await _dioClient.get<AppUpdateConfigDto>(
+    final response = await _httpClient.get<AppUpdateConfigDto>(
       _path,
       fromJson: (json) =>
           AppUpdateConfigDto.fromJson(json as Map<String, dynamic>),

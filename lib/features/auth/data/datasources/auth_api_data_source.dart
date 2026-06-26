@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../core/error/app_exception.dart';
-import '../../../../core/network/dio_client.dart';
+import '../../../../core/network/http_client.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
 import '../models/request/reset_password_request_dto.dart';
@@ -15,11 +15,12 @@ import '../models/response/verify_otp_data_dto.dart';
 import 'auth_block_verdict.dart';
 import 'auth_remote_data_source.dart';
 
-/// Real [AuthRemoteDataSource] talking to the backend over [DioClient].
+/// Real [AuthRemoteDataSource] talking to the backend over an [HttpClient].
 class AuthApiDataSource implements AuthRemoteDataSource {
-  const AuthApiDataSource({required DioClient dioClient}) : _dioClient = dioClient;
+  const AuthApiDataSource({required HttpClient httpClient})
+      : _httpClient = httpClient;
 
-  final DioClient _dioClient;
+  final HttpClient _httpClient;
 
   static const _login = '/auth/login';
   static const _logout = '/auth/logout';
@@ -32,7 +33,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   @override
   Future<LoginDataDto> login(LoginRequestDto request) async {
     try {
-      final response = await _dioClient.post<LoginDataDto>(
+      final response = await _httpClient.post<LoginDataDto>(
         _login,
         data: request.toJson(),
         fromJson: (json) => LoginDataDto.fromJson(json as Map<String, dynamic>),
@@ -71,7 +72,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   @override
   Future<OtpChallengeDto> signUp(SignUpRequestDto request) async {
     try {
-      final response = await _dioClient.post<OtpChallengeDto>(
+      final response = await _httpClient.post<OtpChallengeDto>(
         _signUp,
         data: request.toJson(),
         fromJson: (json) => OtpChallengeDto.fromJson(json as Map<String, dynamic>),
@@ -103,7 +104,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
   @override
   Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request) async {
-    final response = await _dioClient.post<OtpChallengeDto>(
+    final response = await _httpClient.post<OtpChallengeDto>(
       _forgotPassword,
       data: request.toJson(),
       fromJson: (json) =>
@@ -119,7 +120,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
   @override
   Future<void> resetPassword(ResetPasswordRequestDto request) async {
-    final response = await _dioClient.post<void>(
+    final response = await _httpClient.post<void>(
       _resetPassword,
       data: request.toJson(),
     );
@@ -132,7 +133,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
   @override
   Future<VerifyOtpDataDto> verifyOtp(VerifyOtpRequestDto request) async {
-    final response = await _dioClient.post<VerifyOtpDataDto>(
+    final response = await _httpClient.post<VerifyOtpDataDto>(
       _verifyOTP,
       data: request.toJson(),
       fromJson: (json) =>
@@ -150,7 +151,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   Future<RegisterPasswordDataDto> registerPassword(
     RegisterPasswordRequestDto request,
   ) async {
-    final response = await _dioClient.post<RegisterPasswordDataDto>(
+    final response = await _httpClient.post<RegisterPasswordDataDto>(
       _registerPassword,
       data: request.toJson(),
       fromJson: (json) =>
@@ -166,7 +167,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
   @override
   Future<void> logout() async {
-    final response = await _dioClient.post<void>(_logout);
+    final response = await _httpClient.post<void>(_logout);
 
     if (!response.success) {
       throw ServerException(message: response.message ?? 'errors.logout_failed'.tr());

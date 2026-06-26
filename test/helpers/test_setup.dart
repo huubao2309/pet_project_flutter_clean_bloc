@@ -1,22 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'localization_test_harness.dart';
 
-/// Shared test bootstrap.
+/// Back-compat shim. Prefer [LocalizationTestHarness] directly in new tests:
+///   • `LocalizationTestHarness.useKeys` — `.tr()` returns the key (model/VM tests)
+///   • `LocalizationTestHarness.useRealTranslations` — real copy (widget/screen tests)
+///   • `LocalizationTestHarness.useFake({...})` — inject specific translations
 ///
-/// Several production classes resolve their default error messages through
-/// easy_localization's context-free `.tr()`. Calling that before the framework
-/// binding exists throws, so [ensureTestBinding] initialises just enough for
-/// those paths to run inside plain `flutter test` (no widget pumping required).
-Future<void> ensureTestBinding() async {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  // easy_localization's ensureInitialized reads shared_preferences; provide an
-  // in-memory mock so it works under plain `flutter test` (no platform plugin).
-  SharedPreferences.setMockInitialValues({});
-  await EasyLocalization.ensureInitialized();
-}
-
-/// Marks the binding as initialised for synchronous, non-localized unit tests.
-void ensureWidgetsBinding() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-}
+/// [ensureTestBinding] maps to the keys-only mode, which is what the existing
+/// model / view-model tests rely on (assert on the translation key).
+Future<void> ensureTestBinding() => LocalizationTestHarness.useKeys();

@@ -4,12 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../environments/env_type.dart';
 import '../error/app_exception.dart';
 import 'api_response.dart';
+import 'http_client.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/header_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
 import '../storage/secure_storage/secure_storage.dart';
 
-class DioClient {
+class DioClient implements HttpClient {
   DioClient({
     required String baseUrl,
     required SecureStorage secureStorage,
@@ -39,6 +40,7 @@ class DioClient {
     return dio;
   }
 
+  @override
   Future<ApiResponse<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -55,6 +57,7 @@ class DioClient {
     }
   }
 
+  @override
   Future<ApiResponse<T>> post<T>(
     String path, {
     Object? data,
@@ -68,6 +71,7 @@ class DioClient {
     }
   }
 
+  @override
   Future<ApiResponse<T>> put<T>(
     String path, {
     Object? data,
@@ -81,6 +85,7 @@ class DioClient {
     }
   }
 
+  @override
   Future<ApiResponse<T>> delete<T>(String path) async {
     try {
       final response = await _dio.delete<Map<String, dynamic>>(path);

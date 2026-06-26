@@ -47,6 +47,7 @@ import '../localization/domain/repositories/language_repository.dart';
 import '../localization/domain/use_cases/change_language_use_case.dart';
 import '../localization/domain/use_cases/get_language_use_case.dart';
 import '../network/dio_client.dart';
+import '../network/http_client.dart';
 import '../router/app_router.dart';
 import '../security/data/repositories/device_session_repository_impl.dart';
 import '../security/domain/repositories/device_session_repository.dart';
@@ -99,7 +100,9 @@ Future<void> configureDependencies(Env env) async {
   );
 
   // --- Network ---
-  getIt.registerSingleton<DioClient>(
+  // Registered behind the [HttpClient] port so data sources depend on the
+  // abstraction (and can be unit-tested against a fake), not on Dio directly.
+  getIt.registerSingleton<HttpClient>(
     DioClient(baseUrl: env.baseUrl, secureStorage: getIt<SecureStorage>(), envType: env.envType),
   );
 
@@ -128,7 +131,7 @@ Future<void> configureDependencies(Env env) async {
 ///
 /// Swap the stub for the real backend by replacing the
 /// [AppUpdateRemoteDataSource] registration with
-/// `AppUpdateApiDataSource(dioClient: getIt<DioClient>())`.
+/// `AppUpdateApiDataSource(httpClient: getIt<HttpClient>())`.
 void _registerAppUpdateFeature() {
   // Data source — ONE line to switch fake data ⇄ real backend.
   getIt.registerLazySingleton<AppUpdateRemoteDataSource>(
@@ -200,7 +203,7 @@ void _registerHomeFeature() {
 /// Profile feature wiring (the current user's account — backend `/user/*`).
 ///
 /// Swap the stub for the real backend by replacing the [UserRemoteDataSource]
-/// registration with `UserApiDataSource(dioClient: getIt<DioClient>())`. Use
+/// registration with `UserApiDataSource(httpClient: getIt<HttpClient>())`. Use
 /// cases, view model and pages stay untouched.
 void _registerProfileFeature() {
   getIt.registerLazySingleton<UserRemoteDataSource>(
@@ -245,7 +248,7 @@ void _registerOnboardingFeature() {
 void _registerAuthFeature() {
   // Data source — ONE line to switch between fake data and the real backend:
   //   • Fake : AuthMockDataSource()            (serves assets/mock/*.json)
-  //   • Real : AuthApiDataSource(dioClient: getIt<DioClient>())
+  //   • Real : AuthApiDataSource(httpClient: getIt<HttpClient>())
   getIt.registerLazySingleton<AuthRemoteDataSource>(AuthMockDataSource.new);
 
   // Transient holder for the pre-auth `session_token` (sign-up / forgot-password

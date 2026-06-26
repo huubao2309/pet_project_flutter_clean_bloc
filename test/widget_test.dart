@@ -5,7 +5,7 @@ import 'package:pet_project_flutter_clean_bloc/core/theme/benny_style_initialize
 import 'package:pet_project_flutter_clean_bloc/features/home/presentation/widgets/section_header.dart';
 import 'package:pet_project_flutter_clean_bloc/features/home/presentation/widgets/status_badge.dart';
 
-import 'helpers/test_setup.dart';
+import 'helpers/localization_test_harness.dart';
 
 /// Smoke widget tests for a couple of dependency-light dashboard widgets.
 ///
@@ -13,10 +13,12 @@ import 'helpers/test_setup.dart';
 /// plugin-backed DI graph (device info, Hive, secure storage) plus the real
 /// splash route — not something a plain `flutter test` can build. These tests
 /// instead exercise leaf widgets that only depend on the design-system
-/// [ThemeState], which [BennyStyleInitializer] registers without any plugins.
+/// [ThemeState] ([BennyStyleInitializer] registers it without any plugins) and
+/// on `.tr()` — which [LocalizationTestHarness.useRealTranslations] makes
+/// resolve to the real Vietnamese copy.
 void main() {
   setUpAll(() async {
-    await ensureTestBinding();
+    await LocalizationTestHarness.useRealTranslations();
     BennyStyleInitializer.ensureInitialized();
   });
 
@@ -58,35 +60,33 @@ void main() {
   });
 
   group('SectionHeader', () {
-    testWidgets('shows the title and a "see all" action when provided',
-        (tester) async {
+    testWidgets('shows the translated title and "see all" action', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
         wrap(
           SectionHeader(
-            titleKey: 'home.listings',
+            titleKey: 'home.featured_listings',
             onSeeAll: () => tapped = true,
           ),
         ),
       );
 
-      // No translations are loaded under `flutter test`, so `.tr()` returns the
-      // key — assert on that rather than localized text.
-      expect(find.text('home.listings'), findsOneWidget);
-      expect(find.text('home.see_all'), findsOneWidget);
+      // `.tr()` resolves to the real Vietnamese copy via the harness.
+      expect(find.text('Bất động sản nổi bật'), findsOneWidget);
+      expect(find.text('Xem tất cả'), findsOneWidget);
 
-      await tester.tap(find.text('home.see_all'));
+      await tester.tap(find.text('Xem tất cả'));
       expect(tapped, isTrue);
     });
 
     testWidgets('omits the "see all" action when no callback is given',
         (tester) async {
       await tester.pumpWidget(
-        wrap(const SectionHeader(titleKey: 'home.deals')),
+        wrap(const SectionHeader(titleKey: 'home.recent_history')),
       );
 
-      expect(find.text('home.deals'), findsOneWidget);
-      expect(find.text('home.see_all'), findsNothing);
+      expect(find.text('Giao dịch gần đây'), findsOneWidget);
+      expect(find.text('Xem tất cả'), findsNothing);
     });
   });
 }

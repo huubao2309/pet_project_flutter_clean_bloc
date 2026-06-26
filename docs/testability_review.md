@@ -5,8 +5,8 @@
 > Architecture** in a way that hurts testability, and concrete fixes.
 > Intended to be re-verified with Codex — every item cites `file:line`.
 
-**Suite status at time of writing:** `flutter test` → **367 passing, 0 failing**;
-`flutter analyze test` → **No issues found**. Added dev deps: `mocktail`,
+**Suite status:** `flutter test` → **376 passing, 0 failing**;
+`flutter analyze lib test` → **No issues found**. Added dev deps: `mocktail`,
 `fake_async`. `bloc_test` was intentionally NOT added — it conflicts with the
 pinned `build_runner 2.15.0` (transitive `test_api` pin), so cubits are tested
 directly through their `stream`.
@@ -14,9 +14,53 @@ directly through their `stream`.
 How to reproduce:
 ```bash
 flutter pub get
-flutter test            # full suite
-flutter analyze test    # lints on the test code
+flutter test            # full suite (376 tests)
+flutter analyze lib test
 ```
+
+---
+
+## Applied fixes (architecture)
+
+Two of the findings below have since been **fixed** in code — re-verify these:
+
+**(A) Network DIP — extracted an `HttpClient` port.** New
+`lib/core/network/http_client.dart` declares the transport contract;
+`DioClient implements HttpClient` (`lib/core/network/dio_client.dart`); the three
+API data sources (`auth`/`user`/`app_update` `*_api_data_source.dart`) now depend
+on `HttpClient` (ctor param `httpClient`), not the concrete `DioClient`; DI
+registers `getIt.registerSingleton<HttpClient>(DioClient(...))`
+(`lib/core/di/injection.dart`). Proof it pays off:
+`test/features/auth/data/datasources/auth_api_data_source_test.dart` fakes a
+4-method port (no Dio, no plugins) and covers success / server-error / default-key
+/ account-blocked / phone-blocked / logout branches — **9 tests**.
+
+**(B) Localization (finding #5) — kept `.tr()` in place; fixed it on the TEST
+side instead.** The earlier experiment that stripped `.tr()` from the
+data/error layers was **reverted** by request: `.tr()` stays where it naturally
+lives (models, view models, widgets, screens), so `AppException` +
+`exceptions/*.dart`, `DioClient._mapDioError`, the `auth`/`user` api + mock data
+sources and `auth_repository_imp.dart` call `.tr()` as before. The testability
+problem is solved by a reusable harness rather than a production refactor:
+
+`test/helpers/localization_test_harness.dart` → `LocalizationTestHarness` makes
+the global, context-free `'key'.tr()` resolve deterministically in plain
+`flutter test` (no widget pump), via three modes:
+- `useKeys()` — `.tr()` returns the key (model / view-model tests);
+- `useRealTranslations()` — loads the real `assets/translations/*.json` so
+  widget/screen tests assert actual copy (e.g. `'errors.server'.tr()` → `Lỗi máy
+  chủ`);
+- `useFake({...})` — inject a controlled translation map;
+- plus `wrap(child)` for widgets needing `context.locale` / delegates.
+
+It works by loading the global `Localization` instance directly
+(`Localization.load` + `Translations`, reached via `package:easy_localization/src`
+in **test code only** — guarded by `// ignore_for_file: implementation_imports`)
+using the public `RootBundleAssetLoader`. Proof: `localization_test_harness_test.dart`
+(all 3 modes), `auth_api_data_source_test.dart` (model test, `useKeys`),
+`widget_test.dart` (widget test, `useRealTranslations`, asserts Vietnamese copy).
+`test/helpers/test_setup.dart` is now a thin shim delegating to the harness, so
+the 9 existing view-model tests route through the same single source of truth.
 
 ---
 
@@ -163,7 +207,7 @@ an injectable instance behind an interface instead.
 
 ---
 
-### 5. Localization (`.tr()`) leaks into the data and error layers — **M**
+### 5. Localization (`.tr()`) in the data and error layers — **M** — ✅ ADDRESSED via test harness (see "Applied fixes (B)"); `.tr()` intentionally kept in production
 
 22 call sites (a `grep '\.tr()'` over the data/error layers returns 23 lines —
 one is the doc comment at `app_exception.dart:20`), e.g.:
@@ -302,9 +346,10 @@ Codex doesn't assume full coverage:
    `Duration(seconds: 1)` latency. The static scenario constants can't be
    parametrized per test, and the 1s latency would slow the suite. Skipped; their
    *contracts* are exercised via mocks in the repository tests.
-2. **API data sources** (`auth_api_data_source.dart`, `user_api_data_source.dart`,
-   `app_update_api_data_source.dart`) — wrap `DioClient`; would need a mocked Dio
-   to test request building + response/verdict mapping. Not done.
+2. **API data sources** — ✅ now testable via the `HttpClient` port (Applied fix A).
+   `auth_api_data_source.dart` is **covered** (9 tests). `user_api_data_source.dart`
+   and `app_update_api_data_source.dart` follow the same pattern but are not yet
+   written.
 3. **Plugin utils** — `device_info_util`, `package_info_util`, `logger_util` (#2).
 4. **Concrete `Env` subclasses** (#1).
 5. **Pages and most widgets** — only two leaf widgets have smoke tests
