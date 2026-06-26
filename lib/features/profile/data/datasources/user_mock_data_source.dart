@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../core/constants/mock_assets.dart';
+import '../../../../core/error/app_error_code.dart';
 import '../../../../core/error/app_exception.dart';
 import '../models/request/change_password_request_dto.dart';
 import '../models/user_profile_dto.dart';
@@ -49,7 +49,8 @@ class UserMockDataSource implements UserRemoteDataSource {
   Map<String, dynamic> _ensureSuccess(Map<String, dynamic> json) {
     if (json['verdict'] != 'success') {
       throw ServerException(
-        message: (json['message'] as String?) ?? 'errors.unknown'.tr(),
+        code: AppErrorCode.unknown,
+        message: json['message'] as String?,
       );
     }
     return (json['data'] as Map<String, dynamic>?) ?? const {};

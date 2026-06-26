@@ -1,5 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-
+import '../../../../core/error/app_error_code.dart';
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/network/http_client.dart';
 import '../models/request/change_password_request_dto.dart';
@@ -26,7 +25,8 @@ class UserApiDataSource implements UserRemoteDataSource {
 
     if (!response.success || response.data == null) {
       throw ServerException(
-        message: response.message ?? 'errors.unknown'.tr(),
+        code: AppErrorCode.unknown,
+        message: response.message,
       );
     }
     return response.data!;
@@ -40,7 +40,8 @@ class UserApiDataSource implements UserRemoteDataSource {
     );
     if (!response.success) {
       throw ServerException(
-        message: response.message ?? 'errors.change_failed'.tr(),
+        code: AppErrorCode.changePasswordFailed,
+        message: response.message,
       );
     }
   }

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../core/constants/mock_assets.dart';
+import '../../../../core/error/app_error_code.dart';
 import '../../../../core/error/app_exception.dart';
 import '../models/request/forgot_password_request_dto.dart';
 import '../models/request/login_request_dto.dart';
@@ -119,13 +119,14 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     if (json['verdict'] == 'success') {
       return;
     }
-    throw ServerException(message: _messageOf(json));
+    throw ServerException(code: AppErrorCode.unknown, message: _messageOf(json));
   }
 
-  /// The user-facing message for a response: the nested `user_message`, then
-  /// the top-level `message`, then a generic fallback.
-  String _messageOf(Map<String, dynamic> json) {
+  /// The user-facing message for a response: the nested `user_message`, then the
+  /// top-level `message`, or null (the presentation layer then localizes the
+  /// exception's code).
+  String? _messageOf(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>?;
-    return (data?['user_message'] as String?) ?? (json['message'] as String?) ?? 'errors.unknown'.tr();
+    return (data?['user_message'] as String?) ?? (json['message'] as String?);
   }
 }

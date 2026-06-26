@@ -35,32 +35,36 @@ registers `getIt.registerSingleton<HttpClient>(DioClient(...))`
 4-method port (no Dio, no plugins) and covers success / server-error / default-key
 / account-blocked / phone-blocked / logout branches — **9 tests**.
 
-**(B) Localization (finding #5) — kept `.tr()` in place; fixed it on the TEST
-side instead.** The earlier experiment that stripped `.tr()` from the
-data/error layers was **reverted** by request: `.tr()` stays where it naturally
-lives (models, view models, widgets, screens), so `AppException` +
-`exceptions/*.dart`, `DioClient._mapDioError`, the `auth`/`user` api + mock data
-sources and `auth_repository_imp.dart` call `.tr()` as before. The testability
-problem is solved by a reusable harness rather than a production refactor:
+**(B) Localization (finding #5) — typed error codes; presentation maps code →
+text.** Final design (the Clean-Architecture-correct one): the data/domain/error
+layers are now **framework-free** — they raise a typed `AppErrorCode`
+(`lib/core/error/app_error_code.dart`) plus an optional raw backend
+`serverMessage`, and never call `.tr()`. Verified:
+`grep -rl "import 'package:easy_localization" lib/features/*/data lib/core/error
+lib/core/network` → **none**.
 
-`test/helpers/localization_test_harness.dart` → `LocalizationTestHarness` makes
-the global, context-free `'key'.tr()` resolve deterministically in plain
-`flutter test` (no widget pump), via three modes:
-- `useKeys()` — `.tr()` returns the key (model / view-model tests);
-- `useRealTranslations()` — loads the real `assets/translations/*.json` so
-  widget/screen tests assert actual copy (e.g. `'errors.server'.tr()` → `Lỗi máy
-  chủ`);
-- `useFake({...})` — inject a controlled translation map;
-- plus `wrap(child)` for widgets needing `context.locale` / delegates.
+- `AppException` now carries `{AppErrorCode code, String? serverMessage}` (no
+  resolved `message`); the 7 `exceptions/*.dart` set their default code.
+- `ServerException.withCode` → `withStatus(int statusCode, {code, message,
+  responseData})`.
+- The `auth`/`user` api + mock data sources, `auth_repository_imp.dart` and
+  `DioClient._mapDioError` throw `ServerException(code: AppErrorCode.loginFailed,
+  message: response.message)` etc. — no `.tr()`.
+- **Single** localization point: `lib/core/presentation/app_error_localizer.dart`
+  → `AppErrorLocalizer.localize(e)` returns `e.serverMessage ?? e.code.localized`,
+  where the exhaustive `AppErrorCode → 'errors.*'.tr()` map lives. The 7 view
+  models call it (`AppErrorLocalizer.localize(e)`) when building failure state.
 
-It works by loading the global `Localization` instance directly
-(`Localization.load` + `Translations`, reached via `package:easy_localization/src`
-in **test code only** — guarded by `// ignore_for_file: implementation_imports`)
-using the public `RootBundleAssetLoader`. Proof: `localization_test_harness_test.dart`
-(all 3 modes), `auth_api_data_source_test.dart` (model test, `useKeys`),
-`widget_test.dart` (widget test, `useRealTranslations`, asserts Vietnamese copy).
-`test/helpers/test_setup.dart` is now a thin shim delegating to the harness, so
-the 9 existing view-model tests route through the same single source of truth.
+This also resolves error copy at **display time** (correct locale), and makes
+data tests assert on a typed code instead of a string — see
+`auth_api_data_source_test.dart` (asserts `e.code` / `e.serverMessage`, **no**
+EasyLocalization bootstrap) and `app_exception_test.dart` (now framework-free).
+
+The reusable `LocalizationTestHarness` (added earlier) is still the way to make
+`.tr()` resolve in tests that DO localize — `useKeys()` /
+`useRealTranslations()` / `useFake({...})` + `wrap(child)`. It now backs the
+presentation-side tests: `app_error_localizer_test.dart` (real translations →
+asserts `Đăng nhập thất bại`, `Lỗi máy chủ`) and `widget_test.dart`.
 
 ---
 

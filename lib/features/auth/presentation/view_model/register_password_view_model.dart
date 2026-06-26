@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
 import '../../domain/use_cases/register_password_use_case.dart';
@@ -45,7 +46,7 @@ class RegisterPasswordViewModel extends ViewModel<RegisterPasswordState> {
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: e.message),
+        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
       );
     }
   }

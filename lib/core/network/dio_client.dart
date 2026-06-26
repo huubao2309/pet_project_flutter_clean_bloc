@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 import '../../environments/env_type.dart';
+import '../error/app_error_code.dart';
 import '../error/app_exception.dart';
 import 'api_response.dart';
 import 'http_client.dart';
@@ -115,16 +115,16 @@ class DioClient implements HttpClient {
       return AuthException();
     }
     if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
-      return NetworkException('errors.network_timeout'.tr());
+      return NetworkException(code: AppErrorCode.networkTimeout);
     }
     if (e.type == DioExceptionType.connectionError) {
       return NetworkException();
     }
     final Object? responseData = e.response?.data;
-    return ServerException.withCode(
+    return ServerException.withStatus(
       e.response?.statusCode ?? 500,
-      e.message ?? 'errors.unknown'.tr(),
-      responseData,
+      message: e.message,
+      responseData: responseData,
     );
   }
 }

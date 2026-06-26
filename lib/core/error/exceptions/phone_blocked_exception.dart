@@ -10,5 +10,5 @@ part of '../app_exception.dart';
 /// phone-block cases appear.
 final class PhoneBlockedException extends AppException {
   PhoneBlockedException([String? message])
-      : super(message ?? 'errors.unknown'.tr());
+      : super(code: AppErrorCode.phoneBlocked, serverMessage: message);
 }

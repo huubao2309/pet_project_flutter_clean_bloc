@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
 import '../../domain/use_cases/forgot_password_use_case.dart';
@@ -31,7 +32,7 @@ class ForgotPasswordViewModel extends ViewModel<ForgotPasswordState> {
       setState(currentState.copyWith(isLoading: false, otpChallenge: challenge));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: e.message),
+        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
       );
     }
   }

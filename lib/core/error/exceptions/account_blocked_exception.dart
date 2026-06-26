@@ -26,7 +26,7 @@ enum BlockReason {
 /// blocked and cannot simply retry.
 final class AccountBlockedException extends AppException {
   AccountBlockedException(this.reason, [String? message])
-      : super(message ?? 'errors.unknown'.tr());
+      : super(code: AppErrorCode.accountBlocked, serverMessage: message);
 
   final BlockReason reason;
 }

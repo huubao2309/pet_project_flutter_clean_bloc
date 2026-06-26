@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../profile/domain/use_cases/change_password_use_case.dart';
@@ -53,7 +54,7 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordState> {
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: e.message),
+        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
       );
     }
   }

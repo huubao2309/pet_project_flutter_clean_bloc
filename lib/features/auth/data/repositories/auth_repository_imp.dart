@@ -1,5 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-
+import '../../../../core/error/app_error_code.dart';
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/storage/secure_storage/secure_storage.dart';
 import '../../domain/entities/login_result.dart';
@@ -72,7 +71,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final accessToken = data.accessToken;
     final refreshToken = data.refreshToken;
     if (accessToken == null || refreshToken == null) {
-      throw ServerException(message: 'errors.login_failed'.tr());
+      throw ServerException(code: AppErrorCode.loginFailed);
     }
 
     // Persist tokens so the user stays logged in after restarting the app.
@@ -150,7 +149,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final accessToken = data.accessToken;
     final refreshToken = data.refreshToken;
     if (accessToken == null || refreshToken == null) {
-      throw ServerException(message: 'errors.register_password_failed'.tr());
+      throw ServerException(code: AppErrorCode.registerPasswordFailed);
     }
     await _secureStorage.saveAccessToken(accessToken);
     await _secureStorage.saveRefreshToken(refreshToken);

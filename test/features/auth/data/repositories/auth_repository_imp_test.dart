@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pet_project_flutter_clean_bloc/core/error/app_error_code.dart';
 import 'package:pet_project_flutter_clean_bloc/core/error/app_exception.dart';
 import 'package:pet_project_flutter_clean_bloc/core/storage/secure_storage/secure_storage.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -166,7 +167,7 @@ void main() {
         repository.login(phone: '0900', password: 'pw'),
         throwsA(
           isA<ServerException>()
-              .having((e) => e.message, 'message', isNotEmpty),
+              .having((e) => e.code, 'code', AppErrorCode.loginFailed),
         ),
       );
       verifyNever(() => secureStorage.saveAccessToken(any()));

@@ -1,5 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-
+import '../../../../core/error/app_error_code.dart';
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/network/http_client.dart';
 import '../models/request/forgot_password_request_dto.dart';
@@ -41,7 +40,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
       if (!response.success || response.data == null) {
         throw ServerException(
-          message: response.message ?? 'errors.login_failed'.tr(),
+          code: AppErrorCode.loginFailed,
+          message: response.message,
         );
       }
 
@@ -80,7 +80,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
 
       if (!response.success) {
         throw ServerException(
-          message: response.message ?? 'errors.signup_failed'.tr(),
+          code: AppErrorCode.signupFailed,
+          message: response.message,
         );
       }
       return response.data ?? const OtpChallengeDto();
@@ -95,11 +96,12 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   /// True when [responseData] is the backend's `phone_is_blocked` envelope.
   bool _isPhoneBlocked(Object? responseData) => responseData is Map && isPhoneBlockedVerdict(responseData['verdict'] as String?);
 
-  /// The nested `data.user_message` from an envelope, or a generic fallback.
-  String _userMessageOf(Object? responseData) {
+  /// The nested `data.user_message` from an envelope, or null when absent (the
+  /// presentation layer then falls back to the exception's code).
+  String? _userMessageOf(Object? responseData) {
     final data = responseData is Map ? responseData['data'] : null;
     final userMessage = data is Map ? data['user_message'] as String? : null;
-    return userMessage ?? 'errors.unknown'.tr();
+    return userMessage;
   }
 
   @override
@@ -112,7 +114,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     );
     if (!response.success || response.data == null) {
       throw ServerException(
-        message: response.message ?? 'errors.forgot_failed'.tr(),
+        code: AppErrorCode.forgotFailed,
+        message: response.message,
       );
     }
     return response.data!;
@@ -126,7 +129,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     );
     if (!response.success) {
       throw ServerException(
-        message: response.message ?? 'errors.reset_failed'.tr(),
+        code: AppErrorCode.resetFailed,
+        message: response.message,
       );
     }
   }
@@ -141,7 +145,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     );
     if (!response.success || response.data == null) {
       throw ServerException(
-        message: response.message ?? 'errors.verify_otp_failed'.tr(),
+        code: AppErrorCode.verifyOtpFailed,
+        message: response.message,
       );
     }
     return response.data!;
@@ -159,7 +164,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     );
     if (!response.success || response.data == null) {
       throw ServerException(
-        message: response.message ?? 'errors.register_password_failed'.tr(),
+        code: AppErrorCode.registerPasswordFailed,
+        message: response.message,
       );
     }
     return response.data!;
@@ -170,7 +176,10 @@ class AuthApiDataSource implements AuthRemoteDataSource {
     final response = await _httpClient.post<void>(_logout);
 
     if (!response.success) {
-      throw ServerException(message: response.message ?? 'errors.logout_failed'.tr());
+      throw ServerException(
+        code: AppErrorCode.logoutFailed,
+        message: response.message,
+      );
     }
   }
 }

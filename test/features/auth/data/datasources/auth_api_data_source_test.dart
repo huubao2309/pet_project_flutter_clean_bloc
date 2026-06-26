@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pet_project_flutter_clean_bloc/core/error/app_error_code.dart';
 import 'package:pet_project_flutter_clean_bloc/core/error/app_exception.dart';
 import 'package:pet_project_flutter_clean_bloc/core/network/api_response.dart';
 import 'package:pet_project_flutter_clean_bloc/core/network/http_client.dart';
@@ -10,20 +10,14 @@ import 'package:pet_project_flutter_clean_bloc/features/auth/data/models/request
 import 'package:pet_project_flutter_clean_bloc/features/auth/data/models/response/login_data_dto.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/data/models/response/otp_challenge_dto.dart';
 
-import '../../../../helpers/localization_test_harness.dart';
-
 /// Mock of the [HttpClient] port — same mocktail style as the rest of the suite.
 /// Because `AuthApiDataSource` depends on the abstraction (not the concrete
-/// `DioClient`), no Dio / plugins are involved.
+/// `DioClient`), no Dio / plugins are involved. And because the data layer no
+/// longer localizes (it raises a typed [AppErrorCode]), this test needs NO
+/// EasyLocalization bootstrap — it asserts on the code, not on copy.
 class MockHttpClient extends Mock implements HttpClient {}
 
 void main() {
-  // The data source resolves default error messages with `.tr()`. The harness
-  // loads the REAL translations so assertions can compare against `'key'.tr()`
-  // — which verifies the data source used the right key AND that it localizes,
-  // without hard-coding the Vietnamese copy.
-  setUpAll(LocalizationTestHarness.useRealTranslations);
-
   late MockHttpClient http;
   late AuthApiDataSource dataSource;
 
@@ -77,18 +71,23 @@ void main() {
       expect(captured[1], {'phone': '0900000000', 'password': 'pw'});
     });
 
-    test('throws ServerException with the server message on failure', () async {
-      whenPost(const ApiResponse<LoginDataDto>(success: false, message: 'bad creds'));
+    test('throws ServerException carrying the server message on failure',
+        () async {
+      whenPost(
+        const ApiResponse<LoginDataDto>(success: false, message: 'bad creds'),
+      );
 
       await expectLater(
         () => dataSource.login(loginRequest),
         throwsA(
-          isA<ServerException>().having((e) => e.message, 'message', 'bad creds'),
+          isA<ServerException>()
+              .having((e) => e.code, 'code', AppErrorCode.loginFailed)
+              .having((e) => e.serverMessage, 'serverMessage', 'bad creds'),
         ),
       );
     });
 
-    test('falls back to the localized default message when message is null',
+    test('uses the loginFailed code with no serverMessage when message is null',
         () async {
       whenPost(const ApiResponse<LoginDataDto>(success: true));
 
@@ -96,7 +95,8 @@ void main() {
         () => dataSource.login(loginRequest),
         throwsA(
           isA<ServerException>()
-              .having((e) => e.message, 'message', 'errors.login_failed'.tr()),
+              .having((e) => e.code, 'code', AppErrorCode.loginFailed)
+              .having((e) => e.serverMessage, 'serverMessage', isNull),
         ),
       );
     });
@@ -104,10 +104,10 @@ void main() {
     test('maps an otp_limit_exceeded envelope to AccountBlockedException',
         () async {
       whenPostThrows<LoginDataDto>(
-        ServerException.withCode(403, 'blocked', {
+        ServerException.withStatus(403, message: 'blocked', responseData: {
           'verdict': 'otp_limit_exceeded',
           'data': {'user_message': 'Too many attempts'},
-        }),
+        },),
       );
 
       await expectLater(
@@ -115,14 +115,23 @@ void main() {
         throwsA(
           isA<AccountBlockedException>()
               .having((e) => e.reason, 'reason', BlockReason.otpLimitExceeded)
-              .having((e) => e.message, 'message', 'Too many attempts'),
+              .having((e) => e.code, 'code', AppErrorCode.accountBlocked)
+              .having(
+                (e) => e.serverMessage,
+                'serverMessage',
+                'Too many attempts',
+              ),
         ),
       );
     });
 
     test('rethrows a ServerException that is not an account block', () async {
       whenPostThrows<LoginDataDto>(
-        ServerException.withCode(500, 'boom', {'verdict': 'nope'}),
+        ServerException.withStatus(
+          500,
+          message: 'boom',
+          responseData: {'verdict': 'nope'},
+        ),
       );
 
       await expectLater(
@@ -135,17 +144,18 @@ void main() {
   group('signUp', () {
     test('maps a phone_is_blocked envelope to PhoneBlockedException', () async {
       whenPostThrows<OtpChallengeDto>(
-        ServerException.withCode(403, 'blocked', {
+        ServerException.withStatus(403, message: 'blocked', responseData: {
           'verdict': 'phone_is_blocked',
           'data': {'user_message': 'Phone blocked'},
-        }),
+        },),
       );
 
       await expectLater(
         () => dataSource.signUp(signUpRequest),
         throwsA(
           isA<PhoneBlockedException>()
-              .having((e) => e.message, 'message', 'Phone blocked'),
+              .having((e) => e.code, 'code', AppErrorCode.phoneBlocked)
+              .having((e) => e.serverMessage, 'serverMessage', 'Phone blocked'),
         ),
       );
     });
@@ -164,13 +174,27 @@ void main() {
       whenPost(const ApiResponse<void>(success: true));
 
       await expectLater(dataSource.logout(), completes);
-      verify(() => http.post<void>(any(), data: any(named: 'data'), fromJson: any(named: 'fromJson'))).called(1);
+      verify(
+        () => http.post<void>(
+          any(),
+          data: any(named: 'data'),
+          fromJson: any(named: 'fromJson'),
+        ),
+      ).called(1);
     });
 
-    test('throws ServerException on failure', () async {
+    test('throws ServerException with the logoutFailed code on failure',
+        () async {
       whenPost(const ApiResponse<void>(success: false, message: 'nope'));
 
-      await expectLater(dataSource.logout(), throwsA(isA<ServerException>()));
+      await expectLater(
+        dataSource.logout(),
+        throwsA(
+          isA<ServerException>()
+              .having((e) => e.code, 'code', AppErrorCode.logoutFailed)
+              .having((e) => e.serverMessage, 'serverMessage', 'nope'),
+        ),
+      );
     });
   });
 }

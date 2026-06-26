@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/utils/validators.dart';
 import '../../domain/entities/sign_up_result.dart';
@@ -50,7 +51,7 @@ class SignUpViewModel extends ViewModel<SignUpState> {
       // full-screen error, not a snackbar. Must be caught before AppException.
       setState(currentState.copyWith(isLoading: false, isBlocked: true));
     } on AppException catch (e) {
-      setState(currentState.copyWith(isLoading: false, errorMessage: e.message));
+      setState(currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)));
     }
   }
 }

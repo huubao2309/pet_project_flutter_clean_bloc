@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'app_error_code.dart';
 
 part 'exceptions/account_blocked_exception.dart';
 part 'exceptions/auth_exception.dart';
@@ -16,16 +16,24 @@ part 'exceptions/validation_exception.dart';
 /// under `exceptions/`) rather than a separate library. Add new ones there and
 /// declare the `part` above.
 ///
-/// Default messages are resolved from the current app locale via
-/// easy_localization's context-free `.tr()` (the global controller reflects the
-/// active locale). Call sites may still pass an explicit, already-localized
-/// message (e.g. one returned by the API). The shared easy_localization import
-/// lives here because part files cannot declare their own imports.
+/// ── Localization ──────────────────────────────────────────────────────────
+/// This layer stays free of any UI / localization framework (the Dependency
+/// Rule). An exception carries a typed [code] for the default message and, when
+/// the backend already returned user-facing text (localized server-side from
+/// `Accept-Language`), an optional [serverMessage]. The presentation layer turns
+/// these into copy: it shows [serverMessage] when present, otherwise maps [code]
+/// to a localized string. Nothing here calls `.tr()`.
 sealed class AppException implements Exception {
-  const AppException(this.message);
+  const AppException({required this.code, this.serverMessage});
 
-  final String message;
+  /// The stable, machine-readable cause — mapped to localized text in the
+  /// presentation layer.
+  final AppErrorCode code;
+
+  /// A user-facing message already returned (and localized) by the backend, or
+  /// null. When set, the presentation layer prefers it over the [code] default.
+  final String? serverMessage;
 
   @override
-  String toString() => '$runtimeType: $message';
+  String toString() => '$runtimeType(code: $code, serverMessage: $serverMessage)';
 }

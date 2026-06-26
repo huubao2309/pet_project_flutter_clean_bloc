@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/use_case/use_case.dart';
 import '../../domain/use_cases/get_profile_use_case.dart';
@@ -26,7 +27,7 @@ class ProfileViewModel extends ViewModel<ProfileState> {
       final profile = await _getProfileUseCase.execute(const NoParams());
       setState(ProfileLoaded(profile));
     } on AppException catch (e) {
-      setState(ProfileError(e.message));
+      setState(ProfileError(AppErrorLocalizer.localize(e)));
     }
   }
 

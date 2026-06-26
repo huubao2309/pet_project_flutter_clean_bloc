@@ -1,4 +1,5 @@
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/presentation/app_error_localizer.dart';
 import '../../../../core/presentation/view_model.dart';
 import '../../../../core/use_case/use_case.dart';
 import '../../domain/entities/login_result.dart';
@@ -35,9 +36,9 @@ class AuthViewModel extends ViewModel<AuthState> {
           setState(AuthOtpRequired(challenge));
       }
     } on AccountBlockedException catch (e) {
-      setState(AuthBlocked(e.reason, e.message));
+      setState(AuthBlocked(e.reason, AppErrorLocalizer.localize(e)));
     } on AppException catch (e) {
-      setState(AuthFailure(e.message));
+      setState(AuthFailure(AppErrorLocalizer.localize(e)));
     }
   }
 
@@ -51,7 +52,7 @@ class AuthViewModel extends ViewModel<AuthState> {
       await _logoutUseCase.execute(const NoParams());
       setState(const AuthUnauthenticated());
     } on AppException catch (e) {
-      setState(AuthFailure(e.message));
+      setState(AuthFailure(AppErrorLocalizer.localize(e)));
     }
   }
 }
