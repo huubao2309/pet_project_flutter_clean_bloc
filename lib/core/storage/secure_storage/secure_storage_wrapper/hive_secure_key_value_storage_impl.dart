@@ -29,7 +29,10 @@ import 'secure_key_value_storage.dart';
 /// | Cross-platform     | Android/iOS/macOS/Windows | All Flutter platforms   |
 /// | Key management     | Handled by OS             | App-managed (see above) |
 class HiveSecureKeyValueStoreImpl implements SecureKeyValueStore {
-  HiveSecureKeyValueStoreImpl._(this._box);
+  /// Takes the already-opened (encrypted) [Box] as a dependency (DI), so the
+  /// cache / write-through logic is unit-testable with a test box. [create]
+  /// builds the real encrypted one.
+  HiveSecureKeyValueStoreImpl(this._box);
 
   final Box<String> _box;
   final Map<String, String> _cache = {};
@@ -48,7 +51,7 @@ class HiveSecureKeyValueStoreImpl implements SecureKeyValueStore {
       encryptionCipher: HiveAesCipher(encryptionKey),
     );
 
-    return HiveSecureKeyValueStoreImpl._(box);
+    return HiveSecureKeyValueStoreImpl(box);
   }
 
   /// Loads an existing AES key from the key box, or generates and saves a new one.

@@ -8,7 +8,9 @@ import 'local_storage.dart';
 /// To activate: change [LocalStorageImpl.create] to call [HiveStorageImpl.create].
 /// No other files need to change.
 class HiveStorageImpl implements LocalKeyValueStore {
-  HiveStorageImpl._(this._box);
+  /// Takes the already-opened [Box] as a dependency (DI), so the class is pure
+  /// delegation and unit-testable with a test box. [create] builds the real one.
+  HiveStorageImpl(this._box);
 
   final Box<String> _box;
 
@@ -17,7 +19,7 @@ class HiveStorageImpl implements LocalKeyValueStore {
   static Future<LocalKeyValueStore> create() async {
     await Hive.initFlutter();
     final box = await Hive.openBox<String>(_boxName);
-    return HiveStorageImpl._(box);
+    return HiveStorageImpl(box);
   }
 
   @override

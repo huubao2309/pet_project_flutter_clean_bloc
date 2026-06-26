@@ -31,18 +31,36 @@ import 'auth_remote_data_source.dart';
 ///  - To go back to the real backend, swap this data source for
 ///    [AuthApiDataSource] in core/di/injection.dart (also one line).
 class AuthMockDataSource implements AuthRemoteDataSource {
-  const AuthMockDataSource();
+  /// Per-endpoint scenarios + [latency] are injectable so tests can drive any
+  /// mock JSON (success / failure / blocked) and run instantly. The defaults
+  /// preserve the dev behaviour wired in DI — switching a scenario for manual
+  /// testing is still a one-line change to the default here.
+  const AuthMockDataSource({
+    String loginScenario = MockAssets.loginSuccess,
+    String signUpScenario = MockAssets.signupSuccess,
+    String logoutScenario = MockAssets.logoutSuccess,
+    String verifyOtpScenario = MockAssets.verifyOtpForgotSuccess,
+    String registerPasswordScenario = MockAssets.registerPasswordSuccess,
+    String forgotPasswordScenario = MockAssets.forgotPasswordSuccess,
+    String resetPasswordScenario = MockAssets.resetPasswordSuccess,
+    Duration latency = const Duration(seconds: 1),
+  })  : _loginScenario = loginScenario,
+        _signUpScenario = signUpScenario,
+        _logoutScenario = logoutScenario,
+        _verifyOTPScenario = verifyOtpScenario,
+        _registerPasswordScenario = registerPasswordScenario,
+        _forgotPasswordScenario = forgotPasswordScenario,
+        _resetPasswordScenario = resetPasswordScenario,
+        _latency = latency;
 
-  // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
-  static const _loginScenario = MockAssets.loginSuccess;
-  static const _signUpScenario = MockAssets.signupSuccess;
-  static const _logoutScenario = MockAssets.logoutSuccess;
-  static const _verifyOTPScenario = MockAssets.verifyOtpForgotSuccess;
-  static const _registerPasswordScenario = MockAssets.registerPasswordSuccess;
-  static const _forgotPasswordScenario = MockAssets.forgotPasswordSuccess;
-  static const _resetPasswordScenario = MockAssets.resetPasswordSuccess;
-
-  static const _latency = Duration(seconds: 1);
+  final String _loginScenario;
+  final String _signUpScenario;
+  final String _logoutScenario;
+  final String _verifyOTPScenario;
+  final String _registerPasswordScenario;
+  final String _forgotPasswordScenario;
+  final String _resetPasswordScenario;
+  final Duration _latency;
 
   @override
   Future<LoginDataDto> login(LoginRequestDto request) async {

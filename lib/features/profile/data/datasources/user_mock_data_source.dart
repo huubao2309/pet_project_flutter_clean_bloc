@@ -17,12 +17,19 @@ import 'user_remote_data_source.dart';
 /// like [UserApiDataSource]. Swap to the real backend in
 /// core/di/injection.dart (one line).
 class UserMockDataSource implements UserRemoteDataSource {
-  const UserMockDataSource();
+  /// Scenarios + [latency] are injectable so tests can drive any mock JSON and
+  /// run instantly; the defaults preserve the dev behaviour wired in DI.
+  const UserMockDataSource({
+    String profileScenario = MockAssets.profileSuccess,
+    String changePasswordScenario = MockAssets.changePasswordSuccess,
+    Duration latency = const Duration(milliseconds: 500),
+  })  : _profileScenario = profileScenario,
+        _changePasswordScenario = changePasswordScenario,
+        _latency = latency;
 
-  // ── 🔧 Scenario switches (one line each) ─────────────────────────────────
-  static const _profileScenario = MockAssets.profileSuccess;
-  static const _changePasswordScenario = MockAssets.changePasswordSuccess;
-  static const _latency = Duration(milliseconds: 500);
+  final String _profileScenario;
+  final String _changePasswordScenario;
+  final Duration _latency;
 
   @override
   Future<UserProfileDto> getProfile() async {

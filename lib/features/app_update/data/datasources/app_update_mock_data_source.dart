@@ -14,10 +14,16 @@ import 'app_update_remote_data_source.dart';
 ///  - Optional     : `MockAssets.appUpdateOptional`
 ///  - No update    : `MockAssets.appUpdateNone`
 class AppUpdateMockDataSource implements AppUpdateRemoteDataSource {
-  const AppUpdateMockDataSource();
+  /// [scenario] and [latency] are injectable so tests can pick any mock JSON and
+  /// run instantly; the defaults preserve the dev behaviour wired in DI.
+  const AppUpdateMockDataSource({
+    String scenario = MockAssets.appUpdateNone,
+    Duration latency = const Duration(milliseconds: 500),
+  })  : _scenario = scenario,
+        _latency = latency;
 
-  static const _scenario = MockAssets.appUpdateNone;
-  static const _latency = Duration(milliseconds: 500);
+  final String _scenario;
+  final Duration _latency;
 
   @override
   Future<AppUpdateConfigDto?> fetchConfig() async {
