@@ -1,59 +1,30 @@
-name: Build Flavors
+name: Build APK (reusable)
 
-# Builds each product flavor (staging / uat / prod) and notifies a SEPARATE
-# Telegram channel per flavor.
+# Reusable workflow: builds ONE flavor and pushes its APK to that flavor's own
+# Telegram channel. Called by build_staging.yml / build_uat.yml / build_prod.yml.
 #
-# How the per-channel split works:
-#   • Each flavor runs in its own GitHub Environment (`environment: <flavor>`).
-#   • `TELEGRAM_CHAT_ID` is an *environment* secret — same name, different value
-#     in each environment → each build resolves its own channel automatically.
-#   • `TELEGRAM_BOT_TOKEN` is a *repository* secret shared by all (one bot).
-#
-# Trigger: push to main, or run manually (optionally for a single flavor).
+# Per-channel split: the job binds to the GitHub Environment named after the
+# flavor, so `TELEGRAM_CHAT_ID` (an *environment* secret) is that channel's id.
+# `TELEGRAM_BOT_TOKEN` is a shared *repository* secret. Callers pass both with
+# `secrets: inherit`.
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_call:
     inputs:
       flavor:
-        description: 'Flavor to build (leave as "all" to build every flavor)'
-        type: choice
-        default: all
-        options: [all, staging, uat, prod]
-
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: true
+        description: 'Flavor to build: staging | uat | prod'
+        required: true
+        type: string
 
 jobs:
   build:
-    name: build ${{ matrix.flavor }}
+    name: build ${{ inputs.flavor }}
     runs-on: ubuntu-latest
-    # Bind the job to the environment named after the flavor so the
-    # environment-scoped TELEGRAM_CHAT_ID secret is the one for that channel.
-    environment: ${{ matrix.flavor }}
-    strategy:
-      fail-fast: false
-      matrix:
-        flavor: [staging, uat, prod]
+    environment: ${{ inputs.flavor }}
     steps:
-      # Skip flavors not selected on a manual single-flavor run.
-      - name: Should this flavor run?
-        id: gate
-        run: |
-          want="${{ github.event.inputs.flavor }}"
-          if [ -z "$want" ] || [ "$want" = "all" ] || [ "$want" = "${{ matrix.flavor }}" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Checkout
-        if: steps.gate.outputs.run == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Flutter
-        if: steps.gate.outputs.run == 'true'
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.35.2
@@ -61,47 +32,44 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        if: steps.gate.outputs.run == 'true'
         run: flutter pub get
 
-      - name: Build APK (${{ matrix.flavor }})
-        if: steps.gate.outputs.run == 'true'
+      - name: Build APK (${{ inputs.flavor }})
         run: >-
           flutter build apk --debug
-          --flavor ${{ matrix.flavor }}
-          -t lib/main_${{ matrix.flavor }}.dart
+          --flavor ${{ inputs.flavor }}
+          -t lib/main_${{ inputs.flavor }}.dart
 
       # Keep the APK on the run too, so it's always downloadable from GitHub
       # (also the fallback when the APK is over Telegram's 50 MB upload limit).
       - name: Upload APK to workflow artifacts
-        if: ${{ steps.gate.outputs.run == 'true' && job.status == 'success' }}
+        if: ${{ job.status == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: apk-${{ matrix.flavor }}
-          path: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-debug.apk
+          name: apk-${{ inputs.flavor }}
+          path: build/app/outputs/flutter-apk/app-${{ inputs.flavor }}-debug.apk
           if-no-files-found: warn
 
       # Push the built APK to the flavor's own Telegram channel on success;
-      # on failure send a text status instead. TELEGRAM_CHAT_ID comes from THIS
-      # environment, so each flavor posts to a different channel.
-      - name: Notify Telegram (${{ matrix.flavor }})
-        if: ${{ always() && steps.gate.outputs.run == 'true' && job.status != 'cancelled' }}
+      # on failure send a text status instead.
+      - name: Notify Telegram (${{ inputs.flavor }})
+        if: ${{ always() && job.status != 'cancelled' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          APK_PATH: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-debug.apk
+          APK_PATH: build/app/outputs/flutter-apk/app-${{ inputs.flavor }}-debug.apk
           STATUS_ICON: ${{ job.status == 'success' && '✅' || '❌' }}
           STATUS_TEXT: ${{ job.status == 'success' && 'Build succeeded' || 'Build failed' }}
         run: |
           if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
-            echo "::warning::TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is empty — check the repository secret and the '${{ matrix.flavor }}' environment secret. Skipping notification."
+            echo "::warning::TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is empty — check the repository secret and the '${{ inputs.flavor }}' environment secret. Skipping notification."
             exit 0
           fi
           TG_API="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}"
           read -r -d '' CAPTION <<EOF || true
-          ${STATUS_ICON} <b>${STATUS_TEXT}</b> — <b>${{ matrix.flavor }}</b>
-          Branch: <code>${{ github.ref_name }}</code>
+          ${STATUS_ICON} <b>${STATUS_TEXT}</b> — <b>${{ inputs.flavor }}</b>
+          Ref: <code>${{ github.ref_name }}</code>
           Commit: <code>${{ github.sha }}</code>
           By: ${{ github.actor }}
           <a href="${RUN_URL}">View the run</a>
