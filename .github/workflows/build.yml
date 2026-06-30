@@ -1,0 +1,148 @@
+name: Build Flavors
+
+# Builds each product flavor (staging / uat / prod) and notifies a SEPARATE
+# Telegram channel per flavor.
+#
+# How the per-channel split works:
+#   • Each flavor runs in its own GitHub Environment (`environment: <flavor>`).
+#   • `TELEGRAM_CHAT_ID` is an *environment* secret — same name, different value
+#     in each environment → each build resolves its own channel automatically.
+#   • `TELEGRAM_BOT_TOKEN` is a *repository* secret shared by all (one bot).
+#
+# Trigger: push to main, or run manually (optionally for a single flavor).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: 'Flavor to build (leave as "all" to build every flavor)'
+        type: choice
+        default: all
+        options: [all, staging, uat, prod]
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build ${{ matrix.flavor }}
+    runs-on: ubuntu-latest
+    # Bind the job to the environment named after the flavor so the
+    # environment-scoped TELEGRAM_CHAT_ID secret is the one for that channel.
+    environment: ${{ matrix.flavor }}
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [staging, uat, prod]
+    steps:
+      # Skip flavors not selected on a manual single-flavor run.
+      - name: Should this flavor run?
+        id: gate
+        run: |
+          want="${{ github.event.inputs.flavor }}"
+          if [ -z "$want" ] || [ "$want" = "all" ] || [ "$want" = "${{ matrix.flavor }}" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        if: steps.gate.outputs.run == 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.35.2
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: flutter pub get
+
+      - name: Build APK (${{ matrix.flavor }})
+        if: steps.gate.outputs.run == 'true'
+        run: >-
+          flutter build apk --debug
+          --flavor ${{ matrix.flavor }}
+          -t lib/main_${{ matrix.flavor }}.dart
+
+      # Keep the APK on the run too, so it's always downloadable from GitHub
+      # (also the fallback when the APK is over Telegram's 50 MB upload limit).
+      - name: Upload APK to workflow artifacts
+        if: ${{ steps.gate.outputs.run == 'true' && job.status == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.flavor }}
+          path: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-debug.apk
+          if-no-files-found: warn
+
+      # Push the built APK to the flavor's own Telegram channel on success;
+      # on failure send a text status instead. TELEGRAM_CHAT_ID comes from THIS
+      # environment, so each flavor posts to a different channel.
+      - name: Notify Telegram (${{ matrix.flavor }})
+        if: ${{ always() && steps.gate.outputs.run == 'true' && job.status != 'cancelled' }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          APK_PATH: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-debug.apk
+          STATUS_ICON: ${{ job.status == 'success' && '✅' || '❌' }}
+          STATUS_TEXT: ${{ job.status == 'success' && 'Build succeeded' || 'Build failed' }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "::warning::TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is empty — check the repository secret and the '${{ matrix.flavor }}' environment secret. Skipping notification."
+            exit 0
+          fi
+          TG_API="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}"
+          read -r -d '' CAPTION <<EOF || true
+          ${STATUS_ICON} <b>${STATUS_TEXT}</b> — <b>${{ matrix.flavor }}</b>
+          Branch: <code>${{ github.ref_name }}</code>
+          Commit: <code>${{ github.sha }}</code>
+          By: ${{ github.actor }}
+          <a href="${RUN_URL}">View the run</a>
+          EOF
+
+          send_text() {
+            curl -sS -X POST "${TG_API}/sendMessage" \
+              -d chat_id="${TELEGRAM_CHAT_ID}" \
+              -d parse_mode="HTML" \
+              -d disable_web_page_preview="true" \
+              --data-urlencode "text=${1}" \
+              -w '\nHTTP_STATUS:%{http_code}'
+          }
+          check_ok() {
+            echo "$1"
+            echo "$1" | grep -q '"ok":true' || {
+              echo "::error::Telegram API call failed (see response above). 404=bad/empty token, 400=bad chat id or file too large.";
+              exit 1;
+            }
+          }
+
+          # Build failed (or no APK produced) → send the status text only.
+          if [ "${{ job.status }}" != "success" ] || [ ! -f "$APK_PATH" ]; then
+            check_ok "$(send_text "$CAPTION")"
+            exit 0
+          fi
+
+          # Success → upload the APK itself. Telegram bots cap uploads at 50 MB.
+          size=$(wc -c < "$APK_PATH")
+          if [ "$size" -gt $((50 * 1024 * 1024)) ]; then
+            mb=$((size / 1024 / 1024))
+            echo "::warning::APK is ${mb} MB, over Telegram's 50 MB bot limit. Sending a note + artifact link instead."
+            NOTE="${CAPTION}"$'\n'"⚠️ APK is ${mb} MB (> 50 MB Telegram limit) — download it from the run's Artifacts."
+            check_ok "$(send_text "$NOTE")"
+            exit 0
+          fi
+
+          response=$(curl -sS -X POST "${TG_API}/sendDocument" \
+            -F chat_id="${TELEGRAM_CHAT_ID}" \
+            -F parse_mode="HTML" \
+            -F document=@"${APK_PATH}" \
+            -F caption="${CAPTION}" \
+            -w '\nHTTP_STATUS:%{http_code}')
+          check_ok "$response"
