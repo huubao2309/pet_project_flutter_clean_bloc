@@ -16,7 +16,9 @@ void main() {
   testWidgets('renders the name, masked phone and avatar icons',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const ProfileHeader(name: 'Bảo Nguyễn', maskedPhone: '••• ••• 1234')),
+      wrap(
+        const ProfileHeader(name: 'Bảo Nguyễn', maskedPhone: '••• ••• 1234'),
+      ),
     );
 
     expect(find.text('Bảo Nguyễn'), findsOneWidget);

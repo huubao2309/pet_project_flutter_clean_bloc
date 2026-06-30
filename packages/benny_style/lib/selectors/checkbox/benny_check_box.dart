@@ -115,7 +115,7 @@ class _BennyCheckboxState extends State<BennyCheckbox> {
   }
 
   BoxBorder _buildBorderColor(bool? currentCheckedValue) {
-    final bool isChecked = widget.tristate 
+    final bool isChecked = widget.tristate
         ? (currentCheckedValue == null || currentCheckedValue == true)
         : (currentCheckedValue == true);
 
@@ -137,7 +137,7 @@ class _BennyCheckboxState extends State<BennyCheckbox> {
   }
 
   Color _buildFillColor(bool? currentCheckedValue) {
-    final bool isChecked = widget.tristate 
+    final bool isChecked = widget.tristate
         ? (currentCheckedValue == null || currentCheckedValue == true)
         : (currentCheckedValue == true);
 
@@ -154,7 +154,7 @@ class _BennyCheckboxState extends State<BennyCheckbox> {
 
   Widget _buildIcon(bool? currentCheckedValue) {
     final size = (widget.size ?? _defaultSizeCheckbox) * 12 / 16;
-    
+
     if (currentCheckedValue == null && widget.tristate) {
       return widget.iconUnknown ??
           SvgPicture.asset(
@@ -177,7 +177,8 @@ class _BennyCheckboxState extends State<BennyCheckbox> {
               Assets.svg.icCheckSmall.keyName,
               height: size,
               width: size,
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
       );
     }

@@ -171,8 +171,11 @@ class _NotificationButton extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Icon(Icons.notifications_none_rounded,
-              color: theme.colors.onColor, size: 22,),
+          Icon(
+            Icons.notifications_none_rounded,
+            color: theme.colors.onColor,
+            size: 22,
+          ),
           Positioned(
             top: 10,
             right: 12,
@@ -235,8 +238,11 @@ class _CommissionCard extends StatelessWidget {
                     theme.borderRadius.borderRadius8,
                   ),
                 ),
-                child: Icon(Icons.account_balance_wallet_rounded,
-                    color: theme.colors.secondary600, size: 19,),
+                child: Icon(
+                  Icons.account_balance_wallet_rounded,
+                  color: theme.colors.secondary600,
+                  size: 19,
+                ),
               ),
               SizedBox(width: theme.spacing.spacing8),
               Text(

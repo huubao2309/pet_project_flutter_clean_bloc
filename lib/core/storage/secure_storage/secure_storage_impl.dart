@@ -22,7 +22,8 @@ class SecureStorageImpl implements SecureStorage {
   /// (e.g. Hive) — injection.dart stays untouched.
   static Future<SecureStorage> create() async {
     //// ✅ Current: flutter_secure_storage (OS Keychain / Keystore)
-    final kvStore = FlutterSecureKeyValueStoreImpl(const FlutterSecureStorage());
+    final kvStore =
+        FlutterSecureKeyValueStoreImpl(const FlutterSecureStorage());
 
     //// 🔄 To swap to Hive AES-256, replace the line above with:
     // final kvStore = await HiveSecureKeyValueStoreImpl.create();
@@ -37,13 +38,15 @@ class SecureStorageImpl implements SecureStorage {
   static const _kRefreshToken = 'refresh_token';
 
   @override
-  Future<void> saveAccessToken(String token) => store.write(key: _kAccessToken, value: token);
+  Future<void> saveAccessToken(String token) =>
+      store.write(key: _kAccessToken, value: token);
 
   @override
   Future<String?> getAccessToken() => store.read(key: _kAccessToken);
 
   @override
-  Future<void> saveRefreshToken(String token) => store.write(key: _kRefreshToken, value: token);
+  Future<void> saveRefreshToken(String token) =>
+      store.write(key: _kRefreshToken, value: token);
 
   @override
   Future<String?> getRefreshToken() => store.read(key: _kRefreshToken);

@@ -75,13 +75,18 @@ void main() {
 
   testWidgets('covers every commission status style', (tester) async {
     for (final status in CommissionStatus.values) {
-      await tester.pumpWidget(wrap(CommissionCard(listing: listing(status: status))));
+      await tester
+          .pumpWidget(wrap(CommissionCard(listing: listing(status: status))));
       expect(find.byType(StatusBadge), findsOneWidget);
     }
 
     // The urgent-sell status carries a leading flame icon.
     await tester.pumpWidget(
-      wrap(CommissionCard(listing: listing(status: CommissionStatus.urgentSell))),
+      wrap(
+        CommissionCard(
+          listing: listing(status: CommissionStatus.urgentSell),
+        ),
+      ),
     );
     expect(find.byIcon(Icons.local_fire_department_rounded), findsOneWidget);
   });

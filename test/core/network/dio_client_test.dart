@@ -37,7 +37,11 @@ void main() {
         data: data,
       );
 
-  DioException dioError({int? statusCode, DioExceptionType? type, String? message}) =>
+  DioException dioError({
+    int? statusCode,
+    DioExceptionType? type,
+    String? message,
+  }) =>
       DioException(
         requestOptions: RequestOptions(path: '/x'),
         type: type ?? DioExceptionType.unknown,
@@ -51,10 +55,12 @@ void main() {
       );
 
   group('_parse (via post)', () {
-    test('success: status < 400, maps data via fromJson and the envelope fields',
+    test(
+        'success: status < 400, maps data via fromJson and the envelope fields',
         () async {
-      when(() => dio.post<Map<String, dynamic>>(any(), data: any(named: 'data')))
-          .thenAnswer(
+      when(
+        () => dio.post<Map<String, dynamic>>(any(), data: any(named: 'data')),
+      ).thenAnswer(
         (_) async => response(
           statusCode: 200,
           data: {
@@ -81,8 +87,9 @@ void main() {
     });
 
     test('failure status (>=400) yields success=false', () async {
-      when(() => dio.post<Map<String, dynamic>>(any(), data: any(named: 'data')))
-          .thenAnswer((_) async => response(statusCode: 422, data: {}));
+      when(
+        () => dio.post<Map<String, dynamic>>(any(), data: any(named: 'data')),
+      ).thenAnswer((_) async => response(statusCode: 422, data: {}));
 
       final res = await client.post<String>('/x');
 
@@ -93,8 +100,12 @@ void main() {
 
   group('_mapDioError (via get)', () {
     void stubGetThrows(DioException err) {
-      when(() => dio.get<Map<String, dynamic>>(any(),
-          queryParameters: any(named: 'queryParameters'),),).thenThrow(err);
+      when(
+        () => dio.get<Map<String, dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        ),
+      ).thenThrow(err);
     }
 
     test('401 → AuthException', () async {
@@ -130,7 +141,8 @@ void main() {
       );
     });
 
-    test('other errors → ServerException carrying status + dio message', () async {
+    test('other errors → ServerException carrying status + dio message',
+        () async {
       stubGetThrows(dioError(statusCode: 503, message: 'down'));
       await expectLater(
         client.get<void>('/x'),

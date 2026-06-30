@@ -64,8 +64,10 @@ abstract final class LocalizationTestHarness {
     await _bootstrap();
     const loader = RootBundleAssetLoader();
     final main = await loader.load(AppConstants.translationsPath, locale);
-    final fallback =
-        await loader.load(AppConstants.translationsPath, AppConstants.fallbackLocale);
+    final fallback = await loader.load(
+      AppConstants.translationsPath,
+      AppConstants.fallbackLocale,
+    );
     Localization.load(
       locale,
       translations: Translations(main),

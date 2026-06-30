@@ -73,7 +73,7 @@ class _BennySwitchState extends State<BennySwitch> {
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             value: _value,
             thumbColor: WidgetStateColor.resolveWith(
-                  (states) {
+              (states) {
                 if (states.contains(WidgetState.selected)) {
                   return widget.enable
                       ? (widget.thumbEnableActiveColor ?? Colors.white)
@@ -86,7 +86,7 @@ class _BennySwitchState extends State<BennySwitch> {
               },
             ),
             trackColor: WidgetStateColor.resolveWith(
-                  (states) {
+              (states) {
                 if (states.contains(WidgetState.selected)) {
                   return widget.enable
                       ? (widget.trackEnableActiveColor ?? colors.brand700)
@@ -99,20 +99,25 @@ class _BennySwitchState extends State<BennySwitch> {
               },
             ),
             trackOutlineColor: WidgetStateColor.resolveWith(
-                  (states) {
+              (states) {
                 if (states.contains(WidgetState.selected)) {
                   return widget.enable
-                      ? (widget.trackOutlineEnableActiveColor ?? colors.brand800)
-                      : (widget.trackOutlineDisableActiveColor ?? colors.neutral300);
+                      ? (widget.trackOutlineEnableActiveColor ??
+                          colors.brand800)
+                      : (widget.trackOutlineDisableActiveColor ??
+                          colors.neutral300);
                 } else {
                   return widget.enable
-                      ? (widget.trackOutlineEnableInActiveColor ?? colors.neutral100)
-                      : (widget.trackOutlineDisableInActiveColor ?? colors.neutral300);
+                      ? (widget.trackOutlineEnableInActiveColor ??
+                          colors.neutral100)
+                      : (widget.trackOutlineDisableInActiveColor ??
+                          colors.neutral300);
                 }
               },
             ),
             trackOutlineWidth: widget.trackOutlineWidth ??
-                WidgetStateProperty.resolveWith<double?>((Set<WidgetState> states) {
+                WidgetStateProperty.resolveWith<double?>(
+                    (Set<WidgetState> states) {
                   return 1.0;
                 }),
             onChanged: (bool value) {
@@ -121,7 +126,8 @@ class _BennySwitchState extends State<BennySwitch> {
               });
               widget.onChange?.call(value);
             },
-          ),),
+          ),
+        ),
       ),
     );
   }

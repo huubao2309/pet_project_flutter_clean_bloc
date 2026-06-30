@@ -29,8 +29,8 @@ void main() {
 
     group('copyWith', () {
       test('overrides only provided fields', () {
-        final updated = const CommissionFilter()
-            .copyWith(sort: CommissionSort.nearest);
+        final updated =
+            const CommissionFilter().copyWith(sort: CommissionSort.nearest);
         expect(updated.sort, CommissionSort.nearest);
         expect(updated.statuses, isEmpty);
       });
@@ -43,14 +43,13 @@ void main() {
 
     group('toggleStatus', () {
       test('adds a status not present', () {
-        final result = const CommissionFilter()
-            .toggleStatus(CommissionStatus.deposited);
+        final result =
+            const CommissionFilter().toggleStatus(CommissionStatus.deposited);
         expect(result.statuses, {CommissionStatus.deposited});
       });
 
       test('removes a status already present', () {
-        const filter =
-            CommissionFilter(statuses: {CommissionStatus.deposited});
+        const filter = CommissionFilter(statuses: {CommissionStatus.deposited});
         final result = filter.toggleStatus(CommissionStatus.deposited);
         expect(result.statuses, isEmpty);
       });

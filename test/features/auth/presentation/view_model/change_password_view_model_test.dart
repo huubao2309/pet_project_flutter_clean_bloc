@@ -7,8 +7,7 @@ import 'package:pet_project_flutter_clean_bloc/features/profile/domain/use_cases
 
 import '../../../../helpers/test_setup.dart';
 
-class MockChangePasswordUseCase extends Mock
-    implements ChangePasswordUseCase {}
+class MockChangePasswordUseCase extends Mock implements ChangePasswordUseCase {}
 
 void main() {
   setUpAll(() async {

@@ -11,7 +11,8 @@ void main() {
 
   Widget wrap(Widget child) => MaterialApp(home: Scaffold(body: child));
 
-  testWidgets('renders the error caption when errorText is set', (tester) async {
+  testWidgets('renders the error caption when errorText is set',
+      (tester) async {
     await tester.pumpWidget(
       wrap(const AppTextField(hintText: 'Email', errorText: 'Required')),
     );

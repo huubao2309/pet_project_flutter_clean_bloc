@@ -34,7 +34,8 @@ class StepHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
             color: theme.colors.neutral100,
-            borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius8),
+            borderRadius:
+                BorderRadius.circular(theme.borderRadius.borderRadius8),
           ),
           child: Text(
             '$currentStep/$totalStep',

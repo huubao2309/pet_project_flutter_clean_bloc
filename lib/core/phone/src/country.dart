@@ -22,13 +22,13 @@ class Country {
   /// The starting digits of the phone number in the country.
   final List<String> startingDigits;
   Country(
-      this.name,
-      this.isoCode,
-      this.dialCode,
-      this.phoneMinLength,
-      this.phoneMaxLength, {
-        this.startingDigits = const [],
-      });
+    this.name,
+    this.isoCode,
+    this.dialCode,
+    this.phoneMinLength,
+    this.phoneMaxLength, {
+    this.startingDigits = const [],
+  });
 }
 
 List<Country> countries = [

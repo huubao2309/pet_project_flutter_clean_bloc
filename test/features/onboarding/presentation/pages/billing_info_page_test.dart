@@ -39,7 +39,8 @@ void main() {
     expect(find.text(AppRoutes.main), findsNothing);
   });
 
-  testWidgets('enables and navigates to main on a valid submit', (tester) async {
+  testWidgets('enables and navigates to main on a valid submit',
+      (tester) async {
     await FeatureTestHarness.pumpPage(tester, const BillingInfoPage());
 
     final fields = find.byType(EditableText);

@@ -40,7 +40,8 @@ void main() {
         loginScenario: loginScenario ?? MockAssets.loginSuccess,
         signUpScenario: signUpScenario ?? MockAssets.signupSuccess,
         logoutScenario: logoutScenario ?? MockAssets.logoutSuccess,
-        verifyOtpScenario: verifyOtpScenario ?? MockAssets.verifyOtpForgotSuccess,
+        verifyOtpScenario:
+            verifyOtpScenario ?? MockAssets.verifyOtpForgotSuccess,
         registerPasswordScenario:
             registerPasswordScenario ?? MockAssets.registerPasswordSuccess,
         forgotPasswordScenario:

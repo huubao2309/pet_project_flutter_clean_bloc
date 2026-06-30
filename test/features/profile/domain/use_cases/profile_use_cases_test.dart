@@ -30,10 +30,12 @@ void main() {
 
   group('ChangePasswordUseCase', () {
     test('delegates current and new password', () async {
-      when(() => repo.changePassword(
-            currentPassword: any(named: 'currentPassword'),
-            newPassword: any(named: 'newPassword'),
-          ),).thenAnswer((_) async {});
+      when(
+        () => repo.changePassword(
+          currentPassword: any(named: 'currentPassword'),
+          newPassword: any(named: 'newPassword'),
+        ),
+      ).thenAnswer((_) async {});
 
       await ChangePasswordUseCase(profileRepository: repo).execute(
         const ChangePasswordParams(
@@ -42,8 +44,9 @@ void main() {
         ),
       );
 
-      verify(() => repo.changePassword(currentPassword: 'old', newPassword: 'new'))
-          .called(1);
+      verify(
+        () => repo.changePassword(currentPassword: 'old', newPassword: 'new'),
+      ).called(1);
     });
   });
 }

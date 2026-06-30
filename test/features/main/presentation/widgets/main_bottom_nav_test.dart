@@ -15,7 +15,8 @@ void main() {
 
   const tabs = MainTab.values;
 
-  Widget wrap(Widget child) => MaterialApp(home: Scaffold(bottomNavigationBar: child));
+  Widget wrap(Widget child) =>
+      MaterialApp(home: Scaffold(bottomNavigationBar: child));
 
   testWidgets('renders a label for every tab (active + inactive items)',
       (tester) async {

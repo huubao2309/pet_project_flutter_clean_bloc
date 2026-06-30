@@ -29,9 +29,11 @@ void main() {
   });
 
   group('useFake', () {
-    setUpAll(() => LocalizationTestHarness.useFake({
-          'errors': {'server': 'BOOM'},
-        }),);
+    setUpAll(
+      () => LocalizationTestHarness.useFake({
+        'errors': {'server': 'BOOM'},
+      }),
+    );
 
     test('.tr() resolves only the injected fake map', () {
       expect('errors.server'.tr(), 'BOOM');

@@ -10,7 +10,10 @@ void main() {
     });
 
     test('supports Vietnamese and English locales', () {
-      expect(AppConstants.supportedLocales, [const Locale('vi'), const Locale('en')]);
+      expect(
+        AppConstants.supportedLocales,
+        [const Locale('vi'), const Locale('en')],
+      );
     });
 
     test('falls back to Vietnamese', () {

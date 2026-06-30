@@ -76,9 +76,12 @@ class AppUpdateOverlay {
       builder: (_) => AppUpdateOverlayView(
         forced: forced,
         message: info.message,
-        onUpdate: forced ? () => _openStoreUseCase.execute(info.storeUrl) : () => _resolveOptional(info, openStore: true),
+        onUpdate: forced
+            ? () => _openStoreUseCase.execute(info.storeUrl)
+            : () => _resolveOptional(info, openStore: true),
         // Forced prompts have no escape; optional ones close and are recorded.
-        onCancel: forced ? null : () => _resolveOptional(info, openStore: false),
+        onCancel:
+            forced ? null : () => _resolveOptional(info, openStore: false),
       ),
     );
     _entry = entry;

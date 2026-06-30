@@ -59,7 +59,8 @@ void main() {
     expect(find.text('count=1'), findsOneWidget);
   });
 
-  testWidgets('context.viewModel reads the VM to invoke methods', (tester) async {
+  testWidgets('context.viewModel reads the VM to invoke methods',
+      (tester) async {
     await tester.pumpWidget(
       _ltr(
         ViewModelProvider<_CounterViewModel>(

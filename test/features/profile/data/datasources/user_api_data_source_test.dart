@@ -44,7 +44,10 @@ void main() {
 
       expect(result, same(dto));
       final path = verify(
-        () => http.get<UserProfileDto>(captureAny(), fromJson: any(named: 'fromJson')),
+        () => http.get<UserProfileDto>(
+          captureAny(),
+          fromJson: any(named: 'fromJson'),
+        ),
       ).captured.single;
       expect(path, '/user/me');
     });

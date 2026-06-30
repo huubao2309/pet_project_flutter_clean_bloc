@@ -4,8 +4,14 @@ import 'package:pet_project_flutter_clean_bloc/core/phone/country_phone_validato
 void main() {
   group('Country model', () {
     test('stores its constructor arguments', () {
-      final country = Country('Wonderland', 'WL', '+999', 8, 10,
-          startingDigits: const ['7', '8'],);
+      final country = Country(
+        'Wonderland',
+        'WL',
+        '+999',
+        8,
+        10,
+        startingDigits: const ['7', '8'],
+      );
       expect(country.name, 'Wonderland');
       expect(country.isoCode, 'WL');
       expect(country.dialCode, '+999');
@@ -72,15 +78,21 @@ void main() {
 
     test('validates length and starting digits against a country', () {
       expect(
-          CountryUtils.validatePhoneNumberByCountry('1234567890', egypt), isTrue,);
-      expect(CountryUtils.validatePhoneNumberByCountry('2234567890', egypt),
-          isFalse,);
+        CountryUtils.validatePhoneNumberByCountry('1234567890', egypt),
+        isTrue,
+      );
+      expect(
+        CountryUtils.validatePhoneNumberByCountry('2234567890', egypt),
+        isFalse,
+      );
     });
 
     test('accepts any starting digit when startingDigits is empty', () {
       final vietnam = CountryUtils.getCountryByDialCode('+84')!;
-      expect(CountryUtils.validatePhoneNumberByCountry('987654321', vietnam),
-          isTrue,);
+      expect(
+        CountryUtils.validatePhoneNumberByCountry('987654321', vietnam),
+        isTrue,
+      );
     });
   });
 }

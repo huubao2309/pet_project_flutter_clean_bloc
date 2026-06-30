@@ -127,8 +127,7 @@ void main() {
     expect(find.text('auth.otp.error_invalid'.tr()), findsOneWidget);
   });
 
-  testWidgets('locks the screen after too many wrong attempts',
-      (tester) async {
+  testWidgets('locks the screen after too many wrong attempts', (tester) async {
     when(() => verifyOtpUseCase.execute(any()))
         .thenThrow(ServerException(message: 'nope'));
 

@@ -38,8 +38,7 @@ class VerifyOtpDataDto {
   bool get isAuthenticated => challengeType == 'none';
 
   /// True when the user still needs to set a password (sign-up flow).
-  bool get requiresPasswordRegistration =>
-      challengeType == 'register_password';
+  bool get requiresPasswordRegistration => challengeType == 'register_password';
 
   /// True when the user must set a new password (forgot-password flow).
   bool get requiresPasswordReset => challengeType == 'reset_password';

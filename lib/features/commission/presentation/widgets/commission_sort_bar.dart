@@ -141,9 +141,11 @@ class _FilterChip extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.tune_rounded,
-                size: 14,
-                color: active ? theme.colors.brand700 : theme.colors.brand600,),
+            Icon(
+              Icons.tune_rounded,
+              size: 14,
+              color: active ? theme.colors.brand700 : theme.colors.brand600,
+            ),
             const SizedBox(width: 4),
             Text(
               'commission.filter'.tr(),

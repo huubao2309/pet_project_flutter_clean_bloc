@@ -48,8 +48,7 @@ class _ChangePasswordView extends StatelessWidget {
       body: SafeArea(
         child: ViewModelConsumer<ChangePasswordViewModel, ChangePasswordState>(
           listenWhen: (p, c) =>
-              p.errorMessage != c.errorMessage ||
-              (!p.isSuccess && c.isSuccess),
+              p.errorMessage != c.errorMessage || (!p.isSuccess && c.isSuccess),
           listener: (context, state) {
             final message = state.errorMessage;
             if (message != null) {

@@ -13,7 +13,8 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: Builder(
-            builder: (context) => option.build(context, onTapOverride: onTapOverride),
+            builder: (context) =>
+                option.build(context, onTapOverride: onTapOverride),
           ),
         ),
       );

@@ -110,8 +110,11 @@ class _Details extends StatelessWidget {
         const SizedBox(height: 2),
         Row(
           children: [
-            Icon(Icons.location_on_outlined,
-                size: 13, color: theme.colors.neutral400,),
+            Icon(
+              Icons.location_on_outlined,
+              size: 13,
+              color: theme.colors.neutral400,
+            ),
             const SizedBox(width: 2),
             Expanded(
               child: Text(
@@ -177,8 +180,11 @@ class _CommissionPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.monetization_on_outlined,
-              size: 13, color: theme.colors.secondary700,),
+          Icon(
+            Icons.monetization_on_outlined,
+            size: 13,
+            color: theme.colors.secondary700,
+          ),
           const SizedBox(width: 3),
           Text(
             'commission.payout'
@@ -214,8 +220,11 @@ class _ExpiryTag extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.schedule_rounded,
-              size: 13, color: theme.colors.warning700,),
+          Icon(
+            Icons.schedule_rounded,
+            size: 13,
+            color: theme.colors.warning700,
+          ),
           const SizedBox(width: 4),
           Text(
             'commission.expiring'.tr(namedArgs: {'days': '$days'}),
@@ -253,10 +262,16 @@ _StatusStyle _statusStyle(CommissionStatus status, ThemeState theme) {
         icon: Icons.local_fire_department_rounded,
       );
     case CommissionStatus.available:
-      return _StatusStyle('commission.status.available'.tr(),
-          theme.colors.success700, theme.colors.success50,);
+      return _StatusStyle(
+        'commission.status.available'.tr(),
+        theme.colors.success700,
+        theme.colors.success50,
+      );
     case CommissionStatus.deposited:
-      return _StatusStyle('commission.status.deposited'.tr(),
-          theme.colors.secondary700, theme.colors.secondary50,);
+      return _StatusStyle(
+        'commission.status.deposited'.tr(),
+        theme.colors.secondary700,
+        theme.colors.secondary50,
+      );
   }
 }

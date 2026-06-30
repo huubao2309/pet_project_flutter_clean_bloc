@@ -75,7 +75,8 @@ class AuthApiDataSource implements AuthRemoteDataSource {
       final response = await _httpClient.post<OtpChallengeDto>(
         _signUp,
         data: request.toJson(),
-        fromJson: (json) => OtpChallengeDto.fromJson(json as Map<String, dynamic>),
+        fromJson: (json) =>
+            OtpChallengeDto.fromJson(json as Map<String, dynamic>),
       );
 
       if (!response.success) {
@@ -94,7 +95,9 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   /// True when [responseData] is the backend's `phone_is_blocked` envelope.
-  bool _isPhoneBlocked(Object? responseData) => responseData is Map && isPhoneBlockedVerdict(responseData['verdict'] as String?);
+  bool _isPhoneBlocked(Object? responseData) =>
+      responseData is Map &&
+      isPhoneBlockedVerdict(responseData['verdict'] as String?);
 
   /// The nested `data.user_message` from an envelope, or null when absent (the
   /// presentation layer then falls back to the exception's code).
@@ -105,7 +108,9 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request) async {
+  Future<OtpChallengeDto> forgotPassword(
+    ForgotPasswordRequestDto request,
+  ) async {
     final response = await _httpClient.post<OtpChallengeDto>(
       _forgotPassword,
       data: request.toJson(),

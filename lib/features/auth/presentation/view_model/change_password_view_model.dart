@@ -11,8 +11,9 @@ import 'change_password_state.dart';
 /// new-password rules + the confirmation match) and submits via
 /// [ChangePasswordUseCase]. The View calls these plain methods.
 class ChangePasswordViewModel extends ViewModel<ChangePasswordState> {
-  ChangePasswordViewModel({required ChangePasswordUseCase changePasswordUseCase})
-      : _changePasswordUseCase = changePasswordUseCase,
+  ChangePasswordViewModel({
+    required ChangePasswordUseCase changePasswordUseCase,
+  })  : _changePasswordUseCase = changePasswordUseCase,
         super(const ChangePasswordState());
 
   final ChangePasswordUseCase _changePasswordUseCase;
@@ -54,7 +55,10 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordState> {
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
+        currentState.copyWith(
+          isLoading: false,
+          errorMessage: AppErrorLocalizer.localize(e),
+        ),
       );
     }
   }

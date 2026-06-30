@@ -51,17 +51,18 @@ class _BennyLabelSwitchState extends State<BennyLabelSwitch> {
       children: [
         widget.prefixTitle != null
             ? Flexible(
-          child: Padding(
-            padding: widget.prefixPadding ?? EdgeInsets.only(right: theme.spacing.spacing4),
-            child: Text(
-              widget.prefixTitle!,
-              style: widget.prefixTextStyle ??
-                  theme.textStyle.paragraphDefault.copyWith(
-                    color: theme.colors.neutral800,
+                child: Padding(
+                  padding: widget.prefixPadding ??
+                      EdgeInsets.only(right: theme.spacing.spacing4),
+                  child: Text(
+                    widget.prefixTitle!,
+                    style: widget.prefixTextStyle ??
+                        theme.textStyle.paragraphDefault.copyWith(
+                          color: theme.colors.neutral800,
+                        ),
                   ),
-            ),
-          ),
-        )
+                ),
+              )
             : const SizedBox.shrink(),
         BennySwitch(
           width: widget.width,
@@ -72,17 +73,18 @@ class _BennyLabelSwitchState extends State<BennyLabelSwitch> {
         ),
         widget.suffixTitle != null
             ? Flexible(
-          child: Padding(
-            padding: widget.suffixPadding ?? EdgeInsets.only(left: theme.spacing.spacing4),
-            child: Text(
-              widget.suffixTitle!,
-              style: widget.suffixTextStyle ??
-                  theme.textStyle.paragraphDefault.copyWith(
-                    color: theme.colors.neutral800,
+                child: Padding(
+                  padding: widget.suffixPadding ??
+                      EdgeInsets.only(left: theme.spacing.spacing4),
+                  child: Text(
+                    widget.suffixTitle!,
+                    style: widget.suffixTextStyle ??
+                        theme.textStyle.paragraphDefault.copyWith(
+                          color: theme.colors.neutral800,
+                        ),
                   ),
-            ),
-          ),
-        )
+                ),
+              )
             : const SizedBox.shrink(),
       ],
     );

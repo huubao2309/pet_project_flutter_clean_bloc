@@ -28,17 +28,18 @@ void main() {
     expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
   });
 
-  testWidgets('renders error text and forwards onTextChanged',
-      (tester) async {
+  testWidgets('renders error text and forwards onTextChanged', (tester) async {
     final controller = TextEditingController();
     var changed = '';
     await tester.pumpWidget(
-      wrap(AuthPasswordField(
-        hintText: 'Password',
-        controller: controller,
-        errorText: 'Required',
-        onTextChanged: (v) => changed = v,
-      ),),
+      wrap(
+        AuthPasswordField(
+          hintText: 'Password',
+          controller: controller,
+          errorText: 'Required',
+          onTextChanged: (v) => changed = v,
+        ),
+      ),
     );
 
     expect(find.text('Required'), findsOneWidget);

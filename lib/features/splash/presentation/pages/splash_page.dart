@@ -73,7 +73,8 @@ class _SplashView extends StatelessWidget {
                   height: 28,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation(theme.colors.secondary500),
+                    valueColor:
+                        AlwaysStoppedAnimation(theme.colors.secondary500),
                   ),
                 ),
                 SizedBox(height: theme.spacing.spacing32),

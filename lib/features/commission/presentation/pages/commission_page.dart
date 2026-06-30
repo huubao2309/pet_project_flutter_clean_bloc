@@ -103,8 +103,11 @@ class _LocationAction extends StatelessWidget {
                       ),
                     )
                   else
-                    Icon(Icons.my_location_rounded,
-                        size: 14, color: theme.colors.secondary600,),
+                    Icon(
+                      Icons.my_location_rounded,
+                      size: 14,
+                      color: theme.colors.secondary600,
+                    ),
                   SizedBox(width: theme.spacing.spacing4),
                   Text(
                     label,
@@ -145,8 +148,11 @@ class _LocatingBody extends StatelessWidget {
                 color: theme.colors.brand50,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.travel_explore_rounded,
-                  size: 42, color: theme.colors.brand600,),
+              child: Icon(
+                Icons.travel_explore_rounded,
+                size: 42,
+                color: theme.colors.brand600,
+              ),
             ),
             SizedBox(height: theme.spacing.spacing20),
             Text(
@@ -252,8 +258,11 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.search_off_rounded,
-                size: 44, color: theme.colors.neutral300,),
+            Icon(
+              Icons.search_off_rounded,
+              size: 44,
+              color: theme.colors.neutral300,
+            ),
             SizedBox(height: theme.spacing.spacing12),
             Text(
               'commission.empty'.tr(),

@@ -20,7 +20,8 @@ void main() {
 
   group('after loadAllDataIntoMemory', () {
     setUp(() {
-      when(() => plugin.readAll()).thenAnswer((_) async => {'access_token': 'a'});
+      when(() => plugin.readAll())
+          .thenAnswer((_) async => {'access_token': 'a'});
     });
 
     test('reads are served from the in-memory cache (no channel read)',
@@ -39,7 +40,8 @@ void main() {
       expect(await store.containsKey(key: 'missing'), isFalse);
     });
 
-    test('write is write-through: cache updated and plugin persisted', () async {
+    test('write is write-through: cache updated and plugin persisted',
+        () async {
       await store.loadAllDataIntoMemory();
 
       await store.write(key: 'refresh_token', value: 'r');

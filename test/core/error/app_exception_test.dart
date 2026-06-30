@@ -33,7 +33,8 @@ void main() {
       expect(ServerException(message: 'boom').serverMessage, 'boom');
       expect(PhoneBlockedException('boom').serverMessage, 'boom');
       expect(
-        AccountBlockedException(BlockReason.otpLimitExceeded, 'boom').serverMessage,
+        AccountBlockedException(BlockReason.otpLimitExceeded, 'boom')
+            .serverMessage,
         'boom',
       );
     });

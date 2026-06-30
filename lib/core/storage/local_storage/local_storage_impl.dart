@@ -27,10 +27,12 @@ class LocalStorageImpl implements LocalStorage {
   }
 
   @override
-  Future<void> setPhoneNumber({required String? value}) => _store.setString(LocalStorage.kPhoneNumberKey, value ?? '');
+  Future<void> setPhoneNumber({required String? value}) =>
+      _store.setString(LocalStorage.kPhoneNumberKey, value ?? '');
 
   @override
-  String getPhoneNumber() => _store.getString(LocalStorage.kPhoneNumberKey) ?? '';
+  String getPhoneNumber() =>
+      _store.getString(LocalStorage.kPhoneNumberKey) ?? '';
 
   @override
   Future<void> setDeviceLanguage({required Locale value}) =>

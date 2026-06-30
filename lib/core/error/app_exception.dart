@@ -35,5 +35,6 @@ sealed class AppException implements Exception {
   final String? serverMessage;
 
   @override
-  String toString() => '$runtimeType(code: $code, serverMessage: $serverMessage)';
+  String toString() =>
+      '$runtimeType(code: $code, serverMessage: $serverMessage)';
 }

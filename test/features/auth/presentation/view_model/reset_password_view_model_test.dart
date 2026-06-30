@@ -7,8 +7,7 @@ import 'package:pet_project_flutter_clean_bloc/features/auth/presentation/view_m
 
 import '../../../../helpers/test_setup.dart';
 
-class MockResetPasswordUseCase extends Mock
-    implements ResetPasswordUseCase {}
+class MockResetPasswordUseCase extends Mock implements ResetPasswordUseCase {}
 
 void main() {
   setUpAll(() async {
@@ -29,8 +28,7 @@ void main() {
     vm.onConfirmPasswordChanged('NewPass1!');
   }
 
-  test('canSubmit requires valid strength and matching confirmation',
-      () async {
+  test('canSubmit requires valid strength and matching confirmation', () async {
     final vm = build();
     fillValid(vm);
     expect(vm.currentState.canSubmit, isTrue);

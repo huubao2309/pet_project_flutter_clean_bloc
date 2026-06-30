@@ -51,8 +51,11 @@ class PropertyCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      Icon(Icons.location_on_outlined,
-                          size: 13, color: theme.colors.neutral400,),
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 13,
+                        color: theme.colors.neutral400,
+                      ),
                       const SizedBox(width: 2),
                       Expanded(
                         child: Text(
@@ -123,9 +126,11 @@ class _Banner extends StatelessWidget {
                   colors: [theme.colors.brand400, theme.colors.brand600],
                 ),
               ),
-              child: Icon(Icons.apartment_rounded,
-                  size: 48,
-                  color: theme.colors.onColor.withAlpha((255 * 0.35).round()),),
+              child: Icon(
+                Icons.apartment_rounded,
+                size: 48,
+                color: theme.colors.onColor.withAlpha((255 * 0.35).round()),
+              ),
             ),
           ),
           Positioned(
@@ -198,13 +203,22 @@ class _StatusStyle {
 _StatusStyle _statusStyle(PropertyStatus status, ThemeState theme) {
   switch (status) {
     case PropertyStatus.available:
-      return _StatusStyle('property.status.available'.tr(),
-          theme.colors.success700, theme.colors.success50,);
+      return _StatusStyle(
+        'property.status.available'.tr(),
+        theme.colors.success700,
+        theme.colors.success50,
+      );
     case PropertyStatus.deposited:
-      return _StatusStyle('property.status.deposited'.tr(),
-          theme.colors.secondary700, theme.colors.secondary50,);
+      return _StatusStyle(
+        'property.status.deposited'.tr(),
+        theme.colors.secondary700,
+        theme.colors.secondary50,
+      );
     case PropertyStatus.sold:
-      return _StatusStyle('property.status.sold'.tr(), theme.colors.neutral600,
-          theme.colors.neutral100,);
+      return _StatusStyle(
+        'property.status.sold'.tr(),
+        theme.colors.neutral600,
+        theme.colors.neutral100,
+      );
   }
 }

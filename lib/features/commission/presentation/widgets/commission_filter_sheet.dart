@@ -124,10 +124,12 @@ class _CommissionFilterSheetState extends State<_CommissionFilterSheet> {
                       foregroundColor: theme.colors.brand600,
                       side: BorderSide(color: theme.colors.brand200),
                       padding: EdgeInsets.symmetric(
-                          vertical: theme.spacing.spacing12,),
+                        vertical: theme.spacing.spacing12,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            theme.borderRadius.borderRadius8,),
+                          theme.borderRadius.borderRadius8,
+                        ),
                       ),
                     ),
                     child: Text('commission.reset'.tr()),
@@ -141,10 +143,12 @@ class _CommissionFilterSheetState extends State<_CommissionFilterSheet> {
                     style: FilledButton.styleFrom(
                       backgroundColor: theme.colors.brand600,
                       padding: EdgeInsets.symmetric(
-                          vertical: theme.spacing.spacing12,),
+                        vertical: theme.spacing.spacing12,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            theme.borderRadius.borderRadius8,),
+                          theme.borderRadius.borderRadius8,
+                        ),
                       ),
                     ),
                     child: Text('commission.apply'.tr()),

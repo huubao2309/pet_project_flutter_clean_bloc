@@ -66,8 +66,7 @@ class _PasswordRequirementHintState extends State<PasswordRequirementHint> {
       children: [
         InkWell(
           onTap: () => setState(() => _expanded = !_expanded),
-          borderRadius:
-              BorderRadius.circular(theme.borderRadius.borderRadius8),
+          borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius8),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: theme.spacing.spacing4),
             child: Row(
@@ -120,8 +119,8 @@ class _RulePopover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = getIt<ThemeState>();
-    final ruleStyle = theme.textStyle.captionDefault
-        .copyWith(color: theme.colors.neutral600);
+    final ruleStyle =
+        theme.textStyle.captionDefault.copyWith(color: theme.colors.neutral600);
 
     final rules = <({bool passed, String key})>[
       (passed: strength.hasMinLength, key: 'auth.register.password_length'),
@@ -139,8 +138,7 @@ class _RulePopover extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colors.surfaceElevated,
         border: Border.all(color: theme.colors.neutral100),
-        borderRadius:
-            BorderRadius.circular(theme.borderRadius.borderRadius8),
+        borderRadius: BorderRadius.circular(theme.borderRadius.borderRadius8),
         boxShadow: [
           BoxShadow(
             color: theme.colors.brand900.withAlpha((255 * 0.08).round()),
@@ -166,8 +164,7 @@ class _RulePopover extends StatelessWidget {
           for (var i = 0; i < rules.length; i++)
             Padding(
               padding: EdgeInsets.only(
-                bottom:
-                    i == rules.length - 1 ? 0 : theme.spacing.spacing8,
+                bottom: i == rules.length - 1 ? 0 : theme.spacing.spacing8,
               ),
               child: ValidateIconWidget(
                 state: _ruleState(rules[i].passed),

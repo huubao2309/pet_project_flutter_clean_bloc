@@ -65,10 +65,8 @@ void main() {
     );
 
     // Default void token writes succeed.
-    when(() => secureStorage.saveAccessToken(any()))
-        .thenAnswer((_) async {});
-    when(() => secureStorage.saveRefreshToken(any()))
-        .thenAnswer((_) async {});
+    when(() => secureStorage.saveAccessToken(any())).thenAnswer((_) async {});
+    when(() => secureStorage.saveRefreshToken(any())).thenAnswer((_) async {});
     when(() => secureStorage.clearTokens()).thenAnswer((_) async {});
   });
 
@@ -121,9 +119,8 @@ void main() {
 
       await repository.login(phone: '0911', password: 'secret');
 
-      final captured =
-          verify(() => remote.login(captureAny())).captured.single
-              as LoginRequestDto;
+      final captured = verify(() => remote.login(captureAny())).captured.single
+          as LoginRequestDto;
       expect(captured.phone, '0911');
       expect(captured.password, 'secret');
     });
@@ -195,8 +192,7 @@ void main() {
       expect(session.token, 'sess-su');
     });
 
-    test('no challenge: returns SignUpCompleted and stashes nothing',
-        () async {
+    test('no challenge: returns SignUpCompleted and stashes nothing', () async {
       when(() => remote.signUp(any())).thenAnswer(
         (_) async => const OtpChallengeDto(),
       );
@@ -308,8 +304,7 @@ void main() {
       verifyNever(() => secureStorage.saveAccessToken(any()));
     });
 
-    test('reset_password: stashes new session token, returns marker',
-        () async {
+    test('reset_password: stashes new session token, returns marker', () async {
       session.save('old');
       when(() => remote.verifyOtp(any())).thenAnswer(
         (_) async => const VerifyOtpDataDto(
@@ -341,8 +336,7 @@ void main() {
         () async {
       session.save('old');
       when(() => remote.verifyOtp(any())).thenAnswer(
-        (_) async =>
-            const VerifyOtpDataDto(challengeType: 'register_password'),
+        (_) async => const VerifyOtpDataDto(challengeType: 'register_password'),
       );
 
       await repository.verifyOtp(code: '1234');
@@ -482,8 +476,7 @@ void main() {
     });
 
     test('false when no access token', () async {
-      when(() => secureStorage.getAccessToken())
-          .thenAnswer((_) async => null);
+      when(() => secureStorage.getAccessToken()).thenAnswer((_) async => null);
       expect(await repository.isLoggedIn(), isFalse);
     });
   });

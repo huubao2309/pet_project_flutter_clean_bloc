@@ -153,7 +153,8 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: (_isFocused && widget.isSupportPhone)
-            ? const BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8))
+            ? const BorderRadius.only(
+                topRight: Radius.circular(8), bottomRight: Radius.circular(8))
             : BorderRadius.circular(8),
         boxShadow: (_isFocused && widget.hasShadow!)
             ? [
@@ -178,7 +179,8 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
         controller: widget.controller,
         scrollPadding: widget.scrollPadding ?? EdgeInsets.zero,
         style: widget.editTextStyle ??
-            theme.textStyle.paragraphDefault.copyWith(color: theme.colors.neutral800),
+            theme.textStyle.paragraphDefault
+                .copyWith(color: theme.colors.neutral800),
         validator: widget.validator,
         cursorColor: widget.cursorColor ?? theme.colors.brand700,
         keyboardType: widget.keyboardType,
@@ -220,8 +222,9 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
                     ),
               border: widget.borderInput ??
                   OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: widget.defaultBorderColor ?? theme.colors.neutral100),
+                    borderSide: BorderSide(
+                        color: widget.defaultBorderColor ??
+                            theme.colors.neutral100),
                     borderRadius: _borderRadius,
                   ),
               focusedBorder: widget.focusedErrorBorderInput ??
@@ -235,31 +238,36 @@ class _BennyTextFieldState<T> extends State<BennyTextField> {
                   ),
               errorBorder: widget.errorBorderInput ??
                   OutlineInputBorder(
-                    borderSide: BorderSide(color: widget.errorBorder ?? theme.colors.brand300),
+                    borderSide: BorderSide(
+                        color: widget.errorBorder ?? theme.colors.brand300),
                     borderRadius: _borderRadius,
                   ),
               focusedErrorBorder: widget.focusedErrorBorderInput ??
                   OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: widget.focusedErrorBorder ?? theme.colors.brand600),
+                    borderSide: BorderSide(
+                        color:
+                            widget.focusedErrorBorder ?? theme.colors.brand600),
                     borderRadius: _borderRadius,
                   ),
               disabledBorder: widget.disabledBorderInput ??
                   OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: widget.disableBorderColor ?? theme.colors.neutral300),
+                    borderSide: BorderSide(
+                        color: widget.disableBorderColor ??
+                            theme.colors.neutral300),
                     borderRadius: _borderRadius,
                     gapPadding: 0,
                   ),
               enabledBorder: widget.enabledBorderInput ??
                   OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: widget.enableBorderColor ?? theme.colors.neutral100),
+                    borderSide: BorderSide(
+                        color: widget.enableBorderColor ??
+                            theme.colors.neutral100),
                     borderRadius: _borderRadius,
                   ),
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
-                  theme.textStyle.paragraphDefault.apply(color: theme.colors.neutral500),
+                  theme.textStyle.paragraphDefault
+                      .apply(color: theme.colors.neutral500),
               filled: true,
               fillColor: widget.enabled
                   ? (widget.enableBackgroundColor ?? theme.colors.white)

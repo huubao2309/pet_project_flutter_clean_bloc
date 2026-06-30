@@ -97,7 +97,8 @@ class _Avatar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: theme.colors.secondary500,
                 shape: BoxShape.circle,
-                border: Border.all(color: theme.colors.surfaceElevated, width: 2),
+                border:
+                    Border.all(color: theme.colors.surfaceElevated, width: 2),
               ),
               child: Icon(Icons.edit, size: 12, color: theme.colors.onColor),
             ),

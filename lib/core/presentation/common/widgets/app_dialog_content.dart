@@ -63,8 +63,8 @@ class AppDialogContent extends StatelessWidget {
   List<Widget> _buildChildren(ThemeState theme) {
     final List<Widget> children = <Widget>[];
 
-    final Widget? resolvedIcon = icon ??
-        (iconType != null ? AppOverlayIcon(type: iconType!) : null);
+    final Widget? resolvedIcon =
+        icon ?? (iconType != null ? AppOverlayIcon(type: iconType!) : null);
     if (resolvedIcon != null) {
       children.add(Center(child: resolvedIcon));
       children.add(SizedBox(height: theme.spacing.spacing16));

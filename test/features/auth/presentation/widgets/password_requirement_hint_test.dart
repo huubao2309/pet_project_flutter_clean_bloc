@@ -26,10 +26,12 @@ void main() {
   testWidgets('collapses to a valid confirmation when all rules pass',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const PasswordRequirementHint(
-        strength: allValid,
-        isPasswordEmpty: false,
-      ),),
+      wrap(
+        const PasswordRequirementHint(
+          strength: allValid,
+          isPasswordEmpty: false,
+        ),
+      ),
     );
 
     expect(find.text('auth.register.password_valid'.tr()), findsOneWidget);
@@ -39,10 +41,12 @@ void main() {
   testWidgets('shows a collapsible requirements line when not all valid',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const PasswordRequirementHint(
-        strength: PasswordStrength.empty(),
-        isPasswordEmpty: true,
-      ),),
+      wrap(
+        const PasswordRequirementHint(
+          strength: PasswordStrength.empty(),
+          isPasswordEmpty: true,
+        ),
+      ),
     );
 
     expect(
@@ -58,10 +62,12 @@ void main() {
   testWidgets('expands the popover listing the rule states (empty password)',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const PasswordRequirementHint(
-        strength: PasswordStrength.empty(),
-        isPasswordEmpty: true,
-      ),),
+      wrap(
+        const PasswordRequirementHint(
+          strength: PasswordStrength.empty(),
+          isPasswordEmpty: true,
+        ),
+      ),
     );
 
     await tester.tap(find.text('auth.register.password_requirements'.tr()));
@@ -76,15 +82,17 @@ void main() {
   testWidgets('expands the popover with mixed valid/invalid rules',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const PasswordRequirementHint(
-        strength: PasswordStrength(
-          hasMinLength: true,
-          hasSpecialChar: false,
-          hasNumber: true,
-          hasCapital: false,
+      wrap(
+        const PasswordRequirementHint(
+          strength: PasswordStrength(
+            hasMinLength: true,
+            hasSpecialChar: false,
+            hasNumber: true,
+            hasCapital: false,
+          ),
+          isPasswordEmpty: false,
         ),
-        isPasswordEmpty: false,
-      ),),
+      ),
     );
 
     await tester.tap(find.text('auth.register.password_requirements'.tr()));

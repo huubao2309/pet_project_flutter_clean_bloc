@@ -36,7 +36,8 @@ void main() {
 
   testWidgets('invokes onTap', (tester) async {
     var tapped = 0;
-    await tester.pumpWidget(wrap(DealTile(deal: deal(), onTap: () => tapped++)));
+    await tester
+        .pumpWidget(wrap(DealTile(deal: deal(), onTap: () => tapped++)));
 
     await tester.tap(find.byType(DealTile));
     expect(tapped, 1);

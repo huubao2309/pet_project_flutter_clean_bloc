@@ -8,8 +8,7 @@ import 'package:pet_project_flutter_clean_bloc/features/auth/presentation/view_m
 
 import '../../../../helpers/test_setup.dart';
 
-class MockForgotPasswordUseCase extends Mock
-    implements ForgotPasswordUseCase {}
+class MockForgotPasswordUseCase extends Mock implements ForgotPasswordUseCase {}
 
 void main() {
   setUpAll(() async {

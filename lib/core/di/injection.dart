@@ -103,7 +103,11 @@ Future<void> configureDependencies(Env env) async {
   // Registered behind the [HttpClient] port so data sources depend on the
   // abstraction (and can be unit-tested against a fake), not on Dio directly.
   getIt.registerSingleton<HttpClient>(
-    DioClient(baseUrl: env.baseUrl, secureStorage: getIt<SecureStorage>(), envType: env.envType),
+    DioClient(
+      baseUrl: env.baseUrl,
+      secureStorage: getIt<SecureStorage>(),
+      envType: env.envType,
+    ),
   );
 
   // --- Router ---
@@ -149,7 +153,8 @@ void _registerAppUpdateFeature() {
     () => CheckAppUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
-    () => DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
+    () =>
+        DismissOptionalUpdateUseCase(repository: getIt<AppUpdateRepository>()),
   );
   getIt.registerLazySingleton(
     () => OpenStoreUseCase(repository: getIt<AppUpdateRepository>()),
@@ -175,7 +180,8 @@ void _registerLocalizationFeature() {
     () => GetLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
   getIt.registerLazySingleton(
-    () => ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
+    () =>
+        ChangeLanguageUseCase(languageRepository: getIt<LanguageRepository>()),
   );
 }
 

@@ -47,8 +47,7 @@ class AppDialog {
       builder: (_) => Dialog(
         backgroundColor: theme.colors.transparent,
         shadowColor: theme.colors.transparent,
-        insetPadding:
-            EdgeInsets.symmetric(horizontal: theme.spacing.spacing24),
+        insetPadding: EdgeInsets.symmetric(horizontal: theme.spacing.spacing24),
         shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(theme.borderRadius.borderRadius16),

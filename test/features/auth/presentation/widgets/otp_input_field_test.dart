@@ -34,11 +34,13 @@ void main() {
     final changes = <String>[];
     String? completed;
     await tester.pumpWidget(
-      wrap(OtpInputField(
-        length: 4,
-        onChanged: changes.add,
-        onCompleted: (v) => completed = v,
-      ),),
+      wrap(
+        OtpInputField(
+          length: 4,
+          onChanged: changes.add,
+          onCompleted: (v) => completed = v,
+        ),
+      ),
     );
     await tester.pump();
 
@@ -60,11 +62,13 @@ void main() {
 
   testWidgets('non-obscure field keeps digits visible', (tester) async {
     await tester.pumpWidget(
-      wrap(OtpInputField(
-        length: 4,
-        obscure: false,
-        onChanged: (_) {},
-      ),),
+      wrap(
+        OtpInputField(
+          length: 4,
+          obscure: false,
+          onChanged: (_) {},
+        ),
+      ),
     );
     await tester.pump();
 
@@ -94,12 +98,14 @@ void main() {
   testWidgets('renders error state borders when hasError is true',
       (tester) async {
     await tester.pumpWidget(
-      wrap(OtpInputField(
-        length: 4,
-        hasError: true,
-        autofocus: false,
-        onChanged: (_) {},
-      ),),
+      wrap(
+        OtpInputField(
+          length: 4,
+          hasError: true,
+          autofocus: false,
+          onChanged: (_) {},
+        ),
+      ),
     );
     await tester.pump();
 

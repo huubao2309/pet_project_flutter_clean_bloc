@@ -51,7 +51,12 @@ class SignUpViewModel extends ViewModel<SignUpState> {
       // full-screen error, not a snackbar. Must be caught before AppException.
       setState(currentState.copyWith(isLoading: false, isBlocked: true));
     } on AppException catch (e) {
-      setState(currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)));
+      setState(
+        currentState.copyWith(
+          isLoading: false,
+          errorMessage: AppErrorLocalizer.localize(e),
+        ),
+      );
     }
   }
 }

@@ -13,8 +13,7 @@ import 'package:pet_project_flutter_clean_bloc/features/splash/presentation/view
 
 import '../../../../helpers/test_setup.dart';
 
-class MockClearStale extends Mock
-    implements ClearStaleSecureStorageUseCase {}
+class MockClearStale extends Mock implements ClearStaleSecureStorageUseCase {}
 
 class MockIsLoggedIn extends Mock implements IsLoggedInUseCase {}
 
@@ -90,8 +89,10 @@ void main() {
 
     await vm.bootstrap();
 
-    expect((vm.currentState as SplashReady).locale,
-        AppConstants.fallbackLocale,);
+    expect(
+      (vm.currentState as SplashReady).locale,
+      AppConstants.fallbackLocale,
+    );
     await vm.close();
   });
 }

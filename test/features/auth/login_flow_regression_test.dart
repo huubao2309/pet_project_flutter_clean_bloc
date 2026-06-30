@@ -103,9 +103,9 @@ void main() {
         expect(vm.currentState, isA<AuthAuthenticated>());
 
         // The request DTO carried the user's exact input down the stack.
-        final captured =
-            verify(() => remote.login(captureAny())).captured.single
-                as LoginRequestDto;
+        final captured = verify(() => remote.login(captureAny()))
+            .captured
+            .single as LoginRequestDto;
         expect(captured.phone, '0900000000');
         expect(captured.password, 'secret123');
 
@@ -207,7 +207,10 @@ void main() {
       'reason — a hard stop, not a snackbar',
       () async {
         when(() => remote.login(any())).thenThrow(
-          AccountBlockedException(BlockReason.otpLimitExceeded, 'Too many tries'),
+          AccountBlockedException(
+            BlockReason.otpLimitExceeded,
+            'Too many tries',
+          ),
         );
         final vm = buildViewModel();
 

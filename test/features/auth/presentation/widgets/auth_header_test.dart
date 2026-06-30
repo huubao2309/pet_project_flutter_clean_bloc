@@ -28,17 +28,20 @@ void main() {
   testWidgets('renders the caption with named args when provided',
       (tester) async {
     await tester.pumpWidget(
-      wrap(const AuthHeader(
-        titleKey: 'auth.register.password_title',
-        captionKey: 'auth.register.password_caption',
-        captionArgs: {'phone': '0900000000'},
-      ),),
+      wrap(
+        const AuthHeader(
+          titleKey: 'auth.register.password_title',
+          captionKey: 'auth.register.password_caption',
+          captionArgs: {'phone': '0900000000'},
+        ),
+      ),
     );
 
     expect(find.text('auth.register.password_title'.tr()), findsOneWidget);
     expect(
-      find.text('auth.register.password_caption'
-          .tr(namedArgs: {'phone': '0900000000'}),),
+      find.text(
+        'auth.register.password_caption'.tr(namedArgs: {'phone': '0900000000'}),
+      ),
       findsOneWidget,
     );
     expect(find.byType(Text), findsNWidgets(2));

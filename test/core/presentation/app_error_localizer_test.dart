@@ -21,11 +21,15 @@ void main() {
 
     test('falls back to the localized code default when no serverMessage', () {
       expect(
-        AppErrorLocalizer.localize(ServerException(code: AppErrorCode.loginFailed)),
+        AppErrorLocalizer.localize(
+          ServerException(code: AppErrorCode.loginFailed),
+        ),
         'Đăng nhập thất bại',
       );
       expect(
-        AppErrorLocalizer.localize(NetworkException(code: AppErrorCode.networkTimeout)),
+        AppErrorLocalizer.localize(
+          NetworkException(code: AppErrorCode.networkTimeout),
+        ),
         'Kết nối quá thời gian',
       );
       expect(
@@ -41,7 +45,11 @@ void main() {
         final text = code.localized;
         expect(text, isNotEmpty);
         // A real translation, not the raw key fallback.
-        expect(text, isNot(startsWith('errors.')), reason: 'missing copy for $code');
+        expect(
+          text,
+          isNot(startsWith('errors.')),
+          reason: 'missing copy for $code',
+        );
       }
     });
   });

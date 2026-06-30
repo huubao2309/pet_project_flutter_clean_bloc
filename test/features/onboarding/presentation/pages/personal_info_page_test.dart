@@ -18,7 +18,8 @@ void main() {
     );
   });
 
-  testWidgets('renders the step header and the continue button', (tester) async {
+  testWidgets('renders the step header and the continue button',
+      (tester) async {
     await FeatureTestHarness.pumpPage(tester, const PersonalInfoPage());
 
     expect(find.text('onboarding.personal_info'.tr()), findsOneWidget);

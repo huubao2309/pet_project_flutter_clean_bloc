@@ -60,7 +60,8 @@ void main() {
   });
 
   group('SectionHeader', () {
-    testWidgets('shows the translated title and "see all" action', (tester) async {
+    testWidgets('shows the translated title and "see all" action',
+        (tester) async {
       var tapped = false;
       await tester.pumpWidget(
         wrap(

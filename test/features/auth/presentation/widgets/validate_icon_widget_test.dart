@@ -35,13 +35,15 @@ void main() {
 
   testWidgets('honors custom sizeIcon, spacing and textStyle', (tester) async {
     await tester.pumpWidget(
-      wrap(ValidateIconWidget(
-        state: ValidIconState.invalid,
-        title: 'custom',
-        sizeIcon: 32,
-        spacing: 12,
-        textStyle: const TextStyle(fontSize: 20),
-      ),),
+      wrap(
+        ValidateIconWidget(
+          state: ValidIconState.invalid,
+          title: 'custom',
+          sizeIcon: 32,
+          spacing: 12,
+          textStyle: const TextStyle(fontSize: 20),
+        ),
+      ),
     );
 
     expect(find.text('custom'), findsOneWidget);

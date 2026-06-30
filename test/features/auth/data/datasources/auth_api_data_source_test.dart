@@ -104,10 +104,14 @@ void main() {
     test('maps an otp_limit_exceeded envelope to AccountBlockedException',
         () async {
       whenPostThrows<LoginDataDto>(
-        ServerException.withStatus(403, message: 'blocked', responseData: {
-          'verdict': 'otp_limit_exceeded',
-          'data': {'user_message': 'Too many attempts'},
-        },),
+        ServerException.withStatus(
+          403,
+          message: 'blocked',
+          responseData: {
+            'verdict': 'otp_limit_exceeded',
+            'data': {'user_message': 'Too many attempts'},
+          },
+        ),
       );
 
       await expectLater(
@@ -144,10 +148,14 @@ void main() {
   group('signUp', () {
     test('maps a phone_is_blocked envelope to PhoneBlockedException', () async {
       whenPostThrows<OtpChallengeDto>(
-        ServerException.withStatus(403, message: 'blocked', responseData: {
-          'verdict': 'phone_is_blocked',
-          'data': {'user_message': 'Phone blocked'},
-        },),
+        ServerException.withStatus(
+          403,
+          message: 'blocked',
+          responseData: {
+            'verdict': 'phone_is_blocked',
+            'data': {'user_message': 'Phone blocked'},
+          },
+        ),
       );
 
       await expectLater(

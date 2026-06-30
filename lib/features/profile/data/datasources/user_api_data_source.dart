@@ -19,8 +19,7 @@ class UserApiDataSource implements UserRemoteDataSource {
   Future<UserProfileDto> getProfile() async {
     final response = await _httpClient.get<UserProfileDto>(
       _profile,
-      fromJson: (json) =>
-          UserProfileDto.fromJson(json as Map<String, dynamic>),
+      fromJson: (json) => UserProfileDto.fromJson(json as Map<String, dynamic>),
     );
 
     if (!response.success || response.data == null) {

@@ -39,7 +39,8 @@ extension AppErrorCodeLocalization on AppErrorCode {
         AppErrorCode.forgotFailed => 'errors.forgot_failed',
         AppErrorCode.resetFailed => 'errors.reset_failed',
         AppErrorCode.verifyOtpFailed => 'errors.verify_otp_failed',
-        AppErrorCode.registerPasswordFailed => 'errors.register_password_failed',
+        AppErrorCode.registerPasswordFailed =>
+          'errors.register_password_failed',
         AppErrorCode.logoutFailed => 'errors.logout_failed',
         AppErrorCode.changePasswordFailed => 'errors.change_failed',
       };

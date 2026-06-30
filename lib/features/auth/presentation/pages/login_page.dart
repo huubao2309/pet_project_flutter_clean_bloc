@@ -86,7 +86,8 @@ class _LoginViewState extends State<_LoginView> {
 
   void _submit() {
     final phoneError = _phoneErrorFor(_phoneController.text, force: true);
-    final passwordError = _passwordErrorFor(_passwordController.text, force: true);
+    final passwordError =
+        _passwordErrorFor(_passwordController.text, force: true);
     setState(() {
       _phoneError = phoneError;
       _passwordError = passwordError;

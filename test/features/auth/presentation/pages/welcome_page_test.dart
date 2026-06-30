@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pet_project_flutter_clean_bloc/core/router/app_routes.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/presentation/pages/welcome_page.dart';

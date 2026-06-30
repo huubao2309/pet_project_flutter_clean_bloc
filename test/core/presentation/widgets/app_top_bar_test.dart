@@ -46,8 +46,10 @@ void main() {
 
     expect(find.byType(AppBar), findsOneWidget);
     expect(find.byType(BennyGhostIconButton), findsOneWidget);
-    expect(tester.widget<AppTopBar>(find.byType(AppTopBar)).preferredSize.height,
-        kToolbarHeight,);
+    expect(
+      tester.widget<AppTopBar>(find.byType(AppTopBar)).preferredSize.height,
+      kToolbarHeight,
+    );
   });
 
   testWidgets('tapping back runs the onBack callback', (tester) async {

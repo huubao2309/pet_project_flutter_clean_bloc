@@ -17,8 +17,12 @@ void main() {
   });
 
   void whenGet(ApiResponse<AppUpdateConfigDto> response) {
-    when(() => http.get<AppUpdateConfigDto>(any(), fromJson: any(named: 'fromJson')))
-        .thenAnswer((_) async => response);
+    when(
+      () => http.get<AppUpdateConfigDto>(
+        any(),
+        fromJson: any(named: 'fromJson'),
+      ),
+    ).thenAnswer((_) async => response);
   }
 
   const config = AppUpdateConfigDto(
@@ -36,13 +40,18 @@ void main() {
 
     expect(result, same(config));
     final path = verify(
-      () => http.get<AppUpdateConfigDto>(captureAny(), fromJson: any(named: 'fromJson')),
+      () => http.get<AppUpdateConfigDto>(
+        captureAny(),
+        fromJson: any(named: 'fromJson'),
+      ),
     ).captured.single;
     expect(path, '/app/version');
   });
 
   test('returns null when the response is unsuccessful', () async {
-    whenGet(const ApiResponse<AppUpdateConfigDto>(success: false, data: config));
+    whenGet(
+      const ApiResponse<AppUpdateConfigDto>(success: false, data: config),
+    );
 
     expect(await dataSource.fetchConfig(), isNull);
   });

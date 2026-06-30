@@ -84,8 +84,7 @@ void main() {
   });
 
   testWidgets('renders the full-screen blocked view', (tester) async {
-    when(() => signUpUseCase.execute(any()))
-        .thenThrow(PhoneBlockedException());
+    when(() => signUpUseCase.execute(any())).thenThrow(PhoneBlockedException());
 
     await FeatureTestHarness.pumpPage(
       tester,

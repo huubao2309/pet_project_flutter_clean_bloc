@@ -75,12 +75,14 @@ class _ScanResultSheet extends StatelessWidget {
                       colors: [theme.colors.brand400, theme.colors.brand600],
                     ),
                     borderRadius: BorderRadius.circular(
-                        theme.borderRadius.borderRadius16,),
+                      theme.borderRadius.borderRadius16,
+                    ),
                   ),
-                  child: Icon(Icons.apartment_rounded,
-                      color:
-                          theme.colors.onColor.withAlpha((255 * 0.4).round()),
-                      size: 30,),
+                  child: Icon(
+                    Icons.apartment_rounded,
+                    color: theme.colors.onColor.withAlpha((255 * 0.4).round()),
+                    size: 30,
+                  ),
                 ),
                 SizedBox(width: theme.spacing.spacing12),
                 Expanded(
@@ -131,13 +133,15 @@ class _ScanResultSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.colors.secondary50,
                     borderRadius: BorderRadius.circular(
-                        theme.borderRadius.borderRadius16,),
+                      theme.borderRadius.borderRadius16,
+                    ),
                   ),
                   child: Text(
                     'qr.result_commission'.tr(
                       namedArgs: {
                         'amount': CurrencyFormat.compactVnd(
-                            property.commissionAmount,),
+                          property.commissionAmount,
+                        ),
                       },
                     ),
                     style: theme.textStyle.captionDefault.copyWith(
@@ -204,8 +208,11 @@ class _ScannedBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.check_circle_rounded,
-              size: 12, color: theme.colors.success700,),
+          Icon(
+            Icons.check_circle_rounded,
+            size: 12,
+            color: theme.colors.success700,
+          ),
           const SizedBox(width: 3),
           Text(
             'qr.scanned'.tr(),

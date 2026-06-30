@@ -219,34 +219,41 @@ void main() {
     });
 
     test('isAuthenticated true only for none', () {
-      expect(const VerifyOtpDataDto(challengeType: 'none').isAuthenticated,
-          isTrue,);
       expect(
-          const VerifyOtpDataDto(challengeType: 'register_password')
-              .isAuthenticated,
-          isFalse,);
+        const VerifyOtpDataDto(challengeType: 'none').isAuthenticated,
+        isTrue,
+      );
+      expect(
+        const VerifyOtpDataDto(challengeType: 'register_password')
+            .isAuthenticated,
+        isFalse,
+      );
       expect(const VerifyOtpDataDto().isAuthenticated, isFalse);
     });
 
     test('requiresPasswordRegistration true only for register_password', () {
       expect(
-          const VerifyOtpDataDto(challengeType: 'register_password')
-              .requiresPasswordRegistration,
-          isTrue,);
+        const VerifyOtpDataDto(challengeType: 'register_password')
+            .requiresPasswordRegistration,
+        isTrue,
+      );
       expect(
-          const VerifyOtpDataDto(challengeType: 'none')
-              .requiresPasswordRegistration,
-          isFalse,);
+        const VerifyOtpDataDto(challengeType: 'none')
+            .requiresPasswordRegistration,
+        isFalse,
+      );
     });
 
     test('requiresPasswordReset true only for reset_password', () {
       expect(
-          const VerifyOtpDataDto(challengeType: 'reset_password')
-              .requiresPasswordReset,
-          isTrue,);
+        const VerifyOtpDataDto(challengeType: 'reset_password')
+            .requiresPasswordReset,
+        isTrue,
+      );
       expect(
-          const VerifyOtpDataDto(challengeType: 'none').requiresPasswordReset,
-          isFalse,);
+        const VerifyOtpDataDto(challengeType: 'none').requiresPasswordReset,
+        isFalse,
+      );
     });
   });
 }

@@ -167,8 +167,12 @@ class _OtpForm extends StatelessWidget {
         if (hasError) ...[
           SizedBox(height: theme.spacing.spacing8),
           Text(
-            (state.error == OtpError.expired ? 'auth.otp.error_expired' : 'auth.otp.error_invalid').tr(),
-            style: theme.textStyle.captionDefault.copyWith(color: theme.colors.error600),
+            (state.error == OtpError.expired
+                    ? 'auth.otp.error_expired'
+                    : 'auth.otp.error_invalid')
+                .tr(),
+            style: theme.textStyle.captionDefault
+                .copyWith(color: theme.colors.error600),
           ),
         ],
         SizedBox(height: theme.spacing.spacing16),
@@ -211,7 +215,10 @@ class _CountdownRow extends StatelessWidget {
         ),
         SizedBox(width: theme.spacing.spacing4),
         Text(
-          expired ? 'auth.otp.expired_label'.tr() : 'auth.otp.expires_in'.tr(namedArgs: {'time': _format(state.secondsLeft)}),
+          expired
+              ? 'auth.otp.expired_label'.tr()
+              : 'auth.otp.expires_in'
+                  .tr(namedArgs: {'time': _format(state.secondsLeft)}),
           style: theme.textStyle.captionDefault.copyWith(
             color: expired ? theme.colors.error600 : theme.colors.neutral500,
           ),
@@ -236,7 +243,8 @@ class _ResendRow extends StatelessWidget {
       children: [
         Text(
           'auth.otp.no_code'.tr(),
-          style: theme.textStyle.paragraphDefault.copyWith(color: theme.colors.neutral600),
+          style: theme.textStyle.paragraphDefault
+              .copyWith(color: theme.colors.neutral600),
         ),
         SizedBox(width: theme.spacing.spacing4),
         if (state.canResend)
@@ -252,8 +260,10 @@ class _ResendRow extends StatelessWidget {
           )
         else
           Text(
-            'auth.otp.resend_in'.tr(namedArgs: {'seconds': '${state.resendIn}'}),
-            style: theme.textStyle.paragraphDefault.copyWith(color: theme.colors.neutral400),
+            'auth.otp.resend_in'
+                .tr(namedArgs: {'seconds': '${state.resendIn}'}),
+            style: theme.textStyle.paragraphDefault
+                .copyWith(color: theme.colors.neutral400),
           ),
       ],
     );

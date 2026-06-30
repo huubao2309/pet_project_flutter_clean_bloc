@@ -40,7 +40,10 @@ class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
       setState(currentState.copyWith(isLoading: false, isResetSuccess: true));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
+        currentState.copyWith(
+          isLoading: false,
+          errorMessage: AppErrorLocalizer.localize(e),
+        ),
       );
     }
   }

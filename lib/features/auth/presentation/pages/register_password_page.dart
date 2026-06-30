@@ -47,11 +47,10 @@ class _RegisterPasswordView extends StatelessWidget {
       backgroundColor: theme.colors.surfaceBackground,
       appBar: const AppTopBar(),
       body: SafeArea(
-        child: ViewModelConsumer<RegisterPasswordViewModel,
-            RegisterPasswordState>(
+        child:
+            ViewModelConsumer<RegisterPasswordViewModel, RegisterPasswordState>(
           listenWhen: (p, c) =>
-              p.errorMessage != c.errorMessage ||
-              (!p.isSuccess && c.isSuccess),
+              p.errorMessage != c.errorMessage || (!p.isSuccess && c.isSuccess),
           listener: (context, state) {
             final message = state.errorMessage;
             if (message != null) {

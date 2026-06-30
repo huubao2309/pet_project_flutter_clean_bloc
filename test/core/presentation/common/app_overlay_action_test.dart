@@ -34,7 +34,8 @@ void main() {
 
     testWidgets('renders the label and runs onPressed on tap', (tester) async {
       var pressed = 0;
-      final action = AppOverlayAction(label: 'Confirm', onPressed: () => pressed++);
+      final action =
+          AppOverlayAction(label: 'Confirm', onPressed: () => pressed++);
 
       await tester.pumpWidget(
         MaterialApp(

@@ -40,8 +40,11 @@ class DealTile extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(theme.borderRadius.borderRadius8),
               ),
-              child: Icon(Icons.home_work_outlined,
-                  color: theme.colors.brand600, size: 22,),
+              child: Icon(
+                Icons.home_work_outlined,
+                color: theme.colors.brand600,
+                size: 22,
+              ),
             ),
             SizedBox(width: theme.spacing.spacing12),
             Expanded(
@@ -59,10 +62,12 @@ class DealTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'home.deal_subtitle'.tr(namedArgs: {
-                      'customer': deal.customerName,
-                      'date': deal.dateLabel,
-                    },),
+                    'home.deal_subtitle'.tr(
+                      namedArgs: {
+                        'customer': deal.customerName,
+                        'date': deal.dateLabel,
+                      },
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textStyle.captionDefault
@@ -107,13 +112,22 @@ class _StatusStyle {
 _StatusStyle _statusStyle(DealStatus status, ThemeState theme) {
   switch (status) {
     case DealStatus.completed:
-      return _StatusStyle('deal.status.completed'.tr(), theme.colors.success700,
-          theme.colors.success50,);
+      return _StatusStyle(
+        'deal.status.completed'.tr(),
+        theme.colors.success700,
+        theme.colors.success50,
+      );
     case DealStatus.deposited:
-      return _StatusStyle('deal.status.deposited'.tr(),
-          theme.colors.secondary700, theme.colors.secondary50,);
+      return _StatusStyle(
+        'deal.status.deposited'.tr(),
+        theme.colors.secondary700,
+        theme.colors.secondary50,
+      );
     case DealStatus.cancelled:
-      return _StatusStyle('deal.status.cancelled'.tr(), theme.colors.error600,
-          theme.colors.error50,);
+      return _StatusStyle(
+        'deal.status.cancelled'.tr(),
+        theme.colors.error600,
+        theme.colors.error50,
+      );
   }
 }

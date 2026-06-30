@@ -52,8 +52,10 @@ void main() {
     });
 
     test('declares exactly three environments', () {
-      expect(EnvType.values,
-          [EnvType.production, EnvType.uat, EnvType.staging],);
+      expect(
+        EnvType.values,
+        [EnvType.production, EnvType.uat, EnvType.staging],
+      );
     });
   });
 }

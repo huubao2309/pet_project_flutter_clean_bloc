@@ -46,7 +46,10 @@ class RegisterPasswordViewModel extends ViewModel<RegisterPasswordState> {
       setState(currentState.copyWith(isLoading: false, isSuccess: true));
     } on AppException catch (e) {
       setState(
-        currentState.copyWith(isLoading: false, errorMessage: AppErrorLocalizer.localize(e)),
+        currentState.copyWith(
+          isLoading: false,
+          errorMessage: AppErrorLocalizer.localize(e),
+        ),
       );
     }
   }

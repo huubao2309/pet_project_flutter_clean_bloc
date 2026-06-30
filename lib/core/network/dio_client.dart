@@ -105,7 +105,9 @@ class DioClient implements HttpClient {
     final body = response.data ?? {};
     return ApiResponse<T>(
       success: response.statusCode != null && response.statusCode! < 400,
-      data: fromJson != null && body['data'] != null ? fromJson(body['data']) : null,
+      data: fromJson != null && body['data'] != null
+          ? fromJson(body['data'])
+          : null,
       message: body['message'] as String?,
       verdict: body['verdict'] as String?,
       statusCode: response.statusCode,
@@ -117,7 +119,8 @@ class DioClient implements HttpClient {
     if (e.response?.statusCode == 401) {
       return AuthException();
     }
-    if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
+    if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout) {
       return NetworkException(code: AppErrorCode.networkTimeout);
     }
     if (e.type == DioExceptionType.connectionError) {

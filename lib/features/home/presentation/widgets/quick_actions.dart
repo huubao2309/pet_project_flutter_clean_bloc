@@ -16,8 +16,12 @@ class QuickActions extends StatelessWidget {
     final theme = getIt<ThemeState>();
 
     final actions = <_ActionData>[
-      _ActionData('home.action.scan', Icons.qr_code_scanner_rounded, onScanQr,
-          accent: true,),
+      _ActionData(
+        'home.action.scan',
+        Icons.qr_code_scanner_rounded,
+        onScanQr,
+        accent: true,
+      ),
       const _ActionData('home.action.post', Icons.add_home_work_outlined, null),
       const _ActionData('home.action.customers', Icons.groups_outlined, null),
       const _ActionData('home.action.reports', Icons.insights_outlined, null),
@@ -33,8 +37,12 @@ class QuickActions extends StatelessWidget {
 }
 
 class _ActionData {
-  const _ActionData(this.labelKey, this.icon, this.onTap,
-      {this.accent = false,});
+  const _ActionData(
+    this.labelKey,
+    this.icon,
+    this.onTap, {
+    this.accent = false,
+  });
 
   final String labelKey;
   final IconData icon;

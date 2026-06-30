@@ -27,8 +27,12 @@ void main() {
   group('LoginUseCase', () {
     test('delegates to repository.login and returns its result', () async {
       const expected = LoginAuthenticated();
-      when(() => repo.login(phone: any(named: 'phone'), password: any(named: 'password')))
-          .thenAnswer((_) async => expected);
+      when(
+        () => repo.login(
+          phone: any(named: 'phone'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async => expected);
 
       final useCase = LoginUseCase(authRepository: repo);
       final result = await useCase.execute(
@@ -43,8 +47,12 @@ void main() {
       const expected = LoginOtpRequired(
         OtpChallenge(resendSecs: 60, enableResendSecs: 0),
       );
-      when(() => repo.login(phone: any(named: 'phone'), password: any(named: 'password')))
-          .thenAnswer((_) async => expected);
+      when(
+        () => repo.login(
+          phone: any(named: 'phone'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async => expected);
 
       final result = await LoginUseCase(authRepository: repo)
           .execute(const LoginParams(phone: 'p', password: 'q'));
@@ -56,8 +64,12 @@ void main() {
   group('SignUpUseCase', () {
     test('delegates with phone and receiveUpdates', () async {
       const expected = SignUpCompleted();
-      when(() => repo.signUp(phone: any(named: 'phone'), receiveUpdates: any(named: 'receiveUpdates')))
-          .thenAnswer((_) async => expected);
+      when(
+        () => repo.signUp(
+          phone: any(named: 'phone'),
+          receiveUpdates: any(named: 'receiveUpdates'),
+        ),
+      ).thenAnswer((_) async => expected);
 
       final result = await SignUpUseCase(authRepository: repo).execute(
         const SignUpParams(phone: '0911', receiveUpdates: true),
@@ -68,8 +80,12 @@ void main() {
     });
 
     test('defaults receiveUpdates to false', () async {
-      when(() => repo.signUp(phone: any(named: 'phone'), receiveUpdates: any(named: 'receiveUpdates')))
-          .thenAnswer((_) async => const SignUpCompleted());
+      when(
+        () => repo.signUp(
+          phone: any(named: 'phone'),
+          receiveUpdates: any(named: 'receiveUpdates'),
+        ),
+      ).thenAnswer((_) async => const SignUpCompleted());
 
       await SignUpUseCase(authRepository: repo)
           .execute(const SignUpParams(phone: '0911'));
@@ -84,7 +100,8 @@ void main() {
       when(() => repo.verifyOtp(code: any(named: 'code')))
           .thenAnswer((_) async => expected);
 
-      final result = await VerifyOtpUseCase(authRepository: repo).execute('123456');
+      final result =
+          await VerifyOtpUseCase(authRepository: repo).execute('123456');
 
       expect(result, same(expected));
       verify(() => repo.verifyOtp(code: '123456')).called(1);
@@ -108,7 +125,8 @@ void main() {
       when(() => repo.forgotPassword(phone: any(named: 'phone')))
           .thenAnswer((_) async => expected);
 
-      final result = await ForgotPasswordUseCase(authRepository: repo).execute('0900');
+      final result =
+          await ForgotPasswordUseCase(authRepository: repo).execute('0900');
 
       expect(result, same(expected));
       verify(() => repo.forgotPassword(phone: '0900')).called(1);

@@ -45,8 +45,11 @@ class CommissionLocationBanner extends StatelessWidget {
               borderRadius:
                   BorderRadius.circular(theme.borderRadius.borderRadius8),
             ),
-            child: Icon(Icons.place_outlined,
-                size: 18, color: theme.colors.secondary300,),
+            child: Icon(
+              Icons.place_outlined,
+              size: 18,
+              color: theme.colors.secondary300,
+            ),
           ),
           SizedBox(width: theme.spacing.spacing8),
           Expanded(

@@ -81,11 +81,15 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     }
     _ensureSuccess(json);
     final data = json['data'] as Map<String, dynamic>?;
-    return data == null ? const OtpChallengeDto() : OtpChallengeDto.fromJson(data);
+    return data == null
+        ? const OtpChallengeDto()
+        : OtpChallengeDto.fromJson(data);
   }
 
   @override
-  Future<OtpChallengeDto> forgotPassword(ForgotPasswordRequestDto request) async {
+  Future<OtpChallengeDto> forgotPassword(
+    ForgotPasswordRequestDto request,
+  ) async {
     final json = await _read(_forgotPasswordScenario);
     _ensureSuccess(json);
     return OtpChallengeDto.fromJson(json['data'] as Map<String, dynamic>);
@@ -137,7 +141,10 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     if (json['verdict'] == 'success') {
       return;
     }
-    throw ServerException(code: AppErrorCode.unknown, message: _messageOf(json));
+    throw ServerException(
+      code: AppErrorCode.unknown,
+      message: _messageOf(json),
+    );
   }
 
   /// The user-facing message for a response: the nested `user_message`, then the

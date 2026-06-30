@@ -28,7 +28,11 @@ class BennySecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       isWrapContain: isWrapContent,
       style: buttonStyles.secondary(),
-      child: widget ?? Text(title, textAlign: TextAlign.center,),
+      child: widget ??
+          Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
     );
   }
 }

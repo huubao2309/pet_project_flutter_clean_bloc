@@ -84,25 +84,49 @@ class _OverlayPainter extends CustomPainter {
     const len = 30.0;
     // top-left
     canvas
-      ..drawLine(window.topLeft + const Offset(0, len),
-          window.topLeft + const Offset(0, 14), bracket,)
-      ..drawLine(window.topLeft + const Offset(14, 0),
-          window.topLeft + const Offset(len, 0), bracket,)
+      ..drawLine(
+        window.topLeft + const Offset(0, len),
+        window.topLeft + const Offset(0, 14),
+        bracket,
+      )
+      ..drawLine(
+        window.topLeft + const Offset(14, 0),
+        window.topLeft + const Offset(len, 0),
+        bracket,
+      )
       // top-right
-      ..drawLine(window.topRight + const Offset(-len, 0),
-          window.topRight + const Offset(-14, 0), bracket,)
-      ..drawLine(window.topRight + const Offset(0, 14),
-          window.topRight + const Offset(0, len), bracket,)
+      ..drawLine(
+        window.topRight + const Offset(-len, 0),
+        window.topRight + const Offset(-14, 0),
+        bracket,
+      )
+      ..drawLine(
+        window.topRight + const Offset(0, 14),
+        window.topRight + const Offset(0, len),
+        bracket,
+      )
       // bottom-left
-      ..drawLine(window.bottomLeft + const Offset(0, -len),
-          window.bottomLeft + const Offset(0, -14), bracket,)
-      ..drawLine(window.bottomLeft + const Offset(14, 0),
-          window.bottomLeft + const Offset(len, 0), bracket,)
+      ..drawLine(
+        window.bottomLeft + const Offset(0, -len),
+        window.bottomLeft + const Offset(0, -14),
+        bracket,
+      )
+      ..drawLine(
+        window.bottomLeft + const Offset(14, 0),
+        window.bottomLeft + const Offset(len, 0),
+        bracket,
+      )
       // bottom-right
-      ..drawLine(window.bottomRight + const Offset(-len, 0),
-          window.bottomRight + const Offset(-14, 0), bracket,)
-      ..drawLine(window.bottomRight + const Offset(0, -14),
-          window.bottomRight + const Offset(0, -len), bracket,);
+      ..drawLine(
+        window.bottomRight + const Offset(-len, 0),
+        window.bottomRight + const Offset(-14, 0),
+        bracket,
+      )
+      ..drawLine(
+        window.bottomRight + const Offset(0, -14),
+        window.bottomRight + const Offset(0, -len),
+        bracket,
+      );
 
     // Sweeping scan line.
     final lineY = window.top + 16 + (window.height - 32) * progress;

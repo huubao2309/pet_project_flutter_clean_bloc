@@ -35,7 +35,8 @@ void main() {
           .thenReturn('0123456789');
       expect(storage.getPhoneNumber(), '0123456789');
 
-      when(() => store.getString(LocalStorage.kPhoneNumberKey)).thenReturn(null);
+      when(() => store.getString(LocalStorage.kPhoneNumberKey))
+          .thenReturn(null);
       expect(storage.getPhoneNumber(), '');
     });
   });
@@ -92,7 +93,8 @@ void main() {
       verify(() => store.setString(LocalStorage.kThemeModeKey, 'dark'))
           .called(1);
 
-      when(() => store.getString(LocalStorage.kThemeModeKey)).thenReturn('dark');
+      when(() => store.getString(LocalStorage.kThemeModeKey))
+          .thenReturn('dark');
       expect(storage.getThemeMode(), 'dark');
     });
   });

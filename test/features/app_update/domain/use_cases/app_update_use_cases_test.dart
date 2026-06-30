@@ -121,7 +121,8 @@ void main() {
       expect(result, isA<AppUpToDate>());
     });
 
-    test('AppOptionalUpdate when dismissed version is older than latest', () async {
+    test('AppOptionalUpdate when dismissed version is older than latest',
+        () async {
       when(() => repo.fetchConfig()).thenAnswer((_) async => config());
       when(() => repo.currentVersion()).thenAnswer((_) async => '1.0.0');
       when(() => repo.lastDismissedVersion()).thenAnswer((_) async => '1.5.0');

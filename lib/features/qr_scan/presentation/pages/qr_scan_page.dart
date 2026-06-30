@@ -329,8 +329,11 @@ class _PermissionView extends StatelessWidget {
                       theme.colors.secondary500.withAlpha((255 * 0.15).round()),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.photo_camera_outlined,
-                    size: 42, color: theme.colors.secondary300,),
+                child: Icon(
+                  Icons.photo_camera_outlined,
+                  size: 42,
+                  color: theme.colors.secondary300,
+                ),
               ),
               SizedBox(height: theme.spacing.spacing20),
               Text(

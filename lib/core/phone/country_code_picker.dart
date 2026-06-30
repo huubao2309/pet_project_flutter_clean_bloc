@@ -82,8 +82,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
               separatorBuilder: (_, __) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final country = _filtered[index];
-                final isSelected =
-                    widget.selectedDialCode == country.dialCode;
+                final isSelected = widget.selectedDialCode == country.dialCode;
                 return InkWell(
                   onTap: () {
                     widget.onSelected(country);

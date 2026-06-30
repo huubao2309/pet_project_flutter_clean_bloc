@@ -36,8 +36,7 @@ void main() {
     await vm.close();
   });
 
-  test('canSubmit requires valid strength and matching confirmation',
-      () async {
+  test('canSubmit requires valid strength and matching confirmation', () async {
     final vm = build();
     fillValid(vm);
     expect(vm.currentState.canSubmit, isTrue);

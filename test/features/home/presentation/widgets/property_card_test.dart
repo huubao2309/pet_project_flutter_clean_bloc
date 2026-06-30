@@ -62,7 +62,8 @@ void main() {
     };
 
     for (final entry in labels.entries) {
-      await tester.pumpWidget(wrap(PropertyCard(listing: listing(status: entry.key))));
+      await tester
+          .pumpWidget(wrap(PropertyCard(listing: listing(status: entry.key))));
       expect(find.text(entry.value), findsOneWidget);
     }
   });
