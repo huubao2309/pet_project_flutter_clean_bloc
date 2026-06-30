@@ -1,0 +1,42 @@
+name: Unit Tests
+
+# Run the unit/widget tests in `test/` on every push to `main`.
+# (Integration tests in `integration_test/` need a device/emulator and are not
+#  part of this fast check.)
+on:
+  push:
+    branches: [main]
+
+# Cancel an in-progress run for the same branch when a new commit is pushed.
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: flutter test (test/)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.35.2
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run unit tests
+        run: flutter test test/ --coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: ignore
