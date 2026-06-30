@@ -1,0 +1,16 @@
+name: Build UAT
+
+# Builds the UAT flavor on a push to a version branch named vX.Y.Z
+# (each segment is one or more digits), e.g. v1.12.101, v12.23.111, v11.3.2.
+# Note: GitHub ref filters anchor the WHOLE name, so v1.2.3_RC1 does NOT match.
+on:
+  push:
+    branches:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  uat:
+    uses: ./.github/workflows/_build_flavor.yml
+    with:
+      flavor: uat
+    secrets: inherit
