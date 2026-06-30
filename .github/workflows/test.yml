@@ -50,3 +50,31 @@ jobs:
           name: coverage
           path: coverage/lcov.info
           if-no-files-found: ignore
+
+      # Notify Telegram on BOTH success and failure (skips cancelled runs, e.g.
+      # superseded by a newer commit). Needs two repo secrets:
+      # TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID.
+      - name: Notify Telegram
+        if: ${{ always() && job.status != 'cancelled' }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          STATUS_ICON: ${{ job.status == 'success' && '✅' || '❌' }}
+          STATUS_TEXT: ${{ job.status == 'success' && 'CI passed' || 'CI failed' }}
+        run: |
+          read -r -d '' TEXT <<EOF || true
+          ${STATUS_ICON} <b>${STATUS_TEXT}</b> — ${{ github.repository }}
+          Branch: <code>${{ github.ref_name }}</code>
+          Commit: <code>${{ github.sha }}</code>
+          By: ${{ github.actor }}
+          Event: ${{ github.event_name }}
+
+          <a href="${RUN_URL}">View the run</a>
+          EOF
+          curl -sS --fail -X POST \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true" \
+            --data-urlencode "text=${TEXT}"
