@@ -1,4 +1,4 @@
-# pet_project_clean_bloc
+# Pet Project Clean BLOC
 
 Pet project demonstrating **Clean Architecture** with the **BLoC** pattern in Flutter.
 
