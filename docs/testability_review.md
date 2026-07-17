@@ -31,7 +31,7 @@ API data sources (`auth`/`user`/`app_update` `*_api_data_source.dart`) now depen
 on `HttpClient` (ctor param `httpClient`), not the concrete `DioClient`; DI
 registers `getIt.registerSingleton<HttpClient>(DioClient(...))`
 (`lib/core/di/injection.dart`). Proof it pays off:
-`test/features/auth/data/datasources/auth_api_data_source_test.dart` fakes a
+`test/data/datasources/auth_api_data_source_test.dart` fakes a
 4-method port (no Dio, no plugins) and covers success / server-error / default-key
 / account-blocked / phone-blocked / logout branches — **9 tests**.
 
@@ -82,14 +82,14 @@ asserts `Đăng nhập thất bại`, `Lỗi máy chủ`) and `widget_test.dart`
 |---|-----|----------|-----------|---------|
 | 1 | H | `lib/environments/env.dart:16-39` | SRP / Command-Query separation | Constructor runs the whole app |
 | 2 | H | `lib/core/utils/device_info_util.dart`, `package_info_util.dart` | DIP / ISP | Plugin-bound static singletons, no interface |
-| 3 | H | `lib/features/app_update/data/repositories/app_update_repository_impl.dart:29-32,44-50` | DIP | Repo calls `PackageInfo.fromPlatform()` / `launchUrl` directly |
-| 4 | H | `lib/features/qr_scan/data/scanned_property_resolver.dart` | DIP / OCP | Static-only resolver, cannot be injected/faked |
+| 3 | H | `lib/data/repositories/app_update_repository_impl.dart:29-32,44-50` | DIP | Repo calls `PackageInfo.fromPlatform()` / `launchUrl` directly |
+| 4 | H | `lib/data/datasources/scanned_property_resolver.dart` | DIP / OCP | Static-only resolver, cannot be injected/faked |
 | 5 | M | `lib/core/error/**` + data sources (22 sites) | Clean Arch (layer leak) | `.tr()` localization called from data/error layers |
 | 6 | M | `lib/features/home/.../home_view_model.dart`, `commission_view_model.dart` | Clean Arch / DIP | Business data hardcoded in the View-Model + `Future.delayed` |
 | 7 | M | `lib/features/auth/.../otp_view_model.dart:25,_restart()` | SRP / side-effecting ctor | Timer starts inside the constructor |
 | 8 | M | `lib/**/presentation/**` (52 files) | DIP (service locator) | Widgets call `getIt<ThemeState>()` inside `build()` |
 | 9 | L | `lib/features/profile/.../profile_repository_impl.dart:22-32` | — | `changePassword` returns the future without `await` |
-| 10 | L | `lib/features/app_update/data/models/app_update_config_dto.dart` (`toEntity`) | — | `toEntity()` reads `Platform.isIOS` → host-dependent test |
+| 10 | L | `lib/data/models/app_update/app_update_config_dto.dart` (`toEntity`) | — | `toEntity()` reads `Platform.isIOS` → host-dependent test |
 
 ---
 
@@ -162,7 +162,7 @@ interface.
 
 ### 3. `AppUpdateRepositoryImpl` calls platform APIs directly — **H**
 
-`lib/features/app_update/data/repositories/app_update_repository_impl.dart`:
+`lib/data/repositories/app_update_repository_impl.dart`:
 
 ```dart
 Future<String> currentVersion() async {
@@ -190,7 +190,7 @@ Future<void> openStore(String url) async {
 
 ### 4. `ScannedPropertyResolver` is a static-only utility — **H**
 
-`lib/features/qr_scan/data/scanned_property_resolver.dart`:
+`lib/data/datasources/scanned_property_resolver.dart`:
 
 ```dart
 abstract final class ScannedPropertyResolver {
@@ -217,9 +217,9 @@ an injectable instance behind an interface instead.
 one is the doc comment at `app_exception.dart:20`), e.g.:
 
 - `lib/core/error/exceptions/server_exception.dart:11` — `super(message ?? 'errors.server'.tr())`
-- `lib/features/auth/data/repositories/auth_repository_imp.dart:75,153`
-- `lib/features/auth/data/datasources/auth_api_data_source.dart` (7 sites)
-- `lib/features/profile/data/datasources/user_api_data_source.dart:29,43`
+- `lib/data/repositories/auth_repository_imp.dart:75,153`
+- `lib/data/datasources/auth_api_data_source.dart` (7 sites)
+- `lib/data/datasources/user_api_data_source.dart:29,43`
 
 **Why it hurts tests:** constructing a `ServerException` (or exercising any data
 source / repository error path) invokes easy_localization's context-free
@@ -321,7 +321,7 @@ of the tree (the app already uses `ViewModelProvider`); widgets read it from
 
 ### 9. `ProfileRepositoryImpl.changePassword` doesn't `await` — **L**
 
-`lib/features/profile/data/repositories/profile_repository_impl.dart:22-32`
+`lib/data/repositories/profile_repository_impl.dart:22-32`
 returns `_remoteDataSource.changePassword(...)` directly. Functionally fine, but
 the error surfaces as a rejected future at a different point than the `await`ed
 methods. The test had to stub the throw as `thenAnswer((_) async => throw ...)`

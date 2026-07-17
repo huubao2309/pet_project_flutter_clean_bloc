@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pet_project_flutter_clean_bloc/core/di/injection.dart';
 import 'package:pet_project_flutter_clean_bloc/core/storage/secure_storage/secure_storage.dart';
-import 'package:pet_project_flutter_clean_bloc/features/auth/data/datasources/auth_mock_data_source.dart';
-import 'package:pet_project_flutter_clean_bloc/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:pet_project_flutter_clean_bloc/features/auth/data/datasources/pre_auth_session.dart';
-import 'package:pet_project_flutter_clean_bloc/features/auth/data/repositories/auth_repository_imp.dart';
+import 'package:pet_project_flutter_clean_bloc/data/datasources/auth_mock_data_source.dart';
+import 'package:pet_project_flutter_clean_bloc/data/datasources/auth_remote_data_source.dart';
+import 'package:pet_project_flutter_clean_bloc/data/datasources/pre_auth_session.dart';
+import 'package:pet_project_flutter_clean_bloc/data/repositories/auth_repository_imp.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/domain/repositories/auth_repository.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/domain/use_cases/sign_up_use_case.dart';

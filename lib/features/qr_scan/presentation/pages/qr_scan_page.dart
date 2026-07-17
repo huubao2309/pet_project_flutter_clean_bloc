@@ -5,10 +5,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-import '../../../../core/di/injection.dart';
-import '../../data/scanned_property_resolver.dart';
-import '../widgets/scan_result_sheet.dart';
-import '../widgets/scanner_overlay.dart';
+import 'package:pet_project_flutter_clean_bloc/core/di/injection.dart';
+import 'package:pet_project_flutter_clean_bloc/data/datasources/scanned_property_resolver.dart';
+import 'package:pet_project_flutter_clean_bloc/features/qr_scan/presentation/widgets/scan_result_sheet.dart';
+import 'package:pet_project_flutter_clean_bloc/features/qr_scan/presentation/widgets/scanner_overlay.dart';
 
 /// Full-screen in-app QR scanner (powered by `mobile_scanner`). Frames a scan
 /// window, lets the collaborator toggle the torch, and on a successful scan
