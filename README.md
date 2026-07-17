@@ -2,6 +2,12 @@
 
 Pet project demonstrating **Clean Architecture** with the **BLoC** pattern in Flutter.
 
+## Demo
+
+<p align="center">
+  <img src="demo/demo_oet_project_crop.gif" alt="Pet Project Clean BLoC demo" width="300"/>
+</p>
+
 ## Requirements
 
 | Tool        | Version                                         |
@@ -20,10 +26,17 @@ navigation uses `go_router`, networking uses `dio`, and localization uses
 
 ## Architecture
 
-The project follows **Clean Architecture**: a feature-first layout where every
-feature is split into three layers with a strict, inward-only dependency rule
-(`presentation → domain ← data`). The **domain layer depends on nothing** —
+The project follows **Clean Architecture** with one deliberate trade-off for
+mobile: the **`data` layer is centralised** in a shared top-level `lib/data/`
+instead of living inside each feature. `domain` and `presentation` stay
+per-feature under `lib/features/`. The dependency rule is unchanged —
+`presentation → domain ← data` — the **domain layer depends on nothing**, while
 `data` and `presentation` both depend on it, never the reverse.
+
+**Why centralise `data`?** It makes every repository, datasource and API the app
+talks to discoverable in one place — a newcomer can open `lib/data/` and see the
+whole data surface at a glance. We found that outweighs strict per-feature purity
+on mobile (a common convention across the teams we surveyed).
 
 ```
 lib/
@@ -47,9 +60,15 @@ lib/
 │   ├── theme/                #   theme mode + view model
 │   ├── use_case/             #   UseCase base classes
 │   └── presentation/         #   shared widgets & common UI
-└── features/                 # one folder per feature, each a clean slice
+├── data/                     # SHARED data layer — centralised, not per-feature
+│   ├── datasources/          #   every remote/api/mock source in one place
+│   ├── repositories/         #   every *_repository_impl (implements domain interfaces)
+│   └── models/               #   DTOs (JSON) grouped per feature
+│       ├── auth/             #     request/ + response/
+│       ├── profile/          #     request/ + user_profile_dto
+│       └── app_update/       #     app_update_config_dto
+└── features/                 # one folder per feature — domain + presentation only
     ├── auth/
-    │   ├── data/             #   datasources (api/mock), models (DTOs), repository impl
     │   ├── domain/           #   entities, repository interfaces, use_cases
     │   └── presentation/     #   pages, widgets, view_model (BLoC/Cubit + state)
     ├── app_update/  commission/  home/  main/  onboarding/
@@ -58,13 +77,19 @@ lib/
 
 ### Layer responsibilities
 
-- **Domain** — pure Dart business rules. Contains `entities`, abstract
-  `repositories` (interfaces), and `use_cases`. No Flutter/dio/storage imports.
-- **Data** — implements the domain repository interfaces. Holds `datasources`
-  (a real API source and a mock source), `models` (DTOs with JSON
-  serialization), and `repositories` (the concrete `*_repository_imp.dart`).
-- **Presentation** — `view_model` (BLoC/Cubit + immutable state classes),
-  `pages`, and `widgets`. Talks to domain use cases only.
+- **Domain** (`lib/features/<feature>/domain/`) — pure Dart business rules.
+  Contains `entities`, abstract `repositories` (interfaces), and `use_cases`.
+  No Flutter/dio/storage imports.
+- **Data** (`lib/data/`, shared) — implements the domain repository interfaces,
+  organised **by layer** so the whole data surface lives in one place:
+  `datasources/` (a real API source and a mock source per feature),
+  `repositories/` (the concrete `*_repository_impl.dart`), and
+  `models/<feature>/` (DTOs with JSON serialization). Deliberately **not** nested
+  inside features. The `core/localization` and `core/security` slices keep their
+  own small `data/` — they're core-owned infrastructure, not app features.
+- **Presentation** (`lib/features/<feature>/presentation/`) — `view_model`
+  (BLoC/Cubit + immutable state classes), `pages`, and `widgets`. Talks to
+  domain use cases only.
 
 ### Dependency injection
 

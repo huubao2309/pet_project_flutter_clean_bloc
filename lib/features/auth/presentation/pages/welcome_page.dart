@@ -32,81 +32,92 @@ class WelcomePage extends StatelessWidget {
         actions: const [LanguageSwitcher()],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(theme.spacing.spacing24),
-          child: Column(
-            children: [
-              const Spacer(flex: 3),
-              SvgPicture.asset(
-                BennyImage.logoTile,
-                width: 90,
-                height: 90,
-              ),
-              SizedBox(height: theme.spacing.spacing16),
-              Text(
-                kAppName,
-                style: theme.textStyle.heading.copyWith(
-                  color: theme.colors.brand800,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              SizedBox(height: theme.spacing.spacing12),
-              Text(
-                'welcome.title'.tr(),
-                textAlign: TextAlign.center,
-                style: theme.textStyle.heading.copyWith(
-                  color: theme.colors.brand800,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: theme.spacing.spacing8),
-              Text(
-                'welcome.caption'.tr(),
-                textAlign: TextAlign.center,
-                style: theme.textStyle.paragraphDefault
-                    .copyWith(color: theme.colors.neutral600),
-              ),
-              const Spacer(flex: 4),
-              // Both CTAs share a fixed height so the filled primary and the
-              // outlined secondary line up exactly.
-              SizedBox(
-                height: _kCtaHeight,
-                child: BennyPrimaryButton(
-                  title: 'welcome.register'.tr(),
-                  isWrapContent: false,
-                  onPressed: () => context.push(AppRoutes.signUp),
-                ),
-              ),
-              SizedBox(height: theme.spacing.spacing12),
-              SizedBox(
-                height: _kCtaHeight,
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => context.push(AppRoutes.login),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: theme.colors.white,
-                    foregroundColor: theme.colors.brand600,
-                    side: BorderSide(color: theme.colors.brand200),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        theme.borderRadius.borderRadius8,
-                      ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: EdgeInsets.all(theme.spacing.spacing24),
+                    child: Column(
+                      children: [
+                        const Spacer(flex: 3),
+                        SvgPicture.asset(
+                          BennyImage.logoTile,
+                          width: 90,
+                          height: 90,
+                        ),
+                        SizedBox(height: theme.spacing.spacing16),
+                        Text(
+                          kAppName,
+                          style: theme.textStyle.heading.copyWith(
+                            color: theme.colors.brand800,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: theme.spacing.spacing12),
+                        Text(
+                          'welcome.title'.tr(),
+                          textAlign: TextAlign.center,
+                          style: theme.textStyle.heading.copyWith(
+                            color: theme.colors.brand800,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: theme.spacing.spacing8),
+                        Text(
+                          'welcome.caption'.tr(),
+                          textAlign: TextAlign.center,
+                          style: theme.textStyle.paragraphDefault
+                              .copyWith(color: theme.colors.neutral600),
+                        ),
+                        const Spacer(flex: 4),
+                        // Both CTAs share a fixed height so the filled primary and the
+                        // outlined secondary line up exactly.
+                        SizedBox(
+                          height: _kCtaHeight,
+                          child: BennyPrimaryButton(
+                            title: 'welcome.register'.tr(),
+                            isWrapContent: false,
+                            onPressed: () => context.push(AppRoutes.signUp),
+                          ),
+                        ),
+                        SizedBox(height: theme.spacing.spacing12),
+                        SizedBox(
+                          height: _kCtaHeight,
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed: () => context.push(AppRoutes.login),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: theme.colors.white,
+                              foregroundColor: theme.colors.brand600,
+                              side: BorderSide(color: theme.colors.brand200),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  theme.borderRadius.borderRadius8,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              'welcome.login'.tr(),
+                              style: theme.textStyle.paragraphLabel.copyWith(
+                                color: theme.colors.brand600,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: theme.spacing.spacing8),
+                      ],
                     ),
                   ),
-                  child: Text(
-                    'welcome.login'.tr(),
-                    style: theme.textStyle.paragraphLabel.copyWith(
-                      color: theme.colors.brand600,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                 ),
               ),
-              SizedBox(height: theme.spacing.spacing8),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

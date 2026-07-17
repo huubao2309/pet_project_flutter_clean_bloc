@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pet_project_flutter_clean_bloc/core/router/app_routes.dart';
 import 'package:pet_project_flutter_clean_bloc/features/auth/presentation/pages/welcome_page.dart';
@@ -15,6 +16,25 @@ void main() {
 
     expect(find.text('welcome.title'.tr()), findsOneWidget);
     expect(find.text('welcome.caption'.tr()), findsOneWidget);
+    expect(find.text('welcome.register'.tr()), findsOneWidget);
+    expect(find.text('welcome.login'.tr()), findsOneWidget);
+  });
+
+  testWidgets('does not overflow on a short viewport — scrolls instead',
+      (tester) async {
+    // A viewport shorter than the fixed content used to overflow the Column
+    // (the Spacers collapsed to zero). The page must now scroll instead.
+    tester.view.physicalSize = const Size(400, 320);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await FeatureTestHarness.pumpPage(tester, const WelcomePage());
+
+    // No RenderFlex overflow assertion was thrown during layout.
+    expect(tester.takeException(), isNull);
+    // The content stays reachable because the body became scrollable.
+    expect(find.byType(SingleChildScrollView), findsOneWidget);
     expect(find.text('welcome.register'.tr()), findsOneWidget);
     expect(find.text('welcome.login'.tr()), findsOneWidget);
   });
